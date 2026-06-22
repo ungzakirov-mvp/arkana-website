@@ -1,23 +1,28 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useRef, useActionState } from "react";
 import { motion, useInView } from "framer-motion";
 import { ArrowRight, Phone, Mail, MapPin, Calendar } from "lucide-react";
+import { submitContact, type ContactFormState } from "@/app/actions/contact";
+
+const initialState: ContactFormState = { status: "idle" };
 
 export function ContactCTA() {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, margin: "-80px" });
-  const [submitted, setSubmitted] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [state, formAction, isPending] = useActionState(submitContact, initialState);
 
-  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    setLoading(true);
-    // Simulate API call — replace with real endpoint
-    await new Promise((r) => setTimeout(r, 900));
-    setLoading(false);
-    setSubmitted(true);
-  }
+  const submitted = state.status === "success" || state.status === "spam";
+  const errors = state.status === "error" ? state.errors : {};
+  const isRateLimited = state.status === "rate_limited";
+  const globalError =
+    state.status === "error" && state.message ? state.message : null;
+
+  const rateLimitMessage = isRateLimited
+    ? `Too many submissions. Please try again after ${new Date(
+        state.resetAt
+      ).toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" })}.`
+    : null;
 
   return (
     <section className="section-y bg-gradient-cta border-t border-[#2B5BFF]/[0.08]" ref={ref}>
@@ -70,14 +75,58 @@ export function ContactCTA() {
                   </p>
                 </motion.div>
               ) : (
-                <form onSubmit={handleSubmit} className="flex flex-col gap-5">
+                <form action={formAction} noValidate className="flex flex-col gap-5">
+                  {/* Honeypot — hidden from real users, filled by bots */}
+                  <div aria-hidden="true" style={{ display: "none" }}>
+                    <label htmlFor="website">Website</label>
+                    <input
+                      type="text"
+                      id="website"
+                      name="website"
+                      tabIndex={-1}
+                      autoComplete="off"
+                      defaultValue=""
+                    />
+                  </div>
+
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                    <FormField label="Your name" name="name" type="text" placeholder="Aziz Karimov" required />
-                    <FormField label="Company name" name="company" type="text" placeholder="Your company" required />
+                    <FormField
+                      label="Your name"
+                      name="name"
+                      type="text"
+                      placeholder="Aziz Karimov"
+                      required
+                      autoComplete="name"
+                      error={errors.name?.[0]}
+                    />
+                    <FormField
+                      label="Company name"
+                      name="company"
+                      type="text"
+                      placeholder="Your company"
+                      required
+                      autoComplete="organization"
+                      error={errors.company?.[0]}
+                    />
                   </div>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                    <FormField label="Work email" name="email" type="email" placeholder="you@company.com" required />
-                    <FormField label="Phone number" name="phone" type="tel" placeholder="+998 90 000 00 00" />
+                    <FormField
+                      label="Work email"
+                      name="email"
+                      type="email"
+                      placeholder="you@company.com"
+                      required
+                      autoComplete="email"
+                      error={errors.email?.[0]}
+                    />
+                    <FormField
+                      label="Phone number"
+                      name="phone"
+                      type="tel"
+                      placeholder="+998 90 000 00 00"
+                      autoComplete="tel"
+                      error={errors.phone?.[0]}
+                    />
                   </div>
                   <div>
                     <label className="block text-[12.5px] font-[700] text-[#3D3D4E] mb-2">
@@ -87,17 +136,24 @@ export function ContactCTA() {
                     <textarea
                       name="message"
                       rows={3}
+                      maxLength={2000}
                       placeholder="Tell us briefly about your company's IT situation..."
                       className="w-full bg-[#F8FAFF] border border-[#E0E4FF] rounded-[12px] px-4 py-3 text-[14px] text-[#3D3D4E] placeholder:text-[#C5CCFF] focus:outline-none focus:border-[#2B5BFF] focus:shadow-[0_0_0_3px_rgba(43,91,255,0.1)] transition-all duration-150 resize-none"
                     />
                   </div>
 
+                  {(rateLimitMessage || globalError || (state.status === "error" && Object.keys(errors).length > 0)) && (
+                    <p className="text-[13px] text-red-600 bg-red-50 border border-red-100 rounded-[10px] px-4 py-3">
+                      {rateLimitMessage ?? globalError ?? "Please fix the errors above and try again."}
+                    </p>
+                  )}
+
                   <button
                     type="submit"
-                    disabled={loading}
+                    disabled={isPending || isRateLimited}
                     className="w-full flex items-center justify-center gap-2 py-4 rounded-[14px] text-[14px] font-[700] text-white bg-gradient-brand shadow-accent hover:shadow-accent-hover hover:-translate-y-px active:scale-[0.98] transition-all duration-150 disabled:opacity-60 disabled:cursor-not-allowed disabled:transform-none"
                   >
-                    {loading ? (
+                    {isPending ? (
                       <span className="flex items-center gap-2">
                         <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
                         Sending...
@@ -186,12 +242,16 @@ function FormField({
   type,
   placeholder,
   required,
+  autoComplete,
+  error,
 }: {
   label: string;
   name: string;
   type: string;
   placeholder: string;
   required?: boolean;
+  autoComplete?: string;
+  error?: string;
 }) {
   return (
     <div>
@@ -208,8 +268,15 @@ function FormField({
         type={type}
         placeholder={placeholder}
         required={required}
-        className="w-full bg-[#F8FAFF] border border-[#E0E4FF] rounded-[12px] px-4 py-3 text-[14px] text-[#3D3D4E] placeholder:text-[#C5CCFF] focus:outline-none focus:border-[#2B5BFF] focus:shadow-[0_0_0_3px_rgba(43,91,255,0.1)] transition-all duration-150"
+        autoComplete={autoComplete}
+        maxLength={type === "email" ? 254 : 200}
+        className={`w-full bg-[#F8FAFF] border rounded-[12px] px-4 py-3 text-[14px] text-[#3D3D4E] placeholder:text-[#C5CCFF] focus:outline-none focus:border-[#2B5BFF] focus:shadow-[0_0_0_3px_rgba(43,91,255,0.1)] transition-all duration-150 ${
+          error ? "border-red-400" : "border-[#E0E4FF]"
+        }`}
       />
+      {error && (
+        <p className="mt-1 text-[11px] text-red-600">{error}</p>
+      )}
     </div>
   );
 }
