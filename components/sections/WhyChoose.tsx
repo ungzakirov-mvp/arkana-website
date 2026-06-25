@@ -4,65 +4,41 @@ import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
 import { Users, UserCheck, FileBarChart, Settings2, Briefcase, Layers } from "lucide-react";
 
+const EASE = [0.16, 1, 0.3, 1] as [number, number, number, number];
+
 const cards = [
   {
     icon: Users,
-    iconBg: "bg-[#2B5BFF]/10",
-    iconColor: "text-[#2B5BFF]",
-    title: "Dedicated Team",
-    body: "Your own engineers, assigned to your account. They know your systems, your people, and your priorities — not just your ticket number.",
+    title: "Выделенная команда",
+    body: "Свои инженеры, закреплённые за вашим аккаунтом. Они знают ваши системы, ваших людей и приоритеты — а не только номер заявки.",
   },
   {
     icon: UserCheck,
-    iconBg: "bg-[#6B35FF]/10",
-    iconColor: "text-[#6B35FF]",
-    title: "Personal Technical Lead",
-    body: "One named engineer who owns your IT relationship. A single point of accountability — someone you can call by name, any time.",
+    title: "Персональный технический руководитель",
+    body: "Один именной инженер, ответственный за ваши ИТ. Единая точка ответственности — человек, которому можно позвонить по имени в любое время.",
   },
   {
     icon: FileBarChart,
-    iconBg: "bg-[#00C2AA]/10",
-    iconColor: "text-[#00C2AA]",
-    title: "Transparent Reporting",
-    body: "Regular reports on activity, performance, and IT health — delivered on schedule, without you needing to ask for them.",
+    title: "Прозрачная отчётность",
+    body: "Регулярные отчёты об активности, производительности и состоянии ИТ — по расписанию, без необходимости их запрашивать.",
   },
   {
     icon: Settings2,
-    iconBg: "bg-[#6B35FF]/10",
-    iconColor: "text-[#6B35FF]",
-    title: "Modern Service Processes",
-    body: "ITIL-aligned workflows, structured incident handling, and change management built for business continuity — not improvised fixes.",
+    title: "Современные процессы",
+    body: "Рабочие процессы в соответствии с ITIL, структурированное управление инцидентами и изменениями — не импровизации, а системный подход.",
   },
   {
     icon: Briefcase,
-    iconBg: "bg-[#F59E0B]/10",
-    iconColor: "text-[#D97706]",
-    title: "Business-Focused Approach",
-    body: "We align every IT decision to your business goals. IT should serve growth — we make sure it always does.",
+    title: "Ориентация на бизнес",
+    body: "Каждое ИТ-решение мы согласовываем с целями вашего бизнеса. ИТ должно обслуживать рост — мы это обеспечиваем.",
   },
   {
     icon: Layers,
-    iconBg: "bg-[#2B5BFF]/10",
-    iconColor: "text-[#2B5BFF]",
-    title: "Proprietary Platform",
-    body: "We operate on GOARKAN — our own platform — giving you visibility into tickets, assets, and operations most IT partners simply cannot offer.",
-    isPlatform: true,
+    title: "Собственная платформа",
+    body: "Мы работаем на GOARKAN — нашей платформе — обеспечивая видимость заявок, активов и операций, недоступную большинству ИТ-партнёров.",
+    isAccent: true,
   },
 ];
-
-const containerVariants = {
-  hidden: {},
-  visible: { transition: { staggerChildren: 0.09 } },
-};
-
-const cardVariants = {
-  hidden: { opacity: 0, y: 24 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.55, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] },
-  },
-};
 
 export function WhyChoose() {
   const ref = useRef<HTMLDivElement>(null);
@@ -71,65 +47,119 @@ export function WhyChoose() {
   const headerInView = useInView(headerRef, { once: true, margin: "-80px" });
 
   return (
-    <section className="section-y bg-white">
-      <div className="max-w-[75rem] mx-auto px-6">
-        {/* Header */}
+    <section style={{ background: "#FFFFFF", padding: "96px 0" }}>
+      <div style={{ maxWidth: "75rem", margin: "0 auto", padding: "0 1.5rem" }}>
         <motion.div
           ref={headerRef}
           initial={{ opacity: 0, y: 24 }}
           animate={headerInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] }}
-          className="max-w-[600px] mb-14"
+          transition={{ duration: 0.7, ease: EASE }}
+          style={{ maxWidth: 600, marginBottom: 56 }}
         >
-          <span className="eyebrow mb-4">Why Companies Choose ARKANA</span>
-          <h2 className="text-[36px] sm:text-[42px] font-[800] leading-[1.1] tracking-[-0.02em] text-gradient-ink mt-4 mb-5">
-            Six reasons to make
+          <span className="eyebrow" style={{ marginBottom: 20, display: "inline-flex" }}>
+            Почему выбирают ARKANA
+          </span>
+          <h2
+            style={{
+              fontSize: "clamp(32px, 3.2vw, 46px)",
+              fontWeight: 800,
+              lineHeight: 1.1,
+              letterSpacing: "-0.03em",
+              color: "#0B1540",
+              marginTop: 16,
+              marginBottom: 20,
+            }}
+          >
+            Шесть причин сделать
             <br />
-            ARKANA your IT partner.
+            ARKANA своим ИТ-партнёром.
           </h2>
-          <p className="text-[17px] text-[#3D3D4E] leading-[1.65]">
-            We are not just another IT vendor. We are an extension of your
-            business — with the team, process, and tools to prove it.
+          <p style={{ fontSize: 17, color: "rgba(11,21,64,0.55)", lineHeight: 1.65 }}>
+            Мы не просто ещё один ИТ-вендор. Мы — расширение вашего бизнеса, с командой, процессами и инструментами, которые это доказывают.
           </p>
         </motion.div>
 
-        {/* Grid */}
-        <motion.div
+        <div
           ref={ref}
-          variants={containerVariants}
-          initial="hidden"
-          animate={inView ? "visible" : "hidden"}
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5"
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(3, 1fr)",
+            gap: 16,
+          }}
+          className="max-sm:grid-cols-1 max-lg:grid-cols-2"
         >
-          {cards.map(({ icon: Icon, iconBg, iconColor, title, body, isPlatform }) => (
+          {cards.map(({ icon: Icon, title, body, isAccent }, i) => (
             <motion.div
               key={title}
-              variants={cardVariants}
-              className={`group relative rounded-[18px] p-7 border transition-all duration-200 hover:-translate-y-1 cursor-default ${
-                isPlatform
-                  ? "bg-gradient-to-br from-[#2B5BFF]/[0.04] to-[#6B35FF]/[0.04] border-[#2B5BFF]/[0.14] hover:shadow-[0_12px_32px_rgba(43,91,255,0.12)]"
-                  : "bg-[#FAFAFA] border-[rgba(0,0,0,0.07)] hover:shadow-card-hover"
-              }`}
+              initial={{ opacity: 0, y: 24 }}
+              animate={inView ? { opacity: 1, y: 0 } : {}}
+              transition={{ delay: i * 0.07, duration: 0.6, ease: EASE }}
+              style={{
+                background: isAccent ? "rgba(26,107,255,0.04)" : "#F8FAFF",
+                border: isAccent ? "1px solid rgba(26,107,255,0.18)" : "1px solid rgba(11,21,64,0.07)",
+                borderRadius: 16,
+                padding: "26px 24px",
+              }}
             >
               <div
-                className={`w-10 h-10 ${iconBg} rounded-[11px] flex items-center justify-center mb-5`}
+                style={{
+                  width: 40,
+                  height: 40,
+                  background: isAccent ? "rgba(26,107,255,0.12)" : "rgba(11,21,64,0.06)",
+                  border: isAccent ? "1px solid rgba(26,107,255,0.20)" : "none",
+                  borderRadius: 11,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  marginBottom: 18,
+                }}
               >
-                <Icon size={18} className={iconColor} />
+                <Icon size={17} style={{ color: isAccent ? "#1A6BFF" : "#0B1540" }} />
               </div>
-              <h3 className="text-[15.5px] font-[700] text-[#0A0A0F] mb-3 leading-[1.3]">
+              <h3
+                style={{
+                  fontSize: 15,
+                  fontWeight: 700,
+                  color: "#0B1540",
+                  marginBottom: 8,
+                  lineHeight: 1.3,
+                  letterSpacing: "-0.02em",
+                }}
+              >
                 {title}
               </h3>
-              <p className="text-[13.5px] text-[#3D3D4E] leading-[1.65]">{body}</p>
-
-              {isPlatform && (
-                <div className="mt-4 inline-flex items-center gap-1.5 text-[12px] font-[700] text-[#2B5BFF]">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#2B5BFF]" />
-                  Powered by GOARKAN
+              <p style={{ fontSize: 13.5, color: "rgba(11,21,64,0.55)", lineHeight: 1.65 }}>
+                {body}
+              </p>
+              {isAccent && (
+                <div
+                  style={{
+                    marginTop: 14,
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: 6,
+                    fontSize: 11,
+                    fontWeight: 700,
+                    color: "#1A6BFF",
+                    letterSpacing: "0.04em",
+                    textTransform: "uppercase",
+                  }}
+                >
+                  <span
+                    style={{
+                      width: 5,
+                      height: 5,
+                      borderRadius: "50%",
+                      background: "#1A6BFF",
+                      boxShadow: "0 0 6px rgba(26,107,255,0.6)",
+                    }}
+                  />
+                  На платформе GOARKAN
                 </div>
               )}
             </motion.div>
           ))}
-        </motion.div>
+        </div>
       </div>
     </section>
   );

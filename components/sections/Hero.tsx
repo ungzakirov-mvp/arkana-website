@@ -1,200 +1,249 @@
 "use client";
 
-import { useRef } from "react";
+import { motion } from "framer-motion";
 import Link from "next/link";
-import { motion, useScroll, useTransform } from "framer-motion";
-import { ArrowRight, ChevronDown, Activity } from "lucide-react";
+import Image from "next/image";
+import { ArrowRight, Check } from "lucide-react";
 
-const servicePills = [
-  { label: "IT Outsourcing", color: "blue" },
-  { label: "Infrastructure", color: "indigo" },
-  { label: "Managed IT", color: "blue" },
-  { label: "User Support", color: "indigo" },
-  { label: "IT Service Management", color: "blue" },
-];
+const EASE = [0.16, 1, 0.3, 1] as [number, number, number, number];
 
-const teamMembers = [
-  { initials: "A", from: "#2B5BFF", to: "#6B35FF" },
-  { initials: "D", from: "#6B35FF", to: "#9B35CC" },
-  { initials: "S", from: "#00C2AA", to: "#0099FF" },
+const features = [
+  "Проектирование и внедрение сетей",
+  "Облачные решения",
+  "Техническая поддержка 24/7",
 ];
 
 export function Hero() {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start start", "end start"],
-  });
-  const cardY = useTransform(scrollYProgress, [0, 1], [0, 60]);
-
-  const containerVariants = {
-    hidden: {},
-    visible: { transition: { staggerChildren: 0.12, delayChildren: 0.1 } },
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] } },
-  };
-
   return (
     <section
-      ref={containerRef}
-      className="relative min-h-screen flex flex-col items-center justify-center pt-20 pb-16 overflow-hidden bg-gradient-hero"
+      style={{
+        position: "relative",
+        width: "100%",
+        minHeight: "100svh",
+        background: "#FFFFFF",
+        overflow: "hidden",
+      }}
     >
-      {/* Animated gradient orbs */}
       <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 overflow-hidden"
+        style={{
+          display: "grid",
+          gridTemplateColumns: "1fr 1fr",
+          minHeight: "100svh",
+        }}
+        className="max-lg:grid-cols-1"
       >
-        <div className="absolute -top-40 -left-40 w-[600px] h-[600px] rounded-full bg-[#2B5BFF]/[0.06] blur-3xl animate-[drift_20s_ease-in-out_infinite]" />
-        <div className="absolute -bottom-40 -right-40 w-[500px] h-[500px] rounded-full bg-[#6B35FF]/[0.05] blur-3xl animate-[drift_25s_ease-in-out_infinite_reverse]" />
-      </div>
-
-      <div className="relative w-full max-w-[75rem] mx-auto px-6 flex flex-col items-center text-center">
-        {/* Content */}
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          animate="visible"
-          className="flex flex-col items-center max-w-[720px]"
+        {/* ── Left column — content ── */}
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            padding: "100px 60px 80px 80px",
+            position: "relative",
+            zIndex: 2,
+          }}
+          className="max-lg:px-6 max-lg:py-28 max-lg:items-center max-lg:text-center"
         >
-          {/* Eyebrow */}
-          <motion.div variants={itemVariants}>
-            <span className="eyebrow mb-6">
-              IT Outsourcing · Managed Services
-            </span>
-          </motion.div>
-
-          {/* H1 */}
+          {/* ARKANA wordmark */}
           <motion.h1
-            variants={itemVariants}
-            className="text-[42px] sm:text-[56px] lg:text-[68px] font-[800] leading-[1.07] tracking-[-0.02em] text-gradient-ink mb-6"
+            initial={{ opacity: 0, y: 32 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.9, ease: EASE }}
+            style={{
+              fontSize: "clamp(72px, 9vw, 120px)",
+              fontWeight: 900,
+              letterSpacing: "-0.04em",
+              lineHeight: 0.92,
+              color: "#0B1540",
+              marginBottom: 28,
+            }}
           >
-            Enterprise IT operations.
-            <br />
-            <span className="text-gradient-accent">
-              Without the enterprise overhead.
-            </span>
+            ARKANA
           </motion.h1>
 
-          {/* Subheadline */}
-          <motion.p
-            variants={itemVariants}
-            className="text-[17px] sm:text-[19px] text-[#3D3D4E] leading-[1.65] mb-10 max-w-[560px]"
+          {/* Headline */}
+          <motion.h2
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.12, duration: 0.8, ease: EASE }}
+            style={{
+              fontSize: "clamp(22px, 2.6vw, 34px)",
+              fontWeight: 700,
+              lineHeight: 1.25,
+              letterSpacing: "-0.02em",
+              color: "#0B1540",
+              marginBottom: 18,
+            }}
           >
-            ARKANA handles your entire IT — infrastructure, support, and
-            service management — so your team can focus on growing the business.
+            Внешний IT-отдел<br />для вашего бизнеса
+          </motion.h2>
+
+          {/* Body */}
+          <motion.p
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.22, duration: 0.7, ease: EASE }}
+            style={{
+              fontSize: 16,
+              lineHeight: 1.65,
+              color: "rgba(11,21,64,0.55)",
+              marginBottom: 40,
+              maxWidth: 420,
+            }}
+          >
+            Премиальный ИТ-аутсорсинг и консалтинг в Ташкенте для оптимизации и роста.
           </motion.p>
 
-          {/* CTAs */}
+          {/* CTA buttons */}
           <motion.div
-            variants={itemVariants}
-            className="flex flex-col sm:flex-row gap-3 mb-16"
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.30, duration: 0.7, ease: EASE }}
+            style={{ display: "flex", gap: 12, flexWrap: "wrap", marginBottom: 40 }}
+            className="max-lg:justify-center"
           >
             <Link
               href="/contact"
-              className="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-[12px] text-[14px] font-[700] text-white bg-gradient-brand shadow-accent hover:shadow-accent-hover hover:-translate-y-px active:scale-[0.98] transition-all duration-150"
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 8,
+                background: "#1A6BFF",
+                color: "#FFFFFF",
+                padding: "13px 26px",
+                borderRadius: 10,
+                fontSize: 14.5,
+                fontWeight: 600,
+                textDecoration: "none",
+                boxShadow: "0 6px 24px rgba(26,107,255,0.40)",
+                letterSpacing: "-0.01em",
+              }}
             >
-              Start with a free assessment
-              <ArrowRight size={15} className="transition-transform duration-150 group-hover:translate-x-1" />
+              Получить аудит
+              <ArrowRight size={15} />
             </Link>
             <Link
               href="/services"
-              className="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-[12px] text-[14px] font-[600] text-[#3D3D4E] bg-white/70 border border-black/[0.08] hover:bg-white hover:border-black/[0.12] backdrop-blur-sm active:scale-[0.98] transition-all duration-150"
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 8,
+                background: "transparent",
+                color: "#1A6BFF",
+                padding: "13px 26px",
+                borderRadius: 10,
+                fontSize: 14.5,
+                fontWeight: 600,
+                textDecoration: "none",
+                border: "1.5px solid #1A6BFF",
+                letterSpacing: "-0.01em",
+              }}
             >
-              See our services
+              Наши услуги
             </Link>
           </motion.div>
-        </motion.div>
 
-        {/* Hero card — floats with parallax */}
-        <motion.div
-          style={{ y: cardY }}
-          initial={{ opacity: 0, scale: 0.94, y: 24 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.5, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] }}
-          className="w-full max-w-[540px] glass rounded-[24px] shadow-glass p-6 text-left"
-        >
-          {/* Service pills */}
-          <p className="text-[10px] font-[700] uppercase tracking-[0.08em] text-[#8A8A9E] mb-3">
-            What we manage for you
-          </p>
-          <div className="flex flex-wrap gap-2 mb-5">
-            {servicePills.map(({ label, color }) => (
-              <span
-                key={label}
-                className={`inline-flex items-center px-3 py-1.5 rounded-full text-[12px] font-[600] border ${
-                  color === "blue"
-                    ? "bg-[#2B5BFF]/[0.07] border-[#2B5BFF]/[0.14] text-[#2B5BFF]"
-                    : "bg-[#6B35FF]/[0.07] border-[#6B35FF]/[0.14] text-[#6B35FF]"
-                }`}
-              >
-                {label}
-              </span>
-            ))}
-          </div>
-
-          {/* Team row */}
-          <div className="flex items-center gap-3 bg-black/[0.03] rounded-[14px] px-4 py-3 mb-3">
-            <div className="flex -space-x-2">
-              {teamMembers.map(({ initials, from, to }) => (
-                <div
-                  key={initials}
-                  className="w-8 h-8 rounded-full border-2 border-white flex items-center justify-center text-[11px] font-[800] text-white"
+          {/* Feature card */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.42, duration: 0.7, ease: EASE }}
+            style={{
+              background: "linear-gradient(135deg, #0B1B5E 0%, #1A3FCC 100%)",
+              borderRadius: 16,
+              padding: "22px 26px",
+              maxWidth: 380,
+              boxShadow: "0 12px 40px rgba(11,21,64,0.25)",
+            }}
+          >
+            <h3
+              style={{
+                fontSize: 17,
+                fontWeight: 700,
+                color: "#FFFFFF",
+                marginBottom: 14,
+                letterSpacing: "-0.02em",
+              }}
+            >
+              IT-инфраструктура под ключ
+            </h3>
+            <ul style={{ display: "flex", flexDirection: "column", gap: 9 }}>
+              {features.map((f) => (
+                <li
+                  key={f}
                   style={{
-                    background: `linear-gradient(135deg, ${from}, ${to})`,
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 10,
+                    fontSize: 13.5,
+                    color: "rgba(255,255,255,0.80)",
                   }}
                 >
-                  {initials}
-                </div>
+                  <span
+                    style={{
+                      width: 18,
+                      height: 18,
+                      borderRadius: "50%",
+                      background: "rgba(255,255,255,0.15)",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      flexShrink: 0,
+                    }}
+                  >
+                    <Check size={10} color="#FFFFFF" strokeWidth={3} />
+                  </span>
+                  {f}
+                </li>
               ))}
-            </div>
-            <div>
-              <p className="text-[12px] font-[700] text-[#0A0A0F]">
-                Your dedicated IT team
-              </p>
-              <p className="text-[11px] text-[#8A8A9E]">
-                Engineers assigned to your account
-              </p>
-            </div>
-          </div>
+            </ul>
+          </motion.div>
+        </div>
 
-          {/* Status bar */}
-          <div className="flex items-center gap-2.5 bg-[#00C2AA]/[0.06] border border-[#00C2AA]/[0.15] rounded-[10px] px-4 py-2.5">
-            <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#00C2AA] opacity-60" />
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-[#00C2AA]" />
-            </span>
-            <Activity size={13} className="text-[#00C2AA]" />
-            <p className="text-[11.5px] text-[#3D3D4E] font-[500]">
-              Active monitoring · Proactive support · Transparent reporting
-            </p>
-          </div>
-        </motion.div>
-
-        {/* Scroll indicator */}
+        {/* ── Right column — sphere image ── */}
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.2, duration: 0.6 }}
-          className="mt-12 flex flex-col items-center gap-2 text-[#8A8A9E]"
+          initial={{ opacity: 0, scale: 1.04 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 1.1, ease: EASE }}
+          style={{
+            position: "relative",
+            overflow: "hidden",
+            minHeight: 500,
+          }}
+          className="max-lg:hidden"
         >
-          <span className="text-[11px] font-[500]">Scroll to explore</span>
-          <ChevronDown
-            size={16}
-            className="animate-bounce"
+          <Image
+            src="/hero-sphere.png"
+            alt=""
+            fill
+            priority
+            quality={100}
+            sizes="(max-width: 1024px) 100vw, 55vw"
+            style={{
+              objectFit: "cover",
+              objectPosition: "center center",
+            }}
           />
+          {/* Fade left edge into white left column */}
+          <div style={{
+            position: "absolute", inset: 0,
+            background: "linear-gradient(to right, #FFFFFF 0%, transparent 18%)",
+            pointerEvents: "none",
+          }} />
+          {/* Fade bottom into white */}
+          <div style={{
+            position: "absolute", inset: 0,
+            background: "linear-gradient(to top, #FFFFFF 0%, rgba(255,255,255,0.7) 25%, transparent 50%)",
+            pointerEvents: "none",
+          }} />
+          {/* Fade top */}
+          <div style={{
+            position: "absolute", inset: 0,
+            background: "linear-gradient(to bottom, #FFFFFF 0%, transparent 15%)",
+            pointerEvents: "none",
+          }} />
         </motion.div>
       </div>
-
-      <style jsx global>{`
-        @keyframes drift {
-          0%, 100% { transform: translate(0, 0) scale(1); }
-          33% { transform: translate(30px, -30px) scale(1.05); }
-          66% { transform: translate(-20px, 20px) scale(0.95); }
-        }
-      `}</style>
     </section>
   );
 }

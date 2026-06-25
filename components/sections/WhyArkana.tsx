@@ -2,99 +2,121 @@
 
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
-import { Building2, Zap, Eye } from "lucide-react";
+import { UserCheck, ClipboardList, Eye } from "lucide-react";
+
+const EASE = [0.16, 1, 0.3, 1] as [number, number, number, number];
 
 const cards = [
   {
-    icon: Building2,
-    iconBg: "bg-[#2B5BFF]/10",
-    iconColor: "text-[#2B5BFF]",
-    title: "Your dedicated IT department",
-    body: "A full team that knows your infrastructure by name. Not a ticket queue — a real partnership with named ownership and accountability.",
+    icon: UserCheck,
+    title: "Именная ответственность",
+    body: "Технический руководитель и инженеры поддержки закреплены за вашим аккаунтом — не очередь заявок. Один человек отвечает за всё.",
   },
   {
-    icon: Zap,
-    iconBg: "bg-[#6B35FF]/10",
-    iconColor: "text-[#6B35FF]",
-    title: "Proactive, not reactive",
-    body: "24/7 monitoring catches issues before your team notices. We fix problems that haven't happened yet — and report on every action we take.",
+    icon: ClipboardList,
+    title: "Задокументированные процессы",
+    body: "Ежемесячный план патчинга, ежеквартальное тестирование восстановления, реакция на критические ситуации за 48 часов. Каждый процесс описан, а не подразумевается.",
   },
   {
     icon: Eye,
-    iconBg: "bg-[#00C2AA]/10",
-    iconColor: "text-[#00C2AA]",
-    title: "Complete transparency",
-    body: "Our GOARKAN platform gives you real-time visibility into every ticket, asset, and action. No more asking for updates. No more black box.",
+    title: "Полная прозрачность",
+    body: "GOARKAN даёт вам видимость каждой заявки, актива и действия в режиме реального времени. Ежемесячные отчёты из системы — а не от менеджера аккаунта.",
   },
 ];
-
-const containerVariants = {
-  hidden: {},
-  visible: { transition: { staggerChildren: 0.12 } },
-};
-
-const cardVariants = {
-  hidden: { opacity: 0, y: 28 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] },
-  },
-};
 
 export function WhyArkana() {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, margin: "-80px" });
 
   return (
-    <section className="section-y bg-white">
-      <div className="max-w-[75rem] mx-auto px-6">
+    <section style={{ background: "#FFFFFF", padding: "96px 0" }}>
+      <div style={{ maxWidth: "75rem", margin: "0 auto", padding: "0 1.5rem" }}>
         {/* Header */}
         <motion.div
+          ref={ref}
           initial={{ opacity: 0, y: 24 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] }}
-          className="max-w-[560px] mb-14"
+          transition={{ duration: 0.7, ease: EASE }}
+          style={{ maxWidth: 560, marginBottom: 56 }}
         >
-          <span className="eyebrow mb-4">Why ARKANA</span>
-          <h2 className="text-[36px] sm:text-[42px] font-[800] leading-[1.1] tracking-[-0.02em] text-gradient-ink mt-4 mb-5">
-            Not IT support.
+          <span className="eyebrow" style={{ marginBottom: 20, display: "inline-flex" }}>
+            Почему ARKANA
+          </span>
+          <h2
+            style={{
+              fontSize: "clamp(32px, 3.2vw, 46px)",
+              fontWeight: 800,
+              lineHeight: 1.1,
+              letterSpacing: "-0.03em",
+              color: "#0B1540",
+              marginTop: 16,
+              marginBottom: 20,
+            }}
+          >
+            Не ИТ-поддержка.
             <br />
-            An IT partner.
+            ИТ-партнёр.
           </h2>
-          <p className="text-[17px] text-[#3D3D4E] leading-[1.65]">
-            Most IT providers react to problems. We prevent them — with a
-            dedicated team, transparent processes, and tools that keep you
-            informed at every step.
+          <p style={{ fontSize: 17, color: "rgba(11,21,64,0.55)", lineHeight: 1.65 }}>
+            Большинство провайдеров реагируют на проблемы. Мы их предотвращаем — с именными инженерами, прозрачными процессами и инструментами, которые держат вас в курсе на каждом шаге.
           </p>
         </motion.div>
 
         {/* Cards */}
-        <motion.div
-          ref={ref}
-          variants={containerVariants}
-          initial="hidden"
-          animate={inView ? "visible" : "hidden"}
-          className="grid grid-cols-1 md:grid-cols-3 gap-6"
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
+            gap: 20,
+          }}
         >
-          {cards.map(({ icon: Icon, iconBg, iconColor, title, body }) => (
+          {cards.map(({ icon: Icon, title, body }, i) => (
             <motion.div
               key={title}
-              variants={cardVariants}
-              className="group bg-[#FAFAFA] border border-[rgba(0,0,0,0.07)] rounded-[18px] p-7 hover:-translate-y-1 hover:shadow-card-hover transition-all duration-200 cursor-default"
+              initial={{ opacity: 0, y: 24 }}
+              animate={inView ? { opacity: 1, y: 0 } : {}}
+              transition={{ delay: i * 0.1, duration: 0.7, ease: EASE }}
+              style={{
+                background: "#FFFFFF",
+                border: "1px solid rgba(11,21,64,0.08)",
+                borderRadius: 18,
+                padding: "28px 28px 26px",
+                boxShadow: "0 2px 12px rgba(11,21,64,0.05)",
+              }}
             >
               <div
-                className={`w-11 h-11 ${iconBg} rounded-[12px] flex items-center justify-center mb-5`}
+                style={{
+                  width: 44,
+                  height: 44,
+                  background: "rgba(26,107,255,0.08)",
+                  border: "1px solid rgba(26,107,255,0.16)",
+                  borderRadius: 12,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  marginBottom: 20,
+                }}
               >
-                <Icon size={20} className={iconColor} />
+                <Icon size={20} style={{ color: "#1A6BFF" }} />
               </div>
-              <h3 className="text-[16px] font-[700] text-[#0A0A0F] mb-3 leading-[1.3]">
+              <h3
+                style={{
+                  fontSize: 16,
+                  fontWeight: 700,
+                  color: "#0B1540",
+                  marginBottom: 10,
+                  lineHeight: 1.3,
+                  letterSpacing: "-0.02em",
+                }}
+              >
                 {title}
               </h3>
-              <p className="text-[14px] text-[#3D3D4E] leading-[1.65]">{body}</p>
+              <p style={{ fontSize: 14, color: "rgba(11,21,64,0.55)", lineHeight: 1.65 }}>
+                {body}
+              </p>
             </motion.div>
           ))}
-        </motion.div>
+        </div>
       </div>
     </section>
   );

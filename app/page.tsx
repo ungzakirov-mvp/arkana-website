@@ -8,23 +8,41 @@ import { Showcase } from "@/components/sections/Showcase";
 import { Process } from "@/components/sections/Process";
 import { Trust } from "@/components/sections/Trust";
 import { ContactCTA } from "@/components/sections/ContactCTA";
+import {
+  itOutsourcingSchema,
+  infrastructureSchema,
+  cybersecuritySchema,
+  itsmSchema,
+} from "@/lib/seo";
 
 export const metadata: Metadata = {
-  title: "ARKANA — IT Outsourcing & Managed Services in Uzbekistan",
+  title: "IT Outsourcing Tashkent | ARKANA — Managed IT Services",
   description:
-    "ARKANA is your external IT department. Dedicated team, modern processes, and full transparency through our GOARKAN platform. IT outsourcing and managed services for businesses in Uzbekistan.",
+    "ARKANA provides managed IT outsourcing for businesses in Tashkent, Uzbekistan. Named engineers, defined processes, monthly reporting. Book a free IT assessment.",
   alternates: { canonical: "/" },
   openGraph: {
-    title: "ARKANA — IT Outsourcing & Managed Services",
+    title: "ARKANA — IT Outsourcing for Businesses in Tashkent",
     description:
-      "Enterprise IT operations without the enterprise overhead. Dedicated team, transparent reporting, and your own named technical lead.",
+      "Named engineers. Defined processes. Monthly reporting. ARKANA manages your entire IT function — infrastructure, support, security, and vendor management.",
     url: "/",
   },
 };
 
+// Homepage lists all four services so it carries all four Service schemas.
+const servicesSchema = [
+  itOutsourcingSchema,
+  infrastructureSchema,
+  cybersecuritySchema,
+  itsmSchema,
+];
+
 export default function HomePage() {
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(servicesSchema) }}
+      />
       <Hero />
       <WhyArkana />
       <Services />

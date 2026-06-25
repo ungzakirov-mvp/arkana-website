@@ -5,12 +5,12 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
-import { cn } from "@/lib/utils";
 
 const links = [
-  { href: "/services", label: "Services" },
-  { href: "/#platform", label: "Platform" },
-  { href: "/about", label: "About" },
+  { href: "/services", label: "Услуги" },
+  { href: "/#solutions", label: "Решения" },
+  { href: "/#cases", label: "Кейсы" },
+  { href: "/about", label: "О нас" },
 ];
 
 export function Navigation() {
@@ -19,31 +19,51 @@ export function Navigation() {
   const pathname = usePathname();
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 80);
+    const onScroll = () => setScrolled(window.scrollY > 60);
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // Close mobile menu on route change
-  useEffect(() => {
-    setMobileOpen(false);
-  }, [pathname]);
+  useEffect(() => { setMobileOpen(false); }, [pathname]);
 
   return (
     <>
       <header
-        className={cn(
-          "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
-          scrolled
-            ? "bg-white/80 backdrop-blur-xl border-b border-black/[0.06] shadow-sm"
-            : "bg-transparent"
-        )}
+        style={{
+          position: "fixed",
+          top: 0,
+          left: 0,
+          right: 0,
+          zIndex: 50,
+          transition: "all 0.3s ease",
+          background: scrolled ? "rgba(255,255,255,0.97)" : "rgba(255,255,255,0.92)",
+          backdropFilter: "blur(16px)",
+          WebkitBackdropFilter: "blur(16px)",
+          borderBottom: scrolled ? "1px solid rgba(11,21,64,0.09)" : "1px solid rgba(11,21,64,0.06)",
+          boxShadow: scrolled ? "0 2px 20px rgba(11,21,64,0.08)" : "none",
+        }}
       >
-        <div className="max-w-[75rem] mx-auto px-6 h-16 flex items-center justify-between">
+        <div
+          style={{
+            maxWidth: "75rem",
+            margin: "0 auto",
+            padding: "0 1.5rem",
+            height: 64,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+          }}
+        >
           {/* Logo */}
           <Link
             href="/"
-            className="text-[15px] font-[800] tracking-[0.04em] text-gradient-accent select-none"
+            style={{
+              fontSize: 18,
+              fontWeight: 900,
+              letterSpacing: "0.06em",
+              color: "#0B1540",
+              textDecoration: "none",
+            }}
           >
             ARKANA
           </Link>
@@ -54,12 +74,13 @@ export function Navigation() {
               <Link
                 key={href}
                 href={href}
-                className={cn(
-                  "text-[13.5px] font-[500] transition-colors duration-150",
-                  pathname === href
-                    ? "text-[#2B5BFF]"
-                    : "text-[#3D3D4E] hover:text-[#0A0A0F]"
-                )}
+                style={{
+                  fontSize: 14,
+                  fontWeight: 500,
+                  color: pathname === href ? "#1A6BFF" : "rgba(11,21,64,0.70)",
+                  textDecoration: "none",
+                  transition: "color 0.15s",
+                }}
               >
                 {label}
               </Link>
@@ -67,35 +88,61 @@ export function Navigation() {
           </nav>
 
           {/* Desktop CTA */}
-          <div className="hidden md:flex items-center gap-3">
+          <div className="hidden md:flex items-center">
             <Link
               href="/contact"
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-[10px] text-[13px] font-[700] text-white bg-gradient-brand shadow-accent hover:shadow-accent-hover transition-all duration-150 hover:-translate-y-px active:scale-[0.98]"
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                padding: "9px 22px",
+                borderRadius: 8,
+                fontSize: 13.5,
+                fontWeight: 600,
+                color: "#1A6BFF",
+                background: "transparent",
+                border: "1.5px solid #1A6BFF",
+                textDecoration: "none",
+                letterSpacing: "-0.01em",
+                transition: "all 0.15s",
+              }}
             >
-              Contact Us
+              Связаться
             </Link>
           </div>
 
           {/* Mobile hamburger */}
           <button
             onClick={() => setMobileOpen((v) => !v)}
-            className="md:hidden p-2 rounded-lg text-[#3D3D4E] hover:bg-black/[0.04] transition-colors"
-            aria-label="Toggle menu"
+            className="md:hidden p-2 rounded-lg"
+            style={{ color: "#0B1540" }}
+            aria-label="Меню"
           >
-            {mobileOpen ? <X size={20} /> : <Menu size={20} />}
+            {mobileOpen ? <X size={22} /> : <Menu size={22} />}
           </button>
         </div>
       </header>
 
-      {/* Mobile menu overlay */}
+      {/* Mobile overlay */}
       <AnimatePresence>
         {mobileOpen && (
           <motion.div
             initial={{ opacity: 0, y: -8 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8 }}
-            transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] }}
-            className="fixed inset-0 z-40 bg-white/97 backdrop-blur-xl pt-20 px-6 flex flex-col"
+            transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] }}
+            style={{
+              position: "fixed",
+              inset: 0,
+              zIndex: 40,
+              background: "rgba(255,255,255,0.98)",
+              backdropFilter: "blur(20px)",
+              WebkitBackdropFilter: "blur(20px)",
+              paddingTop: 80,
+              paddingLeft: 24,
+              paddingRight: 24,
+              display: "flex",
+              flexDirection: "column",
+            }}
           >
             <nav className="flex flex-col gap-1 mt-4">
               {links.map(({ href, label }, i) => (
@@ -108,7 +155,15 @@ export function Navigation() {
                   <Link
                     href={href}
                     onClick={() => setMobileOpen(false)}
-                    className="block py-4 text-[22px] font-[700] text-[#0A0A0F] border-b border-[#F0F4FF]"
+                    style={{
+                      display: "block",
+                      padding: "16px 0",
+                      fontSize: 22,
+                      fontWeight: 700,
+                      color: "#0B1540",
+                      textDecoration: "none",
+                      borderBottom: "1px solid rgba(11,21,64,0.08)",
+                    }}
                   >
                     {label}
                   </Link>
@@ -125,22 +180,30 @@ export function Navigation() {
               <Link
                 href="/contact"
                 onClick={() => setMobileOpen(false)}
-                className="flex items-center justify-center py-4 rounded-[14px] text-[15px] font-[700] text-white bg-gradient-brand shadow-accent"
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  padding: "16px 0",
+                  borderRadius: 14,
+                  fontSize: 15,
+                  fontWeight: 700,
+                  color: "#FFFFFF",
+                  background: "#1A6BFF",
+                  textDecoration: "none",
+                  boxShadow: "0 6px 24px rgba(26,107,255,0.35)",
+                }}
               >
-                Contact Us
+                Связаться
               </Link>
-
-              <div className="mt-4 pt-4 border-t border-[#F0F4FF] flex flex-col gap-2">
-                <a
-                  href="tel:+998"
-                  className="text-[14px] text-[#3D3D4E] font-[500]"
-                >
+              <div
+                className="mt-4 pt-4 flex flex-col gap-2"
+                style={{ borderTop: "1px solid rgba(11,21,64,0.08)" }}
+              >
+                <a href="tel:+998" style={{ fontSize: 14, color: "rgba(11,21,64,0.45)", fontWeight: 500, textDecoration: "none" }}>
                   +998 — — — — — —
                 </a>
-                <a
-                  href="mailto:info@arkana.uz"
-                  className="text-[14px] text-[#3D3D4E] font-[500]"
-                >
+                <a href="mailto:info@arkana.uz" style={{ fontSize: 14, color: "rgba(11,21,64,0.45)", fontWeight: 500, textDecoration: "none" }}>
                   info@arkana.uz
                 </a>
               </div>
