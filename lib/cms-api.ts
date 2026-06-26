@@ -382,7 +382,8 @@ async function _sendLeadEmail(data: LeadInput): Promise<{ ok: boolean; id?: stri
     ["Страница", data.landing_page ?? "—"],
   ];
 
-  const html = `
+  const html = `<!DOCTYPE html>
+<html lang="ru"><head><meta charset="UTF-8"/></head><body>
 <div style="font-family:sans-serif;max-width:600px;margin:0 auto">
   <h2 style="color:#6366f1;margin-bottom:24px">Новая заявка с сайта ARKANA</h2>
   <table style="width:100%;border-collapse:collapse">
@@ -396,7 +397,7 @@ async function _sendLeadEmail(data: LeadInput): Promise<{ ok: boolean; id?: stri
     Заявка получена через резервный канал (GoARKAN недоступен).<br>
     Создайте лид вручную в GoARKAN CRM.
   </p>
-</div>`;
+</div></body></html>`;
 
   try {
     const res = await fetch("https://api.resend.com/emails", {
