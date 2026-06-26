@@ -13,14 +13,15 @@ const BENEFITS: Record<string, Record<string, string>> = {
   uz: { sla: "SLA bo'yicha ish", one_place: "Hammasi bir joyda", it_dev: "IT rivojlanishi", partner: "Texnologiya hamkori" },
 };
 
-const COPY: Record<string, { location: string; h1a: string; h1b: string; body: string; cta1: string; cta2: string }> = {
+const COPY: Record<string, { location: string; h1a: string; h1b: string; body: string; cta1: string; cta2: string; cta2href: string }> = {
   ru: {
     location: "Ташкент, Узбекистан",
     h1a: "Технологический партнёр",
     h1b: "для развития вашего бизнеса.",
     body: "Один договор. Фиксированная стоимость. Полная ответственность. Ваш IT работает предсказуемо — вы видите всё через GoARKAN.",
     cta1: "Получить коммерческое предложение",
-    cta2: "Получить консультацию",
+    cta2: "Посмотреть тарифы",
+    cta2href: "/pricing",
   },
   uz: {
     location: "Toshkent, O'zbekiston",
@@ -28,7 +29,8 @@ const COPY: Record<string, { location: string; h1a: string; h1b: string; body: s
     h1b: "biznesingiz rivojlanishi uchun.",
     body: "Bitta shartnoma. Belgilangan narx. To'liq javobgarlik. IT'ingiz taxmin qilinadigan tarzda ishlaydi — GoARKAN orqali hamma narsani ko'rasiz.",
     cta1: "Tijorat taklifi olish",
-    cta2: "Maslahat olish",
+    cta2: "Narxlarni ko'rish",
+    cta2href: "/pricing",
   },
   en: {
     location: "Tashkent, Uzbekistan",
@@ -36,7 +38,8 @@ const COPY: Record<string, { location: string; h1a: string; h1b: string; body: s
     h1b: "for your business growth.",
     body: "One contract. Fixed cost. Full accountability. Your IT operates predictably — you see everything through GoARKAN.",
     cta1: "Get a commercial proposal",
-    cta2: "Get a consultation",
+    cta2: "View pricing",
+    cta2href: "/pricing",
   },
 };
 
@@ -93,7 +96,7 @@ export function HomeHero() {
             }}>
               {copy.cta1}
             </Link>
-            <Link href="/contact" style={{
+            <Link href={copy.cta2href} style={{
               display: "inline-flex", alignItems: "center", gap: 6,
               padding: "11px 22px", borderRadius: 7,
               border: "1px solid var(--ark-border-strong)",
