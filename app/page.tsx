@@ -1,26 +1,24 @@
 import type { Metadata } from "next";
 import { HomeHero } from "@/components/home/HomeHero";
-import { HomeTrust } from "@/components/home/HomeTrust";
-import { HomePlatform } from "@/components/home/HomePlatform";
 import { HomeComparison } from "@/components/home/HomeComparison";
-import { HomePricing } from "@/components/home/HomePricing";
+import { HomePlatform } from "@/components/home/HomePlatform";
 import { HomeCases } from "@/components/home/HomeCases";
-import { HomeCalculator } from "@/components/home/HomeCalculator";
-import { HomeCTA } from "@/components/home/HomeCTA";
+import { HomePricing } from "@/components/home/HomePricing";
+import { HomeContact } from "@/components/home/HomeContact";
 import { organizationSchema, localBusinessSchema } from "@/lib/seo";
-import { getPricing } from "@/lib/cms-api";
+import { getPricing, getSettings } from "@/lib/cms-api";
 
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL ?? "https://arkana.uz";
 
 export const metadata: Metadata = {
-  title: "IT-аутсорсинг в Ташкенте | ARKANA — Managed IT Services",
+  title: "ARKANA — Технологический партнёр для вашего бизнеса в Ташкенте",
   description:
-    "ARKANA — полный IT-аутсорсинг для бизнеса в Ташкенте. Фиксированная стоимость, SLA в договоре, прозрачность через GoARKAN. Бесплатный аудит за 5 дней.",
+    "ARKANA — IT-аутсорсинг и управление технологиями для бизнеса в Ташкенте. Фиксированная стоимость, SLA в договоре, полная прозрачность через GoARKAN.",
   alternates: { canonical: "/" },
   openGraph: {
-    title: "ARKANA — IT Department as a Service",
+    title: "ARKANA — Технологический партнёр для вашего бизнеса",
     description:
-      "ARKANA — полный IT-аутсорсинг для бизнеса в Ташкенте. Фиксированная стоимость, SLA в договоре, прозрачность через GoARKAN.",
+      "IT-аутсорсинг для бизнеса в Ташкенте. Фиксированная стоимость. SLA в договоре. Прозрачность через GoARKAN.",
     url: baseUrl,
   },
 };
@@ -28,7 +26,10 @@ export const metadata: Metadata = {
 const schemas = [organizationSchema, localBusinessSchema];
 
 export default async function HomePage() {
-  const plans = await getPricing("ru");
+  const [plans, settings] = await Promise.all([
+    getPricing("ru"),
+    getSettings("ru"),
+  ]);
 
   return (
     <>
@@ -37,13 +38,11 @@ export default async function HomePage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(schemas) }}
       />
       <HomeHero />
-      <HomeTrust />
-      <HomePlatform />
       <HomeComparison />
-      <HomePricing plans={plans.length > 0 ? plans : undefined} />
+      <HomePlatform />
       <HomeCases />
-      <HomeCalculator />
-      <HomeCTA />
+      <HomePricing plans={plans.length > 0 ? plans : undefined} />
+      <HomeContact settings={settings} />
     </>
   );
 }

@@ -27,7 +27,7 @@ const PLAN_FEATURES: Record<string, { label: string; value: boolean | string }[]
     { label: "Именной инженер",         value: false },
     { label: "Обслуживание серверов",   value: false },
     { label: "Кибербезопасность",       value: false },
-    { label: "IT-аудит",                value: "раз в год" },
+    { label: "Анализ инфраструктуры",   value: "раз в год" },
   ],
   operations: [
     { label: "Service Desk (GoARKAN)", value: true },
@@ -40,7 +40,7 @@ const PLAN_FEATURES: Record<string, { label: string; value: boolean | string }[]
     { label: "Именной инженер",         value: true },
     { label: "Обслуживание серверов",   value: true },
     { label: "Кибербезопасность",       value: "базовая" },
-    { label: "IT-аудит",                value: "раз в квартал" },
+    { label: "Анализ инфраструктуры",   value: "раз в квартал" },
   ],
   enterprise: [
     { label: "Service Desk (GoARKAN)", value: true },
@@ -53,7 +53,7 @@ const PLAN_FEATURES: Record<string, { label: string; value: boolean | string }[]
     { label: "Выделенная команда",      value: true },
     { label: "Обслуживание серверов",   value: true },
     { label: "Кибербезопасность",       value: "расширенная" },
-    { label: "IT-аудит",                value: "ежемесячно" },
+    { label: "Анализ инфраструктуры",   value: "ежемесячно" },
   ],
 };
 

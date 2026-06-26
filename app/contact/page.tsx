@@ -3,13 +3,13 @@ import { ContactPageSection } from "@/components/sections/ContactPageSection";
 import { getSettings } from "@/lib/cms-api";
 
 export const metadata: Metadata = {
-  title: "Контакты — Запросить IT-аудит",
+  title: "Контакты — Получить коммерческое предложение | ARKANA",
   description:
-    "Свяжитесь с ARKANA для бесплатного IT-аудита. Ответим за 2 часа, аудит — за 5 рабочих дней. Ташкент, Узбекистан.",
+    "Свяжитесь с ARKANA. Подготовим коммерческое предложение в течение одного рабочего дня. Ташкент, Узбекистан.",
   alternates: { canonical: "/contact" },
   openGraph: {
-    title: "Контакты ARKANA — Бесплатный IT-аудит",
-    description: "Запросите бесплатный IT-аудит. Ответ за 2 часа, результат за 5 дней.",
+    title: "Контакты ARKANA — Коммерческое предложение",
+    description: "Получите коммерческое предложение за один рабочий день. Без обязательств.",
     url: "/contact",
   },
 };

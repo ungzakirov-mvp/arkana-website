@@ -30,9 +30,9 @@ const SERVICE_LINKS: Record<string, { label: string; href: string }[]> = {
 };
 
 const NAV_LABELS: Record<string, Record<string, string>> = {
-  ru: { services: "Услуги", pricing: "Тарифы", goarkan: "GoARKAN", cases: "Кейсы", blog: "Блог", contact: "Контакты", cta: "Запросить аудит", audit: "Аудит →" },
-  en: { services: "Services", pricing: "Pricing", goarkan: "GoARKAN", cases: "Cases", blog: "Blog", contact: "Contact", cta: "Request audit", audit: "Audit →" },
-  uz: { services: "Xizmatlar", pricing: "Narxlar", goarkan: "GoARKAN", cases: "Loyihalar", blog: "Blog", contact: "Aloqa", cta: "Audit so'rash", audit: "Audit →" },
+  ru: { services: "Услуги", pricing: "Тарифы", goarkan: "GoARKAN", cases: "Кейсы", blog: "Блог", contact: "Контакты", cta: "Получить предложение", audit: "Предложение →" },
+  en: { services: "Services", pricing: "Pricing", goarkan: "GoARKAN", cases: "Cases", blog: "Blog", contact: "Contact", cta: "Get proposal", audit: "Proposal →" },
+  uz: { services: "Xizmatlar", pricing: "Narxlar", goarkan: "GoARKAN", cases: "Loyihalar", blog: "Blog", contact: "Aloqa", cta: "Taklif olish", audit: "Taklif →" },
 };
 
 export function Navigation() {

@@ -210,12 +210,34 @@ export async function getPricing(lang = "ru"): Promise<Plan[]> {
   return data.map((p) => ({
     ...p,
     price_label: p.price_monthly != null
-      ? `от ${p.price_monthly.toLocaleString("ru-RU")} сум`
-      : "Индивидуально",
-    cta_label: p.website_show_contact_sales ? "Связаться" : "Начать",
+      ? _formatPrice(p.price_monthly, lang)
+      : _customLabel(lang),
+    cta_label: p.website_show_contact_sales ? _contactLabel(lang) : _startLabel(lang),
     cta_href: "/contact",
-    services: _deriveServices(p),
+    services: _deriveServices(p, lang),
   }));
+}
+
+function _formatPrice(n: number, lang: string): string {
+  const formatted = n.toLocaleString("ru-RU");
+  if (lang === "uz") return `${formatted} so'mdan`;
+  if (lang === "en") return `from ${formatted} UZS`;
+  return `от ${formatted} сум`;
+}
+function _customLabel(lang: string): string {
+  if (lang === "uz") return "Individual";
+  if (lang === "en") return "Custom";
+  return "Индивидуально";
+}
+function _contactLabel(lang: string): string {
+  if (lang === "uz") return "Bog'lanish";
+  if (lang === "en") return "Contact us";
+  return "Связаться";
+}
+function _startLabel(lang: string): string {
+  if (lang === "uz") return "Boshlash";
+  if (lang === "en") return "Get started";
+  return "Начать";
 }
 
 /** Fetch published case studies. */
@@ -343,13 +365,16 @@ export async function trackEvent(payload: {
 
 // ─── Internal helpers ─────────────────────────────────────────────────────────
 
-function _deriveServices(p: Plan): { count: string; label: string }[] {
+function _deriveServices(p: Plan, lang = "ru"): { count: string; label: string }[] {
   const services: { count: string; label: string }[] = [];
   if (p.ticket_limit_monthly != null) {
-    services.push({ count: String(p.ticket_limit_monthly), label: "заявок в месяц" });
+    const label = lang === "uz" ? "ariza/oy" : lang === "en" ? "tickets/mo" : "заявок в месяц";
+    services.push({ count: String(p.ticket_limit_monthly), label });
   }
   if (p.max_workstations != null) {
-    services.push({ count: `до ${p.max_workstations}`, label: "рабочих мест" });
+    const prefix = lang === "uz" ? "gacha" : lang === "en" ? "up to" : "до";
+    const label  = lang === "uz" ? "ish joyi" : lang === "en" ? "workstations" : "рабочих мест";
+    services.push({ count: `${prefix} ${p.max_workstations}`, label });
   }
   return services;
 }

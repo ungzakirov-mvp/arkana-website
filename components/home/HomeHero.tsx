@@ -5,77 +5,50 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import { useApp } from "@/components/providers/ThemeLanguageProvider";
 
-const PILL_KEYS = ["service_desk", "it_outsourcing", "asset_mgmt", "remote_support"] as const;
+const BENEFITS_KEYS = ["sla", "one_place", "it_dev", "partner"] as const;
 
-const PILL_LABELS: Record<string, Record<string, string>> = {
-  ru: {
-    service_desk:    "Service Desk",
-    it_outsourcing:  "IT-аутсорсинг",
-    asset_mgmt:      "Управление активами",
-    remote_support:  "Удалённая поддержка",
-  },
-  uz: {
-    service_desk:    "Service Desk",
-    it_outsourcing:  "IT-autsorsing",
-    asset_mgmt:      "Aktivlarni boshqarish",
-    remote_support:  "Masofaviy qo'llab-quvvatlash",
-  },
-  en: {
-    service_desk:    "Service Desk",
-    it_outsourcing:  "IT Outsourcing",
-    asset_mgmt:      "Asset Management",
-    remote_support:  "Remote Support",
-  },
+const BENEFITS: Record<string, Record<string, string>> = {
+  ru: { sla: "Работа по SLA", one_place: "Всё в одном месте", it_dev: "Развитие IT", partner: "Технологический партнёр" },
+  en: { sla: "SLA-backed service", one_place: "Everything in one place", it_dev: "IT development", partner: "Technology partner" },
+  uz: { sla: "SLA bo'yicha ish", one_place: "Hammasi bir joyda", it_dev: "IT rivojlanishi", partner: "Texnologiya hamkori" },
 };
 
-const HERO_COPY: Record<string, { location: string; h1a: string; h1b: string; body: string; cta1: string; cta2: string }> = {
+const COPY: Record<string, { location: string; h1a: string; h1b: string; body: string; cta1: string; cta2: string }> = {
   ru: {
     location: "Ташкент, Узбекистан",
-    h1a: "IT-отдел",
-    h1b: "как услуга.",
-    body: "Один договор. Фиксированная стоимость. Полная ответственность. Каждая заявка, актив и SLA — у вас перед глазами через GoARKAN.",
-    cta1: "Запросить предложение",
-    cta2: "Тарифы",
+    h1a: "Технологический партнёр",
+    h1b: "для развития вашего бизнеса.",
+    body: "Один договор. Фиксированная стоимость. Полная ответственность. Ваш IT работает предсказуемо — вы видите всё через GoARKAN.",
+    cta1: "Получить коммерческое предложение",
+    cta2: "Получить консультацию",
   },
   uz: {
     location: "Toshkent, O'zbekiston",
-    h1a: "IT bo'lim",
-    h1b: "xizmat sifatida.",
-    body: "Bitta shartnoma. Belgilangan narx. To'liq javobgarlik. Har bir so'rov, aktiv va SLA — GoARKAN orqali ko'z oldingizda.",
-    cta1: "Taklif so'rash",
-    cta2: "Tariflar",
+    h1a: "Texnologiya hamkori",
+    h1b: "biznesingiz rivojlanishi uchun.",
+    body: "Bitta shartnoma. Belgilangan narx. To'liq javobgarlik. IT'ingiz taxmin qilinadigan tarzda ishlaydi — GoARKAN orqali hamma narsani ko'rasiz.",
+    cta1: "Tijorat taklifi olish",
+    cta2: "Maslahat olish",
   },
   en: {
     location: "Tashkent, Uzbekistan",
-    h1a: "IT Department",
-    h1b: "as a Service.",
-    body: "One contract. Fixed cost. Full accountability. Every incident, asset, and SLA visible through GoARKAN in real time.",
-    cta1: "Get Proposal",
-    cta2: "View Pricing",
+    h1a: "Technology partner",
+    h1b: "for your business growth.",
+    body: "One contract. Fixed cost. Full accountability. Your IT operates predictably — you see everything through GoARKAN.",
+    cta1: "Get a commercial proposal",
+    cta2: "Get a consultation",
   },
 };
 
 export function HomeHero() {
   const { lang, theme } = useApp();
-  const copy = HERO_COPY[lang] ?? HERO_COPY.ru;
-  const pills = PILL_KEYS.map((k) => (PILL_LABELS[lang] ?? PILL_LABELS.ru)[k]);
+  const copy = COPY[lang] ?? COPY.ru;
+  const benefits = BENEFITS_KEYS.map((k) => (BENEFITS[lang] ?? BENEFITS.ru)[k]);
   const isDark = theme === "dark";
 
   return (
-    <section style={{
-      background: "var(--ark-bg)",
-      position: "relative",
-      overflow: "hidden",
-    }}>
-      <div style={{
-        maxWidth: 1280,
-        margin: "0 auto",
-        padding: "12px 40px 56px",
-        display: "flex",
-        alignItems: "center",
-        gap: 0,
-        minHeight: 440,
-      }}>
+    <section style={{ background: "var(--ark-bg)", position: "relative", overflow: "hidden" }}>
+      <div style={{ maxWidth: 1280, margin: "0 auto", padding: "12px 40px 56px", display: "flex", alignItems: "center", gap: 0, minHeight: 440 }}>
 
         {/* LEFT — text */}
         <motion.div
@@ -91,27 +64,17 @@ export function HomeHero() {
             </span>
           </div>
 
-          <h1 style={{
-            fontFamily: "Nacelle, sans-serif",
-            fontWeight: 600,
-            fontSize: "clamp(46px, 5vw, 76px)",
-            lineHeight: 1.02,
-            letterSpacing: "-0.045em",
-            color: "var(--ark-text-heading)",
-            margin: "0 0 28px",
-          }}>
+          <h1 style={{ fontFamily: "Nacelle, sans-serif", fontWeight: 600, fontSize: "clamp(40px, 5vw, 68px)", lineHeight: 1.04, letterSpacing: "-0.04em", color: "var(--ark-text-heading)", margin: "0 0 28px" }}>
             {copy.h1a}
             <br />
             <span style={{ color: "var(--ark-text-hint)" }}>{copy.h1b}</span>
           </h1>
 
           <div style={{ display: "flex", flexWrap: "wrap", gap: "6px 0", marginBottom: 28, alignItems: "center" }}>
-            {pills.map((p, i) => (
-              <span key={p} style={{ display: "flex", alignItems: "center" }}>
-                <span style={{ fontSize: 13, fontWeight: 500, color: "var(--ark-text-muted)", letterSpacing: "-0.01em", padding: "0 10px" }}>{p}</span>
-                {i < pills.length - 1 && (
-                  <span style={{ width: 1, height: 12, background: "var(--ark-border)", flexShrink: 0 }} />
-                )}
+            {benefits.map((b, i) => (
+              <span key={b} style={{ display: "flex", alignItems: "center" }}>
+                <span style={{ fontSize: 13, fontWeight: 500, color: "var(--ark-text-muted)", letterSpacing: "-0.01em", padding: "0 10px" }}>{b}</span>
+                {i < benefits.length - 1 && <span style={{ width: 1, height: 12, background: "var(--ark-border)", flexShrink: 0 }} />}
               </span>
             ))}
           </div>
@@ -120,7 +83,7 @@ export function HomeHero() {
             {copy.body}
           </p>
 
-          <div style={{ display: "flex", gap: 10 }}>
+          <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
             <Link href="/contact" style={{
               display: "inline-flex", alignItems: "center", gap: 6,
               padding: "11px 22px", borderRadius: 7,
@@ -130,7 +93,7 @@ export function HomeHero() {
             }}>
               {copy.cta1}
             </Link>
-            <Link href="/pricing" style={{
+            <Link href="/contact" style={{
               display: "inline-flex", alignItems: "center", gap: 6,
               padding: "11px 22px", borderRadius: 7,
               border: "1px solid var(--ark-border-strong)",
@@ -148,14 +111,7 @@ export function HomeHero() {
           animate={{ opacity: 1, scale: 1, y: 0 }}
           transition={{ duration: 1.0, ease: [0.25, 0.46, 0.45, 0.94], delay: 0.1 }}
           className="max-md:hidden"
-          style={{
-            flex: "1 1 auto",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "flex-end",
-            paddingBottom: 0,
-            minWidth: 0,
-          }}
+          style={{ flex: "1 1 auto", display: "flex", justifyContent: "center", alignItems: "flex-end", paddingBottom: 0, minWidth: 0 }}
         >
           <Image
             src="/logo-3d.png"
