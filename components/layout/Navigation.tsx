@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { useApp } from "@/components/providers/ThemeLanguageProvider";
 import { Sun, Moon, Menu, X, ChevronDown } from "lucide-react";
 
@@ -70,13 +71,15 @@ export function Navigation() {
           }}
         >
           {/* Logo */}
-          <Link href="/" style={{ textDecoration: "none", display: "flex", alignItems: "center", gap: "0.5rem", flex: 1 }}>
-            <span style={{
-              width: 28, height: 28, borderRadius: 8,
-              background: "linear-gradient(135deg, #6366f1, #4338ca)",
-              display: "flex", alignItems: "center", justifyContent: "center",
-              color: "#fff", fontFamily: "Nacelle, sans-serif", fontWeight: 600, fontSize: 14,
-            }}>A</span>
+          <Link href="/" style={{ textDecoration: "none", display: "flex", alignItems: "center", gap: "0.375rem", flex: 1 }}>
+            <Image
+              src="/logo-3d.png"
+              alt="ARKANA"
+              width={32}
+              height={32}
+              style={{ width: 32, height: 32, objectFit: "contain", display: "block" }}
+              priority
+            />
             <span style={{ fontFamily: "Nacelle, sans-serif", fontWeight: 600, fontSize: 15, color: "var(--ark-text)", letterSpacing: "-0.02em" }}>
               ARKANA
             </span>
