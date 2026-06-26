@@ -1,216 +1,246 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X } from "lucide-react";
+import { useApp } from "@/components/providers/ThemeLanguageProvider";
+import { Sun, Moon, Menu, X, ChevronDown } from "lucide-react";
 
-const links = [
-  { href: "/services", label: "Услуги" },
-  { href: "/#solutions", label: "Решения" },
-  { href: "/#cases", label: "Кейсы" },
-  { href: "/about", label: "О нас" },
+const SERVICE_LINKS = [
+  { label: "IT-аутсорсинг", href: "/services/it-outsourcing" },
+  { label: "IT Service Management", href: "/services/itsm" },
+  { label: "Инфраструктура", href: "/services/infrastructure" },
+  { label: "Кибербезопасность", href: "/services/managed-it" },
+  { label: "Все услуги", href: "/services" },
 ];
 
+const NAV_LABELS: Record<string, Record<string, string>> = {
+  ru: { services: "Услуги", pricing: "Тарифы", goarkan: "GoARKAN", cases: "Кейсы", blog: "Блог", contact: "Контакты", cta: "Запросить аудит" },
+  en: { services: "Services", pricing: "Pricing", goarkan: "GoARKAN", cases: "Cases", blog: "Blog", contact: "Contact", cta: "Request audit" },
+  uz: { services: "Xizmatlar", pricing: "Narxlar", goarkan: "GoARKAN", cases: "Loyihalar", blog: "Blog", contact: "Aloqa", cta: "Audit so'rash" },
+};
+
 export function Navigation() {
+  const { theme, toggleTheme, lang, setLang } = useApp();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const pathname = usePathname();
+  const [servicesOpen, setServicesOpen] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 60);
+    const onScroll = () => setScrolled(window.scrollY > 24);
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  useEffect(() => { setMobileOpen(false); }, [pathname]);
+  const isDark = theme === "dark";
+  const labels = NAV_LABELS[lang] ?? NAV_LABELS.ru;
 
   return (
-    <>
-      <header
-        style={{
-          position: "fixed",
-          top: 0,
-          left: 0,
-          right: 0,
-          zIndex: 50,
-          transition: "all 0.3s ease",
-          background: scrolled ? "rgba(255,255,255,0.97)" : "rgba(255,255,255,0.92)",
-          backdropFilter: "blur(16px)",
-          WebkitBackdropFilter: "blur(16px)",
-          borderBottom: scrolled ? "1px solid rgba(11,21,64,0.09)" : "1px solid rgba(11,21,64,0.06)",
-          boxShadow: scrolled ? "0 2px 20px rgba(11,21,64,0.08)" : "none",
-        }}
-      >
+    <header className="relative z-30 mt-4 w-full px-4 sm:px-6">
+      <div className="mx-auto max-w-6xl">
+        {/* Pill nav */}
         <div
+          className="relative flex h-14 items-center justify-between gap-3 rounded-2xl px-4 transition-all duration-300"
           style={{
-            maxWidth: "75rem",
-            margin: "0 auto",
-            padding: "0 1.5rem",
-            height: 64,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
+            background: scrolled
+              ? isDark ? "rgba(3,7,18,0.94)" : "rgba(255,255,255,0.94)"
+              : isDark ? "rgba(3,7,18,0.65)" : "rgba(255,255,255,0.65)",
+            backdropFilter: "blur(16px)",
+            WebkitBackdropFilter: "blur(16px)",
+            border: `1px solid ${isDark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.08)"}`,
+            boxShadow: scrolled
+              ? isDark ? "0 8px 40px rgba(0,0,0,0.5)" : "0 8px 40px rgba(0,0,0,0.08)"
+              : "none",
           }}
         >
           {/* Logo */}
-          <Link
-            href="/"
-            style={{
-              fontSize: 18,
-              fontWeight: 900,
-              letterSpacing: "0.06em",
-              color: "#0B1540",
-              textDecoration: "none",
-            }}
-          >
-            ARKANA
+          <Link href="/" style={{ textDecoration: "none", display: "flex", alignItems: "center", gap: "0.5rem", flex: 1 }}>
+            <span
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                width: 28,
+                height: 28,
+                borderRadius: 8,
+                background: "linear-gradient(135deg, #6366f1, #4338ca)",
+                color: "#fff",
+                fontFamily: "Nacelle, sans-serif",
+                fontWeight: 600,
+                fontSize: 14,
+                flexShrink: 0,
+              }}
+            >
+              A
+            </span>
+            <span style={{ fontFamily: "Nacelle, sans-serif", fontWeight: 600, fontSize: 15, color: "var(--ark-text)", letterSpacing: "-0.02em" }}>
+              ARKANA
+            </span>
           </Link>
 
           {/* Desktop nav */}
-          <nav className="hidden md:flex items-center gap-8">
-            {links.map(({ href, label }) => (
-              <Link
-                key={href}
-                href={href}
+          <nav className="hidden md:flex items-center gap-0.5">
+            {/* Services dropdown */}
+            <div
+              style={{ position: "relative" }}
+              onMouseEnter={() => setServicesOpen(true)}
+              onMouseLeave={() => setServicesOpen(false)}
+            >
+              <button
                 style={{
-                  fontSize: 14,
-                  fontWeight: 500,
-                  color: pathname === href ? "#1A6BFF" : "rgba(11,21,64,0.70)",
-                  textDecoration: "none",
+                  display: "flex", alignItems: "center", gap: 4,
+                  padding: "6px 12px", borderRadius: 8, fontSize: 14,
+                  color: "var(--ark-text-muted)", background: "transparent", border: "none", cursor: "pointer",
                   transition: "color 0.15s",
                 }}
+                onMouseEnter={(e) => (e.currentTarget.style.color = "var(--ark-text)")}
+                onMouseLeave={(e) => (e.currentTarget.style.color = "var(--ark-text-muted)")}
               >
-                {label}
+                {labels.services}
+                <ChevronDown size={12} style={{ transition: "transform 0.2s", transform: servicesOpen ? "rotate(180deg)" : "none" }} />
+              </button>
+              {servicesOpen && (
+                <div style={{
+                  position: "absolute", left: 0, top: "calc(100% + 4px)",
+                  minWidth: 220, borderRadius: 12, padding: "6px",
+                  background: isDark ? "#0d1117" : "#fff",
+                  border: `1px solid ${isDark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.08)"}`,
+                  boxShadow: "0 16px 48px rgba(0,0,0,0.4)",
+                  zIndex: 100,
+                }}>
+                  {SERVICE_LINKS.map((s) => (
+                    <Link key={s.href} href={s.href} style={{
+                      display: "block", padding: "8px 12px", borderRadius: 8, fontSize: 13.5,
+                      color: "var(--ark-text-muted)", textDecoration: "none", transition: "all 0.15s",
+                    }}
+                    onMouseEnter={(e) => { e.currentTarget.style.color = "var(--ark-text)"; e.currentTarget.style.background = isDark ? "rgba(255,255,255,0.04)" : "rgba(0,0,0,0.03)"; }}
+                    onMouseLeave={(e) => { e.currentTarget.style.color = "var(--ark-text-muted)"; e.currentTarget.style.background = "transparent"; }}
+                    >
+                      {s.label}
+                    </Link>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {([["pricing", "/pricing"], ["goarkan", "/goarkan"], ["cases", "/cases"], ["blog", "/blog"], ["contact", "/contact"]] as const).map(([key, href]) => (
+              <Link key={key} href={href} style={{
+                padding: "6px 12px", borderRadius: 8, fontSize: 14,
+                color: "var(--ark-text-muted)", textDecoration: "none", transition: "color 0.15s",
+              }}
+              onMouseEnter={(e) => (e.currentTarget.style.color = "var(--ark-text)")}
+              onMouseLeave={(e) => (e.currentTarget.style.color = "var(--ark-text-muted)")}
+              >
+                {labels[key]}
               </Link>
             ))}
           </nav>
 
-          {/* Desktop CTA */}
-          <div className="hidden md:flex items-center">
-            <Link
-              href="/contact"
+          {/* Right side */}
+          <div style={{ display: "flex", alignItems: "center", gap: 6, flex: 1, justifyContent: "flex-end" }}>
+            {/* Lang switcher */}
+            <div className="hidden md:flex" style={{ gap: "2px" }}>
+              {(["ru", "en", "uz"] as const).map((l) => (
+                <button key={l} onClick={() => setLang(l)} style={{
+                  padding: "4px 8px", borderRadius: 6, fontSize: 11, fontWeight: 700, textTransform: "uppercase",
+                  color: lang === l ? "#fff" : "var(--ark-text-muted)",
+                  background: lang === l ? "var(--ark-accent)" : "transparent",
+                  border: "none", cursor: "pointer", transition: "all 0.15s",
+                }}>
+                  {l}
+                </button>
+              ))}
+            </div>
+
+            {/* Theme toggle */}
+            <button onClick={toggleTheme} style={{
+              width: 32, height: 32, borderRadius: 8, display: "flex", alignItems: "center", justifyContent: "center",
+              color: "var(--ark-text-muted)", background: "var(--ark-surface)",
+              border: `1px solid ${isDark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.08)"}`,
+              cursor: "pointer", transition: "all 0.15s",
+            }} aria-label="Toggle theme">
+              {isDark ? <Sun size={14} /> : <Moon size={14} />}
+            </button>
+
+            {/* CTA */}
+            <Link href="/contact" className="hidden md:inline-flex btn-sm" style={{
+              background: "linear-gradient(to bottom, #6366f1, #4f46e5)",
+              backgroundSize: "100% 100%",
+              backgroundPosition: "bottom",
+              color: "white",
+              boxShadow: "inset 0 1px 0 rgba(255,255,255,0.16)",
+              transition: "background-size 0.2s",
+            }}
+            onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.backgroundSize = "100% 150%")}
+            onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.backgroundSize = "100% 100%")}
+            >
+              {labels.cta}
+            </Link>
+
+            {/* Mobile hamburger */}
+            <button
+              className="md:hidden"
+              onClick={() => setMobileOpen(!mobileOpen)}
               style={{
-                display: "inline-flex",
-                alignItems: "center",
-                padding: "9px 22px",
-                borderRadius: 8,
-                fontSize: 13.5,
-                fontWeight: 600,
-                color: "#1A6BFF",
-                background: "transparent",
-                border: "1.5px solid #1A6BFF",
-                textDecoration: "none",
-                letterSpacing: "-0.01em",
-                transition: "all 0.15s",
+                width: 32, height: 32, borderRadius: 8, display: "flex", alignItems: "center", justifyContent: "center",
+                color: "var(--ark-text-muted)", background: "var(--ark-surface)",
+                border: `1px solid ${isDark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.08)"}`,
+                cursor: "pointer",
               }}
             >
-              Связаться
-            </Link>
+              {mobileOpen ? <X size={16} /> : <Menu size={16} />}
+            </button>
           </div>
-
-          {/* Mobile hamburger */}
-          <button
-            onClick={() => setMobileOpen((v) => !v)}
-            className="md:hidden p-2 rounded-lg"
-            style={{ color: "#0B1540" }}
-            aria-label="Меню"
-          >
-            {mobileOpen ? <X size={22} /> : <Menu size={22} />}
-          </button>
         </div>
-      </header>
 
-      {/* Mobile overlay */}
-      <AnimatePresence>
+        {/* Mobile menu */}
         {mobileOpen && (
-          <motion.div
-            initial={{ opacity: 0, y: -8 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -8 }}
-            transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] }}
-            style={{
-              position: "fixed",
-              inset: 0,
-              zIndex: 40,
-              background: "rgba(255,255,255,0.98)",
-              backdropFilter: "blur(20px)",
-              WebkitBackdropFilter: "blur(20px)",
-              paddingTop: 80,
-              paddingLeft: 24,
-              paddingRight: 24,
-              display: "flex",
-              flexDirection: "column",
-            }}
-          >
-            <nav className="flex flex-col gap-1 mt-4">
-              {links.map(({ href, label }, i) => (
-                <motion.div
-                  key={href}
-                  initial={{ opacity: 0, x: -16 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: i * 0.06, duration: 0.3, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] }}
-                >
-                  <Link
-                    href={href}
-                    onClick={() => setMobileOpen(false)}
-                    style={{
-                      display: "block",
-                      padding: "16px 0",
-                      fontSize: 22,
-                      fontWeight: 700,
-                      color: "#0B1540",
-                      textDecoration: "none",
-                      borderBottom: "1px solid rgba(11,21,64,0.08)",
-                    }}
-                  >
-                    {label}
-                  </Link>
-                </motion.div>
+          <div style={{
+            marginTop: 8, borderRadius: 16, padding: 16,
+            background: isDark ? "rgba(3,7,18,0.97)" : "rgba(255,255,255,0.97)",
+            backdropFilter: "blur(16px)",
+            border: `1px solid ${isDark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.08)"}`,
+            boxShadow: "0 16px 48px rgba(0,0,0,0.4)",
+          }}>
+            <nav style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+              {[
+                ["Услуги", "/services"],
+                ["Тарифы", "/pricing"],
+                ["GoARKAN", "/goarkan"],
+                ["Кейсы", "/cases"],
+                ["Блог", "/blog"],
+                ["Контакты", "/contact"],
+              ].map(([label, href]) => (
+                <Link key={href} href={href} onClick={() => setMobileOpen(false)} style={{
+                  padding: "12px 14px", borderRadius: 10, fontSize: 15, fontWeight: 500,
+                  color: "var(--ark-text)", textDecoration: "none",
+                }}>
+                  {label}
+                </Link>
               ))}
             </nav>
-
-            <motion.div
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.22, duration: 0.35, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] }}
-              className="mt-8 flex flex-col gap-3"
-            >
-              <Link
-                href="/contact"
-                onClick={() => setMobileOpen(false)}
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  padding: "16px 0",
-                  borderRadius: 14,
-                  fontSize: 15,
-                  fontWeight: 700,
-                  color: "#FFFFFF",
-                  background: "#1A6BFF",
-                  textDecoration: "none",
-                  boxShadow: "0 6px 24px rgba(26,107,255,0.35)",
-                }}
-              >
-                Связаться
-              </Link>
-              <div
-                className="mt-4 pt-4 flex flex-col gap-2"
-                style={{ borderTop: "1px solid rgba(11,21,64,0.08)" }}
-              >
-                <a href="tel:+998" style={{ fontSize: 14, color: "rgba(11,21,64,0.45)", fontWeight: 500, textDecoration: "none" }}>
-                  +998 — — — — — —
-                </a>
-                <a href="mailto:info@arkana.uz" style={{ fontSize: 14, color: "rgba(11,21,64,0.45)", fontWeight: 500, textDecoration: "none" }}>
-                  info@arkana.uz
-                </a>
+            <div style={{ marginTop: 16, paddingTop: 16, borderTop: `1px solid ${isDark ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.06)"}`, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+              <div style={{ display: "flex", gap: 4 }}>
+                {(["ru", "en", "uz"] as const).map((l) => (
+                  <button key={l} onClick={() => setLang(l)} style={{
+                    padding: "6px 10px", borderRadius: 6, fontSize: 11, fontWeight: 700, textTransform: "uppercase",
+                    color: lang === l ? "#fff" : "var(--ark-text-muted)",
+                    background: lang === l ? "var(--ark-accent)" : "var(--ark-surface)",
+                    border: "none", cursor: "pointer",
+                  }}>
+                    {l}
+                  </button>
+                ))}
               </div>
-            </motion.div>
-          </motion.div>
+              <Link href="/contact" onClick={() => setMobileOpen(false)} style={{
+                padding: "8px 16px", borderRadius: 8, fontSize: 13, fontWeight: 600,
+                background: "var(--ark-accent)", color: "white", textDecoration: "none",
+              }}>
+                Аудит →
+              </Link>
+            </div>
+          </div>
         )}
-      </AnimatePresence>
-    </>
+      </div>
+    </header>
   );
 }

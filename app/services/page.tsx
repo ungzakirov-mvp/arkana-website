@@ -4,9 +4,9 @@ import { ArrowRight, Headset, BarChart3, Server, Cog } from "lucide-react";
 import { ContactCTA } from "@/components/sections/ContactCTA";
 
 export const metadata: Metadata = {
-  title: "IT Services — ARKANA",
+  title: "Услуги IT-аутсорсинга | ARKANA — Ташкент",
   description:
-    "Explore ARKANA's full range of IT services: IT outsourcing, managed IT, infrastructure support, and IT service management for businesses in Uzbekistan.",
+    "Полный спектр IT-услуг для бизнеса в Узбекистане: IT-аутсорсинг, управляемый IT-сервис, поддержка инфраструктуры и управление IT-сервисами через GoARKAN.",
   alternates: { canonical: "/services" },
 };
 
@@ -14,34 +14,34 @@ const services = [
   {
     href: "/services/it-outsourcing",
     icon: Headset,
-    title: "IT Outsourcing",
-    tagline: "A complete IT team, without the hiring.",
-    body: "Named engineers assigned to your account. L1–L3 helpdesk, device management, procurement, vendor management, and strategic IT planning — all under one roof.",
-    highlights: ["Named support team", "L1/L2/L3 coverage", "Vendor management", "IT strategy"],
+    title: "IT-аутсорсинг",
+    tagline: "Полная IT-команда без найма сотрудников.",
+    body: "Именные инженеры, закреплённые за вашим аккаунтом. Поддержка L1–L3, управление устройствами, закупки, работа с поставщиками и стратегическое IT-планирование — всё под одной крышей.",
+    highlights: ["Именная команда", "Покрытие L1/L2/L3", "Управление поставщиками", "IT-стратегия"],
   },
   {
     href: "/services/managed-it",
     icon: BarChart3,
-    title: "Managed IT Services",
-    tagline: "Defined processes for your entire environment.",
-    body: "Monitoring with alert thresholds, monthly patch schedule, quarterly recovery testing, and regular business reviews. Every action reported through GOARKAN.",
-    highlights: ["Defined monitoring", "Patch schedule", "Security baseline", "Monthly reports"],
+    title: "Кибербезопасность",
+    tagline: "Контроль безопасности, который ваш бизнес сможет поддерживать.",
+    body: "Защита конечных точек, управление доступом, ежеквартальное тестирование резервного копирования, обучение сотрудников и реагирование на инциденты. Всё настроено и поддерживается по расписанию.",
+    highlights: ["Защита конечных точек", "Управление доступом", "Тестирование резервных копий", "Ежемесячные отчёты"],
   },
   {
     href: "/services/infrastructure",
     icon: Server,
-    title: "Infrastructure Support",
-    tagline: "Infrastructure that runs when you need it.",
-    body: "Server and network management, cloud environment management, firewall configuration, and quarterly recovery testing. The technical foundation documented and maintained.",
-    highlights: ["Server management", "Cloud management", "Network security", "Recovery testing"],
+    title: "Инфраструктура",
+    tagline: "Инфраструктура, работающая тогда, когда это нужно.",
+    body: "Управление серверами и сетью, облачными средами, межсетевыми экранами и ежеквартальное тестирование восстановления. Техническая основа задокументирована и поддерживается.",
+    highlights: ["Управление серверами", "Облачные среды", "Сетевая безопасность", "Тестирование восстановления"],
   },
   {
     href: "/services/itsm",
     icon: Cog,
     title: "IT Service Management",
-    tagline: "Process-driven IT operations that scale.",
-    body: "Request tracking, asset inventory, incident management, and change management — all through GOARKAN. Monthly performance reports from the system that logs everything.",
-    highlights: ["GOARKAN platform", "Incident management", "Monthly reporting", "Change control"],
+    tagline: "Процессный IT-менеджмент, который масштабируется.",
+    body: "Учёт заявок, инвентаризация активов, управление инцидентами и изменениями — всё через GoARKAN. Ежемесячные отчёты о производительности из системы, фиксирующей всё.",
+    highlights: ["Платформа GoARKAN", "Управление инцидентами", "Ежемесячная отчётность", "Контроль изменений"],
   },
 ];
 
@@ -49,43 +49,40 @@ export default function ServicesPage() {
   return (
     <>
       {/* Hero */}
-      <section className="pt-36 pb-20 bg-gradient-hero">
+      <section className="pt-36 pb-20" style={{ background: "var(--ark-bg)" }}>
         <div className="max-w-[75rem] mx-auto px-6">
-          <span className="eyebrow mb-6">Our Services</span>
+          <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--ark-text-hint)", marginBottom: 24 }}>Наши услуги</div>
           <h1
             className="text-[48px] sm:text-[60px] font-[800] leading-[1.07] tracking-[-0.02em] mt-4 mb-6 max-w-[640px]"
-            style={{ color: "#FFFFFF" }}
+            style={{ color: "var(--ark-text-heading)" }}
           >
-            Everything IT.
+            Весь IT-сервис.
             <br />
-            <span
-              style={{
-                background: "linear-gradient(135deg, #2563FF 0%, #7B5FFF 100%)",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-                backgroundClip: "text",
-              }}
-            >
-              One engagement.
+            <span style={{ color: "var(--ark-accent)" }}>
+              Один договор.
             </span>
           </h1>
-          <p className="text-[18px] leading-[1.65] max-w-[540px] mb-10" style={{ color: "rgba(255,255,255,0.55)" }}>
-            From your first helpdesk ticket to enterprise infrastructure
-            strategy — ARKANA handles it all under one roof, one contract, one
-            relationship.
+          <p className="text-[18px] leading-[1.65] max-w-[540px] mb-10" style={{ color: "var(--ark-text-sub)" }}>
+            От первой заявки в Service Desk до стратегии корпоративной инфраструктуры —
+            ARKANA берёт всё на себя по одному договору и одному контакту.
           </p>
           <Link
             href="/contact"
-            className="inline-flex items-center gap-2 px-7 py-3.5 rounded-[12px] text-[14px] font-[700] text-white bg-gradient-brand shadow-accent hover:shadow-accent-hover hover:-translate-y-px transition-all duration-150"
+            style={{
+              display: "inline-flex", alignItems: "center", gap: 8,
+              padding: "12px 28px", borderRadius: 12,
+              background: "var(--ark-accent)", color: "#ffffff",
+              fontSize: 14, fontWeight: 700, textDecoration: "none",
+            }}
           >
-            Start with a free assessment
+            Начать с бесплатного аудита
             <ArrowRight size={15} />
           </Link>
         </div>
       </section>
 
       {/* Service cards */}
-      <section className="section-y" style={{ background: "#0A1021" }}>
+      <section className="py-20 lg:py-28" style={{ background: "var(--ark-bg-2)", borderTop: "1px solid var(--ark-divider)" }}>
         <div className="max-w-[75rem] mx-auto px-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {services.map(({ href, icon: Icon, title, tagline, body, highlights }) => (
@@ -93,23 +90,23 @@ export default function ServicesPage() {
                 key={href}
                 className="group rounded-[22px] p-8 hover:-translate-y-1 transition-all duration-200"
                 style={{
-                  background: "rgba(255,255,255,0.04)",
-                  border: "1px solid rgba(255,255,255,0.09)",
+                  background: "var(--ark-card)",
+                  border: "1px solid var(--ark-card-border)",
                 }}
               >
                 <div
                   className="w-12 h-12 rounded-[14px] flex items-center justify-center mb-6"
-                  style={{ background: "rgba(37,99,255,0.15)", border: "1px solid rgba(37,99,255,0.20)" }}
+                  style={{ background: "var(--ark-accent-glow)", border: "1px solid var(--ark-border)" }}
                 >
-                  <Icon size={22} style={{ color: "#4A9EFF" }} />
+                  <Icon size={22} style={{ color: "var(--ark-accent-2)" }} />
                 </div>
-                <h2 className="text-[22px] font-[800] mb-2" style={{ color: "#FFFFFF" }}>
+                <h2 className="text-[22px] font-[800] mb-2" style={{ color: "var(--ark-text-heading)" }}>
                   {title}
                 </h2>
-                <p className="text-[14px] font-[600] mb-4" style={{ color: "#4A9EFF" }}>
+                <p className="text-[14px] font-[600] mb-4" style={{ color: "var(--ark-accent-2)" }}>
                   {tagline}
                 </p>
-                <p className="text-[14.5px] leading-[1.65] mb-6" style={{ color: "rgba(255,255,255,0.50)" }}>
+                <p className="text-[14.5px] leading-[1.65] mb-6" style={{ color: "var(--ark-text-sub)" }}>
                   {body}
                 </p>
 
@@ -119,9 +116,9 @@ export default function ServicesPage() {
                       key={h}
                       className="px-3 py-1 rounded-full text-[12px] font-[600]"
                       style={{
-                        background: "rgba(255,255,255,0.05)",
-                        border: "1px solid rgba(255,255,255,0.09)",
-                        color: "rgba(255,255,255,0.55)",
+                        background: "var(--ark-surface)",
+                        border: "1px solid var(--ark-border)",
+                        color: "var(--ark-text-muted)",
                       }}
                     >
                       {h}
@@ -132,9 +129,9 @@ export default function ServicesPage() {
                 <Link
                   href={href}
                   className="inline-flex items-center gap-2 text-[13.5px] font-[700] group-hover:gap-3 transition-all duration-150"
-                  style={{ color: "#4A9EFF" }}
+                  style={{ color: "var(--ark-accent-2)" }}
                 >
-                  Learn more
+                  Подробнее
                   <ArrowRight size={14} />
                 </Link>
               </div>

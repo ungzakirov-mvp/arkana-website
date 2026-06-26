@@ -1,25 +1,20 @@
 import type { Metadata } from "next";
-import { ContactCTA } from "@/components/sections/ContactCTA";
+import { ContactPageSection } from "@/components/sections/ContactPageSection";
+import { getSettings } from "@/lib/cms-api";
 
 export const metadata: Metadata = {
-  title: "Free IT Assessment Tashkent | Contact ARKANA",
+  title: "Контакты — Запросить IT-аудит",
   description:
-    "Book a free 45-minute IT assessment with ARKANA's Technical Lead in Tashkent. Written summary of your IT environment delivered within five business days.",
+    "Свяжитесь с ARKANA для бесплатного IT-аудита. Ответим за 2 часа, аудит — за 5 рабочих дней. Ташкент, Узбекистан.",
   alternates: { canonical: "/contact" },
   openGraph: {
-    title: "Free IT Assessment — Contact ARKANA",
-    description:
-      "45-minute session. Written summary within five business days. No obligation. Start with a free IT assessment in Tashkent.",
+    title: "Контакты ARKANA — Бесплатный IT-аудит",
+    description: "Запросите бесплатный IT-аудит. Ответ за 2 часа, результат за 5 дней.",
     url: "/contact",
   },
 };
 
-export default function ContactPage() {
-  return (
-    <>
-      <div className="pt-24">
-        <ContactCTA />
-      </div>
-    </>
-  );
+export default async function ContactPage() {
+  const settings = await getSettings("ru");
+  return <ContactPageSection settings={settings} />;
 }

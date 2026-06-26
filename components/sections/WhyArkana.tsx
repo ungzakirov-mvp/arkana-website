@@ -1,120 +1,97 @@
 "use client";
 
-import { useRef } from "react";
-import { motion, useInView } from "framer-motion";
-import { UserCheck, ClipboardList, Eye } from "lucide-react";
+import { motion } from "framer-motion";
+import { CheckCircle2, Users, BarChart3, Zap, Lock, HeartHandshake } from "lucide-react";
 
-const EASE = [0.16, 1, 0.3, 1] as [number, number, number, number];
+const EASE = [0.16, 1, 0.3, 1] as const;
 
-const cards = [
+const FEATURES = [
   {
-    icon: UserCheck,
-    title: "Именная ответственность",
-    body: "Технический руководитель и инженеры поддержки закреплены за вашим аккаунтом — не очередь заявок. Один человек отвечает за всё.",
+    icon: CheckCircle2,
+    title: "Ответственность за результат",
+    desc: "Мы не сдаём инженеров. Мы управляем IT-функцией целиком — с KPI, SLA и ежемесячными отчётами.",
   },
   {
-    icon: ClipboardList,
-    title: "Задокументированные процессы",
-    body: "Ежемесячный план патчинга, ежеквартальное тестирование восстановления, реакция на критические ситуации за 48 часов. Каждый процесс описан, а не подразумевается.",
+    icon: Users,
+    title: "Именные инженеры",
+    desc: "За каждым клиентом закреплена команда. Вы знаете имена людей, которые решают ваши задачи.",
   },
   {
-    icon: Eye,
-    title: "Полная прозрачность",
-    body: "GOARKAN даёт вам видимость каждой заявки, актива и действия в режиме реального времени. Ежемесячные отчёты из системы — а не от менеджера аккаунта.",
+    icon: BarChart3,
+    title: "Прозрачная аналитика",
+    desc: "Личный кабинет GoARKAN — все заявки, активы, SLA и отчёты в реальном времени. Никакого чёрного ящика.",
+  },
+  {
+    icon: Zap,
+    title: "Предсказуемая стоимость",
+    desc: "Фиксированный ежемесячный платёж. Без скрытых расходов, без «согласования работ по часам».",
+  },
+  {
+    icon: Lock,
+    title: "Безопасность по умолчанию",
+    desc: "Мониторинг угроз, резервные копии, контроль доступа и реагирование на инциденты — включены в каждый тариф.",
+  },
+  {
+    icon: HeartHandshake,
+    title: "Партнёр, не подрядчик",
+    desc: "Мы растём вместе с вашим бизнесом. Рекомендуем оптимальные решения, а не продаём лишнее.",
   },
 ];
 
 export function WhyArkana() {
-  const ref = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-80px" });
-
   return (
-    <section style={{ background: "#FFFFFF", padding: "96px 0" }}>
-      <div style={{ maxWidth: "75rem", margin: "0 auto", padding: "0 1.5rem" }}>
+    <section style={{
+      padding: "96px 0",
+      borderTop: "1px solid transparent",
+      borderImage: "linear-gradient(to right, transparent, rgba(148,163,184,0.15), transparent) 1",
+    }}>
+      <div style={{ maxWidth: "72rem", margin: "0 auto", padding: "0 1.5rem" }}>
         {/* Header */}
         <motion.div
-          ref={ref}
-          initial={{ opacity: 0, y: 24 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.7, ease: EASE }}
-          style={{ maxWidth: 560, marginBottom: 56 }}
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 0.6, ease: EASE }}
+          style={{ maxWidth: 640, marginBottom: 64 }}
         >
-          <span className="eyebrow" style={{ marginBottom: 20, display: "inline-flex" }}>
-            Почему ARKANA
-          </span>
-          <h2
-            style={{
-              fontSize: "clamp(32px, 3.2vw, 46px)",
-              fontWeight: 800,
-              lineHeight: 1.1,
-              letterSpacing: "-0.03em",
-              color: "#0B1540",
-              marginTop: 16,
-              marginBottom: 20,
-            }}
-          >
-            Не ИТ-поддержка.
+          <div className="ark-badge" style={{ marginBottom: 20 }}>
+            <span style={{ fontSize: 12, fontWeight: 500, color: "var(--ark-accent-2)" }}>
+              Почему выбирают нас
+            </span>
+          </div>
+          <h2 style={{ fontFamily: "Nacelle, sans-serif", fontWeight: 600, fontSize: "clamp(1.75rem, 3vw, 2.75rem)", letterSpacing: "-0.04em", lineHeight: 1.1, marginBottom: 16 }}>
+            <span className="heading-gradient">IT должно ускорять бизнес,</span>
             <br />
-            ИТ-партнёр.
+            <span style={{ color: "var(--ark-text)" }}>а не создавать проблемы</span>
           </h2>
-          <p style={{ fontSize: 17, color: "rgba(11,21,64,0.55)", lineHeight: 1.65 }}>
-            Большинство провайдеров реагируют на проблемы. Мы их предотвращаем — с именными инженерами, прозрачными процессами и инструментами, которые держат вас в курсе на каждом шаге.
+          <p style={{ fontSize: 16, color: "var(--ark-text-muted)", lineHeight: 1.65 }}>
+            Большинство IT-аутсорсеров продают инженеров по часам. Мы управляем IT-функцией
+            и берём ответственность за то, что всё работает.
           </p>
         </motion.div>
 
-        {/* Cards */}
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
-            gap: 20,
-          }}
-        >
-          {cards.map(({ icon: Icon, title, body }, i) => (
-            <motion.div
-              key={title}
-              initial={{ opacity: 0, y: 24 }}
-              animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ delay: i * 0.1, duration: 0.7, ease: EASE }}
-              style={{
-                background: "#FFFFFF",
-                border: "1px solid rgba(11,21,64,0.08)",
-                borderRadius: 18,
-                padding: "28px 28px 26px",
-                boxShadow: "0 2px 12px rgba(11,21,64,0.05)",
-              }}
+        {/* Features grid */}
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "48px 56px" }} className="max-md:grid-cols-1 max-lg:grid-cols-2">
+          {FEATURES.map((f, i) => (
+            <motion.article
+              key={f.title}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-60px" }}
+              transition={{ duration: 0.5, ease: EASE, delay: i * 0.06 }}
             >
-              <div
-                style={{
-                  width: 44,
-                  height: 44,
-                  background: "rgba(26,107,255,0.08)",
-                  border: "1px solid rgba(26,107,255,0.16)",
-                  borderRadius: 12,
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  marginBottom: 20,
-                }}
-              >
-                <Icon size={20} style={{ color: "#1A6BFF" }} />
-              </div>
-              <h3
-                style={{
-                  fontSize: 16,
-                  fontWeight: 700,
-                  color: "#0B1540",
-                  marginBottom: 10,
-                  lineHeight: 1.3,
-                  letterSpacing: "-0.02em",
-                }}
-              >
-                {title}
+              <f.icon
+                size={22}
+                style={{ color: "var(--ark-accent-2)", marginBottom: 14 }}
+                strokeWidth={1.5}
+              />
+              <h3 style={{ fontFamily: "Nacelle, sans-serif", fontSize: 15, fontWeight: 600, color: "var(--ark-text)", marginBottom: 8 }}>
+                {f.title}
               </h3>
-              <p style={{ fontSize: 14, color: "rgba(11,21,64,0.55)", lineHeight: 1.65 }}>
-                {body}
+              <p style={{ fontSize: 14, color: "var(--ark-text-muted)", lineHeight: 1.65 }}>
+                {f.desc}
               </p>
-            </motion.div>
+            </motion.article>
           ))}
         </div>
       </div>

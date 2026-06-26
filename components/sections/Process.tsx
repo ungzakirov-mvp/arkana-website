@@ -1,174 +1,107 @@
 "use client";
 
-import { useRef } from "react";
-import { motion, useInView } from "framer-motion";
-import Link from "next/link";
+import { motion } from "framer-motion";
 
-const EASE = [0.16, 1, 0.3, 1] as [number, number, number, number];
+const EASE = [0.16, 1, 0.3, 1] as const;
 
-const steps = [
+const STEPS = [
   {
     num: "01",
-    title: "Диагностика",
-    when: "Неделя 1",
-    body: "Мы аудируем вашу ИТ-среду: инфраструктуру, команду, инструменты и болевые точки. Вам не нужно ничего готовить.",
+    title: "IT-аудит за 5 дней",
+    desc: "Инвентаризация оборудования, анализ инфраструктуры, оценка рисков. Бесплатно.",
   },
   {
     num: "02",
-    title: "Стратегия",
-    when: "Недели 1–2",
-    body: "Проектируем ваш ИТ-план. Услуги, целевые показатели реагирования, инструменты и приоритеты — в прямой привязке к целям бизнеса.",
+    title: "Подбор тарифа",
+    desc: "Предлагаем оптимальный пакет под размер компании, задачи и бюджет.",
   },
   {
     num: "03",
-    title: "Онбординг",
-    when: "Недели 2–4",
-    body: "Плавная передача. Мы настраиваем системы, онбордим вашу команду и берём на себя операции. Бизнес не останавливается.",
+    title: "Договор и SLA",
+    desc: "Фиксируем ответственность, время реакции и гарантии результата в договоре.",
   },
   {
     num: "04",
-    title: "Операции",
-    when: "Постоянно",
-    body: "Задокументированный мониторинг, быстрое реагирование и именные инженеры, знающие вашу среду. Полная поддержка по расписанию.",
-  },
-  {
-    num: "05",
-    title: "Рост",
-    when: "Ежеквартально",
-    body: "Бизнес-обзоры, отчёты GOARKAN и ИТ-планирование, которое не отстаёт от вашего роста.",
+    title: "Запуск за 1 неделю",
+    desc: "Команда подключается, настраивает мониторинг и берёт инфраструктуру под контроль.",
   },
 ];
 
 export function Process() {
-  const ref = useRef<HTMLDivElement>(null);
-  const headerRef = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-80px" });
-  const headerInView = useInView(headerRef, { once: true, margin: "-80px" });
-
   return (
-    <section style={{ background: "#FFFFFF", padding: "96px 0" }}>
-      <div style={{ maxWidth: "75rem", margin: "0 auto", padding: "0 1.5rem" }}>
+    <section style={{
+      padding: "96px 0",
+      borderTop: "1px solid transparent",
+      borderImage: "linear-gradient(to right, transparent, rgba(148,163,184,0.15), transparent) 1",
+    }}>
+      <div style={{ maxWidth: "72rem", margin: "0 auto", padding: "0 1.5rem" }}>
+        {/* Header */}
         <motion.div
-          ref={headerRef}
-          initial={{ opacity: 0, y: 24 }}
-          animate={headerInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.7, ease: EASE }}
-          style={{ maxWidth: 560, marginBottom: 56 }}
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 0.6, ease: EASE }}
+          style={{ textAlign: "center", marginBottom: 64 }}
         >
-          <span className="eyebrow" style={{ marginBottom: 20, display: "inline-flex" }}>
-            Как мы работаем
-          </span>
-          <h2
-            style={{
-              fontSize: "clamp(32px, 3.2vw, 46px)",
-              fontWeight: 800,
-              lineHeight: 1.1,
-              letterSpacing: "-0.03em",
-              color: "#0B1540",
-              marginTop: 16,
-              marginBottom: 20,
-            }}
-          >
-            От первого звонка
+          <div className="ark-badge" style={{ justifyContent: "center", marginBottom: 20 }}>
+            <span style={{ fontSize: 12, fontWeight: 500, color: "var(--ark-accent-2)" }}>
+              Как мы работаем
+            </span>
+          </div>
+          <h2 style={{ fontFamily: "Nacelle, sans-serif", fontWeight: 600, fontSize: "clamp(1.75rem, 3vw, 2.75rem)", letterSpacing: "-0.04em", lineHeight: 1.1, marginBottom: 16 }}>
+            <span className="heading-gradient">От аудита до запуска</span>
             <br />
-            до полного партнёрства.
+            <span style={{ color: "var(--ark-text)" }}>за одну неделю</span>
           </h2>
-          <p style={{ fontSize: 17, color: "rgba(11,21,64,0.55)", lineHeight: 1.65 }}>
-            Чёткий, проверенный путь без сюрпризов — структурированный прогресс с первого дня до долгосрочного партнёрства.
-          </p>
         </motion.div>
 
-        <div ref={ref}>
-          {steps.map(({ num, title, when, body }, i) => (
+        {/* Steps */}
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 1 }} className="max-md:grid-cols-1 max-lg:grid-cols-2">
+          {STEPS.map((step, i) => (
             <motion.div
-              key={num}
-              initial={{ opacity: 0, x: -20 }}
-              animate={inView ? { opacity: 1, x: 0 } : {}}
-              transition={{ delay: i * 0.09, duration: 0.6, ease: EASE }}
-              style={{ display: "flex", gap: 28 }}
+              key={step.num}
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-60px" }}
+              transition={{ duration: 0.55, ease: EASE, delay: i * 0.08 }}
+              style={{
+                padding: "32px 28px",
+                borderRadius: 0,
+                borderRight: i < STEPS.length - 1 ? "1px solid var(--ark-border)" : "none",
+                position: "relative",
+              }}
+              className="max-lg:border-r-0 max-lg:border-b"
             >
-              {/* Number + connector */}
-              <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-                <div
-                  style={{
-                    width: 44,
-                    height: 44,
-                    borderRadius: "50%",
-                    border: "1.5px solid rgba(26,107,255,0.25)",
-                    background: "rgba(26,107,255,0.06)",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    fontSize: 11,
-                    fontWeight: 800,
-                    color: "#1A6BFF",
-                    flexShrink: 0,
-                    marginTop: 2,
-                  }}
-                >
-                  {num}
-                </div>
-                {i < steps.length - 1 && (
-                  <div
-                    style={{
-                      width: 1.5,
-                      flex: 1,
-                      background: "rgba(26,107,255,0.15)",
-                      margin: "6px 0",
-                      minHeight: 40,
-                    }}
-                  />
-                )}
+              {/* Step number */}
+              <div style={{
+                fontFamily: "Nacelle, sans-serif",
+                fontSize: 48,
+                fontWeight: 600,
+                letterSpacing: "-0.04em",
+                color: "var(--ark-text-dim)",
+                marginBottom: 16,
+                lineHeight: 1,
+              }}>
+                {step.num}
               </div>
 
-              {/* Content */}
-              <div style={{ paddingBottom: 36 }}>
-                <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 8 }}>
-                  <h3 style={{ fontSize: 18, fontWeight: 800, color: "#0B1540", letterSpacing: "-0.025em" }}>
-                    {title}
-                  </h3>
-                  <span
-                    style={{
-                      fontSize: 10,
-                      fontWeight: 600,
-                      color: "#1A6BFF",
-                      background: "rgba(26,107,255,0.08)",
-                      border: "1px solid rgba(26,107,255,0.16)",
-                      padding: "2px 9px",
-                      borderRadius: 20,
-                    }}
-                  >
-                    {when}
-                  </span>
-                </div>
-                <p style={{ fontSize: 15, color: "rgba(11,21,64,0.55)", lineHeight: 1.65, maxWidth: 560 }}>
-                  {body}
-                </p>
-              </div>
+              {/* Accent line */}
+              <div style={{
+                width: 32, height: 2,
+                background: "var(--ark-accent)",
+                borderRadius: 1,
+                marginBottom: 20,
+              }} />
+
+              <h3 style={{ fontFamily: "Nacelle, sans-serif", fontSize: 16, fontWeight: 600, color: "var(--ark-text)", marginBottom: 10, lineHeight: 1.3 }}>
+                {step.title}
+              </h3>
+              <p style={{ fontSize: 13.5, color: "var(--ark-text-muted)", lineHeight: 1.65 }}>
+                {step.desc}
+              </p>
             </motion.div>
           ))}
         </div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ delay: 0.55, duration: 0.5, ease: EASE }}
-          style={{ marginTop: 4, marginLeft: 72 }}
-        >
-          <Link
-            href="/contact"
-            style={{
-              fontSize: 14,
-              fontWeight: 700,
-              color: "#1A6BFF",
-              textDecoration: "none",
-              borderBottom: "1.5px solid rgba(26,107,255,0.30)",
-              paddingBottom: 2,
-            }}
-          >
-            Начать аудит →
-          </Link>
-        </motion.div>
       </div>
     </section>
   );

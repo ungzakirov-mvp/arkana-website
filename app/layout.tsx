@@ -3,7 +3,9 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { Navigation } from "@/components/layout/Navigation";
 import { Footer } from "@/components/layout/Footer";
+import { ThemeLanguageProvider } from "@/components/providers/ThemeLanguageProvider";
 import { organizationSchema, localBusinessSchema } from "@/lib/seo";
+import { getSettings } from "@/lib/cms-api";
 
 const inter = Inter({
   subsets: ["latin", "cyrillic"],
@@ -16,19 +18,20 @@ const baseUrl = process.env.NEXT_PUBLIC_BASE_URL ?? "https://arkana.uz";
 export const metadata: Metadata = {
   metadataBase: new URL(baseUrl),
   title: {
-    default: "IT Outsourcing Tashkent | ARKANA — Managed IT Services",
+    default: "IT-аутсорсинг в Ташкенте | ARKANA — Managed IT Services",
     template: "%s | ARKANA",
   },
   description:
-    "ARKANA provides managed IT outsourcing for businesses in Tashkent, Uzbekistan. Named engineers, defined processes, monthly reporting. Get a free IT assessment.",
+    "ARKANA — полный IT-аутсорсинг для бизнеса в Ташкенте. Берём на себя всю IT-инфраструктуру, поддержку, безопасность. SLA, Service Desk, прозрачная отчётность.",
   keywords: [
-    "IT outsourcing Uzbekistan",
-    "IT outsourcing Tashkent",
-    "managed IT services Uzbekistan",
-    "IT support Uzbekistan",
-    "IT infrastructure management",
-    "IT service desk Uzbekistan",
+    "IT-аутсорсинг Ташкент",
+    "IT-аутсорсинг Узбекистан",
+    "managed IT services",
+    "IT поддержка бизнеса",
+    "обслуживание серверов",
+    "кибербезопасность",
     "ARKANA",
+    "GoARKAN",
   ],
   authors: [{ name: "ARKANA", url: baseUrl }],
   creator: "ARKANA",
@@ -38,23 +41,23 @@ export const metadata: Metadata = {
     alternateLocale: ["en_US", "uz_UZ"],
     url: baseUrl,
     siteName: "ARKANA",
-    title: "ARKANA — IT Outsourcing for Businesses in Tashkent",
+    title: "ARKANA — IT-аутсорсинг для бизнеса в Ташкенте",
     description:
-      "Named engineers. Defined processes. Monthly reporting. ARKANA manages your entire IT function — infrastructure, support, security, and vendor management.",
+      "Полная IT-инфраструктура под ключ. Фиксированная стоимость, SLA, Service Desk, ежемесячная отчётность. Ваш IT-отдел — без накладных расходов.",
     images: [
       {
         url: `${baseUrl}/og-image.png`,
         width: 1200,
         height: 630,
-        alt: "ARKANA — IT Outsourcing & Managed IT Services, Tashkent, Uzbekistan",
+        alt: "ARKANA — IT-аутсорсинг, Ташкент, Узбекистан",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "ARKANA — IT Outsourcing for Businesses in Tashkent",
+    title: "ARKANA — IT-аутсорсинг для бизнеса в Ташкенте",
     description:
-      "Named engineers. Defined processes. Monthly reporting. Your IT department — without the overhead.",
+      "Полная IT-инфраструктура под ключ. SLA, Service Desk, прозрачная отчётность.",
     images: [`${baseUrl}/og-image.png`],
   },
   robots: {
@@ -64,14 +67,21 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const siteSettings = await getSettings("ru");
+
   return (
-    <html lang="ru" className={`${inter.variable} h-full antialiased`}>
+    <html lang="ru" className={`${inter.variable}`} suppressHydrationWarning>
       <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){var t=localStorage.getItem('ark-theme')||'dark';document.documentElement.setAttribute('data-theme',t);})()`,
+          }}
+        />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
@@ -81,10 +91,21 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema) }}
         />
       </head>
-      <body className="min-h-full flex flex-col bg-[#FAFAFA] text-[#0A0A0F]">
-        <Navigation />
-        <main className="flex-1">{children}</main>
-        <Footer />
+      <body
+        className="font-inter text-base antialiased"
+        style={{
+          background: "var(--ark-bg)",
+          color: "var(--ark-text)",
+          transition: "background 0.3s, color 0.3s",
+        }}
+      >
+        <ThemeLanguageProvider>
+          <div className="flex min-h-screen flex-col overflow-hidden supports-[overflow:clip]:overflow-clip">
+            <Navigation />
+            <main className="flex-1">{children}</main>
+            <Footer settings={siteSettings} />
+          </div>
+        </ThemeLanguageProvider>
       </body>
     </html>
   );

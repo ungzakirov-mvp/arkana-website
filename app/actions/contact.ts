@@ -3,35 +3,34 @@
 import { headers } from "next/headers";
 import { z } from "zod";
 import { checkRateLimit } from "@/lib/ratelimit";
-import { sendContactEmails } from "@/lib/email";
+import { submitLead } from "@/lib/cms-api";
 
 const ContactSchema = z.object({
   name: z
     .string()
-    .min(2, "Name must be at least 2 characters")
-    .max(100, "Name is too long")
-    .regex(/^[\p{L}\s\-'.]+$/u, "Name contains invalid characters"),
+    .min(2, "Имя должно содержать не менее 2 символов")
+    .max(100, "Имя слишком длинное")
+    .regex(/^[\p{L}\s\-'.]+$/u, "Недопустимые символы в имени"),
   company: z
     .string()
-    .min(1, "Company name is required")
-    .max(200, "Company name is too long"),
+    .min(1, "Название компании обязательно")
+    .max(200, "Название компании слишком длинное"),
   email: z
     .string()
-    .email("Invalid email address")
-    .max(254, "Email is too long")
+    .email("Некорректный email")
+    .max(254, "Email слишком длинный")
     .toLowerCase(),
   phone: z
     .string()
-    .max(30, "Phone number is too long")
-    .regex(/^[\d\s+\-()\s]*$/, "Invalid phone number format")
+    .max(30, "Телефон слишком длинный")
+    .regex(/^[\d\s+\-()\s]*$/, "Некорректный формат телефона")
     .optional()
     .or(z.literal("")),
   message: z
     .string()
-    .max(2000, "Message is too long")
+    .max(2000, "Сообщение слишком длинное")
     .optional()
     .or(z.literal("")),
-  // Honeypot — must be empty; bots fill all fields
   website: z.literal("", { error: "Bot detected" }),
 });
 
@@ -46,47 +45,36 @@ export async function submitContact(
   _prev: ContactFormState,
   formData: FormData
 ): Promise<ContactFormState> {
-  // ── 1. Honeypot check ─────────────────────────────────────────────────────
+  // ── 1. Honeypot ──────────────────────────────────────────────────────────
   const honeypot = formData.get("website");
-  if (honeypot && honeypot !== "") {
-    // Silent success — bots shouldn't know they were blocked
-    return { status: "spam" };
-  }
+  if (honeypot && honeypot !== "") return { status: "spam" };
 
-  // ── 2. Rate limiting ──────────────────────────────────────────────────────
+  // ── 2. Rate limiting ─────────────────────────────────────────────────────
   const headersList = await headers();
-  // Prefer x-forwarded-for (set by Vercel); fall back to a generic key
   const ip =
     headersList.get("x-forwarded-for")?.split(",")[0].trim() ??
     headersList.get("x-real-ip") ??
     "unknown";
 
   const rateLimit = await checkRateLimit(ip);
-
   if (!rateLimit.allowed) {
-    return {
-      status: "rate_limited",
-      resetAt: rateLimit.resetAt.toISOString(),
-    };
+    return { status: "rate_limited", resetAt: rateLimit.resetAt.toISOString() };
   }
 
-  // ── 3. Input validation ───────────────────────────────────────────────────
+  // ── 3. Validation ────────────────────────────────────────────────────────
   const raw = {
-    name: formData.get("name"),
+    name:    formData.get("name"),
     company: formData.get("company"),
-    email: formData.get("email"),
-    phone: formData.get("phone"),
+    email:   formData.get("email"),
+    phone:   formData.get("phone"),
     message: formData.get("message"),
     website: honeypot ?? "",
   };
 
   const parsed = ContactSchema.safeParse(raw);
-
   if (!parsed.success) {
     const fieldErrors: Record<string, string[]> = {};
-    for (const [field, errs] of Object.entries(
-      parsed.error.flatten().fieldErrors
-    )) {
+    for (const [field, errs] of Object.entries(parsed.error.flatten().fieldErrors)) {
       if (errs) fieldErrors[field] = errs;
     }
     return { status: "error", errors: fieldErrors };
@@ -94,20 +82,21 @@ export async function submitContact(
 
   const { name, company, email, phone, message } = parsed.data;
 
-  // ── 4. Send emails ────────────────────────────────────────────────────────
-  const emailResult = await sendContactEmails({
+  // ── 4. Create lead (GoARKAN → Sales Queue, fallback to email) ────────────
+  const leadResult = await submitLead({
     name,
     company,
     email,
     phone: phone || undefined,
     message: message || undefined,
+    landing_page: headersList.get("referer") ?? undefined,
   });
 
-  if (!emailResult.ok) {
+  if (!leadResult.ok) {
     return {
       status: "error",
       errors: {},
-      message: emailResult.error ?? "Something went wrong. Please try again.",
+      message: "Не удалось отправить заявку. Попробуйте ещё раз или напишите нам напрямую.",
     };
   }
 

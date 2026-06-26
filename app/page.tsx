@@ -1,57 +1,49 @@
 import type { Metadata } from "next";
-import { Hero } from "@/components/sections/Hero";
-import { WhyArkana } from "@/components/sections/WhyArkana";
-import { Services } from "@/components/sections/Services";
-import { WhyChoose } from "@/components/sections/WhyChoose";
-import { Platform } from "@/components/sections/Platform";
-import { Showcase } from "@/components/sections/Showcase";
-import { Process } from "@/components/sections/Process";
-import { Trust } from "@/components/sections/Trust";
-import { ContactCTA } from "@/components/sections/ContactCTA";
-import {
-  itOutsourcingSchema,
-  infrastructureSchema,
-  cybersecuritySchema,
-  itsmSchema,
-} from "@/lib/seo";
+import { HomeHero } from "@/components/home/HomeHero";
+import { HomeTrust } from "@/components/home/HomeTrust";
+import { HomePlatform } from "@/components/home/HomePlatform";
+import { HomeComparison } from "@/components/home/HomeComparison";
+import { HomePricing } from "@/components/home/HomePricing";
+import { HomeCases } from "@/components/home/HomeCases";
+import { HomeCalculator } from "@/components/home/HomeCalculator";
+import { HomeCTA } from "@/components/home/HomeCTA";
+import { organizationSchema, localBusinessSchema } from "@/lib/seo";
+import { getPricing } from "@/lib/cms-api";
+
+const baseUrl = process.env.NEXT_PUBLIC_BASE_URL ?? "https://arkana.uz";
 
 export const metadata: Metadata = {
-  title: "IT Outsourcing Tashkent | ARKANA — Managed IT Services",
+  title: "IT-аутсорсинг в Ташкенте | ARKANA — Managed IT Services",
   description:
-    "ARKANA provides managed IT outsourcing for businesses in Tashkent, Uzbekistan. Named engineers, defined processes, monthly reporting. Book a free IT assessment.",
+    "ARKANA — полный IT-аутсорсинг для бизнеса в Ташкенте. Фиксированная стоимость, SLA в договоре, прозрачность через GoARKAN. Бесплатный аудит за 5 дней.",
   alternates: { canonical: "/" },
   openGraph: {
-    title: "ARKANA — IT Outsourcing for Businesses in Tashkent",
+    title: "ARKANA — IT Department as a Service",
     description:
-      "Named engineers. Defined processes. Monthly reporting. ARKANA manages your entire IT function — infrastructure, support, security, and vendor management.",
-    url: "/",
+      "ARKANA — полный IT-аутсорсинг для бизнеса в Ташкенте. Фиксированная стоимость, SLA в договоре, прозрачность через GoARKAN.",
+    url: baseUrl,
   },
 };
 
-// Homepage lists all four services so it carries all four Service schemas.
-const servicesSchema = [
-  itOutsourcingSchema,
-  infrastructureSchema,
-  cybersecuritySchema,
-  itsmSchema,
-];
+const schemas = [organizationSchema, localBusinessSchema];
 
-export default function HomePage() {
+export default async function HomePage() {
+  const plans = await getPricing("ru");
+
   return (
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(servicesSchema) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(schemas) }}
       />
-      <Hero />
-      <WhyArkana />
-      <Services />
-      <WhyChoose />
-      <Platform />
-      <Showcase />
-      <Process />
-      <Trust />
-      <ContactCTA />
+      <HomeHero />
+      <HomeTrust />
+      <HomePlatform />
+      <HomeComparison />
+      <HomePricing plans={plans.length > 0 ? plans : undefined} />
+      <HomeCases />
+      <HomeCalculator />
+      <HomeCTA />
     </>
   );
 }

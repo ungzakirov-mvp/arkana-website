@@ -1,223 +1,212 @@
 "use client";
 
-import { useRef } from "react";
-import { motion, useInView } from "framer-motion";
-import { ArrowUpRight, TicketCheck, HardDrive, FileText } from "lucide-react";
+import { useState } from "react";
+import Image from "next/image";
+import { motion, AnimatePresence } from "framer-motion";
+import { TicketCheck, HardDrive, BarChart2, Users, ArrowRight } from "lucide-react";
 
-const EASE = [0.16, 1, 0.3, 1] as [number, number, number, number];
+const EASE = [0.16, 1, 0.3, 1] as const;
 
-const features = [
+const TABS = [
   {
+    label: "Service Desk",
     icon: TicketCheck,
-    title: "Сервис-деск",
-    body: "Каждый запрос, эскалация и решение — отслеживаются и видны.",
+    img: "/portal/dashboard.jpeg",
+    desc: "Управление заявками и инцидентами в режиме реального времени. Приоритизация, SLA-контроль, эскалации — всё прозрачно для клиента.",
+    metrics: ["Среднее время решения: 2.4ч", "SLA: 99.9%", "Открытых заявок: 19"],
   },
   {
+    label: "Активы",
     icon: HardDrive,
-    title: "Активы и инвентарь",
-    body: "Точно знайте, что у вас есть, где это находится и когда истекает срок.",
+    img: "/portal/assets.jpeg",
+    desc: "Полный учёт IT-активов компании: оборудование, лицензии, подписки и контракты. Ничего не теряется.",
+    metrics: ["Активов в учёте: 147", "Истекает в этом месяце: 3", "Общая стоимость: учтена"],
   },
   {
-    icon: FileText,
-    title: "Ежемесячные отчёты",
-    body: "Структурированные ИТ-отчёты по расписанию — без необходимости напоминать.",
+    label: "Аналитика",
+    icon: BarChart2,
+    img: "/portal/tickets.jpeg",
+    desc: "Ежемесячные и квартальные отчёты по инцидентам, SLA, нагрузке команды и состоянию IT.",
+    metrics: ["Отчётов в месяц: 2", "SLA-исполнение: 99.9%", "Инцидентов: ↓18%"],
+  },
+  {
+    label: "Команда",
+    icon: Users,
+    img: "/portal/companies.jpeg",
+    desc: "Именные инженеры. Статус в реальном времени, текущие задачи и зона ответственности.",
+    metrics: ["Инженеров: 12", "Онлайн сейчас: 8", "Время ответа: <2ч"],
   },
 ];
-
-const TICKETS = [
-  { title: "VPN-доступ — А. Каримов", time: "2 ч. назад", status: "Открыта" },
-  { title: "Настройка ноутбука — новый сотрудник", time: "5 ч. назад", status: "В работе" },
-  { title: "Миграция почты — Финансы", time: "Вчера", status: "Решена" },
-  { title: "Обновление правил фаервола", time: "2 дня назад", status: "Решена" },
-];
-
-const STATUS: Record<string, { color: string; bg: string }> = {
-  "Открыта":  { color: "#1A6BFF", bg: "rgba(26,107,255,0.12)" },
-  "В работе": { color: "rgba(11,21,64,0.55)", bg: "rgba(11,21,64,0.06)" },
-  "Решена":   { color: "rgba(11,21,64,0.30)", bg: "rgba(11,21,64,0.04)" },
-};
 
 export function Platform() {
-  const ref = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-80px" });
+  const [active, setActive] = useState(0);
 
   return (
-    <section style={{ background: "#F2F6FF", padding: "96px 0" }} ref={ref}>
-      <div style={{ maxWidth: "75rem", margin: "0 auto", padding: "0 1.5rem" }}>
-        <div
-          style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 64, alignItems: "center" }}
-          className="max-lg:grid-cols-1"
+    <section style={{
+      padding: "96px 0",
+      background: "var(--ark-bg-2)",
+      borderTop: "1px solid transparent",
+      borderImage: "linear-gradient(to right, transparent, rgba(148,163,184,0.15), transparent) 1",
+    }}>
+      <div style={{ maxWidth: "72rem", margin: "0 auto", padding: "0 1.5rem" }}>
+        {/* Header */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 0.6, ease: EASE }}
+          style={{ textAlign: "center", marginBottom: 48 }}
         >
-          {/* Left: text */}
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.8, ease: EASE }}
-          >
-            <span className="eyebrow" style={{ marginBottom: 20, display: "inline-flex" }}>
-              Платформа
+          <div className="ark-badge" style={{ justifyContent: "center", marginBottom: 20 }}>
+            <span style={{ fontSize: 12, fontWeight: 500, color: "var(--ark-accent-2)" }}>
+              Платформа GoARKAN
             </span>
-            <h2
+          </div>
+          <h2 style={{ fontFamily: "Nacelle, sans-serif", fontWeight: 600, fontSize: "clamp(1.75rem, 3vw, 2.75rem)", letterSpacing: "-0.04em", lineHeight: 1.1, marginBottom: 16 }}>
+            <span className="heading-gradient">Каждое обращение, устройство</span>
+            <br />
+            <span style={{ color: "var(--ark-text)" }}>и показатель — под контролем</span>
+          </h2>
+          <p style={{ fontSize: 16, color: "var(--ark-text-muted)", maxWidth: 520, margin: "0 auto", lineHeight: 1.65 }}>
+            GoARKAN — наша ITSM-платформа. Клиент видит всё: заявки, активы, SLA, отчёты.
+            Никаких чёрных ящиков.
+          </p>
+        </motion.div>
+
+        {/* Tab bar */}
+        <div style={{ display: "flex", justifyContent: "center", gap: 6, marginBottom: 24, flexWrap: "wrap" }}>
+          {TABS.map(({ label, icon: Icon }, i) => (
+            <button
+              key={i}
+              onClick={() => setActive(i)}
               style={{
-                fontSize: "clamp(30px, 3.0vw, 44px)",
-                fontWeight: 800,
-                lineHeight: 1.1,
-                letterSpacing: "-0.03em",
-                color: "#0B1540",
-                marginTop: 16,
-                marginBottom: 20,
+                display: "flex", alignItems: "center", gap: 6,
+                padding: "8px 16px",
+                borderRadius: 8,
+                fontSize: 13,
+                fontWeight: 600,
+                cursor: "pointer",
+                transition: "all 0.2s",
+                border: "1px solid",
+                borderColor: active === i ? "var(--ark-accent)" : "var(--ark-border)",
+                background: active === i ? "var(--ark-accent)" : "var(--ark-bg)",
+                color: active === i ? "#fff" : "var(--ark-text-muted)",
               }}
             >
-              GOARKAN — ваш
-              <br />
-              ИТ-портал.
-            </h2>
-            <p style={{ fontSize: 16, color: "rgba(11,21,64,0.55)", lineHeight: 1.65, marginBottom: 36 }}>
-              Мы создали собственную платформу управления сервисами, чтобы у клиентов была полная видимость каждой заявки, актива и действия.
-            </p>
+              <Icon size={13} />
+              {label}
+            </button>
+          ))}
+        </div>
 
-            <div style={{ display: "flex", flexDirection: "column", gap: 20, marginBottom: 36 }}>
-              {features.map(({ icon: Icon, title, body }) => (
-                <div key={title} style={{ display: "flex", gap: 14, alignItems: "flex-start" }}>
-                  <div
-                    style={{
-                      width: 38,
-                      height: 38,
-                      background: "rgba(26,107,255,0.08)",
-                      border: "1px solid rgba(26,107,255,0.16)",
-                      borderRadius: 10,
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      flexShrink: 0,
-                    }}
-                  >
-                    <Icon size={17} style={{ color: "#1A6BFF" }} />
-                  </div>
-                  <div>
-                    <p style={{ fontSize: 14, fontWeight: 700, color: "#0B1540", marginBottom: 3 }}>{title}</p>
-                    <p style={{ fontSize: 13, color: "rgba(11,21,64,0.50)", lineHeight: 1.55 }}>{body}</p>
-                  </div>
-                </div>
+        {/* Browser mockup */}
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 0.6, ease: EASE }}
+          style={{
+            borderRadius: 16,
+            background: "var(--ark-card)",
+            border: "1px solid var(--ark-border)",
+            overflow: "hidden",
+            boxShadow: "0 24px 80px rgba(0,0,0,0.5)",
+          }}
+        >
+          {/* Browser chrome */}
+          <div style={{
+            padding: "10px 16px",
+            borderBottom: "1px solid var(--ark-border)",
+            display: "flex",
+            alignItems: "center",
+            gap: 10,
+            background: "rgba(0,0,0,0.15)",
+          }}>
+            <div style={{ display: "flex", gap: 5 }}>
+              {["#ef4444","#f59e0b","#22c55e"].map(c => (
+                <span key={c} style={{ width: 10, height: 10, borderRadius: "50%", background: c, display: "block" }} />
               ))}
             </div>
+            <div style={{
+              flex: 1,
+              background: "rgba(255,255,255,0.05)",
+              border: "1px solid var(--ark-border)",
+              borderRadius: 5,
+              padding: "3px 12px",
+              fontSize: 11,
+              color: "var(--ark-text-muted)",
+              display: "flex",
+              alignItems: "center",
+              gap: 5,
+              maxWidth: 280,
+            }}>
+              <span style={{ width: 5, height: 5, borderRadius: "50%", background: "#22c55e", display: "block" }} />
+              goarkan.uz · {TABS[active].label.toLowerCase()}
+            </div>
+          </div>
 
-            <a
-              href="https://goarkan.uz"
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{
-                display: "inline-flex",
-                alignItems: "center",
-                gap: 6,
-                fontSize: 14,
-                fontWeight: 700,
-                color: "#1A6BFF",
-                textDecoration: "none",
-                borderBottom: "1.5px solid rgba(26,107,255,0.30)",
-                paddingBottom: 2,
-              }}
+          {/* Screenshot */}
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={active}
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.22 }}
+              style={{ position: "relative", aspectRatio: "16/9" }}
             >
-              Посетить GOARKAN
-              <ArrowUpRight size={14} />
-            </a>
-          </motion.div>
+              <Image
+                src={TABS[active].img}
+                alt={`GoARKAN — ${TABS[active].label}`}
+                fill
+                style={{ objectFit: "cover", objectPosition: "top" }}
+                quality={90}
+              />
+            </motion.div>
+          </AnimatePresence>
 
-          {/* Right: GOARKAN mockup */}
-          <motion.div
-            initial={{ opacity: 0, y: 28, scale: 0.98 }}
-            animate={inView ? { opacity: 1, y: 0, scale: 1 } : {}}
-            transition={{ delay: 0.15, duration: 0.85, ease: EASE }}
-          >
-            <div
-              style={{
-                background: "#0B1540",
-                borderRadius: 20,
-                overflow: "hidden",
-                boxShadow: "0 24px 64px rgba(11,21,64,0.20), 0 4px 16px rgba(11,21,64,0.10)",
-              }}
-            >
-              {/* Window chrome */}
-              <div
-                style={{
-                  padding: "14px 18px",
-                  borderBottom: "1px solid rgba(255,255,255,0.08)",
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 10,
-                }}
-              >
-                <div style={{ display: "flex", gap: 6 }}>
-                  {["#FF5F57","#FFBD2E","#28CA41"].map((c) => (
-                    <div key={c} style={{ width: 10, height: 10, borderRadius: "50%", background: c }} />
-                  ))}
-                </div>
-                <span style={{ fontSize: 11, fontWeight: 600, color: "rgba(255,255,255,0.35)", marginLeft: 6 }}>
-                  GOARKAN — Сервис-деск
-                </span>
-                <div
-                  style={{
-                    marginLeft: "auto",
-                    fontSize: 9,
-                    fontWeight: 700,
-                    color: "#1A6BFF",
-                    background: "rgba(26,107,255,0.15)",
-                    border: "1px solid rgba(26,107,255,0.25)",
-                    padding: "2px 8px",
-                    borderRadius: 20,
-                    letterSpacing: "0.05em",
-                    textTransform: "uppercase",
-                  }}
-                >
-                  LIVE
-                </div>
-              </div>
-
-              {/* Tickets */}
-              <div style={{ padding: "16px 18px", display: "flex", flexDirection: "column", gap: 8 }}>
-                {TICKETS.map(({ title, time, status }) => {
-                  const s = STATUS[status] ?? STATUS["Решена"];
-                  return (
-                    <div
-                      key={title}
-                      style={{
-                        background: "rgba(255,255,255,0.04)",
-                        border: "1px solid rgba(255,255,255,0.06)",
-                        borderRadius: 10,
-                        padding: "11px 14px",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "space-between",
-                        gap: 12,
-                      }}
-                    >
-                      <div>
-                        <p style={{ fontSize: 12.5, fontWeight: 600, color: "rgba(255,255,255,0.85)", marginBottom: 2 }}>
-                          {title}
-                        </p>
-                        <p style={{ fontSize: 10.5, color: "rgba(255,255,255,0.28)" }}>{time}</p>
-                      </div>
-                      <span
-                        style={{
-                          fontSize: 10,
-                          fontWeight: 700,
-                          color: s.color,
-                          background: s.bg,
-                          padding: "3px 8px",
-                          borderRadius: 20,
-                          whiteSpace: "nowrap",
-                          flexShrink: 0,
-                        }}
-                      >
-                        {status}
-                      </span>
-                    </div>
-                  );
-                })}
+          {/* Bottom info bar */}
+          <div style={{
+            padding: "14px 20px",
+            borderTop: "1px solid var(--ark-border)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            gap: 16,
+            flexWrap: "wrap",
+          }}>
+            <div style={{ flex: 1 }}>
+              <p style={{ fontSize: 13.5, color: "var(--ark-text-muted)", lineHeight: 1.5, marginBottom: 6 }}>
+                {TABS[active].desc}
+              </p>
+              <div style={{ display: "flex", gap: 16, flexWrap: "wrap" }}>
+                {TABS[active].metrics.map((m) => (
+                  <span key={m} style={{ fontSize: 11.5, color: "var(--ark-accent-2)", fontWeight: 600 }}>
+                    {m}
+                  </span>
+                ))}
               </div>
             </div>
-          </motion.div>
-        </div>
+            <a href="/goarkan" style={{
+              display: "inline-flex", alignItems: "center", gap: 6,
+              padding: "8px 16px",
+              borderRadius: 8,
+              fontSize: 13,
+              fontWeight: 600,
+              color: "#fff",
+              background: "var(--ark-accent)",
+              textDecoration: "none",
+              flexShrink: 0,
+              transition: "opacity 0.2s",
+            }}
+            onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.opacity = "0.85")}
+            onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.opacity = "1")}
+            >
+              Подробнее
+              <ArrowRight size={12} />
+            </a>
+          </div>
+        </motion.div>
       </div>
     </section>
   );

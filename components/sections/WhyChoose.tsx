@@ -1,162 +1,109 @@
 "use client";
 
-import { useRef } from "react";
-import { motion, useInView } from "framer-motion";
-import { Users, UserCheck, FileBarChart, Settings2, Briefcase, Layers } from "lucide-react";
+import { motion } from "framer-motion";
+import Link from "next/link";
+import { ArrowRight } from "lucide-react";
 
-const EASE = [0.16, 1, 0.3, 1] as [number, number, number, number];
+const EASE = [0.16, 1, 0.3, 1] as const;
 
-const cards = [
+const TESTIMONIALS = [
   {
-    icon: Users,
-    title: "Выделенная команда",
-    body: "Свои инженеры, закреплённые за вашим аккаунтом. Они знают ваши системы, ваших людей и приоритеты — а не только номер заявки.",
+    quote: "Перешли на аутсорсинг к ARKANA год назад. IT-проблемы перестали отвлекать от бизнеса. Реакция быстрая, всё прозрачно через GoARKAN.",
+    author: "Директор, торговая компания",
+    sector: "Ритейл • 45 рабочих мест",
+    rating: 5,
   },
   {
-    icon: UserCheck,
-    title: "Персональный технический руководитель",
-    body: "Один именной инженер, ответственный за ваши ИТ. Единая точка ответственности — человек, которому можно позвонить по имени в любое время.",
+    quote: "Сократили расходы на IT на 35% по сравнению с содержанием штатного отдела. При этом качество поддержки выросло.",
+    author: "CEO, производственная компания",
+    sector: "Производство • 120 рабочих мест",
+    rating: 5,
   },
   {
-    icon: FileBarChart,
-    title: "Прозрачная отчётность",
-    body: "Регулярные отчёты об активности, производительности и состоянии ИТ — по расписанию, без необходимости их запрашивать.",
-  },
-  {
-    icon: Settings2,
-    title: "Современные процессы",
-    body: "Рабочие процессы в соответствии с ITIL, структурированное управление инцидентами и изменениями — не импровизации, а системный подход.",
-  },
-  {
-    icon: Briefcase,
-    title: "Ориентация на бизнес",
-    body: "Каждое ИТ-решение мы согласовываем с целями вашего бизнеса. ИТ должно обслуживать рост — мы это обеспечиваем.",
-  },
-  {
-    icon: Layers,
-    title: "Собственная платформа",
-    body: "Мы работаем на GOARKAN — нашей платформе — обеспечивая видимость заявок, активов и операций, недоступную большинству ИТ-партнёров.",
-    isAccent: true,
+    quote: "Особенно ценим прозрачность. В GoARKAN видим каждую заявку, каждый актив, каждый показатель SLA в реальном времени.",
+    author: "IT-директор, медцентр",
+    sector: "Медицина • 80 рабочих мест",
+    rating: 5,
   },
 ];
 
 export function WhyChoose() {
-  const ref = useRef<HTMLDivElement>(null);
-  const headerRef = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-80px" });
-  const headerInView = useInView(headerRef, { once: true, margin: "-80px" });
-
   return (
-    <section style={{ background: "#FFFFFF", padding: "96px 0" }}>
-      <div style={{ maxWidth: "75rem", margin: "0 auto", padding: "0 1.5rem" }}>
+    <section style={{
+      padding: "96px 0",
+      borderTop: "1px solid transparent",
+      borderImage: "linear-gradient(to right, transparent, rgba(148,163,184,0.15), transparent) 1",
+    }}>
+      <div style={{ maxWidth: "72rem", margin: "0 auto", padding: "0 1.5rem" }}>
+        {/* Header */}
         <motion.div
-          ref={headerRef}
-          initial={{ opacity: 0, y: 24 }}
-          animate={headerInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.7, ease: EASE }}
-          style={{ maxWidth: 600, marginBottom: 56 }}
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 0.6, ease: EASE }}
+          style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: 56, flexWrap: "wrap", gap: 24 }}
         >
-          <span className="eyebrow" style={{ marginBottom: 20, display: "inline-flex" }}>
-            Почему выбирают ARKANA
-          </span>
-          <h2
-            style={{
-              fontSize: "clamp(32px, 3.2vw, 46px)",
-              fontWeight: 800,
-              lineHeight: 1.1,
-              letterSpacing: "-0.03em",
-              color: "#0B1540",
-              marginTop: 16,
-              marginBottom: 20,
-            }}
-          >
-            Шесть причин сделать
-            <br />
-            ARKANA своим ИТ-партнёром.
-          </h2>
-          <p style={{ fontSize: 17, color: "rgba(11,21,64,0.55)", lineHeight: 1.65 }}>
-            Мы не просто ещё один ИТ-вендор. Мы — расширение вашего бизнеса, с командой, процессами и инструментами, которые это доказывают.
-          </p>
+          <div>
+            <div className="ark-badge" style={{ marginBottom: 20 }}>
+              <span style={{ fontSize: 12, fontWeight: 500, color: "var(--ark-accent-2)" }}>
+                Клиенты о нас
+              </span>
+            </div>
+            <h2 style={{ fontFamily: "Nacelle, sans-serif", fontWeight: 600, fontSize: "clamp(1.75rem, 3vw, 2.75rem)", letterSpacing: "-0.04em", lineHeight: 1.1 }}>
+              <span className="heading-gradient">Что говорят</span>
+              <br />
+              <span style={{ color: "var(--ark-text)" }}>наши клиенты</span>
+            </h2>
+          </div>
+          <Link href="/cases" style={{
+            display: "inline-flex", alignItems: "center", gap: 6,
+            fontSize: 14, fontWeight: 600, color: "var(--ark-accent-2)", textDecoration: "none",
+          }}>
+            Все кейсы
+            <ArrowRight size={14} />
+          </Link>
         </motion.div>
 
-        <div
-          ref={ref}
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(3, 1fr)",
-            gap: 16,
-          }}
-          className="max-sm:grid-cols-1 max-lg:grid-cols-2"
-        >
-          {cards.map(({ icon: Icon, title, body, isAccent }, i) => (
+        {/* Testimonials grid */}
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 16 }} className="max-md:grid-cols-1 max-lg:grid-cols-2">
+          {TESTIMONIALS.map((t, i) => (
             <motion.div
-              key={title}
+              key={i}
               initial={{ opacity: 0, y: 24 }}
-              animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ delay: i * 0.07, duration: 0.6, ease: EASE }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-60px" }}
+              transition={{ duration: 0.55, ease: EASE, delay: i * 0.08 }}
               style={{
-                background: isAccent ? "rgba(26,107,255,0.04)" : "#F8FAFF",
-                border: isAccent ? "1px solid rgba(26,107,255,0.18)" : "1px solid rgba(11,21,64,0.07)",
-                borderRadius: 16,
-                padding: "26px 24px",
+                padding: "28px 24px",
+                borderRadius: 14,
+                background: "var(--ark-card)",
+                border: "1px solid var(--ark-card-border)",
+                display: "flex",
+                flexDirection: "column",
+                gap: 20,
               }}
             >
-              <div
-                style={{
-                  width: 40,
-                  height: 40,
-                  background: isAccent ? "rgba(26,107,255,0.12)" : "rgba(11,21,64,0.06)",
-                  border: isAccent ? "1px solid rgba(26,107,255,0.20)" : "none",
-                  borderRadius: 11,
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  marginBottom: 18,
-                }}
-              >
-                <Icon size={17} style={{ color: isAccent ? "#1A6BFF" : "#0B1540" }} />
+              {/* Stars */}
+              <div style={{ display: "flex", gap: 3 }}>
+                {Array.from({ length: t.rating }).map((_, j) => (
+                  <svg key={j} width="14" height="14" viewBox="0 0 14 14" fill="#fbbf24">
+                    <path d="M7 0l1.8 5.4H14l-4.6 3.4 1.8 5.4L7 11 2.8 14.2l1.8-5.4L0 5.4h5.2z" />
+                  </svg>
+                ))}
               </div>
-              <h3
-                style={{
-                  fontSize: 15,
-                  fontWeight: 700,
-                  color: "#0B1540",
-                  marginBottom: 8,
-                  lineHeight: 1.3,
-                  letterSpacing: "-0.02em",
-                }}
-              >
-                {title}
-              </h3>
-              <p style={{ fontSize: 13.5, color: "rgba(11,21,64,0.55)", lineHeight: 1.65 }}>
-                {body}
-              </p>
-              {isAccent && (
-                <div
-                  style={{
-                    marginTop: 14,
-                    display: "inline-flex",
-                    alignItems: "center",
-                    gap: 6,
-                    fontSize: 11,
-                    fontWeight: 700,
-                    color: "#1A6BFF",
-                    letterSpacing: "0.04em",
-                    textTransform: "uppercase",
-                  }}
-                >
-                  <span
-                    style={{
-                      width: 5,
-                      height: 5,
-                      borderRadius: "50%",
-                      background: "#1A6BFF",
-                      boxShadow: "0 0 6px rgba(26,107,255,0.6)",
-                    }}
-                  />
-                  На платформе GOARKAN
+
+              <blockquote style={{ fontSize: 14.5, color: "var(--ark-text)", lineHeight: 1.65, fontStyle: "italic", flex: 1, margin: 0 }}>
+                "{t.quote}"
+              </blockquote>
+
+              <div>
+                <div style={{ fontSize: 13, fontWeight: 600, color: "var(--ark-text)", marginBottom: 2 }}>
+                  {t.author}
                 </div>
-              )}
+                <div style={{ fontSize: 11.5, color: "var(--ark-text-muted)" }}>
+                  {t.sector}
+                </div>
+              </div>
             </motion.div>
           ))}
         </div>

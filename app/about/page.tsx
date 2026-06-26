@@ -4,14 +4,14 @@ import { ArrowRight, Target, Eye, Heart } from "lucide-react";
 import { ContactCTA } from "@/components/sections/ContactCTA";
 
 export const metadata: Metadata = {
-  title: "About ARKANA | IT Outsourcing Company, Tashkent",
+  title: "О компании ARKANA | IT-аутсорсинг, Ташкент",
   description:
-    "ARKANA is a Tashkent-based IT outsourcing company. Named engineers, documented processes, and the GOARKAN platform — for businesses across Uzbekistan.",
+    "ARKANA — IT-аутсорсинговая компания в Ташкенте. Именные инженеры, задокументированные процессы и платформа GoARKAN для прозрачности работы. Для бизнеса по всему Узбекистану.",
   alternates: { canonical: "/about" },
   openGraph: {
-    title: "About ARKANA | IT Outsourcing Company, Tashkent, Uzbekistan",
+    title: "О компании ARKANA | IT-аутсорсинг, Ташкент",
     description:
-      "ARKANA provides IT outsourcing to businesses in Uzbekistan. Named Technical Leads, defined service processes, and full operational transparency through GOARKAN.",
+      "ARKANA предоставляет IT-аутсорсинг для бизнеса в Узбекистане. Именные технические руководители, прозрачные процессы и полный контроль через GoARKAN.",
     url: "/about",
   },
 };
@@ -19,21 +19,21 @@ export const metadata: Metadata = {
 const values = [
   {
     icon: Target,
-    accent: "#2563FF",
-    title: "Accountability",
-    body: "Every client has a named technical lead who owns the relationship. When something goes wrong, you always know who is responsible — and they know your name.",
+    accent: "#6366f1",
+    title: "Ответственность",
+    body: "За каждым клиентом закреплён именной технический руководитель. Когда что-то идёт не так — вы всегда знаете, кто отвечает. И он знает вас по имени.",
   },
   {
     icon: Eye,
-    accent: "#00C2AA",
-    title: "Transparency",
-    body: "We built GOARKAN precisely because we believe clients should have complete visibility into their IT. No black boxes. No asking for updates.",
+    accent: "#22c55e",
+    title: "Прозрачность",
+    body: "Мы создали GoARKAN именно потому, что клиенты должны иметь полный доступ к информации о своём IT. Никаких чёрных ящиков. Не нужно спрашивать об обновлениях.",
   },
   {
     icon: Heart,
-    accent: "#7B5FFF",
-    title: "Partnership",
-    body: "We are not a vendor. We are an extension of your team — aligned to your business goals, not just your support tickets.",
+    accent: "#818cf8",
+    title: "Партнёрство",
+    body: "Мы не подрядчик. Мы — продолжение вашей команды, ориентированное на цели вашего бизнеса, а не только на закрытие заявок.",
   },
 ];
 
@@ -41,56 +41,53 @@ export default function AboutPage() {
   return (
     <>
       {/* Hero */}
-      <section className="pt-36 pb-24 bg-gradient-hero">
+      <section className="pt-36 pb-24" style={{ background: "var(--ark-bg)" }}>
         <div className="max-w-[75rem] mx-auto px-6">
-          <span className="eyebrow mb-6">About ARKANA</span>
+          <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--ark-text-hint)", marginBottom: 24 }}>О компании</div>
           <h1
             className="text-[48px] sm:text-[60px] font-[800] leading-[1.07] tracking-[-0.02em] mt-4 mb-6"
-            style={{ color: "#FFFFFF" }}
+            style={{ color: "var(--ark-text-heading)" }}
           >
-            Your IT partner.
+            Ваш IT-партнёр.
             <br />
-            <span style={{ color: "rgba(255,255,255,0.55)", fontWeight: 700 }}>
-              Not your IT vendor.
+            <span style={{ color: "var(--ark-text-hint)", fontWeight: 700 }}>
+              Не просто подрядчик.
             </span>
           </h1>
-          <p className="text-[18px] leading-[1.65] max-w-[580px]" style={{ color: "rgba(255,255,255,0.55)" }}>
-            ARKANA is an IT outsourcing and managed services company based in
-            Tashkent, Uzbekistan. We work with businesses across the country to
-            replace unreliable, reactive IT with structured, named partnerships.
+          <p className="text-[18px] leading-[1.65] max-w-[580px]" style={{ color: "var(--ark-text-sub)" }}>
+            ARKANA — IT-аутсорсинговая компания в Ташкенте. Мы помогаем бизнесу по всему Узбекистану
+            заменить ненадёжную реактивную IT-поддержку на структурированное именное партнёрство.
           </p>
         </div>
       </section>
 
       {/* Story */}
-      <section className="section-y" style={{ background: "#0A1021" }}>
+      <section className="py-20 lg:py-28" style={{ background: "var(--ark-bg-2)", borderTop: "1px solid var(--ark-divider)" }}>
         <div className="max-w-[75rem] mx-auto px-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <div>
-              <span className="eyebrow mb-5">Our Story</span>
+              <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--ark-text-hint)", marginBottom: 20 }}>Наша история</div>
               <h2
                 className="text-[34px] font-[800] mt-4 mb-6 leading-[1.15]"
-                style={{ color: "#FFFFFF" }}
+                style={{ color: "var(--ark-text-heading)" }}
               >
-                Built to fix what was broken about IT outsourcing.
+                Создана, чтобы исправить IT-аутсорсинг.
               </h2>
-              <div className="flex flex-col gap-4 text-[16px] leading-[1.7]" style={{ color: "rgba(255,255,255,0.55)" }}>
+              <div className="flex flex-col gap-4 text-[16px] leading-[1.7]" style={{ color: "var(--ark-text-sub)" }}>
                 <p>
-                  ARKANA was founded with a simple observation: most IT
-                  outsourcing in Uzbekistan was either too cheap to be reliable,
-                  or too expensive and impersonal to be useful for growing
-                  businesses.
+                  ARKANA основана на простом наблюдении: большинство IT-аутсорсинга в Узбекистане
+                  либо слишком дёшев, чтобы быть надёжным, либо слишком дорог и безлик, чтобы
+                  быть полезным для растущего бизнеса.
                 </p>
                 <p>
-                  We built ARKANA to occupy the space in between — bringing
-                  enterprise-grade processes and named team models to companies
-                  that cannot justify a full internal IT department, but need
-                  more than a break-fix vendor.
+                  Мы построили ARKANA, чтобы занять это пространство — принести корпоративные
+                  процессы и именную модель команды компаниям, которым не нужен полноценный
+                  IT-отдел, но нужно больше, чем ситуативный ремонт.
                 </p>
                 <p>
-                  We also built GOARKAN — our own service management platform —
-                  because we believed clients deserved real transparency into the
-                  work being done on their behalf.
+                  Мы также создали GoARKAN — собственную платформу управления сервисами —
+                  потому что считаем: клиенты заслуживают настоящей прозрачности в работе,
+                  выполняемой от их имени.
                 </p>
               </div>
             </div>
@@ -98,39 +95,39 @@ export default function AboutPage() {
             <div className="flex flex-col gap-5">
               <div
                 className="rounded-[24px] p-8"
-                style={{ background: "linear-gradient(135deg, #0D1535 0%, #0A1535 100%)", border: "1px solid rgba(37,99,255,0.20)" }}
+                style={{ background: "var(--ark-card)", border: "1px solid var(--ark-border)" }}
               >
-                <p style={{ fontSize: 13, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.07em", color: "rgba(255,255,255,0.35)", marginBottom: 12 }}>
-                  Our platform
+                <p style={{ fontSize: 13, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.07em", color: "var(--ark-text-hint)", marginBottom: 12 }}>
+                  Наша платформа
                 </p>
-                <h3 style={{ fontSize: 22, fontWeight: 800, color: "#FFFFFF", marginBottom: 12 }}>
-                  GOARKAN
+                <h3 style={{ fontSize: 22, fontWeight: 800, color: "var(--ark-text-heading)", marginBottom: 12 }}>
+                  GoARKAN
                 </h3>
-                <p style={{ fontSize: 14, color: "rgba(255,255,255,0.50)", lineHeight: 1.65, marginBottom: 20 }}>
-                  We built our own service management platform so clients have
-                  complete visibility into every ticket, asset, and action. Used
-                  daily by our engineering team to deliver services.
+                <p style={{ fontSize: 14, color: "var(--ark-text-sub)", lineHeight: 1.65, marginBottom: 20 }}>
+                  Мы создали собственную платформу управления сервисами, чтобы клиенты
+                  имели полный контроль над каждой заявкой, активом и действием.
+                  Используется нашей командой инженеров ежедневно.
                 </p>
                 <a
                   href="https://goarkan.uz"
                   target="_blank"
                   rel="noopener noreferrer"
-                  style={{ display: "inline-flex", alignItems: "center", gap: 8, fontSize: 13, fontWeight: 700, color: "#4A9EFF", textDecoration: "none" }}
+                  style={{ display: "inline-flex", alignItems: "center", gap: 8, fontSize: 13, fontWeight: 700, color: "var(--ark-accent-2)", textDecoration: "none" }}
                 >
-                  Visit GOARKAN →
+                  Перейти на GoARKAN →
                 </a>
               </div>
 
               <div
                 className="rounded-[20px] p-7"
-                style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)" }}
+                style={{ background: "var(--ark-surface)", border: "1px solid var(--ark-border)" }}
               >
-                <p style={{ fontSize: 14, color: "rgba(255,255,255,0.50)", lineHeight: 1.7, fontStyle: "italic" }}>
-                  "We are not just another IT company. We are the IT department
-                  your business deserves — but never had."
+                <p style={{ fontSize: 14, color: "var(--ark-text-sub)", lineHeight: 1.7, fontStyle: "italic" }}>
+                  «Мы не просто очередная IT-компания. Мы — IT-отдел, которого ваш бизнес
+                  заслуживает, но которого у него никогда не было.»
                 </p>
-                <p style={{ fontSize: 12, color: "rgba(255,255,255,0.25)", marginTop: 12, fontWeight: 600 }}>
-                  — ARKANA Team
+                <p style={{ fontSize: 12, color: "var(--ark-text-faint)", marginTop: 12, fontWeight: 600 }}>
+                  — Команда ARKANA
                 </p>
               </div>
             </div>
@@ -139,12 +136,12 @@ export default function AboutPage() {
       </section>
 
       {/* Values */}
-      <section className="section-y" style={{ background: "#0F172A" }}>
+      <section className="py-20 lg:py-28" style={{ background: "var(--ark-bg)", borderTop: "1px solid var(--ark-divider)" }}>
         <div className="max-w-[75rem] mx-auto px-6">
           <div className="max-w-[500px] mb-14">
-            <span className="eyebrow mb-4">Our Values</span>
-            <h2 className="text-[34px] font-[800] mt-4 mb-4 leading-[1.15]" style={{ color: "#FFFFFF" }}>
-              What guides every decision we make.
+            <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--ark-text-hint)", marginBottom: 20 }}>Наши ценности</div>
+            <h2 className="text-[34px] font-[800] mt-4 mb-4 leading-[1.15]" style={{ color: "var(--ark-text-heading)" }}>
+              То, что определяет каждое наше решение.
             </h2>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -152,18 +149,18 @@ export default function AboutPage() {
               <div
                 key={title}
                 className="rounded-[20px] p-7"
-                style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)" }}
+                style={{ background: "var(--ark-card)", border: "1px solid var(--ark-card-border)" }}
               >
                 <div
                   className="w-11 h-11 rounded-[12px] flex items-center justify-center mb-5"
-                  style={{ background: `${accent}20`, border: `1px solid ${accent}30` }}
+                  style={{ background: "var(--ark-accent-glow)", border: "1px solid var(--ark-border)" }}
                 >
                   <Icon size={20} style={{ color: accent }} />
                 </div>
-                <h3 className="text-[17px] font-[700] mb-3" style={{ color: "#FFFFFF" }}>
+                <h3 className="text-[17px] font-[700] mb-3" style={{ color: "var(--ark-text-heading)" }}>
                   {title}
                 </h3>
-                <p className="text-[14px] leading-[1.65]" style={{ color: "rgba(255,255,255,0.50)" }}>
+                <p className="text-[14px] leading-[1.65]" style={{ color: "var(--ark-text-sub)" }}>
                   {body}
                 </p>
               </div>
@@ -173,28 +170,28 @@ export default function AboutPage() {
       </section>
 
       {/* Team */}
-      <section className="section-y" style={{ background: "#0A1021" }}>
+      <section className="py-20 lg:py-28" style={{ background: "var(--ark-bg-2)", borderTop: "1px solid var(--ark-divider)" }}>
         <div className="max-w-[75rem] mx-auto px-6">
           <div className="max-w-[500px] mb-12">
-            <span className="eyebrow mb-4">Our Team</span>
-            <h2 className="text-[34px] font-[800] mt-4 mb-4 leading-[1.15]" style={{ color: "#FFFFFF" }}>
-              The people behind your IT.
+            <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--ark-text-hint)", marginBottom: 20 }}>Наша команда</div>
+            <h2 className="text-[34px] font-[800] mt-4 mb-4 leading-[1.15]" style={{ color: "var(--ark-text-heading)" }}>
+              Люди, стоящие за вашим IT.
             </h2>
-            <p className="text-[16px] leading-[1.65]" style={{ color: "rgba(255,255,255,0.50)" }}>
-              Our team of certified engineers, project managers, and technical
-              leads delivers consistent, accountable IT services.
+            <p className="text-[16px] leading-[1.65]" style={{ color: "var(--ark-text-sub)" }}>
+              Команда сертифицированных инженеров, менеджеров проектов и технических
+              руководителей, обеспечивающих стабильный и ответственный IT-сервис.
             </p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {[
-              { name: "[Team Member]", role: "Founder & Technical Director", initials: "A", from: "#2563FF", to: "#7B5FFF" },
-              { name: "[Team Member]", role: "Head of Operations", initials: "D", from: "#7B5FFF", to: "#9B35CC" },
-              { name: "[Team Member]", role: "Lead Infrastructure Engineer", initials: "S", from: "#00C2AA", to: "#0099FF" },
+              { name: "Технический директор", role: "Основатель и руководитель направления", initials: "A", from: "#6366f1", to: "#818cf8" },
+              { name: "Руководитель операций", role: "Управление сервисными процессами", initials: "D", from: "#818cf8", to: "#a78bfa" },
+              { name: "Ведущий инженер", role: "Инфраструктура и безопасность", initials: "S", from: "#22c55e", to: "#0ea5e9" },
             ].map(({ name, role, initials, from, to }) => (
               <div
                 key={name + role}
                 className="rounded-[18px] p-6"
-                style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)" }}
+                style={{ background: "var(--ark-card)", border: "1px solid var(--ark-card-border)" }}
               >
                 <div
                   className="w-14 h-14 rounded-full flex items-center justify-center text-[20px] font-[900] text-white mb-4"
@@ -202,10 +199,10 @@ export default function AboutPage() {
                 >
                   {initials}
                 </div>
-                <p className="text-[15px] font-[700]" style={{ color: "#FFFFFF" }}>
+                <p className="text-[15px] font-[700]" style={{ color: "var(--ark-text-heading)" }}>
                   {name}
                 </p>
-                <p className="text-[13px] mt-1" style={{ color: "rgba(255,255,255,0.35)" }}>
+                <p className="text-[13px] mt-1" style={{ color: "var(--ark-text-muted)" }}>
                   {role}
                 </p>
               </div>
@@ -215,21 +212,26 @@ export default function AboutPage() {
       </section>
 
       {/* CTA band */}
-      <section className="py-16" style={{ background: "#0F172A", borderTop: "1px solid rgba(255,255,255,0.07)" }}>
+      <section className="py-16" style={{ background: "var(--ark-bg)", borderTop: "1px solid var(--ark-divider)" }}>
         <div className="max-w-[75rem] mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-6">
           <div>
-            <p className="text-[20px] font-[800] mb-1" style={{ color: "#FFFFFF" }}>
-              Want to work with us?
+            <p className="text-[20px] font-[800] mb-1" style={{ color: "var(--ark-text-heading)" }}>
+              Хотите работать с нами?
             </p>
-            <p className="text-[14px]" style={{ color: "rgba(255,255,255,0.45)" }}>
-              We are always looking for exceptional engineers and IT professionals.
+            <p className="text-[14px]" style={{ color: "var(--ark-text-muted)" }}>
+              Мы всегда в поиске исключительных инженеров и IT-специалистов.
             </p>
           </div>
           <Link
             href="/contact"
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-[12px] text-[13.5px] font-[700] text-white bg-gradient-brand shadow-accent hover:-translate-y-px transition-all duration-150 flex-shrink-0"
+            style={{
+              display: "inline-flex", alignItems: "center", gap: 8,
+              padding: "12px 24px", borderRadius: 12,
+              background: "var(--ark-accent)", color: "#ffffff",
+              fontSize: 13.5, fontWeight: 700, textDecoration: "none", flexShrink: 0,
+            }}
           >
-            Get in touch
+            Связаться с нами
             <ArrowRight size={14} />
           </Link>
         </div>

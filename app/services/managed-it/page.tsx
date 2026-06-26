@@ -5,27 +5,27 @@ import { ContactCTA } from "@/components/sections/ContactCTA";
 import { cybersecuritySchema } from "@/lib/seo";
 
 export const metadata: Metadata = {
-  title: "Cybersecurity & Managed IT Services Uzbekistan | ARKANA",
+  title: "Кибербезопасность для бизнеса | ARKANA — Ташкент",
   description:
-    "ARKANA builds and maintains a security baseline for businesses in Uzbekistan — endpoint protection, access management, tested backups, and incident response.",
+    "ARKANA выстраивает и поддерживает базовую безопасность для бизнеса в Узбекистане: защита конечных точек, управление доступом, тестирование резервных копий, реагирование на инциденты.",
   alternates: { canonical: "/services/managed-it" },
   openGraph: {
-    title: "Cybersecurity & Managed IT Services | ARKANA",
+    title: "Кибербезопасность для бизнеса | ARKANA",
     description:
-      "Endpoint protection, access management, quarterly backup testing, employee security awareness, patch management, and incident response — for businesses in Uzbekistan.",
+      "Защита конечных точек, управление доступом, ежеквартальное тестирование резервного копирования, обучение сотрудников, управление патчами и реагирование на инциденты — для бизнеса в Узбекистане.",
     url: "/services/managed-it",
   },
 };
 
 const included = [
-  "Endpoint protection configured and monitored centrally",
-  "Multi-factor authentication and access management",
-  "Backup jobs monitored daily, recovery tested quarterly",
-  "Employee security awareness — quarterly sessions",
-  "Patch schedule: monthly routine, 48-hour critical",
-  "Incident response procedure documented and reviewed annually",
-  "Access audit when staff join, change roles, or leave",
-  "Security status reported monthly through GOARKAN",
+  "Защита конечных точек — централизованная настройка и мониторинг",
+  "Многофакторная аутентификация и управление доступом",
+  "Ежедневный мониторинг резервного копирования, ежеквартальное тестирование восстановления",
+  "Повышение осведомлённости сотрудников в области безопасности — ежеквартально",
+  "Расписание патчей: ежемесячные плановые, критические — в течение 48 часов",
+  "Процедура реагирования на инциденты — документируется и проверяется ежегодно",
+  "Аудит доступа при найме, смене роли или увольнении сотрудника",
+  "Ежемесячный отчёт о состоянии безопасности через GoARKAN",
 ];
 
 export default function ManagedITPage() {
@@ -36,54 +36,59 @@ export default function ManagedITPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(cybersecuritySchema) }}
       />
 
-      <section className="pt-36 pb-24 bg-gradient-hero">
+      <section className="pt-36 pb-24" style={{ background: "var(--ark-bg)" }}>
         <div className="max-w-[75rem] mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           <div>
             <Link
               href="/services"
               className="inline-flex items-center gap-1.5 text-[12.5px] font-[600] transition-colors mb-6"
-              style={{ color: "rgba(255,255,255,0.35)" }}
+              style={{ color: "var(--ark-text-hint)" }}
             >
-              ← All Services
+              ← Все услуги
             </Link>
-            <span className="eyebrow mb-5">Cybersecurity</span>
+            <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--ark-text-hint)", marginBottom: 20 }}>Кибербезопасность</div>
             <h1
               className="text-[44px] sm:text-[56px] font-[800] leading-[1.07] tracking-[-0.02em] mt-4 mb-6"
-              style={{ color: "#FFFFFF" }}
+              style={{ color: "var(--ark-text-heading)" }}
             >
-              Security controls your
+              Безопасность, которую
               <br />
-              business can actually
+              ваш бизнес реально
               <br />
-              maintain.
+              сможет поддерживать.
             </h1>
-            <p className="text-[17px] leading-[1.65] mb-8" style={{ color: "rgba(255,255,255,0.55)" }}>
-              Most businesses are affected by the same failures: one compromised
-              account, one unpatched system, one backup that was never tested.
-              ARKANA builds the controls that prevent those failures — and
-              maintains them on a defined schedule.
+            <p className="text-[17px] leading-[1.65] mb-8" style={{ color: "var(--ark-text-sub)" }}>
+              Большинство компаний страдают от одних и тех же проблем: один скомпрометированный
+              аккаунт, одна непропатченная система, одна резервная копия, которую никогда не
+              проверяли. ARKANA выстраивает защиту от этих рисков и поддерживает её по
+              чёткому расписанию.
             </p>
             <Link
               href="/contact"
-              className="inline-flex items-center gap-2 px-7 py-3.5 rounded-[12px] text-[14px] font-[700] text-white bg-gradient-brand shadow-accent hover:shadow-accent-hover hover:-translate-y-px transition-all duration-150"
+              style={{
+                display: "inline-flex", alignItems: "center", gap: 8,
+                padding: "12px 28px", borderRadius: 12,
+                background: "var(--ark-accent)", color: "#ffffff",
+                fontSize: 14, fontWeight: 700, textDecoration: "none",
+              }}
             >
-              Find out where your security gaps are
+              Найти уязвимости в вашей безопасности
               <ArrowRight size={15} />
             </Link>
           </div>
 
           <div
             className="rounded-[24px] p-8"
-            style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.09)" }}
+            style={{ background: "var(--ark-card)", border: "1px solid var(--ark-card-border)" }}
           >
-            <p className="text-[12px] font-[700] uppercase tracking-[0.07em] mb-5" style={{ color: "rgba(255,255,255,0.30)" }}>
-              What is included
+            <p className="text-[12px] font-[700] uppercase tracking-[0.07em] mb-5" style={{ color: "var(--ark-text-hint)" }}>
+              Что включено
             </p>
             <ul className="flex flex-col gap-3">
               {included.map((item) => (
                 <li key={item} className="flex items-start gap-3">
-                  <CheckCircle2 size={17} className="flex-shrink-0 mt-0.5" style={{ color: "#00C2AA" }} />
-                  <span className="text-[14px]" style={{ color: "rgba(255,255,255,0.70)" }}>{item}</span>
+                  <CheckCircle2 size={17} className="flex-shrink-0 mt-0.5" style={{ color: "#22c55e" }} />
+                  <span className="text-[14px]" style={{ color: "var(--ark-text)" }}>{item}</span>
                 </li>
               ))}
             </ul>
