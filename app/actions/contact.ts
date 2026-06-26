@@ -93,10 +93,14 @@ export async function submitContact(
   });
 
   if (!leadResult.ok) {
+    if (leadResult.error === "rate_limited") {
+      return { status: "rate_limited", resetAt: new Date(Date.now() + 60_000).toISOString() };
+    }
+    console.error("[contact-action] submitLead failed:", leadResult.error);
     return {
       status: "error",
       errors: {},
-      message: "Не удалось отправить заявку. Попробуйте ещё раз или напишите нам напрямую.",
+      message: leadResult.error ?? "Не удалось отправить заявку. Попробуйте позже или напишите на info@arkana.uz",
     };
   }
 

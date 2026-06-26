@@ -312,32 +312,116 @@ export interface LeadResult {
 
 /** Submit a lead from the website contact form directly to GoARKAN CRM. */
 export async function submitLead(data: LeadInput): Promise<LeadResult> {
+  // ── 1. Try GoARKAN CRM first ───────────────────────────────────────────────
+  let goarkanOk = false;
+  let goarkanLeadId: number | undefined;
+
   try {
     const res = await fetch(`${API_BASE}/api/public/website/leads`, {
       method: "POST",
       headers: { ...HEADERS, "Content-Type": "application/json" },
       body: JSON.stringify(data),
+      signal: AbortSignal.timeout(8000), // 8 s hard timeout
     });
 
     const json = await res.json().catch(() => ({})) as Record<string, unknown>;
 
     if (res.ok) {
-      return {
-        ok: true,
-        lead_id: json.lead_id as number | undefined,
-        message: (json.message as string) ?? "Заявка принята",
-      };
+      goarkanOk = true;
+      goarkanLeadId = json.lead_id as number | undefined;
+      console.log("[cms-api] submitLead → GoARKAN OK, lead_id:", goarkanLeadId);
+    } else if (res.status === 429) {
+      return { ok: false, error: "rate_limited" };
+    } else {
+      const detail = (json.detail as string) ?? `HTTP ${res.status}`;
+      console.error("[cms-api] submitLead → GoARKAN error:", detail, "| URL:", API_BASE);
     }
-
-    if (res.status === 429) {
-      return { ok: false, error: "Слишком много запросов. Попробуйте позже." };
-    }
-
-    const detail = (json.detail as string) ?? `HTTP ${res.status}`;
-    return { ok: false, error: detail };
   } catch (err) {
-    console.error("[cms-api] submitLead failed:", err);
-    return { ok: false, error: "Ошибка соединения. Попробуйте позже." };
+    const msg = err instanceof Error ? err.message : String(err);
+    console.error("[cms-api] submitLead → GoARKAN unreachable:", msg, "| API_BASE:", API_BASE);
+  }
+
+  if (goarkanOk) {
+    return { ok: true, lead_id: goarkanLeadId, message: "Заявка принята" };
+  }
+
+  // ── 2. Fallback: email notification via Resend ─────────────────────────────
+  // GoARKAN is unreachable (LAN-only / misconfigured). Send email so the lead
+  // is not lost. The team receives the full data and can create the CRM record
+  // manually. This is notification-only, NOT standalone lead storage.
+  const emailResult = await _sendLeadEmail(data);
+
+  if (emailResult.ok) {
+    console.log("[cms-api] submitLead → email fallback OK, id:", emailResult.id);
+    // Return success to user — they don't need to know which channel was used.
+    return { ok: true, message: "Заявка принята (резервный канал)" };
+  }
+
+  // Both channels failed.
+  console.error("[cms-api] submitLead → ALL channels failed. GoARKAN + Resend both unavailable.");
+  return { ok: false, error: "Ошибка отправки. Попробуйте позже или напишите на info@arkana.uz" };
+}
+
+/** Send lead data as an email to info@arkana.uz using Resend. */
+async function _sendLeadEmail(data: LeadInput): Promise<{ ok: boolean; id?: string }> {
+  const apiKey = process.env.RESEND_API_KEY;
+  if (!apiKey) {
+    console.error("[cms-api] _sendLeadEmail → RESEND_API_KEY not set");
+    return { ok: false };
+  }
+
+  const NOTIFY_TO = process.env.CONTACT_TO_EMAIL ?? "info@arkana.uz";
+  const FROM      = "noreply@arkana.uz";
+
+  const fields = [
+    ["Имя",      data.name],
+    ["Компания", data.company],
+    ["Email",    data.email],
+    ["Телефон",  data.phone    ?? "—"],
+    ["Сообщение",data.message  ?? "—"],
+    ["Страница", data.landing_page ?? "—"],
+  ];
+
+  const html = `
+<div style="font-family:sans-serif;max-width:600px;margin:0 auto">
+  <h2 style="color:#6366f1;margin-bottom:24px">Новая заявка с сайта ARKANA</h2>
+  <table style="width:100%;border-collapse:collapse">
+    ${fields.map(([label, value]) => `
+    <tr>
+      <td style="padding:10px 12px;background:#f8f9fa;font-weight:600;color:#64748b;font-size:13px;white-space:nowrap;width:30%">${label}</td>
+      <td style="padding:10px 12px;border-bottom:1px solid #e2e8f0;color:#1e293b;font-size:14px">${value}</td>
+    </tr>`).join("")}
+  </table>
+  <p style="margin-top:24px;font-size:12px;color:#94a3b8">
+    Заявка получена через резервный канал (GoARKAN недоступен).<br>
+    Создайте лид вручную в GoARKAN CRM.
+  </p>
+</div>`;
+
+  try {
+    const res = await fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: { Authorization: `Bearer ${apiKey}`, "Content-Type": "application/json" },
+      body: JSON.stringify({
+        from: `ARKANA Website <${FROM}>`,
+        to:   [NOTIFY_TO],
+        subject: `Новая заявка: ${data.name} — ${data.company}`,
+        html,
+      }),
+    });
+
+    const json = await res.json().catch(() => ({})) as Record<string, unknown>;
+
+    if (res.ok) {
+      return { ok: true, id: json.id as string | undefined };
+    }
+
+    console.error("[cms-api] _sendLeadEmail → Resend error:", res.status, json);
+    return { ok: false };
+  } catch (err) {
+    const msg = err instanceof Error ? err.message : String(err);
+    console.error("[cms-api] _sendLeadEmail → Resend fetch failed:", msg);
+    return { ok: false };
   }
 }
 
