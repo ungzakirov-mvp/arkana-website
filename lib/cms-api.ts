@@ -362,7 +362,7 @@ export async function submitLead(data: LeadInput): Promise<LeadResult> {
   return { ok: false, error: "Ошибка отправки. Попробуйте позже или напишите на info@arkana.uz" };
 }
 
-/** Send lead data as an email to info@arkana.uz using Resend. */
+/** Send lead data as an email using the Resend SDK (handles UTF-8 correctly). */
 async function _sendLeadEmail(data: LeadInput): Promise<{ ok: boolean; id?: string }> {
   const apiKey = process.env.RESEND_API_KEY;
   if (!apiKey) {
@@ -371,57 +371,54 @@ async function _sendLeadEmail(data: LeadInput): Promise<{ ok: boolean; id?: stri
   }
 
   const NOTIFY_TO = process.env.CONTACT_TO_EMAIL ?? "info@arkana.uz";
-  const FROM      = "noreply@arkana.uz";
 
-  const fields = [
-    ["Имя",      data.name],
-    ["Компания", data.company],
-    ["Email",    data.email],
-    ["Телефон",  data.phone    ?? "—"],
-    ["Сообщение",data.message  ?? "—"],
-    ["Страница", data.landing_page ?? "—"],
-  ];
+  const row = (label: string, value: string) =>
+    `<tr>` +
+    `<td style="padding:10px 12px;background:#f8f9fa;font-weight:600;color:#64748b;font-size:13px;width:30%">${label}</td>` +
+    `<td style="padding:10px 12px;border-bottom:1px solid #e2e8f0;color:#1e293b;font-size:14px">${value}</td>` +
+    `</tr>`;
 
-  const html = `<!DOCTYPE html>
-<html lang="ru"><head><meta charset="UTF-8"/></head><body>
-<div style="font-family:sans-serif;max-width:600px;margin:0 auto">
-  <h2 style="color:#6366f1;margin-bottom:24px">Новая заявка с сайта ARKANA</h2>
-  <table style="width:100%;border-collapse:collapse">
-    ${fields.map(([label, value]) => `
-    <tr>
-      <td style="padding:10px 12px;background:#f8f9fa;font-weight:600;color:#64748b;font-size:13px;white-space:nowrap;width:30%">${label}</td>
-      <td style="padding:10px 12px;border-bottom:1px solid #e2e8f0;color:#1e293b;font-size:14px">${value}</td>
-    </tr>`).join("")}
-  </table>
-  <p style="margin-top:24px;font-size:12px;color:#94a3b8">
-    Заявка получена через резервный канал (GoARKAN недоступен).<br>
-    Создайте лид вручную в GoARKAN CRM.
-  </p>
-</div></body></html>`;
+  const html =
+    `<!DOCTYPE html><html lang="ru"><head><meta charset="utf-8"/></head><body>` +
+    `<div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto">` +
+    `<h2 style="color:#6366f1;margin-bottom:24px">Новая заявка с сайта ARKANA</h2>` +
+    `<table style="width:100%;border-collapse:collapse">` +
+    row("Имя", data.name) +
+    row("Компания", data.company) +
+    row("Email", data.email) +
+    row("Телефон", data.phone ?? "—") +
+    row("Сообщение", data.message ?? "—") +
+    row("Страница", data.landing_page ?? "—") +
+    `</table>` +
+    `<p style="margin-top:24px;font-size:12px;color:#94a3b8">` +
+    `Заявка получена через резервный канал (GoARKAN недоступен). ` +
+    `Создайте лид вручную в GoARKAN CRM.` +
+    `</p></div></body></html>`;
+
+  const subject =
+    `Новая заявка: ${data.name} — ${data.company}`;
 
   try {
-    const res = await fetch("https://api.resend.com/emails", {
-      method: "POST",
-      headers: { Authorization: `Bearer ${apiKey}`, "Content-Type": "application/json" },
-      body: JSON.stringify({
-        from: `ARKANA Website <${FROM}>`,
-        to:   [NOTIFY_TO],
-        subject: `Новая заявка: ${data.name} — ${data.company}`,
-        html,
-      }),
+    const { Resend } = await import("resend");
+    const resend = new Resend(apiKey);
+
+    const { data: result, error } = await resend.emails.send({
+      from: "ARKANA Website <onboarding@resend.dev>",
+      to: [NOTIFY_TO],
+      subject,
+      html,
+      replyTo: data.email,
     });
 
-    const json = await res.json().catch(() => ({})) as Record<string, unknown>;
-
-    if (res.ok) {
-      return { ok: true, id: json.id as string | undefined };
+    if (error) {
+      console.error("[cms-api] _sendLeadEmail → Resend SDK error:", error);
+      return { ok: false };
     }
 
-    console.error("[cms-api] _sendLeadEmail → Resend error:", res.status, json);
-    return { ok: false };
+    return { ok: true, id: result?.id };
   } catch (err) {
     const msg = err instanceof Error ? err.message : String(err);
-    console.error("[cms-api] _sendLeadEmail → Resend fetch failed:", msg);
+    console.error("[cms-api] _sendLeadEmail → Resend SDK failed:", msg);
     return { ok: false };
   }
 }
