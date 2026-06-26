@@ -5,18 +5,34 @@ import Link from "next/link";
 import { useApp } from "@/components/providers/ThemeLanguageProvider";
 import { Sun, Moon, Menu, X, ChevronDown } from "lucide-react";
 
-const SERVICE_LINKS = [
-  { label: "IT-аутсорсинг", href: "/services/it-outsourcing" },
-  { label: "IT Service Management", href: "/services/itsm" },
-  { label: "Инфраструктура", href: "/services/infrastructure" },
-  { label: "Кибербезопасность", href: "/services/managed-it" },
-  { label: "Все услуги", href: "/services" },
-];
+const SERVICE_LINKS: Record<string, { label: string; href: string }[]> = {
+  ru: [
+    { label: "IT-аутсорсинг",      href: "/services/it-outsourcing" },
+    { label: "IT Service Management", href: "/services/itsm" },
+    { label: "Инфраструктура",     href: "/services/infrastructure" },
+    { label: "Кибербезопасность",  href: "/services/managed-it" },
+    { label: "Все услуги",         href: "/services" },
+  ],
+  en: [
+    { label: "IT Outsourcing",       href: "/services/it-outsourcing" },
+    { label: "IT Service Management",href: "/services/itsm" },
+    { label: "Infrastructure",       href: "/services/infrastructure" },
+    { label: "Cybersecurity",        href: "/services/managed-it" },
+    { label: "All Services",         href: "/services" },
+  ],
+  uz: [
+    { label: "IT-autsorsing",        href: "/services/it-outsourcing" },
+    { label: "IT Xizmat Boshqaruvi", href: "/services/itsm" },
+    { label: "Infratuzilma",         href: "/services/infrastructure" },
+    { label: "Kiberxavfsizlik",      href: "/services/managed-it" },
+    { label: "Barcha xizmatlar",     href: "/services" },
+  ],
+};
 
 const NAV_LABELS: Record<string, Record<string, string>> = {
-  ru: { services: "Услуги", pricing: "Тарифы", goarkan: "GoARKAN", cases: "Кейсы", blog: "Блог", contact: "Контакты", cta: "Запросить аудит" },
-  en: { services: "Services", pricing: "Pricing", goarkan: "GoARKAN", cases: "Cases", blog: "Blog", contact: "Contact", cta: "Request audit" },
-  uz: { services: "Xizmatlar", pricing: "Narxlar", goarkan: "GoARKAN", cases: "Loyihalar", blog: "Blog", contact: "Aloqa", cta: "Audit so'rash" },
+  ru: { services: "Услуги", pricing: "Тарифы", goarkan: "GoARKAN", cases: "Кейсы", blog: "Блог", contact: "Контакты", cta: "Запросить аудит", audit: "Аудит →" },
+  en: { services: "Services", pricing: "Pricing", goarkan: "GoARKAN", cases: "Cases", blog: "Blog", contact: "Contact", cta: "Request audit", audit: "Audit →" },
+  uz: { services: "Xizmatlar", pricing: "Narxlar", goarkan: "GoARKAN", cases: "Loyihalar", blog: "Blog", contact: "Aloqa", cta: "Audit so'rash", audit: "Audit →" },
 };
 
 export function Navigation() {
@@ -33,6 +49,7 @@ export function Navigation() {
 
   const isDark = theme === "dark";
   const labels = NAV_LABELS[lang] ?? NAV_LABELS.ru;
+  const serviceLinks = SERVICE_LINKS[lang] ?? SERVICE_LINKS.ru;
 
   return (
     <header className="relative z-30 mt-4 w-full px-4 sm:px-6">
@@ -54,24 +71,12 @@ export function Navigation() {
         >
           {/* Logo */}
           <Link href="/" style={{ textDecoration: "none", display: "flex", alignItems: "center", gap: "0.5rem", flex: 1 }}>
-            <span
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                width: 28,
-                height: 28,
-                borderRadius: 8,
-                background: "linear-gradient(135deg, #6366f1, #4338ca)",
-                color: "#fff",
-                fontFamily: "Nacelle, sans-serif",
-                fontWeight: 600,
-                fontSize: 14,
-                flexShrink: 0,
-              }}
-            >
-              A
-            </span>
+            <span style={{
+              width: 28, height: 28, borderRadius: 8,
+              background: "linear-gradient(135deg, #6366f1, #4338ca)",
+              display: "flex", alignItems: "center", justifyContent: "center",
+              color: "#fff", fontFamily: "Nacelle, sans-serif", fontWeight: 600, fontSize: 14,
+            }}>A</span>
             <span style={{ fontFamily: "Nacelle, sans-serif", fontWeight: 600, fontSize: 15, color: "var(--ark-text)", letterSpacing: "-0.02em" }}>
               ARKANA
             </span>
@@ -80,17 +85,15 @@ export function Navigation() {
           {/* Desktop nav */}
           <nav className="hidden md:flex items-center gap-0.5">
             {/* Services dropdown */}
-            <div
-              style={{ position: "relative" }}
-              onMouseEnter={() => setServicesOpen(true)}
-              onMouseLeave={() => setServicesOpen(false)}
-            >
+            <div style={{ position: "relative" }}>
               <button
+                onClick={() => setServicesOpen(!servicesOpen)}
+                onBlur={() => setTimeout(() => setServicesOpen(false), 150)}
                 style={{
                   display: "flex", alignItems: "center", gap: 4,
                   padding: "6px 12px", borderRadius: 8, fontSize: 14,
-                  color: "var(--ark-text-muted)", background: "transparent", border: "none", cursor: "pointer",
-                  transition: "color 0.15s",
+                  color: "var(--ark-text-muted)", background: "none",
+                  border: "none", cursor: "pointer", transition: "color 0.15s",
                 }}
                 onMouseEnter={(e) => (e.currentTarget.style.color = "var(--ark-text)")}
                 onMouseLeave={(e) => (e.currentTarget.style.color = "var(--ark-text-muted)")}
@@ -107,7 +110,7 @@ export function Navigation() {
                   boxShadow: "0 16px 48px rgba(0,0,0,0.4)",
                   zIndex: 100,
                 }}>
-                  {SERVICE_LINKS.map((s) => (
+                  {serviceLinks.map((s) => (
                     <Link key={s.href} href={s.href} style={{
                       display: "block", padding: "8px 12px", borderRadius: 8, fontSize: 13.5,
                       color: "var(--ark-text-muted)", textDecoration: "none", transition: "all 0.15s",
@@ -122,8 +125,8 @@ export function Navigation() {
               )}
             </div>
 
-            {([["pricing", "/pricing"], ["goarkan", "/goarkan"], ["cases", "/cases"], ["blog", "/blog"], ["contact", "/contact"]] as const).map(([key, href]) => (
-              <Link key={key} href={href} style={{
+            {(["pricing", "goarkan", "cases", "blog", "contact"] as const).map((key) => (
+              <Link key={key} href={`/${key}`} style={{
                 padding: "6px 12px", borderRadius: 8, fontSize: 14,
                 color: "var(--ark-text-muted)", textDecoration: "none", transition: "color 0.15s",
               }}
@@ -202,19 +205,19 @@ export function Navigation() {
             boxShadow: "0 16px 48px rgba(0,0,0,0.4)",
           }}>
             <nav style={{ display: "flex", flexDirection: "column", gap: 4 }}>
-              {[
-                ["Услуги", "/services"],
-                ["Тарифы", "/pricing"],
-                ["GoARKAN", "/goarkan"],
-                ["Кейсы", "/cases"],
-                ["Блог", "/blog"],
-                ["Контакты", "/contact"],
-              ].map(([label, href]) => (
+              {([
+                ["services", "/services"],
+                ["pricing",  "/pricing"],
+                ["goarkan",  "/goarkan"],
+                ["cases",    "/cases"],
+                ["blog",     "/blog"],
+                ["contact",  "/contact"],
+              ] as const).map(([key, href]) => (
                 <Link key={href} href={href} onClick={() => setMobileOpen(false)} style={{
                   padding: "12px 14px", borderRadius: 10, fontSize: 15, fontWeight: 500,
                   color: "var(--ark-text)", textDecoration: "none",
                 }}>
-                  {label}
+                  {labels[key]}
                 </Link>
               ))}
             </nav>
@@ -235,7 +238,7 @@ export function Navigation() {
                 padding: "8px 16px", borderRadius: 8, fontSize: 13, fontWeight: 600,
                 background: "var(--ark-accent)", color: "white", textDecoration: "none",
               }}>
-                Аудит →
+                {labels.audit}
               </Link>
             </div>
           </div>

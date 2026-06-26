@@ -2,16 +2,38 @@
 
 import { useApp } from "@/components/providers/ThemeLanguageProvider";
 
-const SECTORS = [
-  { abbr: "RIT", name: "Ритейл" },
-  { abbr: "PRO", name: "Производство" },
-  { abbr: "MED", name: "Медицина" },
-  { abbr: "EDU", name: "Образование" },
-  { abbr: "LOG", name: "Логистика" },
-  { abbr: "FIN", name: "Финансы" },
-  { abbr: "STR", name: "Строительство" },
-  { abbr: "SRV", name: "Услуги" },
-];
+const SECTORS: Record<string, { abbr: string; name: string }[]> = {
+  ru: [
+    { abbr: "RIT", name: "Ритейл" },
+    { abbr: "PRO", name: "Производство" },
+    { abbr: "MED", name: "Медицина" },
+    { abbr: "EDU", name: "Образование" },
+    { abbr: "LOG", name: "Логистика" },
+    { abbr: "FIN", name: "Финансы" },
+    { abbr: "STR", name: "Строительство" },
+    { abbr: "SRV", name: "Услуги" },
+  ],
+  en: [
+    { abbr: "RIT", name: "Retail" },
+    { abbr: "PRO", name: "Manufacturing" },
+    { abbr: "MED", name: "Healthcare" },
+    { abbr: "EDU", name: "Education" },
+    { abbr: "LOG", name: "Logistics" },
+    { abbr: "FIN", name: "Finance" },
+    { abbr: "STR", name: "Construction" },
+    { abbr: "SRV", name: "Services" },
+  ],
+  uz: [
+    { abbr: "RIT", name: "Chakana savdo" },
+    { abbr: "PRO", name: "Ishlab chiqarish" },
+    { abbr: "MED", name: "Tibbiyot" },
+    { abbr: "EDU", name: "Ta'lim" },
+    { abbr: "LOG", name: "Logistika" },
+    { abbr: "FIN", name: "Moliya" },
+    { abbr: "STR", name: "Qurilish" },
+    { abbr: "SRV", name: "Xizmatlar" },
+  ],
+};
 
 const COPY: Record<string, {
   banner: string;
@@ -55,6 +77,7 @@ const COPY: Record<string, {
 export function HomeTrust() {
   const { lang } = useApp();
   const copy = COPY[lang] ?? COPY.ru;
+  const sectors = SECTORS[lang] ?? SECTORS.ru;
 
   return (
     <section style={{ background: "var(--ark-bg)" }}>
@@ -67,9 +90,9 @@ export function HomeTrust() {
               {copy.banner}
             </div>
             <div style={{ display: "flex", alignItems: "center", justifyContent: "center", flexWrap: "wrap" }}>
-              {SECTORS.map(({ abbr, name }, i) => (
-                <div key={abbr} style={{ padding: "8px 24px", borderRight: i < SECTORS.length - 1 ? "1px solid var(--ark-divider)" : "none", display: "flex", alignItems: "center", gap: 8 }}>
-                  <div style={{ width: 24, height: 24, borderRadius: 5, background: "var(--ark-bg-2)", border: "1px solid var(--ark-border)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 8, fontWeight: 800, letterSpacing: "0.03em", color: "var(--ark-text-hint)", flexShrink: 0 }}>
+              {sectors.map(({ abbr, name }, i) => (
+                <div key={abbr} style={{ padding: "8px 24px", borderRight: i < sectors.length - 1 ? "1px solid var(--ark-divider)" : "none", display: "flex", alignItems: "center", gap: 8 }}>
+                  <div style={{ width: 24, height: 24, borderRadius: 5, background: "var(--ark-bg-2)", border: "1px solid var(--ark-border)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 7, fontWeight: 800, letterSpacing: "0.02em", color: "var(--ark-text-hint)", flexShrink: 0 }}>
                     {abbr}
                   </div>
                   <span style={{ fontSize: 12, fontWeight: 500, color: "var(--ark-text-hint)", letterSpacing: "-0.01em", whiteSpace: "nowrap" }}>

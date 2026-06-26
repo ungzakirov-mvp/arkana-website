@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useApp } from "@/components/providers/ThemeLanguageProvider";
 import type { SiteSettings } from "@/lib/cms-api";
 
 const FALLBACK: Pick<SiteSettings, "company_name" | "phones" | "emails" | "telegram" | "telegram_href" | "address"> = {
@@ -12,7 +13,59 @@ const FALLBACK: Pick<SiteSettings, "company_name" | "phones" | "emails" | "teleg
   address: "г. Ташкент, ул. Мирзо Улугбека 97",
 };
 
+const COPY: Record<string, {
+  desc: string;
+  services: string;
+  company: string;
+  pricing: string;
+  serviceLinks: string[];
+  companyLinks: string[];
+  pricingLinks: string[];
+  rights: string;
+  privacy: string;
+}> = {
+  ru: {
+    desc: "IT-аутсорсинг для бизнеса в Ташкенте. Ответственность за результат, а не за часы.",
+    services: "Услуги",
+    company: "Компания",
+    pricing: "Тарифы",
+    serviceLinks: ["IT-аутсорсинг", "IT-поддержка", "Инфраструктура", "Кибербезопасность", "Все услуги"],
+    companyLinks: ["О нас", "Кейсы", "Блог", "GoARKAN", "Контакты"],
+    pricingLinks: ["START", "OPERATIONS", "ENTERPRISE", "Индивидуально"],
+    rights: "Все права защищены.",
+    privacy: "Политика конфиденциальности",
+  },
+  en: {
+    desc: "IT outsourcing for businesses in Tashkent. Accountability for results, not hours.",
+    services: "Services",
+    company: "Company",
+    pricing: "Pricing",
+    serviceLinks: ["IT Outsourcing", "IT Support", "Infrastructure", "Cybersecurity", "All Services"],
+    companyLinks: ["About", "Cases", "Blog", "GoARKAN", "Contact"],
+    pricingLinks: ["START", "OPERATIONS", "ENTERPRISE", "Custom"],
+    rights: "All rights reserved.",
+    privacy: "Privacy Policy",
+  },
+  uz: {
+    desc: "Toshkentdagi biznes uchun IT-autsorsing. Natija uchun javobgarlik, soatlar uchun emas.",
+    services: "Xizmatlar",
+    company: "Kompaniya",
+    pricing: "Tariflar",
+    serviceLinks: ["IT-autsorsing", "IT-qo'llab-quvvatlash", "Infratuzilma", "Kiberxavfsizlik", "Barcha xizmatlar"],
+    companyLinks: ["Biz haqimizda", "Loyihalar", "Blog", "GoARKAN", "Aloqa"],
+    pricingLinks: ["START", "OPERATIONS", "ENTERPRISE", "Individual"],
+    rights: "Barcha huquqlar himoyalangan.",
+    privacy: "Maxfiylik siyosati",
+  },
+};
+
+const SERVICE_HREFS = ["/services/it-outsourcing", "/services/itsm", "/services/infrastructure", "/services/managed-it", "/services"];
+const COMPANY_HREFS = ["/about", "/cases", "/blog", "/goarkan", "/contact"];
+const PRICING_HREFS = ["/pricing#start", "/pricing#operations", "/pricing#enterprise", "/contact"];
+
 export function Footer({ settings }: { settings?: SiteSettings | null }) {
+  const { lang } = useApp();
+  const c = COPY[lang] ?? COPY.ru;
   const year = new Date().getFullYear();
   const name    = settings?.company_name ?? FALLBACK.company_name;
   const phones  = settings?.phones?.length  ? settings.phones  : FALLBACK.phones;
@@ -33,7 +86,7 @@ export function Footer({ settings }: { settings?: SiteSettings | null }) {
               <span style={{ fontFamily: "Nacelle, sans-serif", fontWeight: 600, fontSize: 15, color: "var(--ark-text)", letterSpacing: "-0.02em" }}>{name}</span>
             </Link>
             <p style={{ fontSize: 13.5, color: "var(--ark-text-muted)", lineHeight: 1.65, maxWidth: 280, marginBottom: 20 }}>
-              IT-аутсорсинг для бизнеса в Ташкенте. Ответственность за результат, а не за часы.
+              {c.desc}
             </p>
             <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
               {emails.map((e) => (
@@ -49,16 +102,10 @@ export function Footer({ settings }: { settings?: SiteSettings | null }) {
 
           {/* Services */}
           <div>
-            <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.07em", textTransform: "uppercase", color: "var(--ark-text-muted)", marginBottom: 16 }}>Услуги</div>
+            <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.07em", textTransform: "uppercase", color: "var(--ark-text-muted)", marginBottom: 16 }}>{c.services}</div>
             <nav style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-              {[
-                ["IT-аутсорсинг",    "/services/it-outsourcing"],
-                ["IT-поддержка",     "/services/itsm"],
-                ["Инфраструктура",   "/services/infrastructure"],
-                ["Кибербезопасность", "/services/managed-it"],
-                ["Все услуги",       "/services"],
-              ].map(([label, href]) => (
-                <Link key={href} href={href}
+              {c.serviceLinks.map((label, i) => (
+                <Link key={SERVICE_HREFS[i]} href={SERVICE_HREFS[i]}
                   style={{ fontSize: 13.5, color: "var(--ark-text-muted)", textDecoration: "none", transition: "color 0.15s" }}
                   onMouseEnter={(e) => (e.currentTarget.style.color = "var(--ark-text)")}
                   onMouseLeave={(e) => (e.currentTarget.style.color = "var(--ark-text-muted)")}
@@ -69,16 +116,10 @@ export function Footer({ settings }: { settings?: SiteSettings | null }) {
 
           {/* Company */}
           <div>
-            <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.07em", textTransform: "uppercase", color: "var(--ark-text-muted)", marginBottom: 16 }}>Компания</div>
+            <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.07em", textTransform: "uppercase", color: "var(--ark-text-muted)", marginBottom: 16 }}>{c.company}</div>
             <nav style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-              {[
-                ["О нас",    "/about"],
-                ["Кейсы",    "/cases"],
-                ["Блог",     "/blog"],
-                ["GoARKAN",  "/goarkan"],
-                ["Контакты", "/contact"],
-              ].map(([label, href]) => (
-                <Link key={href} href={href}
+              {c.companyLinks.map((label, i) => (
+                <Link key={COMPANY_HREFS[i]} href={COMPANY_HREFS[i]}
                   style={{ fontSize: 13.5, color: "var(--ark-text-muted)", textDecoration: "none", transition: "color 0.15s" }}
                   onMouseEnter={(e) => (e.currentTarget.style.color = "var(--ark-text)")}
                   onMouseLeave={(e) => (e.currentTarget.style.color = "var(--ark-text-muted)")}
@@ -89,15 +130,10 @@ export function Footer({ settings }: { settings?: SiteSettings | null }) {
 
           {/* Pricing */}
           <div>
-            <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.07em", textTransform: "uppercase", color: "var(--ark-text-muted)", marginBottom: 16 }}>Тарифы</div>
+            <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.07em", textTransform: "uppercase", color: "var(--ark-text-muted)", marginBottom: 16 }}>{c.pricing}</div>
             <nav style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-              {[
-                ["START",        "/pricing#start"],
-                ["OPERATIONS",   "/pricing#operations"],
-                ["ENTERPRISE",   "/pricing#enterprise"],
-                ["Индивидуально", "/contact"],
-              ].map(([label, href]) => (
-                <Link key={href} href={href}
+              {c.pricingLinks.map((label, i) => (
+                <Link key={PRICING_HREFS[i]} href={PRICING_HREFS[i]}
                   style={{ fontSize: 13.5, color: "var(--ark-text-muted)", textDecoration: "none", transition: "color 0.15s" }}
                   onMouseEnter={(e) => (e.currentTarget.style.color = "var(--ark-text)")}
                   onMouseLeave={(e) => (e.currentTarget.style.color = "var(--ark-text-muted)")}
@@ -110,10 +146,10 @@ export function Footer({ settings }: { settings?: SiteSettings | null }) {
         {/* Bottom bar */}
         <div style={{ borderTop: "1px solid transparent", borderImage: "linear-gradient(to right, transparent, rgba(148,163,184,0.1), transparent) 1", paddingTop: 24, display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 12 }}>
           <span style={{ fontSize: 13, color: "var(--ark-text-muted)" }}>
-            © {year} {name}. Все права защищены.
+            © {year} {name}. {c.rights}
           </span>
           <div style={{ display: "flex", gap: 20 }}>
-            <Link href="/privacy" style={{ fontSize: 13, color: "var(--ark-text-muted)", textDecoration: "none" }}>Политика конфиденциальности</Link>
+            <Link href="/privacy" style={{ fontSize: 13, color: "var(--ark-text-muted)", textDecoration: "none" }}>{c.privacy}</Link>
             <span style={{ fontSize: 13, color: "var(--ark-text-muted)" }}>Powered by GoARKAN</span>
           </div>
         </div>

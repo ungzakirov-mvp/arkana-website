@@ -2,59 +2,179 @@
 
 import Link from "next/link";
 import { motion } from "framer-motion";
+import { useApp } from "@/components/providers/ThemeLanguageProvider";
 import type { Plan } from "@/lib/cms-api";
 
-const SUBTITLES: Record<string, string> = {
-  start:      "Малый бизнес",
-  operations: "Растущий бизнес",
-  enterprise: "Крупный бизнес",
+const COPY: Record<string, {
+  label: string; perMonth: string; tagline: string;
+  popular: string; included: string; custom: string;
+  subtitles: Record<string, string>;
+  fallbackPlans: Plan[];
+  footnote: string; footnoteLink: string;
+}> = {
+  ru: {
+    label: "Тарифы",
+    perMonth: "сум/мес",
+    tagline: "Фиксированная стоимость. Всё включено. SLA зафиксирован в договоре со штрафными санкциями.",
+    popular: "Популярный",
+    included: "Включено",
+    custom: "Индивидуально",
+    subtitles: { start: "Малый бизнес", operations: "Растущий бизнес", enterprise: "Крупный бизнес" },
+    fallbackPlans: [
+      {
+        id: 1, slug: "start", name: "START", is_popular: false, sort_order: 1,
+        max_workstations: 25, price_label: "от 3 000 000", price_monthly: 3000000,
+        cta_label: "Начать с START", cta_href: "/contact", website_show_contact_sales: false,
+        features: [
+          { text: "Service Desk (GoARKAN)", is_included: true },
+          { text: "SLA — реакция 2 часа", is_included: true },
+          { text: "Именной инженер", is_included: false },
+        ],
+        services: [
+          { count: "до 25", label: "Рабочих мест" },
+          { count: "40", label: "Заявок в мес." },
+        ],
+      },
+      {
+        id: 2, slug: "operations", name: "OPERATIONS", is_popular: true, sort_order: 2,
+        max_workstations: 75, price_label: "от 6 000 000", price_monthly: 6000000,
+        cta_label: "Начать с OPERATIONS", cta_href: "/contact", website_show_contact_sales: false,
+        features: [
+          { text: "Service Desk (GoARKAN)", is_included: true },
+          { text: "SLA — реакция 1 час", is_included: true },
+          { text: "Именной инженер", is_included: true },
+        ],
+        services: [
+          { count: "до 75", label: "Рабочих мест" },
+          { count: "100", label: "Заявок в мес." },
+        ],
+      },
+      {
+        id: 3, slug: "enterprise", name: "ENTERPRISE", is_popular: false, sort_order: 3,
+        max_workstations: null, price_label: "Индивидуально", price_monthly: null,
+        cta_label: "Связаться с нами", cta_href: "/contact", website_show_contact_sales: true,
+        features: [
+          { text: "Выделенная команда", is_included: true },
+          { text: "Индивидуальный SLA", is_included: true },
+          { text: "Кибербезопасность", is_included: true },
+        ],
+        services: [],
+      },
+    ],
+    footnote: "Нестандартная инфраструктура? Специфические требования?",
+    footnoteLink: "Обсудить условия →",
+  },
+  en: {
+    label: "Pricing",
+    perMonth: "UZS/mo",
+    tagline: "Fixed price. Everything included. SLA is contractually binding with financial penalties.",
+    popular: "Popular",
+    included: "Included",
+    custom: "Custom",
+    subtitles: { start: "Small business", operations: "Growing business", enterprise: "Large business" },
+    fallbackPlans: [
+      {
+        id: 1, slug: "start", name: "START", is_popular: false, sort_order: 1,
+        max_workstations: 25, price_label: "from 3,000,000", price_monthly: 3000000,
+        cta_label: "Start with START", cta_href: "/contact", website_show_contact_sales: false,
+        features: [
+          { text: "Service Desk (GoARKAN)", is_included: true },
+          { text: "SLA — 2h response", is_included: true },
+          { text: "Named engineer", is_included: false },
+        ],
+        services: [
+          { count: "up to 25", label: "Workstations" },
+          { count: "40", label: "Tickets/mo" },
+        ],
+      },
+      {
+        id: 2, slug: "operations", name: "OPERATIONS", is_popular: true, sort_order: 2,
+        max_workstations: 75, price_label: "from 6,000,000", price_monthly: 6000000,
+        cta_label: "Start with OPERATIONS", cta_href: "/contact", website_show_contact_sales: false,
+        features: [
+          { text: "Service Desk (GoARKAN)", is_included: true },
+          { text: "SLA — 1h response", is_included: true },
+          { text: "Named engineer", is_included: true },
+        ],
+        services: [
+          { count: "up to 75", label: "Workstations" },
+          { count: "100", label: "Tickets/mo" },
+        ],
+      },
+      {
+        id: 3, slug: "enterprise", name: "ENTERPRISE", is_popular: false, sort_order: 3,
+        max_workstations: null, price_label: "Custom", price_monthly: null,
+        cta_label: "Contact us", cta_href: "/contact", website_show_contact_sales: true,
+        features: [
+          { text: "Dedicated team", is_included: true },
+          { text: "Custom SLA", is_included: true },
+          { text: "Cybersecurity", is_included: true },
+        ],
+        services: [],
+      },
+    ],
+    footnote: "Non-standard infrastructure? Specific requirements?",
+    footnoteLink: "Discuss terms →",
+  },
+  uz: {
+    label: "Tariflar",
+    perMonth: "so'm/oy",
+    tagline: "Belgilangan narx. Hamma narsa kiritilgan. SLA jarima sanksiyalari bilan shartnomada mustahkamlangan.",
+    popular: "Mashhur",
+    included: "Kiritilgan",
+    custom: "Individual",
+    subtitles: { start: "Kichik biznes", operations: "O'suvchi biznes", enterprise: "Yirik biznes" },
+    fallbackPlans: [
+      {
+        id: 1, slug: "start", name: "START", is_popular: false, sort_order: 1,
+        max_workstations: 25, price_label: "3 000 000 dan", price_monthly: 3000000,
+        cta_label: "START bilan boshlash", cta_href: "/contact", website_show_contact_sales: false,
+        features: [
+          { text: "Service Desk (GoARKAN)", is_included: true },
+          { text: "SLA — 2 soat ichida javob", is_included: true },
+          { text: "Shaxsiy muhandis", is_included: false },
+        ],
+        services: [
+          { count: "25 tagacha", label: "Ish joylari" },
+          { count: "40", label: "Arizalar/oy" },
+        ],
+      },
+      {
+        id: 2, slug: "operations", name: "OPERATIONS", is_popular: true, sort_order: 2,
+        max_workstations: 75, price_label: "6 000 000 dan", price_monthly: 6000000,
+        cta_label: "OPERATIONS bilan boshlash", cta_href: "/contact", website_show_contact_sales: false,
+        features: [
+          { text: "Service Desk (GoARKAN)", is_included: true },
+          { text: "SLA — 1 soat ichida javob", is_included: true },
+          { text: "Shaxsiy muhandis", is_included: true },
+        ],
+        services: [
+          { count: "75 tagacha", label: "Ish joylari" },
+          { count: "100", label: "Arizalar/oy" },
+        ],
+      },
+      {
+        id: 3, slug: "enterprise", name: "ENTERPRISE", is_popular: false, sort_order: 3,
+        max_workstations: null, price_label: "Individual", price_monthly: null,
+        cta_label: "Biz bilan bog'laning", cta_href: "/contact", website_show_contact_sales: true,
+        features: [
+          { text: "Ajratilgan jamoa", is_included: true },
+          { text: "Individual SLA", is_included: true },
+          { text: "Kiberxavfsizlik", is_included: true },
+        ],
+        services: [],
+      },
+    ],
+    footnote: "Nostandart infratuzilma? O'ziga xos talablar?",
+    footnoteLink: "Shartlarni muhokama qilish →",
+  },
 };
 
-const FALLBACK_PLANS: Plan[] = [
-  {
-    id: 1, slug: "start", name: "START", is_popular: false, sort_order: 1,
-    max_workstations: 25, price_label: "от 3 000 000", price_monthly: 3000000,
-    cta_label: "Начать с START", cta_href: "/contact", website_show_contact_sales: false,
-    features: [
-      { text: "Service Desk (GoARKAN)", is_included: true },
-      { text: "SLA — реакция 2 часа", is_included: true },
-      { text: "Именной инженер", is_included: false },
-    ],
-    services: [
-      { count: "до 25", label: "Рабочих мест" },
-      { count: "40", label: "Заявок в мес." },
-    ],
-  },
-  {
-    id: 2, slug: "operations", name: "OPERATIONS", is_popular: true, sort_order: 2,
-    max_workstations: 75, price_label: "от 6 000 000", price_monthly: 6000000,
-    cta_label: "Начать с OPERATIONS", cta_href: "/contact", website_show_contact_sales: false,
-    features: [
-      { text: "Service Desk (GoARKAN)", is_included: true },
-      { text: "SLA — реакция 1 час", is_included: true },
-      { text: "Именной инженер", is_included: true },
-    ],
-    services: [
-      { count: "до 75", label: "Рабочих мест" },
-      { count: "100", label: "Заявок в мес." },
-    ],
-  },
-  {
-    id: 3, slug: "enterprise", name: "ENTERPRISE", is_popular: false, sort_order: 3,
-    max_workstations: null, price_label: "Индивидуально", price_monthly: null,
-    cta_label: "Связаться с нами", cta_href: "/contact", website_show_contact_sales: true,
-    features: [
-      { text: "Выделенная команда", is_included: true },
-      { text: "Индивидуальный SLA", is_included: true },
-      { text: "Кибербезопасность", is_included: true },
-    ],
-    services: [],
-  },
-];
-
 export function HomePricing({ plans = [] }: { plans?: Plan[] }) {
-  const activePlans = plans.length > 0 ? plans : FALLBACK_PLANS;
-  const startPrice = activePlans.find(p => p.slug === "start")?.price_label ?? "от 3 000 000";
+  const { lang } = useApp();
+  const c = COPY[lang] ?? COPY.ru;
+  const activePlans = plans.length > 0 ? plans : c.fallbackPlans;
+  const startPrice = activePlans.find(p => p.slug === "start")?.price_label ?? c.fallbackPlans[0].price_label;
 
   return (
     <section id="pricing" style={{ background: "var(--ark-bg)", padding: "120px 0" }}>
@@ -62,14 +182,14 @@ export function HomePricing({ plans = [] }: { plans?: Plan[] }) {
 
         {/* Header */}
         <div style={{ marginBottom: 64 }}>
-          <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--ark-text-hint)", marginBottom: 16 }}>Тарифы</div>
+          <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--ark-text-hint)", marginBottom: 16 }}>{c.label}</div>
           <div style={{ display: "flex", alignItems: "flex-end", gap: 24, flexWrap: "wrap" }}>
             <h2 style={{ fontFamily: "Nacelle, sans-serif", fontWeight: 600, fontSize: "clamp(2.5rem, 4vw, 4rem)", lineHeight: 1, letterSpacing: "-0.05em", color: "var(--ark-text-heading)", margin: 0 }}>
               {startPrice}
-              <span style={{ color: "var(--ark-text-hint)" }}> сум/мес.</span>
+              <span style={{ color: "var(--ark-text-hint)" }}> {c.perMonth}</span>
             </h2>
             <p style={{ fontSize: 14, lineHeight: 1.6, color: "var(--ark-text-sub)", margin: "0 0 6px", maxWidth: 340, letterSpacing: "-0.01em" }}>
-              Фиксированная стоимость. Всё включено. SLA зафиксирован в договоре со штрафными санкциями.
+              {c.tagline}
             </p>
           </div>
         </div>
@@ -103,13 +223,13 @@ export function HomePricing({ plans = [] }: { plans?: Plan[] }) {
                 </span>
                 {plan.is_popular && (
                   <span style={{ fontSize: 9, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--ark-accent-2)", border: "1px solid var(--ark-accent-glow)", padding: "2px 7px", borderRadius: 4 }}>
-                    Популярный
+                    {c.popular}
                   </span>
                 )}
               </div>
 
               <div style={{ fontSize: 12, color: "var(--ark-text-faint)", marginBottom: 20, letterSpacing: "-0.01em" }}>
-                {SUBTITLES[plan.slug] ?? ""}
+                {c.subtitles[plan.slug] ?? ""}
               </div>
 
               {/* Price */}
@@ -118,7 +238,7 @@ export function HomePricing({ plans = [] }: { plans?: Plan[] }) {
                   {plan.price_label}
                 </span>
                 {plan.price_monthly != null && (
-                  <span style={{ fontSize: 12, color: "var(--ark-text-label)", letterSpacing: "-0.01em", marginLeft: 6 }}>сум/мес</span>
+                  <span style={{ fontSize: 12, color: "var(--ark-text-label)", letterSpacing: "-0.01em", marginLeft: 6 }}>{c.perMonth}</span>
                 )}
               </div>
 
@@ -152,7 +272,7 @@ export function HomePricing({ plans = [] }: { plans?: Plan[] }) {
               {/* Features */}
               {plan.features.length > 0 && (
                 <div style={{ borderTop: "1px solid var(--ark-divider)", paddingTop: 20 }}>
-                  <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.09em", textTransform: "uppercase", color: "var(--ark-text-faint)", marginBottom: 12 }}>Включено</div>
+                  <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.09em", textTransform: "uppercase", color: "var(--ark-text-faint)", marginBottom: 12 }}>{c.included}</div>
                   <div style={{ display: "flex", flexDirection: "column", gap: 9 }}>
                     {plan.features.map(f => (
                       <div key={f.text} style={{ display: "flex", alignItems: "baseline", gap: 10 }}>
@@ -171,9 +291,9 @@ export function HomePricing({ plans = [] }: { plans?: Plan[] }) {
 
         {/* Footnote */}
         <div style={{ marginTop: 16, display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 8, padding: "14px 20px", borderRadius: 8, border: "1px solid var(--ark-border)" }}>
-          <span style={{ fontSize: 13, color: "var(--ark-text-label)", letterSpacing: "-0.01em" }}>Нестандартная инфраструктура? Специфические требования?</span>
+          <span style={{ fontSize: 13, color: "var(--ark-text-label)", letterSpacing: "-0.01em" }}>{c.footnote}</span>
           <Link href="/contact" style={{ fontSize: 13, fontWeight: 600, color: "var(--ark-accent-2)", textDecoration: "none", letterSpacing: "-0.01em" }}>
-            Обсудить условия →
+            {c.footnoteLink}
           </Link>
         </div>
 
