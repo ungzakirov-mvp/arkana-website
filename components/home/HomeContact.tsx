@@ -7,40 +7,43 @@ import type { SiteSettings } from "@/lib/cms-api";
 const COPY: Record<string, {
   label: string; h2: string; body: string;
   emailLabel: string; telegramLabel: string; addressLabel: string; hoursLabel: string;
-  cta: string; ctaSub: string;
+  cta: string; ctaBoxTitle: string; ctaBoxSub: string;
 }> = {
   ru: {
     label: "Контакты",
-    h2: "Свяжитесь с нами",
-    body: "Расскажите о вашем бизнесе — мы подготовим коммерческое предложение и ответим в течение рабочего дня.",
+    h2: "Готовы обсудить ваш проект?",
+    body: "Расскажите о бизнесе — подготовим предложение за один рабочий день. Без обязательств.",
     emailLabel: "Email",
     telegramLabel: "Telegram",
     addressLabel: "Адрес",
     hoursLabel: "Режим работы",
-    cta: "Перейти к форме",
-    ctaSub: "или напишите напрямую",
+    cta: "Получить коммерческое предложение",
+    ctaBoxTitle: "Получить коммерческое предложение",
+    ctaBoxSub: "Ответим в течение рабочего дня",
   },
   en: {
     label: "Contact",
-    h2: "Get in touch",
-    body: "Tell us about your business — we will prepare a commercial proposal and reply within one business day.",
+    h2: "Ready to discuss your project?",
+    body: "Tell us about your business — we will prepare a proposal within one business day. No obligation.",
     emailLabel: "Email",
     telegramLabel: "Telegram",
     addressLabel: "Address",
     hoursLabel: "Working hours",
-    cta: "Go to form",
-    ctaSub: "or write to us directly",
+    cta: "Get a commercial proposal",
+    ctaBoxTitle: "Get a commercial proposal",
+    ctaBoxSub: "We reply within one business day",
   },
   uz: {
     label: "Aloqa",
-    h2: "Biz bilan bog'laning",
-    body: "Biznesingiz haqida ayting — tijorat taklifini tayyorlaymiz va bir ish kuni ichida javob beramiz.",
+    h2: "Loyihangizni muhokama qilishga tayyormisiz?",
+    body: "Biznesingiz haqida ayting — bir ish kunida taklif tayyorlaymiz. Majburiyatsiz.",
     emailLabel: "Email",
     telegramLabel: "Telegram",
     addressLabel: "Manzil",
     hoursLabel: "Ish vaqti",
-    cta: "Formaga o'tish",
-    ctaSub: "yoki to'g'ridan-to'g'ri yozing",
+    cta: "Tijorat taklifi olish",
+    ctaBoxTitle: "Tijorat taklifi olish",
+    ctaBoxSub: "Bir ish kuni ichida javob beramiz",
   },
 };
 
@@ -105,23 +108,29 @@ export function HomeContact({ settings }: { settings?: SiteSettings | null }) {
           {/* Right — CTA box */}
           <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
             <div style={{ padding: "48px 40px", borderRadius: 12, border: "1px solid var(--ark-border)", background: "var(--ark-bg-2)", display: "flex", flexDirection: "column", gap: 24 }}>
-              <div style={{ fontFamily: "Nacelle, sans-serif", fontWeight: 600, fontSize: "1.5rem", letterSpacing: "-0.04em", color: "var(--ark-text-heading)", lineHeight: 1.2 }}>
-                {c.ctaSub}
+              <div>
+                <div style={{ fontFamily: "Nacelle, sans-serif", fontWeight: 600, fontSize: "1.375rem", letterSpacing: "-0.04em", color: "var(--ark-text-heading)", lineHeight: 1.2, marginBottom: 6 }}>
+                  {c.ctaBoxTitle}
+                </div>
+                <div style={{ fontSize: 13, color: "var(--ark-text-muted)", letterSpacing: "-0.01em" }}>
+                  {c.ctaBoxSub}
+                </div>
               </div>
-              <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-                <a href={emailHref} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "16px 20px", borderRadius: 8, border: "1px solid var(--ark-border)", textDecoration: "none", color: "var(--ark-text)", fontSize: 14, fontWeight: 500 }}>
+              <Link href="/contact" style={{ display: "flex", alignItems: "center", justifyContent: "center", padding: "14px 24px", borderRadius: 8, background: "var(--ark-accent)", color: "#fff", fontWeight: 700, fontSize: 14, textDecoration: "none", letterSpacing: "-0.01em", boxShadow: "0 0 24px rgba(99,102,241,0.3)" }}>
+                {c.cta}
+              </Link>
+              <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+                <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: "0.07em", textTransform: "uppercase", color: "var(--ark-text-faint)", marginBottom: 4 }}>
+                  {lang === "ru" ? "Или напишите напрямую" : lang === "uz" ? "Yoki to'g'ridan-to'g'ri yozing" : "Or reach us directly"}
+                </div>
+                <a href={emailHref} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "14px 18px", borderRadius: 8, border: "1px solid var(--ark-border)", textDecoration: "none", color: "var(--ark-text-muted)", fontSize: 13.5, fontWeight: 500, transition: "color 0.15s" }}>
                   <span>{email}</span>
-                  <span style={{ fontSize: 11, color: "var(--ark-text-faint)", letterSpacing: "0.04em", textTransform: "uppercase" }}>Email</span>
+                  <span style={{ fontSize: 10, color: "var(--ark-text-faint)", letterSpacing: "0.06em", textTransform: "uppercase" }}>Email</span>
                 </a>
-                <a href={tgHref} target="_blank" rel="noopener noreferrer" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "16px 20px", borderRadius: 8, border: "1px solid var(--ark-border)", textDecoration: "none", color: "var(--ark-text)", fontSize: 14, fontWeight: 500 }}>
+                <a href={tgHref} target="_blank" rel="noopener noreferrer" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "14px 18px", borderRadius: 8, border: "1px solid var(--ark-border)", textDecoration: "none", color: "var(--ark-text-muted)", fontSize: 13.5, fontWeight: 500, transition: "color 0.15s" }}>
                   <span>{tg}</span>
-                  <span style={{ fontSize: 11, color: "var(--ark-text-faint)", letterSpacing: "0.04em", textTransform: "uppercase" }}>Telegram</span>
+                  <span style={{ fontSize: 10, color: "var(--ark-text-faint)", letterSpacing: "0.06em", textTransform: "uppercase" }}>Telegram</span>
                 </a>
-              </div>
-              <div style={{ borderTop: "1px solid var(--ark-divider)", paddingTop: 24 }}>
-                <Link href="/contact" style={{ display: "flex", alignItems: "center", justifyContent: "center", padding: "13px 24px", borderRadius: 8, background: "var(--ark-accent)", color: "#fff", fontWeight: 700, fontSize: 14, textDecoration: "none", letterSpacing: "-0.01em" }}>
-                  {c.cta}
-                </Link>
               </div>
             </div>
           </div>

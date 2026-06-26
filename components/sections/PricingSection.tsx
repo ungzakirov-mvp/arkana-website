@@ -344,8 +344,8 @@ const BENEFIT_ICONS = [ShieldCheck, EqualNot, RefreshCw, LayoutGrid];
 
 /* ─── Feature row value ─────────────────────────────────────────────── */
 function FeatureValue({ value }: { value: boolean | string }) {
-  if (value === true)  return <CheckCircle2 size={16} style={{ color: "#22c55e" }} />;
-  if (value === false) return <X size={16} style={{ color: "var(--ark-text-dim)", opacity: 0.4 }} />;
+  if (value === true)  return <CheckCircle2 size={16} style={{ color: "var(--ark-text-muted)" }} />;
+  if (value === false) return <X size={16} style={{ color: "var(--ark-text-faint)", opacity: 0.5 }} />;
   return <span style={{ fontSize: 13, color: "var(--ark-text-muted)" }}>{value}</span>;
 }
 

@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useApp } from "@/components/providers/ThemeLanguageProvider";
 import type { SiteSettings } from "@/lib/cms-api";
 
@@ -25,7 +26,7 @@ const COPY: Record<string, {
   privacy: string;
 }> = {
   ru: {
-    desc: "IT-аутсорсинг для бизнеса в Ташкенте. Ответственность за результат, а не за часы.",
+    desc: "Технологический партнёр для бизнеса в Ташкенте. Один договор — полная ответственность за IT.",
     services: "Услуги",
     company: "Компания",
     pricing: "Тарифы",
@@ -36,7 +37,7 @@ const COPY: Record<string, {
     privacy: "Политика конфиденциальности",
   },
   en: {
-    desc: "IT outsourcing for businesses in Tashkent. Accountability for results, not hours.",
+    desc: "Technology partner for businesses in Tashkent. One contract — full accountability for IT.",
     services: "Services",
     company: "Company",
     pricing: "Pricing",
@@ -47,7 +48,7 @@ const COPY: Record<string, {
     privacy: "Privacy Policy",
   },
   uz: {
-    desc: "Toshkentdagi biznes uchun IT-autsorsing. Natija uchun javobgarlik, soatlar uchun emas.",
+    desc: "Toshkentdagi biznes uchun texnologiya hamkori. Bitta shartnoma — IT uchun to'liq javobgarlik.",
     services: "Xizmatlar",
     company: "Kompaniya",
     pricing: "Tariflar",
@@ -82,7 +83,7 @@ export function Footer({ settings }: { settings?: SiteSettings | null }) {
           {/* Brand + contacts */}
           <div>
             <Link href="/" style={{ textDecoration: "none", display: "flex", alignItems: "center", gap: 8, marginBottom: 16 }}>
-              <span style={{ width: 28, height: 28, borderRadius: 8, background: "linear-gradient(135deg, #6366f1, #4338ca)", display: "flex", alignItems: "center", justifyContent: "center", color: "#fff", fontFamily: "Nacelle, sans-serif", fontWeight: 600, fontSize: 14 }}>A</span>
+              <Image src="/logo-3d.png" alt="ARKANA" width={28} height={28} style={{ width: 28, height: 28, objectFit: "contain" }} />
               <span style={{ fontFamily: "Nacelle, sans-serif", fontWeight: 600, fontSize: 15, color: "var(--ark-text)", letterSpacing: "-0.02em" }}>{name}</span>
             </Link>
             <p style={{ fontSize: 13.5, color: "var(--ark-text-muted)", lineHeight: 1.65, maxWidth: 280, marginBottom: 20 }}>
@@ -150,7 +151,6 @@ export function Footer({ settings }: { settings?: SiteSettings | null }) {
           </span>
           <div style={{ display: "flex", gap: 20 }}>
             <Link href="/privacy" style={{ fontSize: 13, color: "var(--ark-text-muted)", textDecoration: "none" }}>{c.privacy}</Link>
-            <span style={{ fontSize: 13, color: "var(--ark-text-muted)" }}>Powered by GoARKAN</span>
           </div>
         </div>
       </div>

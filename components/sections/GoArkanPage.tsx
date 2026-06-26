@@ -4,7 +4,8 @@ import { useState } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
-import { TicketCheck, HardDrive, LayoutDashboard, Users2, ArrowRight, CheckCircle2 } from "lucide-react";
+import { TicketCheck, HardDrive, LayoutDashboard, Users2, ArrowRight, CheckCircle2, ShieldCheck, Zap, BarChart2, Link2 } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
@@ -43,11 +44,11 @@ const MODULES = [
   },
 ];
 
-const BENEFITS = [
-  { icon: "🔒", title: "Прозрачность", desc: "Клиент видит каждую заявку, каждый актив и каждый показатель работы нашей команды." },
-  { icon: "⚡", title: "Скорость", desc: "Заявки регистрируются автоматически, SLA-таймер запускается сразу. Ничего не теряется." },
-  { icon: "📊", title: "Аналитика", desc: "Ежемесячные отчёты и реальные данные о работе IT без ручной подготовки." },
-  { icon: "🔗", title: "Интеграции", desc: "Telegram, email, SMS для уведомлений. API для интеграции с вашими системами." },
+const BENEFITS: { Icon: LucideIcon; title: string; desc: string }[] = [
+  { Icon: ShieldCheck, title: "Прозрачность", desc: "Клиент видит каждую заявку, каждый актив и каждый показатель работы нашей команды." },
+  { Icon: Zap,        title: "Скорость",      desc: "Заявки регистрируются автоматически, SLA-таймер запускается сразу. Ничего не теряется." },
+  { Icon: BarChart2,  title: "Аналитика",     desc: "Ежемесячные отчёты и реальные данные о работе IT без ручной подготовки." },
+  { Icon: Link2,      title: "Интеграции",    desc: "Telegram, email, SMS для уведомлений. API для интеграции с вашими системами." },
 ];
 
 export function GoArkanPage() {
@@ -163,18 +164,18 @@ export function GoArkanPage() {
             </h2>
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 24 }} className="max-md:grid-cols-2 max-sm:grid-cols-1">
-            {BENEFITS.map((b, i) => (
+            {BENEFITS.map(({ Icon, title, desc }, i) => (
               <motion.div
-                key={b.title}
+                key={title}
                 initial={{ opacity: 0, y: 24 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, ease: EASE, delay: i * 0.07 }}
                 style={{ padding: "24px", borderRadius: 14, background: "var(--ark-card)", border: "1px solid var(--ark-card-border)" }}
               >
-                <div style={{ fontSize: 28, marginBottom: 12 }}>{b.icon}</div>
-                <h3 style={{ fontFamily: "Nacelle, sans-serif", fontSize: 15, fontWeight: 600, color: "var(--ark-text)", marginBottom: 8 }}>{b.title}</h3>
-                <p style={{ fontSize: 13.5, color: "var(--ark-text-muted)", lineHeight: 1.6 }}>{b.desc}</p>
+                <div style={{ marginBottom: 14, color: "var(--ark-text-muted)" }}><Icon size={20} strokeWidth={1.5} /></div>
+                <h3 style={{ fontFamily: "Nacelle, sans-serif", fontSize: 15, fontWeight: 600, color: "var(--ark-text)", marginBottom: 8 }}>{title}</h3>
+                <p style={{ fontSize: 13.5, color: "var(--ark-text-muted)", lineHeight: 1.6 }}>{desc}</p>
               </motion.div>
             ))}
           </div>

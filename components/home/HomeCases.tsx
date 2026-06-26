@@ -129,16 +129,16 @@ export function HomeCases() {
               {/* Problem + Solution */}
               <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
                 <div>
-                  <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--ark-text-faint)", marginBottom: 8 }}>
+                  <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--ark-text-muted)", marginBottom: 8 }}>
                     {lang === "ru" ? "Ситуация" : lang === "uz" ? "Vaziyat" : "Situation"}
                   </div>
-                  <p style={{ fontSize: 13, color: "var(--ark-text-label)", lineHeight: 1.65, margin: 0, letterSpacing: "-0.01em" }}>{ind.problem}</p>
+                  <p style={{ fontSize: 13, color: "var(--ark-text-sub)", lineHeight: 1.65, margin: 0, letterSpacing: "-0.01em" }}>{ind.problem}</p>
                 </div>
                 <div>
-                  <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--ark-text-faint)", marginBottom: 8 }}>
+                  <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--ark-text-muted)", marginBottom: 8 }}>
                     {lang === "ru" ? "Решение ARKANA" : lang === "uz" ? "ARKANA yechimi" : "ARKANA solution"}
                   </div>
-                  <p style={{ fontSize: 13, color: "var(--ark-text-label)", lineHeight: 1.65, margin: 0, letterSpacing: "-0.01em" }}>{ind.solution}</p>
+                  <p style={{ fontSize: 13, color: "var(--ark-text-sub)", lineHeight: 1.65, margin: 0, letterSpacing: "-0.01em" }}>{ind.solution}</p>
                 </div>
               </div>
 

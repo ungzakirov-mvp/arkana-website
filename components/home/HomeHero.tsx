@@ -64,7 +64,7 @@ export function HomeHero() {
           <h1 style={{ fontFamily: "Nacelle, sans-serif", fontWeight: 600, fontSize: "clamp(40px, 5vw, 68px)", lineHeight: 1.04, letterSpacing: "-0.04em", color: "var(--ark-text-heading)", margin: "0 0 28px" }}>
             {copy.h1a}
             <br />
-            <span style={{ color: "var(--ark-text-hint)" }}>{copy.h1b}</span>
+            <span style={{ color: "var(--ark-text-sub)" }}>{copy.h1b}</span>
           </h1>
 
           <div style={{ display: "flex", flexWrap: "wrap", gap: "6px 0", marginBottom: 28, alignItems: "center" }}>

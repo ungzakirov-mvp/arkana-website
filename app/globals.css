@@ -104,9 +104,9 @@
   --ark-text-heading: #ffffff;
   --ark-text-muted: #6b7280;
   --ark-text-sub: rgba(255,255,255,0.38);
-  --ark-text-hint: rgba(255,255,255,0.25);
-  --ark-text-faint: rgba(255,255,255,0.18);
-  --ark-text-label: rgba(255,255,255,0.28);
+  --ark-text-hint: rgba(255,255,255,0.42);
+  --ark-text-faint: rgba(255,255,255,0.32);
+  --ark-text-label: rgba(255,255,255,0.42);
   --ark-text-dim: #374151;
   --ark-accent: #6366f1;
   --ark-accent-2: #818cf8;
