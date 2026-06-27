@@ -2,7 +2,13 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight, CheckCircle2 } from "lucide-react";
 import { ContactCTA } from "@/components/sections/ContactCTA";
-import { itsmSchema } from "@/lib/seo";
+import { itsmSchema, buildBreadcrumbSchema } from "@/lib/seo";
+
+const breadcrumb = buildBreadcrumbSchema([
+  { name: "Главная", url: "/" },
+  { name: "Услуги", url: "/services" },
+  { name: "IT Service Management", url: "/services/itsm" },
+]);
 
 export const metadata: Metadata = {
   title: "IT Service Management | Платформа GoARKAN | ARKANA",
@@ -31,10 +37,8 @@ const included = [
 export default function ITSMPage() {
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(itsmSchema) }}
-      />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(itsmSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }} />
 
       <section className="pt-36 pb-24" style={{ background: "var(--ark-bg)" }}>
         <div className="max-w-[75rem] mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">

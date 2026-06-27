@@ -2,7 +2,13 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight, CheckCircle2 } from "lucide-react";
 import { ContactCTA } from "@/components/sections/ContactCTA";
-import { cybersecuritySchema } from "@/lib/seo";
+import { cybersecuritySchema, buildBreadcrumbSchema } from "@/lib/seo";
+
+const breadcrumb = buildBreadcrumbSchema([
+  { name: "Главная", url: "/" },
+  { name: "Услуги", url: "/services" },
+  { name: "Кибербезопасность", url: "/services/managed-it" },
+]);
 
 export const metadata: Metadata = {
   title: "Кибербезопасность для бизнеса | ARKANA — Ташкент",
@@ -31,10 +37,8 @@ const included = [
 export default function ManagedITPage() {
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(cybersecuritySchema) }}
-      />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(cybersecuritySchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }} />
 
       <section className="pt-36 pb-24" style={{ background: "var(--ark-bg)" }}>
         <div className="max-w-[75rem] mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowLeft, Clock } from "lucide-react";
 import { notFound } from "next/navigation";
+import { buildArticleSchema, buildBreadcrumbSchema } from "@/lib/seo";
 
 const POSTS: Record<string, {
   title: string; category: string; date: string; readTime: string;
@@ -267,9 +268,17 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
   if (!post) notFound();
 
   const paragraphs = post.content.trim().split("\n\n");
+  const articleSchema  = buildArticleSchema({ slug, title: post.title, excerpt: post.excerpt, date: post.date });
+  const breadcrumbSchema = buildBreadcrumbSchema([
+    { name: "Главная", url: "/" },
+    { name: "Блог", url: "/blog" },
+    { name: post.title, url: `/blog/${slug}` },
+  ]);
 
   return (
     <div style={{ minHeight: "100vh", paddingBottom: 96 }}>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
       {/* Header */}
       <section style={{ padding: "96px 0 48px", position: "relative", overflow: "hidden" }}>
         <div aria-hidden="true" style={{ position: "absolute", inset: 0, background: "radial-gradient(ellipse 60% 40% at 50% -10%, rgba(99,102,241,0.1), transparent)", pointerEvents: "none" }} />
