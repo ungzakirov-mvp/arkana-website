@@ -4,10 +4,17 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { ArrowRight, Clock } from "lucide-react";
+import { useApp } from "@/components/providers/ThemeLanguageProvider";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
 const CATEGORIES = ["Все", "IT-аутсорсинг", "Кибербезопасность", "Microsoft 365", "Инфраструктура", "Оптимизация затрат"];
+
+const UI: Record<string, { badge: string; h1a: string; h1b: string; all: string; featured: string; read: string }> = {
+  ru: { badge: "Блог", h1a: "IT для бизнеса —", h1b: "понятно и по делу", all: "Все", featured: "Главная статья", read: "Читать" },
+  en: { badge: "Blog", h1a: "IT for business —", h1b: "clear and practical", all: "All", featured: "Featured", read: "Read" },
+  uz: { badge: "Blog", h1a: "Biznes uchun IT —", h1b: "tushunarli va amaliy", all: "Barchasi", featured: "Asosiy maqola", read: "O'qish" },
+};
 
 const POSTS = [
   {
@@ -67,9 +74,12 @@ const POSTS = [
 ];
 
 export function BlogPage() {
-  const [category, setCategory] = useState("Все");
+  const { lang } = useApp();
+  const ui = UI[lang] ?? UI.ru;
+  const allLabel = ui.all;
+  const [category, setCategory] = useState(allLabel);
 
-  const filtered = category === "Все" ? POSTS : POSTS.filter(p => p.category === category);
+  const filtered = category === allLabel ? POSTS : POSTS.filter(p => p.category === category);
   const featured = filtered.find(p => p.featured);
   const rest = filtered.filter(p => !p.featured);
 
@@ -81,12 +91,12 @@ export function BlogPage() {
         <div style={{ maxWidth: "72rem", margin: "0 auto", padding: "0 1.5rem", position: "relative" }}>
           <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.65, ease: EASE }}>
             <div className="ark-badge" style={{ marginBottom: 24 }}>
-              <span style={{ fontSize: 12, fontWeight: 500, color: "var(--ark-accent-2)" }}>Блог</span>
+              <span style={{ fontSize: 12, fontWeight: 500, color: "var(--ark-accent-2)" }}>{ui.badge}</span>
             </div>
             <h1 style={{ fontFamily: "Nacelle, sans-serif", fontWeight: 600, fontSize: "clamp(2rem, 5vw, 3rem)", letterSpacing: "-0.04em", lineHeight: 1.1, marginBottom: 20 }}>
-              <span className="heading-gradient">IT для бизнеса —</span>
+              <span className="heading-gradient">{ui.h1a}</span>
               <br />
-              <span style={{ color: "var(--ark-text)" }}>понятно и по делу</span>
+              <span style={{ color: "var(--ark-text)" }}>{ui.h1b}</span>
             </h1>
           </motion.div>
         </div>
@@ -97,7 +107,7 @@ export function BlogPage() {
         <div style={{ maxWidth: "72rem", margin: "0 auto", padding: "0 1.5rem" }}>
           {/* Categories */}
           <div style={{ display: "flex", gap: 6, marginBottom: 48, flexWrap: "wrap" }}>
-            {CATEGORIES.map((cat) => (
+            {[allLabel, ...CATEGORIES.slice(1)].map((cat) => (
               <button
                 key={cat}
                 onClick={() => setCategory(cat)}
@@ -137,7 +147,7 @@ export function BlogPage() {
                       {featured.category}
                     </span>
                     <span style={{ fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em", padding: "3px 10px", borderRadius: 6, background: "var(--ark-surface)", color: "var(--ark-text-muted)" }}>
-                      Главная статья
+                      {ui.featured}
                     </span>
                   </div>
                   <h2 style={{ fontFamily: "Nacelle, sans-serif", fontSize: "clamp(1.375rem, 3vw, 1.875rem)", fontWeight: 600, color: "var(--ark-text)", lineHeight: 1.25, marginBottom: 16 }}>
@@ -153,7 +163,7 @@ export function BlogPage() {
                       {featured.readTime}
                     </span>
                     <span style={{ display: "flex", alignItems: "center", gap: 4, fontSize: 13, fontWeight: 600, color: "var(--ark-accent-2)" }}>
-                      Читать <ArrowRight size={12} />
+                      {ui.read} <ArrowRight size={12} />
                     </span>
                   </div>
                 </div>

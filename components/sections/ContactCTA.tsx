@@ -3,13 +3,49 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { ArrowRight, Calendar } from "lucide-react";
+import { useApp } from "@/components/providers/ThemeLanguageProvider";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
+const COPY: Record<string, {
+  badge: string; h2a: string; h2b: string; sub: string;
+  btn1: string; btn2: string; note: string;
+}> = {
+  ru: {
+    badge: "Начните прямо сейчас",
+    h2a: "Ваш IT-отдел под ключ",
+    h2b: "без накладных расходов",
+    sub: "Запросите коммерческое предложение. Подготовим за один рабочий день — с учётом вашей инфраструктуры и задач.",
+    btn1: "Получить коммерческое предложение",
+    btn2: "Посмотреть тарифы",
+    note: "Без обязательств · Результат за 1 день",
+  },
+  en: {
+    badge: "Get started",
+    h2a: "Your IT department, turnkey",
+    h2b: "without overhead",
+    sub: "Request a commercial proposal. We'll prepare it in one business day — tailored to your infrastructure and goals.",
+    btn1: "Get a commercial proposal",
+    btn2: "View pricing",
+    note: "No obligations · Response in 1 day",
+  },
+  uz: {
+    badge: "Boshlang",
+    h2a: "Kalit ostida IT bo'lim",
+    h2b: "qo'shimcha xarajatlarsiz",
+    sub: "Tijorat taklifi so'rang. Bir ish kuni ichida tayyorlaymiz — infratuzilmangiz va vazifalaringizni hisobga olgan holda.",
+    btn1: "Tijorat taklifi olish",
+    btn2: "Tariflarni ko'rish",
+    note: "Majburiyatsiz · 1 kun ichida javob",
+  },
+};
+
 export function ContactCTA() {
+  const { lang } = useApp();
+  const c = COPY[lang] ?? COPY.ru;
+
   return (
     <section style={{ padding: "96px 0", position: "relative", overflow: "hidden" }}>
-      {/* Background glow */}
       <div aria-hidden="true" style={{
         position: "absolute",
         bottom: "-20%", left: "50%",
@@ -36,19 +72,18 @@ export function ContactCTA() {
           >
             <div className="ark-badge" style={{ justifyContent: "center", marginBottom: 24 }}>
               <span style={{ fontSize: 12, fontWeight: 500, color: "var(--ark-accent-2)" }}>
-                Начните прямо сейчас
+                {c.badge}
               </span>
             </div>
 
             <h2 style={{ fontFamily: "Nacelle, sans-serif", fontWeight: 600, fontSize: "clamp(2rem, 4vw, 3rem)", letterSpacing: "-0.04em", lineHeight: 1.05, marginBottom: 20 }}>
-              <span className="heading-gradient">Ваш IT-отдел под ключ</span>
+              <span className="heading-gradient">{c.h2a}</span>
               <br />
-              <span style={{ color: "var(--ark-text)" }}>без накладных расходов</span>
+              <span style={{ color: "var(--ark-text)" }}>{c.h2b}</span>
             </h2>
 
-            <p style={{ fontSize: 17, color: "var(--ark-text-muted)", lineHeight: 1.65, marginBottom: 40, maxWidth: 500, margin: "0 auto 40px" }}>
-              Запросите бесплатный IT-аудит. За 5 дней получите полный отчёт об инфраструктуре
-              и конкретное предложение под ваш бизнес.
+            <p style={{ fontSize: 17, color: "var(--ark-text-muted)", lineHeight: 1.65, maxWidth: 500, margin: "0 auto 40px" }}>
+              {c.sub}
             </p>
 
             <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
@@ -63,7 +98,7 @@ export function ContactCTA() {
               onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.backgroundSize = "100% 100%")}
               >
                 <Calendar size={15} />
-                Запросить бесплатный аудит
+                {c.btn1}
               </Link>
               <Link href="/pricing" className="btn grad-border" style={{
                 background: "linear-gradient(to bottom, var(--ark-surface), rgba(17,24,39,0.6))",
@@ -74,13 +109,13 @@ export function ContactCTA() {
               onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.backgroundSize = "100% 150%")}
               onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.backgroundSize = "100% 100%")}
               >
-                Посмотреть тарифы
+                {c.btn2}
                 <ArrowRight size={15} />
               </Link>
             </div>
 
             <p style={{ fontSize: 12, color: "var(--ark-text-muted)", marginTop: 24 }}>
-              Без обязательств · Бесплатно · Результат за 5 дней
+              {c.note}
             </p>
           </motion.div>
         </div>
