@@ -74,6 +74,13 @@ export const metadata: Metadata = {
     description: "Технологический партнёр для бизнеса. SLA, Service Desk, GoARKAN.",
     images: [`${SITE_URL}/og-image.png`],
   },
+  icons: {
+    icon: [
+      { url: "/logo-3d.png", type: "image/png" },
+    ],
+    apple: "/logo-3d.png",
+    shortcut: "/logo-3d.png",
+  },
   robots: {
     index: true,
     follow: true,
