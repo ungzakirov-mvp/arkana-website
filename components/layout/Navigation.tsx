@@ -175,6 +175,9 @@ export function Navigation() {
               color: "white",
               boxShadow: "inset 0 1px 0 rgba(255,255,255,0.16)",
               transition: "background-size 0.2s",
+              minWidth: 164,
+              justifyContent: "center",
+              whiteSpace: "nowrap",
             }}
             onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.backgroundSize = "100% 150%")}
             onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.backgroundSize = "100% 100%")}
