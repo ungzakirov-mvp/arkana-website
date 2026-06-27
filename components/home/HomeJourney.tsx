@@ -15,9 +15,9 @@ const COPY: Record<string, {
     h2a: "От открытия заявки",
     h2b: "до готового отчёта.",
     sub: "Каждый инцидент проходит структурированный, отслеживаемый путь — вы видите каждый шаг через GoARKAN. Никаких звонков для уточнения статуса. Никаких догадок.",
-    demoTitle: "Смотрите GoARKAN в действии.",
-    demoSub: "Запросите живую демонстрацию на ваших данных.",
-    demoBtn: "Запросить демо",
+    demoTitle: "Хотите увидеть GoARKAN в работе?",
+    demoSub: "Запросите консультацию — покажем платформу на ваших реальных данных.",
+    demoBtn: "Получить консультацию",
     steps: [
       { num: "01", actor: "Сотрудник", title: "Создаёт заявку", body: "Через портал GoARKAN, email или Telegram. Заявка автоматически категоризируется, приоритизируется, таймер SLA запускается.", img: "/portal/tickets.jpeg", imgAlt: "GoARKAN service desk — список заявок", tag: "Портал · Email · Telegram" },
       { num: "02", actor: "Инженер", title: "Принимает и реагирует", body: "Ваш именной инженер берёт заявку в рамках договорного SLA. Клиент уведомляется автоматически.", img: "/portal/dashboard.jpeg", imgAlt: "GoARKAN — назначение инженера", tag: "< 1–2 часа первый ответ" },
@@ -31,9 +31,9 @@ const COPY: Record<string, {
     h2a: "From ticket open",
     h2b: "to report delivered.",
     sub: "Every incident follows a structured, traceable workflow — visible to you at every step through GoARKAN. No phone calls asking for status. No guessing.",
-    demoTitle: "See GoARKAN in action.",
-    demoSub: "Request a live demo with your own data.",
-    demoBtn: "Request Demo",
+    demoTitle: "Want to see GoARKAN in action?",
+    demoSub: "Request a consultation — we will walk you through the platform with your own data.",
+    demoBtn: "Get a consultation",
     steps: [
       { num: "01", actor: "Employee", title: "Creates ticket", body: "Via GoARKAN portal, email, or Telegram. Ticket is auto-categorized, prioritized, and SLA timer starts.", img: "/portal/tickets.jpeg", imgAlt: "GoARKAN service desk — ticket list", tag: "Portal · Email · Telegram" },
       { num: "02", actor: "Engineer", title: "Accepts & responds", body: "Your named engineer takes the ticket within the contracted SLA window. Client notified automatically.", img: "/portal/dashboard.jpeg", imgAlt: "GoARKAN dashboard — engineer assignment", tag: "< 1–2h first response" },
@@ -47,9 +47,9 @@ const COPY: Record<string, {
     h2a: "Ariza ochilishidan",
     h2b: "hisobot yetkazilishigacha.",
     sub: "Har bir hodisa GoARKAN orqali har bosqichda ko'rinadigan tuzilgan, kuzatiluvchi ish oqimidan o'tadi. Holat so'rash uchun qo'ng'iroq yo'q. Taxmin yo'q.",
-    demoTitle: "GoARKAN ni harakatda ko'ring.",
-    demoSub: "O'z ma'lumotlaringiz bilan jonli demo so'rang.",
-    demoBtn: "Demo so'rash",
+    demoTitle: "GoARKAN ni ishda ko'rmoqchimisiz?",
+    demoSub: "Konsultatsiya so'rang — platformani sizning ma'lumotlaringizda ko'rsatamiz.",
+    demoBtn: "Konsultatsiya olish",
     steps: [
       { num: "01", actor: "Xodim", title: "Ariza yaratadi", body: "GoARKAN portali, email yoki Telegram orqali. Ariza avtomatik toifalanadi, ustuvorlik belgilanadi, SLA taymer boshlanadi.", img: "/portal/tickets.jpeg", imgAlt: "GoARKAN service desk — ariza ro'yxati", tag: "Portal · Email · Telegram" },
       { num: "02", actor: "Muhandis", title: "Qabul qiladi va javob beradi", body: "Shaxsiy muhandisingiz shartnomali SLA doirasida arizani oladi. Mijozga avtomatik xabar yuboriladi.", img: "/portal/dashboard.jpeg", imgAlt: "GoARKAN paneli — muhandis tayinlash", tag: "< 1–2 soat birinchi javob" },
@@ -77,9 +77,9 @@ export function HomeJourney() {
             <h2 style={{ fontFamily: "Nacelle, sans-serif", fontWeight: 600, fontSize: "clamp(2.5rem, 4vw, 4rem)", lineHeight: 1, letterSpacing: "-0.05em", color: "var(--ark-text-heading)", margin: 0 }}>
               {c.h2a}
               <br />
-              <span style={{ color: "var(--ark-text-hint)" }}>{c.h2b}</span>
+              <span style={{ color: "var(--ark-text-sub)" }}>{c.h2b}</span>
             </h2>
-            <p style={{ fontSize: 14, lineHeight: 1.7, color: "var(--ark-text-hint)", margin: 0, letterSpacing: "-0.01em" }}>
+            <p style={{ fontSize: 14, lineHeight: 1.7, color: "var(--ark-text-sub)", margin: 0, letterSpacing: "-0.01em" }}>
               {c.sub}
             </p>
           </div>
@@ -142,7 +142,7 @@ export function HomeJourney() {
             <div style={{ fontFamily: "Nacelle, sans-serif", fontWeight: 600, fontSize: "1.25rem", letterSpacing: "-0.03em", color: "var(--ark-text-heading)", marginBottom: 6 }}>
               {c.demoTitle}
             </div>
-            <div style={{ fontSize: 13, color: "var(--ark-text-hint)", letterSpacing: "-0.01em" }}>
+            <div style={{ fontSize: 13, color: "var(--ark-text-muted)", letterSpacing: "-0.01em" }}>
               {c.demoSub}
             </div>
           </div>

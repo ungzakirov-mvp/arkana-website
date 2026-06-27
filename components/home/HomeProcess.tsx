@@ -69,7 +69,7 @@ export function HomeProcess() {
           <h2 style={{ fontFamily: "Nacelle, sans-serif", fontWeight: 600, fontSize: "clamp(2.5rem, 4vw, 4rem)", lineHeight: 1, letterSpacing: "-0.05em", color: "var(--ark-text-heading)", margin: 0 }}>
             {c.h2a}
             <br />
-            <span style={{ color: "var(--ark-text-hint)" }}>{c.h2b}</span>
+            <span style={{ color: "var(--ark-text-sub)" }}>{c.h2b}</span>
           </h2>
         </div>
 

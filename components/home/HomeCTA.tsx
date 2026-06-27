@@ -6,25 +6,25 @@ import { useApp } from "@/components/providers/ThemeLanguageProvider";
 
 const COPY: Record<string, { h2a: string; h2b: string; body: string; cta1: string; cta2: string }> = {
   ru: {
-    h2a:  "Готовы передать",
-    h2b:  "IT в надёжные руки?",
-    body: "Бесплатный IT-аудит за 5 рабочих дней. Письменный отчёт и стоимость включены. Без обязательств. Среднее время ответа: 2 часа.",
-    cta1: "Запросить предложение",
-    cta2: "Запросить IT-аудит",
+    h2a:  "Начните работать",
+    h2b:  "с технологическим партнёром.",
+    body: "Расскажите о вашем бизнесе — подготовим коммерческое предложение за один рабочий день. Без обязательств.",
+    cta1: "Получить коммерческое предложение",
+    cta2: "Получить консультацию",
   },
   uz: {
-    h2a:  "IT ni ishonchli",
-    h2b:  "qo'llarga topshirishga tayyormisiz?",
-    body: "5 ish kunida bepul IT-audit. Yozma hisobot va narx kiritilgan. Majburiyatsiz. O'rtacha javob vaqti: 2 soat.",
-    cta1: "Taklif so'rash",
-    cta2: "IT-audit so'rash",
+    h2a:  "Texnologiya hamkori bilan",
+    h2b:  "ishlay boshlang.",
+    body: "Biznesingiz haqida ayting — bir ish kunida tijorat taklifi tayyorlaymiz. Majburiyatsiz.",
+    cta1: "Tijorat taklifi olish",
+    cta2: "Konsultatsiya olish",
   },
   en: {
-    h2a:  "Ready to hand off",
-    h2b:  "your IT department?",
-    body: "Free IT audit in 5 business days. Written report and pricing included. No commitment. Average response time: 2 hours.",
-    cta1: "Get Proposal",
-    cta2: "Request IT Audit",
+    h2a:  "Start working with",
+    h2b:  "a technology partner.",
+    body: "Tell us about your business. We will prepare a proposal within one business day. No obligation.",
+    cta1: "Get a commercial proposal",
+    cta2: "Get a consultation",
   },
 };
 
@@ -46,7 +46,7 @@ export function HomeCTA() {
             <h2 style={{ fontFamily: "Nacelle, sans-serif", fontWeight: 600, fontSize: "clamp(3rem, 6vw, 5.5rem)", lineHeight: 1, letterSpacing: "-0.05em", color: "var(--ark-text-heading)", margin: "0 0 20px" }}>
               {copy.h2a}
               <br />
-              <span style={{ color: "var(--ark-text-hint)" }}>{copy.h2b}</span>
+              <span style={{ color: "var(--ark-text-sub)" }}>{copy.h2b}</span>
             </h2>
             <p style={{ fontSize: 15, color: "var(--ark-text-sub)", lineHeight: 1.65, letterSpacing: "-0.01em", margin: 0 }}>
               {copy.body}
