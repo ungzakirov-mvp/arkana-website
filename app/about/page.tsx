@@ -4,14 +4,14 @@ import { ArrowRight, Target, Eye, Heart } from "lucide-react";
 import { ContactCTA } from "@/components/sections/ContactCTA";
 
 export const metadata: Metadata = {
-  title: "О компании ARKANA | IT-аутсорсинг, Ташкент",
+  title: "О компании ARKANA | Технологический партнёр в Ташкенте",
   description:
-    "ARKANA — IT-аутсорсинговая компания в Ташкенте. Именные инженеры, задокументированные процессы и платформа GoARKAN для прозрачности работы. Для бизнеса по всему Узбекистану.",
+    "ARKANA — технологический партнёр для бизнеса в Ташкенте и Узбекистане. Именные инженеры, задокументированные процессы, SLA в договоре и полная прозрачность через GoARKAN.",
   alternates: { canonical: "/about" },
   openGraph: {
-    title: "О компании ARKANA | IT-аутсорсинг, Ташкент",
+    title: "О компании ARKANA | Технологический партнёр в Ташкенте",
     description:
-      "ARKANA предоставляет IT-аутсорсинг для бизнеса в Узбекистане. Именные технические руководители, прозрачные процессы и полный контроль через GoARKAN.",
+      "ARKANA — технологический партнёр для бизнеса в Узбекистане. Именные технические руководители, прозрачные процессы и полный контроль через GoARKAN.",
     url: "/about",
   },
 };
@@ -25,7 +25,7 @@ const values = [
   },
   {
     icon: Eye,
-    accent: "#22c55e",
+    accent: "var(--ark-accent-2)",
     title: "Прозрачность",
     body: "Мы создали GoARKAN именно потому, что клиенты должны иметь полный доступ к информации о своём IT. Никаких чёрных ящиков. Не нужно спрашивать об обновлениях.",
   },
@@ -48,15 +48,15 @@ export default function AboutPage() {
             className="text-[48px] sm:text-[60px] font-[800] leading-[1.07] tracking-[-0.02em] mt-4 mb-6"
             style={{ color: "var(--ark-text-heading)" }}
           >
-            Ваш IT-партнёр.
+            Технологический партнёр.
             <br />
-            <span style={{ color: "var(--ark-text-hint)", fontWeight: 700 }}>
+            <span style={{ color: "var(--ark-text-sub)", fontWeight: 700 }}>
               Не просто подрядчик.
             </span>
           </h1>
           <p className="text-[18px] leading-[1.65] max-w-[580px]" style={{ color: "var(--ark-text-sub)" }}>
-            ARKANA — IT-аутсорсинговая компания в Ташкенте. Мы помогаем бизнесу по всему Узбекистану
-            заменить ненадёжную реактивную IT-поддержку на структурированное именное партнёрство.
+            ARKANA — технологический партнёр для бизнеса в Ташкенте. Мы помогаем компаниям по всему Узбекистану
+            построить предсказуемый IT-сервис с чёткой ответственностью и прозрачностью через GoARKAN.
           </p>
         </div>
       </section>
@@ -216,10 +216,10 @@ export default function AboutPage() {
         <div className="max-w-[75rem] mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-6">
           <div>
             <p className="text-[20px] font-[800] mb-1" style={{ color: "var(--ark-text-heading)" }}>
-              Хотите работать с нами?
+              Готовы начать работу с ARKANA?
             </p>
             <p className="text-[14px]" style={{ color: "var(--ark-text-muted)" }}>
-              Мы всегда в поиске исключительных инженеров и IT-специалистов.
+              Расскажите о вашем бизнесе — подготовим предложение за один рабочий день.
             </p>
           </div>
           <Link
@@ -231,7 +231,7 @@ export default function AboutPage() {
               fontSize: 13.5, fontWeight: 700, textDecoration: "none", flexShrink: 0,
             }}
           >
-            Связаться с нами
+            Получить коммерческое предложение
             <ArrowRight size={14} />
           </Link>
         </div>

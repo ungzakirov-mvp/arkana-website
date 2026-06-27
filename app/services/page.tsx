@@ -4,9 +4,9 @@ import { ArrowRight, Headset, BarChart3, Server, Cog } from "lucide-react";
 import { ContactCTA } from "@/components/sections/ContactCTA";
 
 export const metadata: Metadata = {
-  title: "Услуги IT-аутсорсинга | ARKANA — Ташкент",
+  title: "Услуги | ARKANA — Технологический партнёр для бизнеса",
   description:
-    "Полный спектр IT-услуг для бизнеса в Узбекистане: IT-аутсорсинг, управляемый IT-сервис, поддержка инфраструктуры и управление IT-сервисами через GoARKAN.",
+    "IT-аутсорсинг, кибербезопасность, управление инфраструктурой и ITSM для бизнеса в Узбекистане. Один договор, фиксированная стоимость, SLA в договоре.",
   alternates: { canonical: "/services" },
 };
 
@@ -75,7 +75,7 @@ export default function ServicesPage() {
               fontSize: 14, fontWeight: 700, textDecoration: "none",
             }}
           >
-            Начать с бесплатного аудита
+            Получить коммерческое предложение
             <ArrowRight size={15} />
           </Link>
         </div>
