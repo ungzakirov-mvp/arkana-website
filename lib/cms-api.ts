@@ -403,7 +403,7 @@ async function _sendLeadEmail(data: LeadInput): Promise<{ ok: boolean; id?: stri
     const resend = new Resend(apiKey);
 
     const { data: result, error } = await resend.emails.send({
-      from: "ARKANA Website <onboarding@resend.dev>",
+      from: "ARKANA Website <noreply@arkana.uz>",
       to: [NOTIFY_TO],
       subject,
       html,
