@@ -41,7 +41,7 @@ const COPY: Record<string, {
     name: "Ваше имя *", namePh: "Иван Иванов",
     company: "Компания *", companyPh: "ООО Ваша Компания",
     emailLabel: "Email *", emailPh: "ivan@company.uz",
-    phoneLabel: "Телефон *", phonePh: "+998 90 123-45-67",
+    phoneLabel: "Телефон", phonePh: "+998 90 123-45-67",
     message: "Расскажите о задаче (необязательно)", messagePh: "Кратко о вашем бизнесе и IT-задачах...",
   },
   en: {
@@ -65,7 +65,7 @@ const COPY: Record<string, {
     name: "Your name *", namePh: "John Smith",
     company: "Company *", companyPh: "Your Company LLC",
     emailLabel: "Email *", emailPh: "john@company.uz",
-    phoneLabel: "Phone *", phonePh: "+998 90 123-45-67",
+    phoneLabel: "Phone", phonePh: "+998 90 123-45-67",
     message: "Describe your task (optional)", messagePh: "Brief about your business and IT needs...",
   },
   uz: {
@@ -89,7 +89,7 @@ const COPY: Record<string, {
     name: "Ismingiz *", namePh: "Alisher Umarov",
     company: "Kompaniya *", companyPh: "Sizning kompaniyangiz",
     emailLabel: "Email *", emailPh: "alisher@company.uz",
-    phoneLabel: "Telefon *", phonePh: "+998 90 123-45-67",
+    phoneLabel: "Telefon", phonePh: "+998 90 123-45-67",
     message: "Vazifani tasvirlab bering (ixtiyoriy)", messagePh: "Biznesingiz va IT ehtiyojlaringiz haqida qisqacha...",
   },
 };
