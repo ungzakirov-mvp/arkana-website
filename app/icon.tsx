@@ -17,7 +17,6 @@ export default function Icon() {
           justifyContent: "center",
         }}
       >
-        {/* Triangle / mountain shape — ARKANA brand mark */}
         <svg
           width="22"
           height="22"
@@ -25,7 +24,6 @@ export default function Icon() {
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
         >
-          {/* Outer triangle — brand violet */}
           <polygon
             points="11,2 21,20 1,20"
             fill="none"
@@ -33,7 +31,6 @@ export default function Icon() {
             strokeWidth="2"
             strokeLinejoin="round"
           />
-          {/* Inner accent line */}
           <line
             x1="11"
             y1="8"
@@ -43,7 +40,6 @@ export default function Icon() {
             strokeWidth="1.5"
             strokeLinecap="round"
           />
-          {/* Apex dot */}
           <circle cx="11" cy="5" r="1.2" fill="#818cf8" />
         </svg>
       </div>
