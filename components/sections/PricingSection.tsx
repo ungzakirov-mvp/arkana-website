@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import {
@@ -8,7 +8,21 @@ import {
   ShieldCheck, EqualNot, RefreshCw, LayoutGrid, ChevronDown,
 } from "lucide-react";
 import { useApp } from "@/components/providers/ThemeLanguageProvider";
-import { type Plan } from "@/lib/cms-api";
+
+const PORTAL_API = "https://app.goarkan.uz/api/v1/billing/plans";
+
+type ApiPlan = {
+  code: string;
+  name: string;
+  displayPrice: string;
+  pricingModel: string;
+  billingInterval: string;
+  assetLimit: number | null;
+  userLimit: number | null;
+  ticketLimitMo: number | null;
+  modules: string[];
+  sortOrder: number;
+};
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
@@ -287,56 +301,11 @@ const COPY: Record<string, {
   },
 };
 
-/* ─── Fallback plans ────────────────────────────────────────────────── */
-const FALLBACK_PLANS: Plan[] = [
-  {
-    id: 1, slug: "start", name: "START", is_popular: false, sort_order: 1, max_workstations: 25,
-    price_label: "от 3 000 000", price_monthly: 3000000,
-    cta_label: "Начать с START", cta_href: "/contact", website_show_contact_sales: false,
-    features: [
-      { text: "Service Desk (GoARKAN)", is_included: true },
-      { text: "SLA — реакция 2 часа", is_included: true },
-      { text: "Мониторинг серверов 24/7", is_included: true },
-      { text: "Резервное копирование", is_included: true },
-      { text: "Именной инженер", is_included: false },
-      { text: "Кибербезопасность", is_included: false },
-    ],
-    services: [
-      { count: "до 25", label: "Рабочих мест" },
-      { count: "40", label: "Заявок в мес." },
-    ],
-  },
-  {
-    id: 2, slug: "operations", name: "OPERATIONS", is_popular: true, sort_order: 2, max_workstations: 75,
-    price_label: "от 6 000 000", price_monthly: 6000000,
-    cta_label: "Начать с OPERATIONS", cta_href: "/contact", website_show_contact_sales: false,
-    features: [
-      { text: "Service Desk (GoARKAN)", is_included: true },
-      { text: "SLA — реакция 1 час", is_included: true },
-      { text: "Мониторинг серверов 24/7", is_included: true },
-      { text: "Резервное копирование", is_included: true },
-      { text: "Именной инженер", is_included: true },
-      { text: "Кибербезопасность базовая", is_included: true },
-    ],
-    services: [
-      { count: "до 75", label: "Рабочих мест" },
-      { count: "100", label: "Заявок в мес." },
-    ],
-  },
-  {
-    id: 3, slug: "enterprise", name: "ENTERPRISE", is_popular: false, sort_order: 3, max_workstations: null,
-    price_label: "Индивидуально", price_monthly: null,
-    cta_label: "Связаться с отделом продаж", cta_href: "/contact", website_show_contact_sales: true,
-    features: [
-      { text: "Service Desk (GoARKAN)", is_included: true },
-      { text: "Индивидуальный SLA", is_included: true },
-      { text: "Мониторинг серверов 24/7", is_included: true },
-      { text: "Резервное копирование", is_included: true },
-      { text: "Выделенная команда", is_included: true },
-      { text: "Кибербезопасность расширенная", is_included: true },
-    ],
-    services: [],
-  },
+/* ─── Static fallback (used if Portal API is unreachable) ───────────── */
+const STATIC_PLANS: ApiPlan[] = [
+  { code: "starter",    name: "START",      displayPrice: "3 000 000 сум", pricingModel: "fixed",      billingInterval: "monthly", assetLimit: null, userLimit: 10,   ticketLimitMo: 500,  modules: ["service_desk"], sortOrder: 1 },
+  { code: "operations", name: "OPERATIONS", displayPrice: "6 000 000 сум", pricingModel: "fixed",      billingInterval: "monthly", assetLimit: 500,  userLimit: 25,   ticketLimitMo: 2000, modules: ["service_desk","itam","inventory"], sortOrder: 2 },
+  { code: "enterprise", name: "ENTERPRISE", displayPrice: "По запросу",    pricingModel: "individual", billingInterval: "monthly", assetLimit: null, userLimit: null, ticketLimitMo: null, modules: [], sortOrder: 3 },
 ];
 
 /* ─── Benefit icons ─────────────────────────────────────────────────── */
@@ -349,31 +318,49 @@ function FeatureValue({ value }: { value: boolean | string }) {
   return <span style={{ fontSize: 13, color: "var(--ark-text-muted)" }}>{value}</span>;
 }
 
+/* ─── Plan code → feature-map key ──────────────────────────────────── */
+function planKey(code: string): string {
+  return code === "starter" ? "start" : code;
+}
+
 /* ─── Main component ────────────────────────────────────────────────── */
-export function PricingSection({ plans = [] }: { plans?: Plan[] }) {
+export function PricingSection() {
   const { lang } = useApp();
   const c = COPY[lang] ?? COPY.ru;
   const [open, setOpen] = useState<number | null>(null);
+  const [apiPlans, setApiPlans] = useState<ApiPlan[] | null>(null);
 
-  const activePlans = plans.length > 0 ? plans : FALLBACK_PLANS;
+  useEffect(() => {
+    const locale = lang === "en" ? "en" : lang === "uz" ? "uz" : "ru";
+    fetch(`${PORTAL_API}?locale=${locale}`)
+      .then(r => r.ok ? r.json() : null)
+      .then(json => {
+        const plans: ApiPlan[] = json?.data ?? [];
+        if (plans.length > 0) setApiPlans(plans);
+      })
+      .catch(() => {});
+  }, [lang]);
+
+  const activePlans = apiPlans ?? STATIC_PLANS;
   const subtitles = SUBTITLES[lang] ?? SUBTITLES.ru;
   const featureMap = PLAN_FEATURES[lang] ?? PLAN_FEATURES.ru;
 
-  const PLANS = activePlans.map(p => ({
-    id:       p.slug,
-    name:     p.name,
-    subtitle: subtitles[p.slug] ?? "",
-    price:    p.price_label ?? (p.price_monthly != null ? `от ${p.price_monthly.toLocaleString("ru-RU")}` : "—"),
-    currency: p.price_monthly != null ? c.currency : "",
-    popular:  p.is_popular,
-    ctaLabel: p.website_show_contact_sales ? c.contactSales : `${c.ctaPrefix} ${p.name}`,
-    ctaHref:  `/contact?plan=${p.slug}`,
-    services: p.services ?? [],
-    features: featureMap[p.slug] ?? p.features.map(f => ({ label: f.text, value: f.is_included })),
-  }));
-
-  const allItems = [...c.faqs, { q: c.conditionsTitle, a: "", isConditions: true }];
-  const totalRows = c.faqs.length + 1;
+  const PLANS = activePlans.map(p => {
+    const key = planKey(p.code);
+    const isEnterprise = p.pricingModel === "individual";
+    return {
+      id:       p.code,
+      name:     p.name,
+      subtitle: subtitles[key] ?? "",
+      price:    p.displayPrice,
+      currency: isEnterprise ? "" : c.currency,
+      popular:  p.code === "operations",
+      ctaLabel: isEnterprise ? c.contactSales : `${c.ctaPrefix} ${p.name}`,
+      ctaHref:  `/contact?plan=${p.code}`,
+      services: [] as { count: string; label: string }[],
+      features: featureMap[key] ?? [],
+    };
+  });
 
   return (
     <div style={{ minHeight: "100vh" }}>

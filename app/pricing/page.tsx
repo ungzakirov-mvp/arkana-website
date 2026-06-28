@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { PricingSection } from "@/components/sections/PricingSection";
-import { getPricing } from "@/lib/cms-api";
 
 export const metadata: Metadata = {
   title: "Тарифы — ARKANA | IT-аутсорсинг в Ташкенте",
@@ -8,7 +7,6 @@ export const metadata: Metadata = {
   alternates: { canonical: "/pricing" },
 };
 
-export default async function PricingPage() {
-  const plans = await getPricing("ru");
-  return <PricingSection plans={plans} />;
+export default function PricingPage() {
+  return <PricingSection />;
 }
