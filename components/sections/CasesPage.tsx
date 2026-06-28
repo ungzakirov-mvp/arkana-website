@@ -214,7 +214,8 @@ export function CasesPage() {
             </div>
             <Link
               href="/contact"
-              style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "13px 24px", borderRadius: 8, background: "var(--ark-accent)", color: "#ffffff", fontWeight: 700, fontSize: 14, textDecoration: "none", letterSpacing: "-0.01em", whiteSpace: "nowrap", flexShrink: 0 }}
+              className="w-full md:w-auto justify-center"
+              style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "13px 24px", borderRadius: 8, background: "var(--ark-accent)", color: "#ffffff", fontWeight: 700, fontSize: 14, textDecoration: "none", letterSpacing: "-0.01em" }}
             >
               {c.ctaBtn}
               <ArrowRight size={14} />
