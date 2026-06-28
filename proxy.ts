@@ -44,7 +44,7 @@ export function proxy(request: NextRequest) {
     "style-src 'self' 'unsafe-inline'",
     "font-src 'self' https://fonts.gstatic.com",
     "img-src 'self' data: blob: https:",
-    "connect-src 'self'",
+    "connect-src 'self' https://app.goarkan.uz:8001",
     "frame-src 'none'",
     "frame-ancestors 'none'",
     "object-src 'none'",
