@@ -8,7 +8,7 @@ import { useApp } from "@/components/providers/ThemeLanguageProvider";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
-const CATEGORIES = ["Все", "IT-аутсорсинг", "Кибербезопасность", "Microsoft 365", "Инфраструктура", "Оптимизация затрат"];
+const CATEGORIES = ["Все", "IT-аутсорсинг", "Кибербезопасность", "Microsoft 365", "Инфраструктура", "Оптимизация затрат", "IT-поддержка", "Service Desk"];
 
 const UI: Record<string, { badge: string; h1a: string; h1b: string; all: string; featured: string; read: string }> = {
   ru: { badge: "Блог", h1a: "IT для бизнеса —", h1b: "понятно и по делу", all: "Все", featured: "Главная статья", read: "Читать" },
@@ -69,6 +69,33 @@ const POSTS = [
     date: "10 мая 2026",
     readTime: "5 мин",
     slug: "sla-guide",
+    featured: false,
+  },
+  {
+    category: "IT-поддержка",
+    title: "IT-техподдержка для бизнеса в Ташкенте: как выбрать и на что смотреть",
+    excerpt: "Что включает профессиональная IT-техподдержка, какие вопросы задать потенциальному провайдеру и как не переплатить за пустые обещания.",
+    date: "28 июня 2026",
+    readTime: "7 мин",
+    slug: "tehpodderzhka-tashkent",
+    featured: false,
+  },
+  {
+    category: "Service Desk",
+    title: "Service Desk для бизнеса: что это такое и почему это не просто «техподдержка»",
+    excerpt: "Service Desk — это не просто номер телефона. Разбираем, как устроен профессиональный Service Desk и что он даёт бизнесу в Узбекистане.",
+    date: "28 июня 2026",
+    readTime: "6 мин",
+    slug: "service-desk-dlya-biznesa",
+    featured: false,
+  },
+  {
+    category: "Кибербезопасность",
+    title: "Защита данных компании в Узбекистане: минимум, который должен быть у каждого бизнеса",
+    excerpt: "Практический чеклист: резервные копии, разграничение доступа, защита от вирусов и фишинга. Без технического жаргона — для руководителей бизнеса.",
+    date: "28 июня 2026",
+    readTime: "8 мин",
+    slug: "zashchita-dannyh-kompanii",
     featured: false,
   },
 ];
