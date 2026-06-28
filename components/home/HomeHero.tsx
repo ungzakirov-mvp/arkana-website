@@ -45,14 +45,15 @@ export function HomeHero() {
 
   return (
     <section style={{ background: "var(--ark-bg)", position: "relative", overflow: "hidden" }}>
-      <div style={{ maxWidth: 1280, margin: "0 auto", padding: "12px 40px 56px", display: "flex", alignItems: "center", gap: 0, minHeight: 440 }}>
+      <div className="max-w-[1280px] mx-auto px-5 sm:px-10 flex items-center" style={{ paddingTop: 12, paddingBottom: 56, minHeight: 440 }}>
 
         {/* LEFT — text */}
         <motion.div
           initial={{ opacity: 0, y: 22 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.65, ease: [0.25, 0.46, 0.45, 0.94] }}
-          style={{ flex: "0 0 auto", width: "min(520px, 52%)", paddingBottom: 72, paddingTop: 16, zIndex: 1 }}
+          className="w-full md:w-[min(520px,52%)]"
+          style={{ flex: "0 0 auto", paddingBottom: 40, paddingTop: 16, zIndex: 1 }}
         >
           <div style={{ display: "inline-flex", alignItems: "center", gap: 6, marginBottom: 36 }}>
             <span style={{ display: "block", width: 6, height: 6, borderRadius: "50%", background: "#22c55e", boxShadow: "0 0 0 3px rgba(34,197,94,0.2)" }} />

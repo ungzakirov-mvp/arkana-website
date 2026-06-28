@@ -65,16 +65,17 @@ export function HomeComparison() {
   const c = COPY[lang] ?? COPY.ru;
 
   return (
-    <section style={{ background: "var(--ark-bg)", paddingBottom: 120, borderTop: "1px solid var(--ark-divider)" }}>
-      <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 40px" }}>
+    <section style={{ background: "var(--ark-bg)", paddingBottom: 80, borderTop: "1px solid var(--ark-divider)" }}>
+      <div className="max-w-[1280px] mx-auto px-5 sm:px-10">
 
-        <div style={{ padding: "80px 0 64px" }}>
-          <h2 style={{ fontFamily: "Nacelle, sans-serif", fontWeight: 600, fontSize: "clamp(2rem, 3.5vw, 3.25rem)", lineHeight: 1.1, letterSpacing: "-0.04em", color: "var(--ark-text-heading)", margin: 0, maxWidth: 720 }}>
+        <div style={{ padding: "64px 0 48px" }}>
+          <h2 style={{ fontFamily: "Nacelle, sans-serif", fontWeight: 600, fontSize: "clamp(1.75rem, 3.5vw, 3.25rem)", lineHeight: 1.1, letterSpacing: "-0.04em", color: "var(--ark-text-heading)", margin: 0, maxWidth: 720 }}>
             {c.h2}
           </h2>
         </div>
 
-        <div style={{ borderRadius: 12, border: "1px solid var(--ark-border)", overflow: "hidden" }}>
+        {/* Desktop table — hidden on mobile */}
+        <div className="hidden md:block" style={{ borderRadius: 12, border: "1px solid var(--ark-border)", overflow: "hidden" }}>
           {/* Column headers */}
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", background: "var(--ark-surface)", borderBottom: "1px solid var(--ark-border)" }}>
             <div style={{ padding: "18px 24px", fontSize: 11, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: "var(--ark-text-faint)" }}>
@@ -105,6 +106,36 @@ export function HomeComparison() {
               </div>
               <div style={{ padding: "20px 24px", borderLeft: "1px solid var(--ark-divider)", background: "var(--ark-accent-glow)", display: "flex", alignItems: "flex-start" }}>
                 <span style={{ fontSize: 13, fontWeight: 500, color: "var(--ark-text)", letterSpacing: "-0.01em", lineHeight: 1.55 }}>{col2}</span>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+
+        {/* Mobile cards — hidden on desktop */}
+        <div className="md:hidden flex flex-col gap-3">
+          {c.rows.map(({ label, col1, col2 }, i) => (
+            <motion.div
+              key={label}
+              initial={{ opacity: 0, y: 8 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-10px" }}
+              transition={{ duration: 0.35, delay: i * 0.04, ease: [0.25, 0.46, 0.45, 0.94] }}
+              style={{ borderRadius: 10, border: "1px solid var(--ark-border)", overflow: "hidden" }}
+            >
+              {/* Label */}
+              <div style={{ padding: "12px 16px", background: "var(--ark-surface)", fontSize: 12, fontWeight: 700, letterSpacing: "0.02em", color: "var(--ark-text-muted)", borderBottom: "1px solid var(--ark-border)" }}>
+                {label}
+              </div>
+              {/* Two columns */}
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr" }}>
+                <div style={{ padding: "14px 16px", borderRight: "1px solid var(--ark-divider)" }}>
+                  <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: "var(--ark-text-faint)", marginBottom: 6 }}>{c.col1}</div>
+                  <p style={{ fontSize: 12, color: "var(--ark-text-faint)", lineHeight: 1.5, margin: 0, letterSpacing: "-0.01em" }}>{col1}</p>
+                </div>
+                <div style={{ padding: "14px 16px", background: "var(--ark-accent-glow)" }}>
+                  <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: "var(--ark-text)", marginBottom: 6 }}>{c.col2}</div>
+                  <p style={{ fontSize: 12, fontWeight: 500, color: "var(--ark-text)", lineHeight: 1.5, margin: 0, letterSpacing: "-0.01em" }}>{col2}</p>
+                </div>
               </div>
             </motion.div>
           ))}

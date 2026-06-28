@@ -84,14 +84,14 @@ export function HomeTrust() {
 
       {/* Industry sectors row */}
       <div style={{ borderTop: "1px solid var(--ark-divider)", borderBottom: "1px solid var(--ark-divider)" }}>
-        <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 40px" }}>
-          <div style={{ padding: "20px 0 18px" }}>
+        <div className="max-w-[1280px] mx-auto px-5 sm:px-10">
+          <div style={{ paddingTop: 20, paddingBottom: 18 }}>
             <div style={{ fontSize: 10, fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", color: "var(--ark-text-faint)", marginBottom: 16, textAlign: "center" }}>
               {copy.banner}
             </div>
-            <div style={{ display: "flex", alignItems: "center", justifyContent: "center", flexWrap: "wrap" }}>
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "center", flexWrap: "wrap", gap: "4px 0" }}>
               {sectors.map(({ abbr, name }, i) => (
-                <div key={abbr} style={{ padding: "8px 24px", borderRight: i < sectors.length - 1 ? "1px solid var(--ark-divider)" : "none", display: "flex", alignItems: "center", gap: 8 }}>
+                <div key={abbr} style={{ padding: "6px 14px", borderRight: i < sectors.length - 1 ? "1px solid var(--ark-divider)" : "none", display: "flex", alignItems: "center", gap: 7 }}>
                   <div style={{ width: 24, height: 24, borderRadius: 5, background: "var(--ark-bg-2)", border: "1px solid var(--ark-border)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 7, fontWeight: 800, letterSpacing: "0.02em", color: "var(--ark-text-hint)", flexShrink: 0 }}>
                     {abbr}
                   </div>
@@ -105,13 +105,13 @@ export function HomeTrust() {
         </div>
       </div>
 
-      {/* SLA commitments bar */}
+      {/* SLA commitments grid */}
       <div style={{ borderBottom: "1px solid var(--ark-divider)" }}>
-        <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 40px" }}>
-          <div style={{ display: "flex", flexWrap: "wrap" }}>
+        <div className="max-w-[1280px] mx-auto px-5 sm:px-10">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6">
             {copy.metrics.map(({ value, label }, i) => (
-              <div key={label} style={{ flex: "1 1 16%", padding: "28px 12px", borderRight: i < copy.metrics.length - 1 ? "1px solid var(--ark-divider)" : "none", textAlign: "center" }}>
-                <div style={{ fontFamily: "Nacelle, sans-serif", fontWeight: 600, fontSize: "clamp(1.4rem, 1.8vw, 2rem)", lineHeight: 1, letterSpacing: "-0.04em", color: "var(--ark-text-heading)", marginBottom: 5 }}>
+              <div key={label} className="border-r border-b last:border-r-0 sm:[&:nth-child(3)]:border-r-0 lg:[&:nth-child(3)]:border-r lg:[&:nth-child(6)]:border-r-0" style={{ borderColor: "var(--ark-divider)", padding: "24px 12px", textAlign: "center" }}>
+                <div style={{ fontFamily: "Nacelle, sans-serif", fontWeight: 600, fontSize: "clamp(1.25rem, 2vw, 2rem)", lineHeight: 1, letterSpacing: "-0.04em", color: "var(--ark-text-heading)", marginBottom: 5 }}>
                   {value}
                 </div>
                 <div style={{ fontSize: 10, fontWeight: 500, color: "var(--ark-text-label)", letterSpacing: "0.04em", textTransform: "uppercase", lineHeight: 1.35 }}>

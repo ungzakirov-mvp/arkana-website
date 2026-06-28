@@ -87,7 +87,7 @@ export function HomePlatform() {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3" style={{ gap: 1, border: "1px solid var(--ark-border)", borderRadius: 12, overflow: "hidden" }}>
           {c.features.map(({ title, desc }, i) => (
-            <div key={title} style={{ padding: "32px 28px", background: i % 2 === 0 ? "var(--ark-bg-2)" : "var(--ark-bg)", borderBottom: i < 3 ? "1px solid var(--ark-border)" : "none" }}>
+            <div key={title} style={{ padding: "28px 24px", background: i % 2 === 0 ? "var(--ark-bg-2)" : "var(--ark-bg)", borderBottom: "1px solid var(--ark-border)" }}>
               <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.05em", textTransform: "uppercase", color: "var(--ark-accent-2)", marginBottom: 10, opacity: 0.6 }}>
                 {String(i + 1).padStart(2, "0")}
               </div>

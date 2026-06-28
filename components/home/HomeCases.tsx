@@ -93,19 +93,19 @@ export function HomeCases() {
     <section style={{ background: "var(--ark-bg)", borderTop: "1px solid var(--ark-divider)" }}>
       <div className="max-w-[1280px] mx-auto px-5 sm:px-8 lg:px-10">
 
-        <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", padding: "80px 0 64px", flexWrap: "wrap", gap: 24 }}>
+        <div className="flex items-end justify-between flex-wrap gap-6" style={{ paddingTop: 64, paddingBottom: 48 }}>
           <div>
             <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--ark-text-hint)", marginBottom: 16 }}>{c.label}</div>
-            <h2 style={{ fontFamily: "Nacelle, sans-serif", fontWeight: 600, fontSize: "clamp(2rem, 3.5vw, 3.25rem)", lineHeight: 1.1, letterSpacing: "-0.04em", color: "var(--ark-text-heading)", margin: 0 }}>
+            <h2 style={{ fontFamily: "Nacelle, sans-serif", fontWeight: 600, fontSize: "clamp(1.75rem, 3.5vw, 3.25rem)", lineHeight: 1.1, letterSpacing: "-0.04em", color: "var(--ark-text-heading)", margin: 0 }}>
               {c.h2}
             </h2>
           </div>
-          <Link href="/cases" style={{ fontSize: 13, fontWeight: 500, color: "var(--ark-text-muted)", textDecoration: "none", letterSpacing: "-0.01em", paddingBottom: 6 }}>
+          <Link href="/cases" style={{ fontSize: 13, fontWeight: 500, color: "var(--ark-text-muted)", textDecoration: "none", letterSpacing: "-0.01em" }}>
             {c.all}
           </Link>
         </div>
 
-        <div style={{ borderTop: "1px solid var(--ark-divider)", paddingBottom: 80 }}>
+        <div style={{ borderTop: "1px solid var(--ark-divider)", paddingBottom: 64 }}>
           {c.industries.map((ind, i) => (
             <motion.div
               key={ind.index}
@@ -113,21 +113,22 @@ export function HomeCases() {
               whileInView={{ opacity: 1 }}
               viewport={{ once: true, margin: "-60px" }}
               transition={{ duration: 0.5, delay: i * 0.06, ease: [0.25, 0.46, 0.45, 0.94] }}
-              style={{ display: "grid", gridTemplateColumns: "56px 200px 1fr 1fr", gap: "32px", alignItems: "start", padding: "44px 0", borderBottom: "1px solid var(--ark-divider)" }}
-              className="max-lg:flex max-lg:flex-col max-lg:gap-4"
+              className="grid grid-cols-1 lg:grid-cols-[56px_200px_1fr_1fr] lg:gap-8 items-start"
+              style={{ padding: "36px 0", borderBottom: "1px solid var(--ark-divider)", gap: "16px" }}
             >
-              {/* Index */}
-              <div style={{ fontSize: 11, fontWeight: 500, color: "var(--ark-text-faint)", letterSpacing: "0.04em", paddingTop: 3 }}>{ind.index}</div>
-
-              {/* Sector */}
-              <div>
-                <div style={{ fontFamily: "Nacelle, sans-serif", fontSize: 20, fontWeight: 600, color: "var(--ark-text-heading)", letterSpacing: "-0.03em", lineHeight: 1.2 }}>
-                  {ind.sector}
+              {/* Index + Sector — combined on mobile */}
+              <div className="flex lg:contents gap-3 items-baseline">
+                <div style={{ fontSize: 11, fontWeight: 500, color: "var(--ark-text-faint)", letterSpacing: "0.04em", flexShrink: 0 }}>{ind.index}</div>
+                <div>
+                  <div style={{ fontFamily: "Nacelle, sans-serif", fontSize: 20, fontWeight: 600, color: "var(--ark-text-heading)", letterSpacing: "-0.03em", lineHeight: 1.2 }}>
+                    {ind.sector}
+                  </div>
                 </div>
               </div>
 
               {/* Problem + Solution */}
-              <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+              <div className="hidden lg:block" />
+              <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
                 <div>
                   <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--ark-text-muted)", marginBottom: 8 }}>
                     {lang === "ru" ? "Ситуация" : lang === "uz" ? "Vaziyat" : "Situation"}
@@ -144,8 +145,8 @@ export function HomeCases() {
 
               {/* Result */}
               <div>
-                <div style={{ width: 2, height: 24, background: "var(--ark-border-strong)", borderRadius: 2, marginBottom: 14 }} />
-                <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--ark-text-faint)", marginBottom: 10 }}>
+                <div style={{ width: 2, height: 20, background: "var(--ark-border-strong)", borderRadius: 2, marginBottom: 12 }} />
+                <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--ark-text-faint)", marginBottom: 8 }}>
                   {lang === "ru" ? "Результат" : lang === "uz" ? "Natija" : "Result"}
                 </div>
                 <p style={{ fontSize: 14, fontWeight: 500, color: "var(--ark-text-muted)", lineHeight: 1.65, letterSpacing: "-0.01em", margin: 0 }}>{ind.result}</p>

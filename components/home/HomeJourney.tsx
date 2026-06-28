@@ -65,16 +65,16 @@ export function HomeJourney() {
   const c = COPY[lang] ?? COPY.ru;
 
   return (
-    <section style={{ background: "var(--ark-bg)", paddingBottom: 120, borderTop: "1px solid var(--ark-divider)" }}>
-      <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 40px" }}>
+    <section style={{ background: "var(--ark-bg)", paddingBottom: 80, borderTop: "1px solid var(--ark-divider)" }}>
+      <div className="max-w-[1280px] mx-auto px-5 sm:px-10">
 
         {/* Header */}
-        <div style={{ padding: "80px 0 72px" }}>
+        <div style={{ paddingTop: 64, paddingBottom: 56 }}>
           <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--ark-text-hint)", marginBottom: 16 }}>
             {c.label}
           </div>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "80px", alignItems: "end" }}>
-            <h2 style={{ fontFamily: "Nacelle, sans-serif", fontWeight: 600, fontSize: "clamp(2.5rem, 4vw, 4rem)", lineHeight: 1, letterSpacing: "-0.05em", color: "var(--ark-text-heading)", margin: 0 }}>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-20 items-end">
+            <h2 style={{ fontFamily: "Nacelle, sans-serif", fontWeight: 600, fontSize: "clamp(2rem, 4vw, 4rem)", lineHeight: 1, letterSpacing: "-0.05em", color: "var(--ark-text-heading)", margin: 0 }}>
               {c.h2a}
               <br />
               <span style={{ color: "var(--ark-text-sub)" }}>{c.h2b}</span>
@@ -87,7 +87,7 @@ export function HomeJourney() {
 
         {/* Timeline steps */}
         <div style={{ position: "relative" }}>
-          <div style={{ position: "absolute", left: 27, top: 24, bottom: 24, width: 1, background: "var(--ark-border)", zIndex: 0 }} />
+          <div className="hidden sm:block" style={{ position: "absolute", left: 27, top: 24, bottom: 24, width: 1, background: "var(--ark-border)", zIndex: 0 }} />
           <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
             {c.steps.map((step, i) => (
               <motion.div
@@ -96,23 +96,24 @@ export function HomeJourney() {
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true, margin: "-40px" }}
                 transition={{ duration: 0.5, delay: i * 0.08, ease: [0.25, 0.46, 0.45, 0.94] }}
-                style={{ display: "grid", gridTemplateColumns: "56px 1fr", gap: "32px", alignItems: "start", position: "relative", zIndex: 1 }}
+                className="grid grid-cols-[40px_1fr] sm:grid-cols-[56px_1fr] gap-4 sm:gap-8 items-start relative"
+                style={{ zIndex: 1 }}
               >
-                <div style={{ width: 56, height: 56, borderRadius: "50%", background: "var(--ark-bg)", border: "1px solid var(--ark-border-strong)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-                  <span style={{ fontFamily: "Nacelle, sans-serif", fontWeight: 600, fontSize: 13, letterSpacing: "-0.02em", color: "var(--ark-text-sub)" }}>
+                <div className="w-10 h-10 sm:w-14 sm:h-14" style={{ borderRadius: "50%", background: "var(--ark-bg)", border: "1px solid var(--ark-border-strong)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                  <span style={{ fontFamily: "Nacelle, sans-serif", fontWeight: 600, fontSize: 12, letterSpacing: "-0.02em", color: "var(--ark-text-sub)" }}>
                     {step.num}
                   </span>
                 </div>
 
-                <div style={{ padding: "16px 0 48px", display: "grid", gridTemplateColumns: step.img ? "1fr 1fr" : "1fr", gap: "40px", alignItems: "start" }}>
+                <div className={`grid grid-cols-1 ${step.img ? "lg:grid-cols-2" : ""} gap-6 lg:gap-10 items-start`} style={{ padding: "12px 0 40px" }}>
                   <div>
                     <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--ark-text-faint)", marginBottom: 8 }}>
                       {step.actor}
                     </div>
-                    <div style={{ fontFamily: "Nacelle, sans-serif", fontWeight: 600, fontSize: "1.375rem", letterSpacing: "-0.03em", color: "var(--ark-text-heading)", marginBottom: 12, lineHeight: 1.2 }}>
+                    <div style={{ fontFamily: "Nacelle, sans-serif", fontWeight: 600, fontSize: "1.25rem", letterSpacing: "-0.03em", color: "var(--ark-text-heading)", marginBottom: 12, lineHeight: 1.2 }}>
                       {step.title}
                     </div>
-                    <p style={{ fontSize: 13.5, color: "var(--ark-text-sub)", lineHeight: 1.65, letterSpacing: "-0.01em", margin: "0 0 14px", maxWidth: 440 }}>
+                    <p style={{ fontSize: 13.5, color: "var(--ark-text-sub)", lineHeight: 1.65, letterSpacing: "-0.01em", margin: "0 0 14px" }}>
                       {step.body}
                     </p>
                     <div style={{ display: "inline-flex", padding: "3px 10px", borderRadius: 4, border: "1px solid var(--ark-border)", fontSize: 11, fontWeight: 600, letterSpacing: "0.04em", color: "var(--ark-text-label)" }}>
@@ -137,16 +138,16 @@ export function HomeJourney() {
         </div>
 
         {/* Bottom CTA */}
-        <div style={{ marginTop: 48, paddingTop: 48, borderTop: "1px solid var(--ark-divider)", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 24 }}>
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6" style={{ marginTop: 40, paddingTop: 40, borderTop: "1px solid var(--ark-divider)" }}>
           <div>
-            <div style={{ fontFamily: "Nacelle, sans-serif", fontWeight: 600, fontSize: "1.25rem", letterSpacing: "-0.03em", color: "var(--ark-text-heading)", marginBottom: 6 }}>
+            <div style={{ fontFamily: "Nacelle, sans-serif", fontWeight: 600, fontSize: "1.125rem", letterSpacing: "-0.03em", color: "var(--ark-text-heading)", marginBottom: 6 }}>
               {c.demoTitle}
             </div>
             <div style={{ fontSize: 13, color: "var(--ark-text-muted)", letterSpacing: "-0.01em" }}>
               {c.demoSub}
             </div>
           </div>
-          <Link href="/contact" style={{ display: "inline-flex", alignItems: "center", padding: "11px 22px", borderRadius: 7, background: "var(--ark-accent)", color: "#ffffff", fontWeight: 700, fontSize: 13, letterSpacing: "-0.01em", textDecoration: "none" }}>
+          <Link href="/contact" style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", padding: "12px 24px", borderRadius: 7, background: "var(--ark-accent)", color: "#ffffff", fontWeight: 700, fontSize: 13, letterSpacing: "-0.01em", textDecoration: "none", flexShrink: 0 }}>
             {c.demoBtn}
           </Link>
         </div>
