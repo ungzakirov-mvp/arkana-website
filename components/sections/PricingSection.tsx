@@ -301,12 +301,7 @@ const COPY: Record<string, {
   },
 };
 
-/* ─── Static fallback (used if Portal API is unreachable) ───────────── */
-const STATIC_PLANS: ApiPlan[] = [
-  { code: "starter",    name: "START",      displayPrice: "3 000 000 сум", pricingModel: "fixed",      billingInterval: "monthly", assetLimit: null, userLimit: 10,   ticketLimitMo: 500,  modules: ["service_desk"], sortOrder: 1 },
-  { code: "operations", name: "OPERATIONS", displayPrice: "6 000 000 сум", pricingModel: "fixed",      billingInterval: "monthly", assetLimit: 500,  userLimit: 25,   ticketLimitMo: 2000, modules: ["service_desk","itam","inventory"], sortOrder: 2 },
-  { code: "enterprise", name: "ENTERPRISE", displayPrice: "По запросу",    pricingModel: "individual", billingInterval: "monthly", assetLimit: null, userLimit: null, ticketLimitMo: null, modules: [], sortOrder: 3 },
-];
+const PLANS_CACHE_KEY = "ark_plans_cache";
 
 /* ─── Benefit icons ─────────────────────────────────────────────────── */
 const BENEFIT_ICONS = [ShieldCheck, EqualNot, RefreshCw, LayoutGrid];
@@ -332,16 +327,27 @@ export function PricingSection() {
 
   useEffect(() => {
     const locale = lang === "en" ? "en" : lang === "uz" ? "uz" : "ru";
+    const cacheKey = `${PLANS_CACHE_KEY}_${locale}`;
+
+    // Restore last-known response while live fetch is in flight
+    try {
+      const cached = sessionStorage.getItem(cacheKey);
+      if (cached) setApiPlans(JSON.parse(cached));
+    } catch { /* sessionStorage unavailable */ }
+
     fetch(`${PORTAL_API}?locale=${locale}`)
       .then(r => r.ok ? r.json() : null)
       .then(json => {
         const plans: ApiPlan[] = json?.data ?? [];
-        if (plans.length > 0) setApiPlans(plans);
+        if (plans.length > 0) {
+          try { sessionStorage.setItem(cacheKey, JSON.stringify(plans)); } catch { /**/ }
+          setApiPlans(plans);
+        }
       })
-      .catch(() => {});
+      .catch(() => { /* keep cached or show nothing */ });
   }, [lang]);
 
-  const activePlans = apiPlans ?? STATIC_PLANS;
+  const activePlans = apiPlans ?? [];
   const subtitles = SUBTITLES[lang] ?? SUBTITLES.ru;
   const featureMap = PLAN_FEATURES[lang] ?? PLAN_FEATURES.ru;
 
@@ -394,6 +400,11 @@ export function PricingSection() {
       {/* ── Tariff cards ──────────────────────────────────────────────── */}
       <section style={{ padding: "0 0 96px" }}>
         <div style={{ maxWidth: "72rem", margin: "0 auto", padding: "0 1.5rem" }}>
+          {PLANS.length === 0 && (
+            <div style={{ textAlign: "center", padding: "48px 0", color: "var(--ark-text-muted)", fontSize: 15 }}>
+              {lang === "en" ? "Loading pricing..." : lang === "uz" ? "Tariflar yuklanmoqda..." : "Загрузка тарифов..."}
+            </div>
+          )}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {PLANS.map((plan, i) => (
               <motion.div
