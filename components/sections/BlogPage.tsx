@@ -133,8 +133,8 @@ export function BlogPage() {
               style={{ marginBottom: 32 }}
             >
               <Link href={`/blog/${featured.slug}`} style={{ textDecoration: "none", display: "block" }}>
-                <div style={{
-                  borderRadius: 16, padding: "40px 40px",
+                <div className="p-6 sm:p-10" style={{
+                  borderRadius: 16,
                   background: "linear-gradient(to bottom right, rgba(99,102,241,0.12), rgba(79,70,229,0.05))",
                   border: "1px solid rgba(99,102,241,0.25)",
                   transition: "border-color 0.2s",
@@ -172,7 +172,7 @@ export function BlogPage() {
           )}
 
           {/* Posts grid */}
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 16 }} className="max-md:grid-cols-1 max-lg:grid-cols-2">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {rest.map((post, i) => (
               <motion.div
                 key={post.slug}

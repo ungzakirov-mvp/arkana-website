@@ -407,7 +407,7 @@ export function PricingSection({ plans = [] }: { plans?: Plan[] }) {
       {/* ── Tariff cards ──────────────────────────────────────────────── */}
       <section style={{ padding: "0 0 96px" }}>
         <div style={{ maxWidth: "72rem", margin: "0 auto", padding: "0 1.5rem" }}>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 16 }} className="max-md:grid-cols-1">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {PLANS.map((plan, i) => (
               <motion.div
                 key={plan.id}
@@ -519,7 +519,7 @@ export function PricingSection({ plans = [] }: { plans?: Plan[] }) {
           }}>
             {c.benefitsTitle}
           </h2>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 16 }} className="max-md:grid-cols-2 max-sm:grid-cols-1">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
             {c.benefits.map(({ title, desc }, i) => {
               const Icon = BENEFIT_ICONS[i];
               return (

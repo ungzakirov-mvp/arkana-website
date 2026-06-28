@@ -120,7 +120,7 @@ export function CasesPage() {
       {/* Hero */}
       <section style={{ padding: "96px 0 80px", position: "relative", overflow: "hidden" }}>
         <div aria-hidden="true" style={{ position: "absolute", inset: 0, background: "radial-gradient(ellipse 80% 50% at 50% -20%, rgba(99,102,241,0.10), transparent)", pointerEvents: "none" }} />
-        <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 40px", position: "relative" }}>
+        <div className="max-w-[1280px] mx-auto px-5 sm:px-10" style={{ position: "relative" }}>
           <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.65, ease: EASE }}>
             <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--ark-text-hint)", marginBottom: 20 }}>
               {c.badge}
@@ -139,7 +139,7 @@ export function CasesPage() {
 
       {/* Cases */}
       <section style={{ paddingBottom: 96 }}>
-        <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 40px" }}>
+        <div className="max-w-[1280px] mx-auto px-5 sm:px-10">
           <div style={{ borderTop: "1px solid var(--ark-divider)" }}>
             {c.cases.map((item, i) => (
               <motion.div
@@ -148,8 +148,8 @@ export function CasesPage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-60px" }}
                 transition={{ duration: 0.55, ease: EASE, delay: i * 0.08 }}
-                style={{ display: "grid", gridTemplateColumns: "200px 1fr 1fr", gap: "48px", padding: "56px 0", borderBottom: "1px solid var(--ark-divider)", alignItems: "start" }}
-                className="max-lg:flex max-lg:flex-col max-lg:gap-6"
+                className="grid grid-cols-1 lg:grid-cols-[200px_1fr_1fr] gap-6 lg:gap-12"
+                style={{ padding: "48px 0", borderBottom: "1px solid var(--ark-divider)", alignItems: "start" }}
               >
                 {/* Sector */}
                 <div>
@@ -201,8 +201,8 @@ export function CasesPage() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, ease: EASE }}
-            style={{ marginTop: 80, display: "grid", gridTemplateColumns: "1fr auto", gap: 48, alignItems: "center", padding: "48px 56px", borderRadius: 12, border: "1px solid var(--ark-border)", background: "var(--ark-bg-2)" }}
-            className="max-md:flex max-md:flex-col max-md:gap-8 max-md:p-8"
+            className="flex flex-col md:grid md:grid-cols-[1fr_auto] gap-8 md:gap-12 items-start md:items-center p-8 md:p-12"
+            style={{ marginTop: 80, borderRadius: 12, border: "1px solid var(--ark-border)", background: "var(--ark-bg-2)" }}
           >
             <div>
               <div style={{ fontFamily: "Nacelle, sans-serif", fontWeight: 600, fontSize: "clamp(1.5rem, 2.5vw, 2rem)", letterSpacing: "-0.04em", color: "var(--ark-text-heading)", marginBottom: 10, lineHeight: 1.2 }}>
