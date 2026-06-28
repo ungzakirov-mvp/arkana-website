@@ -75,8 +75,7 @@ export const metadata: Metadata = {
     images: [`${SITE_URL}/og-image.png`],
   },
   icons: {
-    icon:     [{ url: "/icon.png",       type: "image/png" }],
-    apple:    [{ url: "/apple-icon.png", type: "image/png" }],
+    icon:     [{ url: "/icon.svg", type: "image/svg+xml" }, { url: "/favicon.ico", type: "image/x-icon" }],
     shortcut: "/favicon.ico",
   },
   robots: {
