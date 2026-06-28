@@ -10,7 +10,7 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 
-const PORTAL_API = 'https://app.goarkan.uz/api/v1/billing/plans';
+const PORTAL_API = 'https://app.goarkan.uz:8001/api/v1/billing/plans';
 
 export const dynamic = 'force-dynamic';
 

@@ -11,7 +11,7 @@ import { useApp } from "@/components/providers/ThemeLanguageProvider";
 
 // Pricing fetched directly from Portal API (CORS allowed for arkana.uz).
 // Cache: sessionStorage per locale (last-known response survives page refresh).
-const PORTAL_API = "https://app.goarkan.uz/api/v1/billing/plans";
+const PORTAL_API = "https://app.goarkan.uz:8001/api/v1/billing/plans";
 
 type ApiPlan = {
   code: string;
