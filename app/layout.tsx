@@ -19,11 +19,6 @@ const METRIKA_ID  = process.env.NEXT_PUBLIC_YANDEX_METRIKA_ID;
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-  icons: {
-    icon:  [{ url: "/icon.png", type: "image/png" }],
-    apple: [{ url: "/apple-icon.png", type: "image/png" }],
-    shortcut: "/favicon.ico",
-  },
   title: {
     default: "IT-аутсорсинг в Ташкенте | ARKANA — Технологический партнёр",
     template: "%s | ARKANA",
@@ -80,11 +75,9 @@ export const metadata: Metadata = {
     images: [`${SITE_URL}/og-image.png`],
   },
   icons: {
-    icon: [
-      { url: "/logo-3d.png", type: "image/png" },
-    ],
-    apple: "/logo-3d.png",
-    shortcut: "/logo-3d.png",
+    icon:     [{ url: "/icon.png",       type: "image/png" }],
+    apple:    [{ url: "/apple-icon.png", type: "image/png" }],
+    shortcut: "/favicon.ico",
   },
   robots: {
     index: true,
