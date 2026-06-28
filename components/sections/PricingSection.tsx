@@ -9,7 +9,9 @@ import {
 } from "lucide-react";
 import { useApp } from "@/components/providers/ThemeLanguageProvider";
 
-const PORTAL_API = "https://app.goarkan.uz/api/v1/billing/plans";
+// Pricing fetched via same-origin server proxy → Next.js cache (1h) → sessionStorage fallback.
+// Never calls Portal API directly from the browser.
+const PRICING_PROXY = "/api/pricing";
 
 type ApiPlan = {
   code: string;
@@ -335,7 +337,8 @@ export function PricingSection() {
       if (cached) setApiPlans(JSON.parse(cached));
     } catch { /* sessionStorage unavailable */ }
 
-    fetch(`${PORTAL_API}?locale=${locale}`)
+    // Priority: /api/pricing (Next.js server cache, 1h) → sessionStorage (last known)
+    fetch(`${PRICING_PROXY}?locale=${locale}`)
       .then(r => r.ok ? r.json() : null)
       .then(json => {
         const plans: ApiPlan[] = json?.data ?? [];
@@ -344,7 +347,7 @@ export function PricingSection() {
           setApiPlans(plans);
         }
       })
-      .catch(() => { /* keep cached or show nothing */ });
+      .catch(() => { /* sessionStorage fallback already restored above */ });
   }, [lang]);
 
   const activePlans = apiPlans ?? [];
@@ -353,7 +356,7 @@ export function PricingSection() {
 
   const PLANS = activePlans.map(p => {
     const key = planKey(p.code);
-    const isEnterprise = p.pricingModel === "individual";
+    const isEnterprise = p.pricingModel === "custom" || p.pricingModel === "individual";
     return {
       id:       p.code,
       name:     p.name,
