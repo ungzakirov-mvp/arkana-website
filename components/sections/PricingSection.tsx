@@ -9,9 +9,9 @@ import {
 } from "lucide-react";
 import { useApp } from "@/components/providers/ThemeLanguageProvider";
 
-// Pricing fetched via same-origin server proxy → Next.js cache (1h) → sessionStorage fallback.
-// Never calls Portal API directly from the browser.
-const PRICING_PROXY = "/api/pricing";
+// Pricing fetched directly from Portal API (CORS allowed for arkana.uz).
+// Cache: sessionStorage per locale (last-known response survives page refresh).
+const PORTAL_API = "https://app.goarkan.uz/api/v1/billing/plans";
 
 type ApiPlan = {
   code: string;
@@ -337,8 +337,8 @@ export function PricingSection() {
       if (cached) setApiPlans(JSON.parse(cached));
     } catch { /* sessionStorage unavailable */ }
 
-    // Priority: /api/pricing (Next.js server cache, 1h) → sessionStorage (last known)
-    fetch(`${PRICING_PROXY}?locale=${locale}`)
+    // Portal API (CORS allowed) → sessionStorage (last-known fallback)
+    fetch(`${PORTAL_API}?locale=${locale}`)
       .then(r => r.ok ? r.json() : null)
       .then(json => {
         const plans: ApiPlan[] = json?.data ?? [];
