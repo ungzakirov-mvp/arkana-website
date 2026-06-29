@@ -9,9 +9,10 @@ import {
 } from "lucide-react";
 import { useApp } from "@/components/providers/ThemeLanguageProvider";
 
-// Pricing fetched directly from Portal API (CORS allowed for arkana.uz).
+// Pricing fetched via Next.js proxy (/api/pricing) which calls Portal API
+// and falls back to PRICING_DATA env var when Portal is unreachable.
 // Cache: sessionStorage per locale (last-known response survives page refresh).
-const PORTAL_API = "https://app.goarkan.uz:8001/api/v1/billing/plans";
+const PORTAL_API = "/api/pricing";
 
 type ApiPlan = {
   code: string;

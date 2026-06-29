@@ -1,16 +1,19 @@
-// app/api/pricing/route.ts
-// Lightweight Next.js API proxy for Portal billing/plans.
-// This route is intentionally simple — it passes the request through to
-// the Portal and lets the browser's own SSL/CORS stack handle the connection.
-// The primary cache layer is sessionStorage in PricingSection (client side).
-//
-// This route exists for cases where a server-side fetch is preferred (e.g.
-// pre-rendering, SSR). For now the website uses client-side fetch directly.
-// The route is kept in case we need it for ISR in the future.
-
 import { NextRequest, NextResponse } from 'next/server';
 
 const PORTAL_API = 'https://app.goarkan.uz:8001/api/v1/billing/plans';
+
+// Fallback pricing loaded from Vercel env var PRICING_DATA_<LOCALE>
+// Set these in Vercel dashboard when the Portal API is unreachable.
+function getFallback(locale: string): NextResponse | null {
+  const key = `PRICING_DATA_${locale.toUpperCase()}`;
+  const raw = process.env[key];
+  if (!raw) return null;
+  try {
+    return NextResponse.json(JSON.parse(raw));
+  } catch {
+    return null;
+  }
+}
 
 export const dynamic = 'force-dynamic';
 
@@ -23,15 +26,18 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
   try {
     const upstream = await fetch(`${PORTAL_API}?locale=${locale}`, {
       headers: { Accept: 'application/json' },
-      // No revalidate — client-side sessionStorage is the cache layer
+      signal: AbortSignal.timeout(5000),
     });
 
-    if (!upstream.ok) {
-      return NextResponse.json({ error: 'upstream', status: upstream.status }, { status: 502 });
+    if (upstream.ok) {
+      return NextResponse.json(await upstream.json());
     }
-
-    return NextResponse.json(await upstream.json());
   } catch {
-    return NextResponse.json({ error: 'unreachable' }, { status: 502 });
+    // Portal unreachable — fall through to env var fallback
   }
+
+  const fallback = getFallback(locale);
+  if (fallback) return fallback;
+
+  return NextResponse.json({ error: 'unreachable' }, { status: 502 });
 }
