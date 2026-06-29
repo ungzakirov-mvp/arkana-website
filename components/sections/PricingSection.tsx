@@ -1,195 +1,156 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import {
-  CheckCircle2, X, ArrowRight,
-  ShieldCheck, EqualNot, RefreshCw, LayoutGrid, ChevronDown,
+  Check, ChevronDown,
+  ShieldCheck, EqualNot, RefreshCw, LayoutGrid, ArrowRight, Star,
 } from "lucide-react";
 import { useApp } from "@/components/providers/ThemeLanguageProvider";
 
-// Pricing fetched via Next.js proxy (/api/pricing) which calls Portal API
-// and falls back to PRICING_DATA env var when Portal is unreachable.
-// Cache: sessionStorage per locale (last-known response survives page refresh).
 const PORTAL_API = "/api/pricing";
+const PLANS_CACHE_KEY = "ark_plans_cache";
+const EASE = [0.16, 1, 0.3, 1] as const;
 
 type ApiPlan = {
   code: string;
   name: string;
   displayPrice: string;
   pricingModel: string;
-  billingInterval: string;
-  assetLimit: number | null;
   userLimit: number | null;
   ticketLimitMo: number | null;
-  modules: string[];
+  printerRefillLimit: number | null;
+  onsiteVisitLimit: number | null;
+  remoteSessionLimit: number | null;
   sortOrder: number;
 };
 
-const EASE = [0.16, 1, 0.3, 1] as const;
-
-/* ─── Static subtitles ─────────────────────────────────────────────── */
-const SUBTITLES: Record<string, Record<string, string>> = {
-  ru: { start: "Малый бизнес", operations: "Растущий бизнес", enterprise: "Крупный бизнес" },
-  en: { start: "Small business", operations: "Growing business", enterprise: "Large business" },
-  uz: { start: "Kichik biznes", operations: "O'suvchi biznes", enterprise: "Yirik biznes" },
-};
-
-/* ─── Feature table (plan details, display-only) ───────────────────── */
-const PLAN_FEATURES: Record<string, Record<string, { label: string; value: boolean | string }[]>> = {
-  ru: {
-    start: [
-      { label: "Service Desk (GoARKAN)", value: true },
-      { label: "SLA — реакция",           value: "2 часа" },
-      { label: "SLA — решение",           value: "8 часов" },
-      { label: "Мониторинг серверов 24/7", value: true },
-      { label: "Резервное копирование",   value: true },
-      { label: "Антивирус и обновления",  value: true },
-      { label: "Поддержка Microsoft 365", value: "базовая" },
-      { label: "Именной инженер",         value: false },
-      { label: "Обслуживание серверов",   value: false },
-      { label: "Кибербезопасность",       value: false },
-      { label: "Анализ инфраструктуры",   value: "раз в год" },
+/* ─── Static per-plan metadata ──────────────────────────────────────── */
+const PLAN_META: Record<string, {
+  sla: string;
+  recommended?: boolean;
+  sdFeatures: string[];
+  services: { color: string; label: string }[];
+  cta: Record<string, string>;
+}> = {
+  micro: {
+    sla: "SLA 8h",
+    sdFeatures: [],
+    services: [
+      { color: "#94a3b8", label: "Удалённая и выездная поддержка" },
+      { color: "#94a3b8", label: "IT Support" },
+      { color: "#94a3b8", label: "Сетевые работы" },
     ],
-    operations: [
-      { label: "Service Desk (GoARKAN)", value: true },
-      { label: "SLA — реакция",           value: "1 час" },
-      { label: "SLA — решение",           value: "4 часа" },
-      { label: "Мониторинг серверов 24/7", value: true },
-      { label: "Резервное копирование",   value: true },
-      { label: "Антивирус и обновления",  value: true },
-      { label: "Поддержка Microsoft 365", value: "полная" },
-      { label: "Именной инженер",         value: true },
-      { label: "Обслуживание серверов",   value: true },
-      { label: "Кибербезопасность",       value: "базовая" },
-      { label: "Анализ инфраструктуры",   value: "раз в квартал" },
-    ],
-    enterprise: [
-      { label: "Service Desk (GoARKAN)", value: true },
-      { label: "Индивидуальный SLA",      value: true },
-      { label: "Приоритетная реакция",    value: "≤ 30 мин" },
-      { label: "Мониторинг серверов 24/7", value: true },
-      { label: "Резервное копирование",   value: true },
-      { label: "Антивирус и обновления",  value: true },
-      { label: "Поддержка Microsoft 365", value: "полная" },
-      { label: "Выделенная команда",      value: true },
-      { label: "Обслуживание серверов",   value: true },
-      { label: "Кибербезопасность",       value: "расширенная" },
-      { label: "Анализ инфраструктуры",   value: "ежемесячно" },
-    ],
+    cta: { ru: "Начать работу", en: "Get started", uz: "Boshlash" },
   },
-  en: {
-    start: [
-      { label: "Service Desk (GoARKAN)", value: true },
-      { label: "SLA — response",          value: "2 hours" },
-      { label: "SLA — resolution",        value: "8 hours" },
-      { label: "Server monitoring 24/7",  value: true },
-      { label: "Backup",                  value: true },
-      { label: "Antivirus & updates",     value: true },
-      { label: "Microsoft 365 support",   value: "basic" },
-      { label: "Dedicated engineer",      value: false },
-      { label: "Server maintenance",      value: false },
-      { label: "Cybersecurity",           value: false },
-      { label: "Infrastructure analysis", value: "once a year" },
+  start: {
+    sla: "SLA 4h",
+    sdFeatures: [
+      "Telegram Bot для заявок",
+      "Присвоение номера заявки",
+      "Контроль статуса",
+      "История заявок",
+      "Уведомления пользователей",
     ],
-    operations: [
-      { label: "Service Desk (GoARKAN)", value: true },
-      { label: "SLA — response",          value: "1 hour" },
-      { label: "SLA — resolution",        value: "4 hours" },
-      { label: "Server monitoring 24/7",  value: true },
-      { label: "Backup",                  value: true },
-      { label: "Antivirus & updates",     value: true },
-      { label: "Microsoft 365 support",   value: "full" },
-      { label: "Dedicated engineer",      value: true },
-      { label: "Server maintenance",      value: true },
-      { label: "Cybersecurity",           value: "basic" },
-      { label: "Infrastructure analysis", value: "quarterly" },
+    services: [
+      { color: "#f97316", label: "Приоритетная поддержка" },
+      { color: "#94a3b8", label: "IT Support" },
+      { color: "#94a3b8", label: "Сетевые работы" },
+      { color: "#22c55e", label: "Видеонаблюдение" },
     ],
-    enterprise: [
-      { label: "Service Desk (GoARKAN)", value: true },
-      { label: "Custom SLA",              value: true },
-      { label: "Priority response",       value: "≤ 30 min" },
-      { label: "Server monitoring 24/7",  value: true },
-      { label: "Backup",                  value: true },
-      { label: "Antivirus & updates",     value: true },
-      { label: "Microsoft 365 support",   value: "full" },
-      { label: "Dedicated team",          value: true },
-      { label: "Server maintenance",      value: true },
-      { label: "Cybersecurity",           value: "advanced" },
-      { label: "Infrastructure analysis", value: "monthly" },
-    ],
+    cta: { ru: "Подключить Service Desk", en: "Connect Service Desk", uz: "Service Desk ulash" },
   },
-  uz: {
-    start: [
-      { label: "Service Desk (GoARKAN)", value: true },
-      { label: "SLA — javob",             value: "2 soat" },
-      { label: "SLA — hal qilish",        value: "8 soat" },
-      { label: "Serverlarni 24/7 kuzatish", value: true },
-      { label: "Zaxira nusxa",            value: true },
-      { label: "Antivirus va yangilanishlar", value: true },
-      { label: "Microsoft 365 qo'llab-quvvatlash", value: "asosiy" },
-      { label: "Shaxsiy muhandis",        value: false },
-      { label: "Server xizmati",          value: false },
-      { label: "Kiberxavfsizlik",         value: false },
-      { label: "Infratuzilma tahlili",    value: "yiliga bir marta" },
+  business: {
+    sla: "SLA 2–4h",
+    recommended: true,
+    sdFeatures: [
+      "Telegram Bot для заявок",
+      "Присвоение номера заявки",
+      "Контроль статуса",
+      "История заявок",
+      "Уведомления пользователей",
+      "Мобильное приложение",
+      "Push-уведомления",
+      "Управление заявками",
     ],
-    operations: [
-      { label: "Service Desk (GoARKAN)", value: true },
-      { label: "SLA — javob",             value: "1 soat" },
-      { label: "SLA — hal qilish",        value: "4 soat" },
-      { label: "Serverlarni 24/7 kuzatish", value: true },
-      { label: "Zaxira nusxa",            value: true },
-      { label: "Antivirus va yangilanishlar", value: true },
-      { label: "Microsoft 365 qo'llab-quvvatlash", value: "to'liq" },
-      { label: "Shaxsiy muhandis",        value: true },
-      { label: "Server xizmati",          value: true },
-      { label: "Kiberxavfsizlik",         value: "asosiy" },
-      { label: "Infratuzilma tahlili",    value: "har chorakda" },
+    services: [
+      { color: "#f97316", label: "Приоритетный выезд" },
+      { color: "#94a3b8", label: "IT Support" },
+      { color: "#94a3b8", label: "Сетевые работы" },
+      { color: "#94a3b8", label: "Серверы" },
+      { color: "#22c55e", label: "Видеонаблюдение" },
+      { color: "#3b82f6", label: "IP-телефония" },
+      { color: "#a855f7", label: "IT аудит" },
     ],
-    enterprise: [
-      { label: "Service Desk (GoARKAN)", value: true },
-      { label: "Individual SLA",          value: true },
-      { label: "Ustuvor javob",           value: "≤ 30 daq" },
-      { label: "Serverlarni 24/7 kuzatish", value: true },
-      { label: "Zaxira nusxa",            value: true },
-      { label: "Antivirus va yangilanishlar", value: true },
-      { label: "Microsoft 365 qo'llab-quvvatlash", value: "to'liq" },
-      { label: "Ajratilgan jamoa",        value: true },
-      { label: "Server xizmati",          value: true },
-      { label: "Kiberxavfsizlik",         value: "kengaytirilgan" },
-      { label: "Infratuzilma tahlili",    value: "har oyda" },
+    cta: { ru: "Подключить Service Desk", en: "Connect Service Desk", uz: "Service Desk ulash" },
+  },
+  enterprise_plus: {
+    sla: "SLA 2h",
+    sdFeatures: [
+      "Telegram Bot для заявок",
+      "Присвоение номера заявки",
+      "Контроль статуса",
+      "История заявок",
+      "Уведомления пользователей",
+      "Мобильное приложение",
+      "Push-уведомления",
+      "Управление заявками",
     ],
+    services: [
+      { color: "#f97316", label: "Максимальный приоритет" },
+      { color: "#94a3b8", label: "IT Support" },
+      { color: "#94a3b8", label: "Сетевые работы" },
+      { color: "#94a3b8", label: "Серверы" },
+      { color: "#22c55e", label: "Видеонаблюдение" },
+      { color: "#3b82f6", label: "IP-телефония" },
+      { color: "#a855f7", label: "IT аудит" },
+    ],
+    cta: { ru: "Подключить Service Desk", en: "Connect Service Desk", uz: "Service Desk ulash" },
+  },
+  pro: {
+    sla: "SLA 1h",
+    sdFeatures: [
+      "Telegram Bot для заявок",
+      "Присвоение номера заявки",
+      "Контроль статуса",
+      "История заявок",
+      "Уведомления пользователей",
+      "Мобильное приложение",
+      "Push-уведомления",
+      "Управление заявками",
+    ],
+    services: [
+      { color: "#f97316", label: "Инженер постоянно в офисе" },
+      { color: "#f97316", label: "Полный контроль IT" },
+      { color: "#94a3b8", label: "IT Support" },
+      { color: "#94a3b8", label: "Сетевые работы" },
+      { color: "#94a3b8", label: "Серверы" },
+      { color: "#22c55e", label: "Видеонаблюдение" },
+      { color: "#3b82f6", label: "IP-телефония" },
+      { color: "#a855f7", label: "IT аудит" },
+    ],
+    cta: { ru: "Получить IT-поддержку", en: "Get IT support", uz: "IT yordam olish" },
   },
 };
 
 /* ─── Copy ─────────────────────────────────────────────────────────── */
 const COPY: Record<string, {
-  badge: string;
-  h1: string;
-  sub: string;
-  popular: string;
-  currency: string;
-  contactSales: string;
-  ctaPrefix: string;
-  customTitle: string;
-  customBody: string;
-  customCta: string;
-  benefitsTitle: string;
-  benefits: { title: string; desc: string }[];
-  faqTitle: string;
-  faqs: { q: string; a: string }[];
-  conditionsTitle: string;
-  conditions: string[];
+  badge: string; h1: string; sub: string; currency: string; mo: string;
+  pcs: string; tickets: string; refills: string; sdLabel: string; recommended: string;
+  unlimited: string; contactSales: string;
+  customTitle: string; customBody: string; customCta: string;
+  benefitsTitle: string; benefits: { title: string; desc: string }[];
+  faqTitle: string; faqs: { q: string; a: string }[];
+  conditionsTitle: string; conditions: string[];
 }> = {
   ru: {
     badge: "Тарифы",
     h1: "Выберите уровень IT,\nкоторый нужен вашему бизнесу.",
     sub: "Каждый тариф включает работу по SLA, доступ к GoARKAN и сопровождение вашей IT-инфраструктуры. Отличается только объём обслуживания и доступные ресурсы.",
-    popular: "Популярный выбор",
-    currency: "сум/мес",
-    contactSales: "Связаться с отделом продаж",
-    ctaPrefix: "Начать с",
+    currency: "сум", mo: "/ месяц",
+    pcs: "РАБОЧИХ МЕСТ", tickets: "ЗАЯВОК", refills: "ЗАПРАВКИ", sdLabel: "SERVICE DESK ВКЛЮЧЁН",
+    recommended: "Рекомендуемый", unlimited: "∞", contactSales: "По запросу",
     customTitle: "Нестандартные требования?",
     customBody: "Более 100 рабочих мест, специфическая инфраструктура, несколько офисов? Составим индивидуальное предложение.",
     customCta: "Обсудить условия",
@@ -226,10 +187,9 @@ const COPY: Record<string, {
     badge: "Pricing",
     h1: "Choose the IT level\nyour business needs.",
     sub: "Every plan includes SLA-backed service, GoARKAN access, and full IT infrastructure support. The difference is service volume and available resources.",
-    popular: "Most popular",
-    currency: "UZS/mo",
-    contactSales: "Contact sales",
-    ctaPrefix: "Start with",
+    currency: "UZS", mo: "/ month",
+    pcs: "WORKSTATIONS", tickets: "TICKETS", refills: "REFILLS", sdLabel: "SERVICE DESK INCLUDED",
+    recommended: "Recommended", unlimited: "∞", contactSales: "By request",
     customTitle: "Non-standard requirements?",
     customBody: "More than 100 workstations, specific infrastructure, multiple offices? We'll build a custom proposal.",
     customCta: "Discuss terms",
@@ -266,10 +226,9 @@ const COPY: Record<string, {
     badge: "Tariflar",
     h1: "Biznesingizga kerakli\nIT darajasini tanlang.",
     sub: "Har bir tarif SLA bo'yicha xizmat, GoARKAN kirishi va IT-infratuzilmangizni qo'llab-quvvatlashni o'z ichiga oladi. Farqi faqat xizmat hajmi va mavjud resurslarda.",
-    popular: "Mashhur tanlov",
-    currency: "so'm/oy",
-    contactSales: "Sotuv bo'limi bilan bog'laning",
-    ctaPrefix: "Boshlash",
+    currency: "so'm", mo: "/ oy",
+    pcs: "ISH JOYLARI", tickets: "ARIZALAR", refills: "TO\'LDIRISH", sdLabel: "SERVICE DESK KIRITILGAN",
+    recommended: "Tavsiya etiladi", unlimited: "∞", contactSales: "So'rov bo'yicha",
     customTitle: "Nostandart talablar?",
     customBody: "100 dan ortiq ish joylari, o'ziga xos infratuzilma, bir nechta ofislar? Individual taklif tayyorlaymiz.",
     customCta: "Shartlarni muhokama qilish",
@@ -285,13 +244,13 @@ const COPY: Record<string, {
       { q: "Tarif nimani o'z ichiga oladi?", a: "Tarif oylik belgilangan xizmat hajmini o'z ichiga oladi: xodimlarning arizalari, masofaviy yordam, monitoring va GoARKAN kirishi. Aniq tarkib tanlangan rejaga bog'liq." },
       { q: "Bitta ariza nima hisoblanadi?", a: "Bitta ariza — xodimning bitta murojati: nosozlik, sozlash, savol, masofaviy yordam yoki mutaxassis tashrifi. Har bir murojat GoARKAN'da qayd etiladi va alohida yopiladi." },
       { q: "Masofaviy qo'llab-quvvatlashga nima kiradi?", a: "Diagnostika, sozlash yoki dasturiy ta'minotni o'rnatish uchun xodim kompyuteriga masofadan ulanish. Bir sessiya — ulanishning davomiyligidan qat'iy nazar bitta ulanish." },
-      { q: "Tarifga nima kirmaydi?", a: "Uskunalar va litsenziyalar xarid qilish, dasturiy ta'minot ishlab chiqish, yirik loyiha ishlari (ERP joriy etish, serverlarni ko'chirish) va oldindan kelishilmagan ishlar. Bu xizmatlar alohida kelishuv bo'yicha bajariladi." },
-      { q: "Limitlar tugaganda nima bo'ladi?", a: "Biz sizni oldindan xabardor qilamiz. Qo'shimcha ishlar faqat sizning roziligingizdan keyin bajariladi va joriy narx ro'yxatiga muvofiq to'lanadi. Ishlar sizning xabaringiz olmay to'xtamaydi." },
-      { q: "Tarifni o'zgartirish mumkinmi?", a: "Ha. Kompaniya o'sganda istalgan vaqtda tarifni oshirish mumkin. Kamaytirish joriy shartnoma shartlariga bog'liq. ENTERPRISE tarifi uchun individual shartlar mavjud." },
+      { q: "Tarifga nima kirmaydi?", a: "Uskunalar va litsenziyalar xarid qilish, dasturiy ta'minot ishlab chiqish, yirik loyiha ishlari va oldindan kelishilmagan ishlar. Bu xizmatlar alohida kelishuv bo'yicha bajariladi." },
+      { q: "Limitlar tugaganda nima bo'ladi?", a: "Biz sizni oldindan xabardor qilamiz. Qo'shimcha ishlar faqat sizning roziligingizdan keyin bajariladi va joriy narx ro'yxatiga muvofiq to'lanadi." },
+      { q: "Tarifni o'zgartirish mumkinmi?", a: "Ha. Kompaniya o'sganda istalgan vaqtda tarifni oshirish mumkin. ENTERPRISE tarifi uchun individual shartlar mavjud." },
       { q: "Foydalanilmagan xizmatlar o'tkazib yuboriladi mi?", a: "Yo'q. Foydalanilmagan xizmat hajmi keyingi oyga o'tkazilmaydi. Limitlar har bir hisob-kitob davrining boshida yangilanadi." },
       { q: "Ulanish qanday amalga oshiriladi?", a: "Shartnoma imzolanganidan so'ng jamoamiz dastlabki infratuzilma tahlilini o'tkazadi, monitoring va GoARKAN Service Desk'ni sozlaydi. Ishga tushirish 5 ish kuniga qadar davom etadi." },
-      { q: "SLA qanday ishlaydi?", a: "SLA — xizmat ko'rsatish darajasi to'g'risidagi kelishuv. Har bir ariza bo'yicha birinchi javob va hal qilish muddatlari shartnomada belgilangan. SLA buzilishi ARKANA uchun jarima sanksiyalariga olib keladi." },
-      { q: "Qanday ishlar alohida to'lanadi?", a: "Belgilangan hajmdan tashqari ishlar, loyiha vazifalari, qo'shimcha tashriflar va barcha nostandart so'rovlar alohida kelishiladi va narx ro'yxatiga ko'ra to'lanadi." },
+      { q: "SLA qanday ishlaydi?", a: "SLA — xizmat ko'rsatish darajasi to'g'risidagi kelishuv. Har bir ariza bo'yicha birinchi javob va hal qilish muddatlari shartnomada belgilangan." },
+      { q: "Qanday ishlar alohida to'lanadi?", a: "Belgilangan hajmdan tashqari ishlar, loyiha vazifalari, qo'shimcha tashriflar va barcha nostandart so'rovlar alohida kelishiladi va to'lanadi." },
     ],
     conditionsTitle: "Tijorat shartlari",
     conditions: [
@@ -304,21 +263,185 @@ const COPY: Record<string, {
   },
 };
 
-const PLANS_CACHE_KEY = "ark_plans_cache";
-
-/* ─── Benefit icons ─────────────────────────────────────────────────── */
 const BENEFIT_ICONS = [ShieldCheck, EqualNot, RefreshCw, LayoutGrid];
 
-/* ─── Feature row value ─────────────────────────────────────────────── */
-function FeatureValue({ value }: { value: boolean | string }) {
-  if (value === true)  return <CheckCircle2 size={16} style={{ color: "var(--ark-text-muted)" }} />;
-  if (value === false) return <X size={16} style={{ color: "var(--ark-text-faint)", opacity: 0.5 }} />;
-  return <span style={{ fontSize: 13, color: "var(--ark-text-muted)" }}>{value}</span>;
-}
+/* ─── Pricing Card ──────────────────────────────────────────────────── */
+function PricingCard({
+  plan, meta, c, lang, index,
+}: {
+  plan: ApiPlan;
+  meta: typeof PLAN_META[string];
+  c: typeof COPY["ru"];
+  lang: string;
+  index: number;
+}) {
+  const isRecommended = meta.recommended;
+  const isCustom = plan.pricingModel === "custom";
+  const hasSd = meta.sdFeatures.length > 0;
 
-/* ─── Plan code → feature-map key ──────────────────────────────────── */
-function planKey(code: string): string {
-  return code === "starter" ? "start" : code;
+  const statLabel: React.CSSProperties = {
+    fontSize: 9, fontWeight: 700, letterSpacing: "0.1em",
+    color: "rgba(148,163,184,0.7)", marginBottom: 4, textTransform: "uppercase",
+  };
+  const statVal: React.CSSProperties = {
+    fontSize: 17, fontWeight: 700, color: "#f1f5f9", lineHeight: 1.1, fontFamily: "Nacelle, sans-serif",
+  };
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 28 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.55, ease: EASE, delay: index * 0.08 }}
+      whileHover={{ y: -6, transition: { duration: 0.25, ease: "easeOut" } }}
+      style={{
+        position: "relative",
+        borderRadius: 16,
+        padding: isRecommended ? 2 : 0,
+        background: isRecommended
+          ? "linear-gradient(135deg, #3b82f6 0%, #6366f1 50%, #3b82f6 100%)"
+          : "transparent",
+        flexShrink: 0,
+        width: 220,
+        cursor: "default",
+      }}
+    >
+      {/* Recommended badge */}
+      {isRecommended && (
+        <div style={{
+          position: "absolute", top: -14, left: "50%", transform: "translateX(-50%)",
+          background: "linear-gradient(90deg, #3b82f6, #6366f1)",
+          borderRadius: 20, padding: "4px 14px",
+          display: "flex", alignItems: "center", gap: 5,
+          fontSize: 11, fontWeight: 700, color: "#fff",
+          whiteSpace: "nowrap", letterSpacing: "0.04em", zIndex: 10,
+          boxShadow: "0 2px 12px rgba(99,102,241,0.5)",
+        }}>
+          <Star size={10} fill="white" stroke="none" />
+          {c.recommended}
+        </div>
+      )}
+
+      {/* Card inner */}
+      <div style={{
+        borderRadius: isRecommended ? 14 : 16,
+        border: isRecommended ? "none" : "1px solid rgba(255,255,255,0.08)",
+        background: "#0f1117",
+        padding: "24px 18px 20px",
+        display: "flex", flexDirection: "column", height: "100%",
+        transition: "border-color 0.25s, box-shadow 0.25s",
+      }}
+        className="pricing-card-inner"
+      >
+        {/* Plan name */}
+        <div style={{
+          fontSize: 11, fontWeight: 800, letterSpacing: "0.15em",
+          color: isRecommended ? "#60a5fa" : "rgba(148,163,184,0.8)",
+          textTransform: "uppercase", marginBottom: 12,
+        }}>
+          {plan.name}
+        </div>
+
+        {/* Price */}
+        <div style={{ marginBottom: 4 }}>
+          {isCustom ? (
+            <div style={{ fontFamily: "Nacelle, sans-serif", fontSize: 22, fontWeight: 700, color: "#f1f5f9", letterSpacing: "-0.02em", lineHeight: 1 }}>
+              {c.contactSales}
+            </div>
+          ) : (
+            <div style={{ fontFamily: "Nacelle, sans-serif", fontSize: 26, fontWeight: 800, color: "#f1f5f9", letterSpacing: "-0.03em", lineHeight: 1 }}>
+              {plan.displayPrice.replace(/\s*(сум|so'm|UZS).*/, "")}
+            </div>
+          )}
+        </div>
+        <div style={{ fontSize: 12, color: "rgba(148,163,184,0.6)", marginBottom: 18 }}>
+          {isCustom ? "" : `${plan.displayPrice.match(/сум|so'm|UZS/)?.[0] ?? c.currency} ${c.mo}`}
+        </div>
+
+        {/* Stats grid */}
+        <div style={{
+          display: "grid", gridTemplateColumns: "1fr 1fr",
+          gap: 1, marginBottom: 18,
+          background: "rgba(255,255,255,0.05)", borderRadius: 10, overflow: "hidden",
+        }}>
+          {[
+            { label: c.pcs, val: plan.userLimit ? `До ${plan.userLimit} ПК` : "—" },
+            { label: "SLA", val: meta.sla },
+            { label: c.tickets, val: plan.ticketLimitMo?.toString() ?? "—" },
+            { label: c.refills, val: plan.printerRefillLimit != null ? plan.printerRefillLimit.toString() : c.unlimited },
+          ].map(({ label, val }) => (
+            <div key={label} style={{ padding: "10px 10px 9px", background: "rgba(15,17,23,0.8)" }}>
+              <div style={statLabel}>{label}</div>
+              <div style={statVal}>{val}</div>
+            </div>
+          ))}
+        </div>
+
+        {/* Service Desk block */}
+        {hasSd && (
+          <div style={{ marginBottom: 16 }}>
+            <div style={{
+              display: "flex", alignItems: "center", gap: 7, marginBottom: 10,
+            }}>
+              <div style={{
+                width: 18, height: 18, borderRadius: "50%",
+                background: "linear-gradient(135deg, #3b82f6, #6366f1)",
+                display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0,
+              }}>
+                <Check size={10} color="white" strokeWidth={3} />
+              </div>
+              <span style={{ fontSize: 10, fontWeight: 800, letterSpacing: "0.08em", color: "#60a5fa", textTransform: "uppercase" }}>
+                {c.sdLabel}
+              </span>
+            </div>
+            <div style={{ display: "flex", flexDirection: "column", gap: 5, paddingLeft: 4 }}>
+              {meta.sdFeatures.map((f) => (
+                <div key={f} style={{ display: "flex", alignItems: "center", gap: 7 }}>
+                  <div style={{ width: 5, height: 5, borderRadius: "50%", background: "#3b82f6", flexShrink: 0 }} />
+                  <span style={{ fontSize: 11.5, color: "rgba(148,163,184,0.85)", lineHeight: 1.3 }}>{f}</span>
+                </div>
+              ))}
+            </div>
+            <div style={{ height: 1, background: "rgba(255,255,255,0.06)", margin: "14px 0" }} />
+          </div>
+        )}
+
+        {/* Services checklist */}
+        <div style={{ display: "flex", flexDirection: "column", gap: 7, flex: 1, marginBottom: 20 }}>
+          {meta.services.map(({ color, label }) => (
+            <div key={label} style={{ display: "flex", alignItems: "flex-start", gap: 8 }}>
+              <Check size={13} style={{ color, flexShrink: 0, marginTop: 1 }} strokeWidth={2.5} />
+              <span style={{ fontSize: 12, color: "rgba(241,245,249,0.8)", lineHeight: 1.4 }}>{label}</span>
+            </div>
+          ))}
+        </div>
+
+        {/* CTA Button */}
+        <Link
+          href={`/contact?plan=${plan.code}`}
+          style={{
+            display: "block", textAlign: "center",
+            padding: "11px 16px",
+            borderRadius: 10,
+            fontSize: 12.5, fontWeight: 700,
+            textDecoration: "none",
+            transition: "all 0.2s ease",
+            ...(isRecommended ? {
+              background: "linear-gradient(135deg, #3b82f6, #6366f1)",
+              color: "#fff",
+              boxShadow: "0 4px 16px rgba(99,102,241,0.4)",
+            } : {
+              background: "transparent",
+              color: "#f1f5f9",
+              border: "1px solid rgba(255,255,255,0.15)",
+            }),
+          }}
+          className="pricing-cta-btn"
+        >
+          {meta.cta[lang] ?? meta.cta.ru}
+        </Link>
+      </div>
+    </motion.div>
+  );
 }
 
 /* ─── Main component ────────────────────────────────────────────────── */
@@ -327,304 +450,196 @@ export function PricingSection() {
   const c = COPY[lang] ?? COPY.ru;
   const [open, setOpen] = useState<number | null>(null);
   const [apiPlans, setApiPlans] = useState<ApiPlan[] | null>(null);
+  const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const locale = lang === "en" ? "en" : lang === "uz" ? "uz" : "ru";
     const cacheKey = `${PLANS_CACHE_KEY}_${locale}`;
-
-    // Restore last-known response while live fetch is in flight
     try {
       const cached = sessionStorage.getItem(cacheKey);
       if (cached) setApiPlans(JSON.parse(cached));
-    } catch { /* sessionStorage unavailable */ }
+    } catch { /* ignore */ }
 
-    // Portal API (CORS allowed) → sessionStorage (last-known fallback)
     fetch(`${PORTAL_API}?locale=${locale}`)
       .then(r => r.ok ? r.json() : null)
       .then(json => {
         const plans: ApiPlan[] = json?.data ?? [];
         if (plans.length > 0) {
-          try { sessionStorage.setItem(cacheKey, JSON.stringify(plans)); } catch { /**/ }
+          try { sessionStorage.setItem(cacheKey, JSON.stringify(plans)); } catch { /* ignore */ }
           setApiPlans(plans);
         }
       })
-      .catch(() => { /* sessionStorage fallback already restored above */ });
+      .catch(() => { /* sessionStorage fallback */ });
   }, [lang]);
 
-  const activePlans = apiPlans ?? [];
-  const subtitles = SUBTITLES[lang] ?? SUBTITLES.ru;
-  const featureMap = PLAN_FEATURES[lang] ?? PLAN_FEATURES.ru;
-
-  const PLANS = activePlans.map(p => {
-    const key = planKey(p.code);
-    const isEnterprise = p.pricingModel === "custom" || p.pricingModel === "individual";
-    return {
-      id:       p.code,
-      name:     p.name,
-      subtitle: subtitles[key] ?? "",
-      price:    p.displayPrice,
-      currency: isEnterprise ? "" : c.currency,
-      popular:  p.code === "operations",
-      ctaLabel: isEnterprise ? c.contactSales : `${c.ctaPrefix} ${p.name}`,
-      ctaHref:  `/contact?plan=${p.code}`,
-      services: [] as { count: string; label: string }[],
-      features: featureMap[key] ?? [],
-    };
-  });
+  const activePlans = (apiPlans ?? []).sort((a, b) => a.sortOrder - b.sortOrder);
 
   return (
-    <div style={{ minHeight: "100vh" }}>
+    <>
+      <style>{`
+        .pricing-card-inner:hover {
+          border-color: rgba(255,255,255,0.14) !important;
+          box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+        }
+        .pricing-cta-btn:hover {
+          opacity: 0.88;
+          transform: translateY(-1px);
+        }
+        .pricing-scroll::-webkit-scrollbar { height: 4px; }
+        .pricing-scroll::-webkit-scrollbar-track { background: transparent; }
+        .pricing-scroll::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 2px; }
+        @media (prefers-reduced-motion: reduce) {
+          .pricing-card-inner { transition: none !important; }
+          .pricing-cta-btn { transition: none !important; }
+        }
+      `}</style>
 
-      {/* ── Hero ──────────────────────────────────────────────────────── */}
-      <section style={{ padding: "96px 0 64px", position: "relative", overflow: "hidden" }}>
-        <div aria-hidden="true" style={{
-          position: "absolute", inset: 0, zIndex: 0,
-          background: "radial-gradient(ellipse 80% 50% at 50% -20%, rgba(99,102,241,0.12), transparent)",
-          pointerEvents: "none",
-        }} />
-        <div style={{ maxWidth: "72rem", margin: "0 auto", padding: "0 1.5rem", position: "relative", zIndex: 1, textAlign: "center" }}>
-          <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.65, ease: EASE }}>
-            <div className="ark-badge" style={{ justifyContent: "center", marginBottom: 24 }}>
-              <span style={{ fontSize: 12, fontWeight: 500, color: "var(--ark-accent-2)" }}>{c.badge}</span>
-            </div>
-            <h1 style={{
-              fontFamily: "Nacelle, sans-serif", fontWeight: 600,
-              fontSize: "clamp(2.25rem, 5vw, 3.5rem)", letterSpacing: "-0.04em",
-              lineHeight: 1.05, marginBottom: 20, whiteSpace: "pre-line",
-            }}>
-              <span className="heading-gradient">{c.h1}</span>
-            </h1>
-            <p style={{ fontSize: 17, color: "var(--ark-text-muted)", lineHeight: 1.65, maxWidth: 560, margin: "0 auto" }}>
-              {c.sub}
-            </p>
-          </motion.div>
-        </div>
-      </section>
+      <div style={{ minHeight: "100vh" }}>
 
-      {/* ── Tariff cards ──────────────────────────────────────────────── */}
-      <section style={{ padding: "0 0 96px" }}>
-        <div style={{ maxWidth: "72rem", margin: "0 auto", padding: "0 1.5rem" }}>
-          {PLANS.length === 0 && (
-            <div style={{ textAlign: "center", padding: "48px 0", color: "var(--ark-text-muted)", fontSize: 15 }}>
-              {lang === "en" ? "Loading pricing..." : lang === "uz" ? "Tariflar yuklanmoqda..." : "Загрузка тарифов..."}
-            </div>
-          )}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {PLANS.map((plan, i) => (
-              <motion.div
-                key={plan.id}
-                initial={{ opacity: 0, y: 32 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, ease: EASE, delay: i * 0.1 }}
-                style={{
-                  borderRadius: 16,
-                  border: plan.popular ? "1px solid rgba(99,102,241,0.5)" : "1px solid var(--ark-border)",
-                  background: plan.popular
-                    ? "linear-gradient(to bottom right, rgba(99,102,241,0.12), rgba(79,70,229,0.05))"
-                    : "var(--ark-card)",
-                  padding: "28px 24px",
-                  position: "relative",
-                  display: "flex",
-                  flexDirection: "column",
-                }}
-              >
-                {plan.popular && (
-                  <div style={{
-                    position: "absolute", top: -13, left: "50%", transform: "translateX(-50%)",
-                    padding: "4px 16px", borderRadius: 20, fontSize: 11, fontWeight: 700,
-                    background: "var(--ark-accent)", color: "white", whiteSpace: "nowrap",
-                    letterSpacing: "0.06em", textTransform: "uppercase",
-                  }}>
-                    {c.popular}
-                  </div>
-                )}
-
-                <div style={{ marginBottom: 16 }}>
-                  <div style={{ fontFamily: "Nacelle, sans-serif", fontSize: 18, fontWeight: 700, color: "var(--ark-text)", marginBottom: 2, letterSpacing: "0.04em" }}>
-                    {plan.name}
-                  </div>
-                  <div style={{ fontSize: 13, color: "var(--ark-text-muted)", marginBottom: 16 }}>{plan.subtitle}</div>
-                  <div style={{ display: "flex", alignItems: "baseline", gap: 4, marginBottom: 2 }}>
-                    <span style={{ fontFamily: "Nacelle, sans-serif", fontSize: plan.id === "enterprise" ? 22 : 26, fontWeight: 600, color: "var(--ark-text)", letterSpacing: "-0.03em", lineHeight: 1 }}>
-                      {plan.price}
-                    </span>
-                  </div>
-                  {plan.currency && (
-                    <div style={{ fontSize: 12, color: "var(--ark-text-muted)" }}>{plan.currency}</div>
-                  )}
-                </div>
-
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8, marginBottom: 20 }}>
-                  {plan.services.map(({ count, label }) => (
-                    <div key={label} style={{ padding: "10px 12px", borderRadius: 8, background: "var(--ark-bg-2)", border: "1px solid var(--ark-border)" }}>
-                      <div style={{ fontFamily: "Nacelle, sans-serif", fontWeight: 700, fontSize: 20, color: "var(--ark-text)", lineHeight: 1, marginBottom: 3 }}>{count}</div>
-                      <div style={{ fontSize: 10, color: "var(--ark-text-muted)", lineHeight: 1.3 }}>{label}</div>
-                    </div>
-                  ))}
-                </div>
-
-                <Link href={plan.ctaHref} className="btn" style={{
-                  background: plan.popular ? "linear-gradient(to bottom, #6366f1, #4f46e5)" : "var(--ark-surface)",
-                  color: plan.popular ? "white" : "var(--ark-text)",
-                  border: plan.popular ? "none" : "1px solid var(--ark-border)",
-                  boxShadow: plan.popular ? "inset 0 1px 0 rgba(255,255,255,0.16)" : "none",
-                  marginBottom: 20, width: "100%", justifyContent: "center", fontSize: 13,
-                }}>
-                  {plan.ctaLabel}
-                  <ArrowRight size={13} />
-                </Link>
-
-                <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-                  {plan.features.map((f) => (
-                    <div key={f.label} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8 }}>
-                      <span style={{ fontSize: 13, color: "var(--ark-text-muted)" }}>{f.label}</span>
-                      <FeatureValue value={f.value} />
-                    </div>
-                  ))}
-                </div>
-              </motion.div>
-            ))}
-          </div>
-
-          {/* Custom plan strip */}
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, ease: EASE }}
-            style={{
-              marginTop: 16, borderRadius: 16, padding: "28px 32px",
-              background: "var(--ark-card)", border: "1px solid var(--ark-border)",
-              display: "flex", alignItems: "center", justifyContent: "space-between", gap: 24, flexWrap: "wrap",
-            }}
-          >
-            <div>
-              <div style={{ fontFamily: "Nacelle, sans-serif", fontSize: 18, fontWeight: 600, color: "var(--ark-text)", marginBottom: 6 }}>
-                {c.customTitle}
+        {/* ── Hero ──────────────────────────────────────────────────── */}
+        <section style={{ padding: "96px 0 64px", position: "relative", overflow: "hidden" }}>
+          <div aria-hidden="true" style={{
+            position: "absolute", inset: 0, zIndex: 0,
+            background: "radial-gradient(ellipse 80% 50% at 50% -20%, rgba(99,102,241,0.12), transparent)",
+            pointerEvents: "none",
+          }} />
+          <div style={{ maxWidth: "72rem", margin: "0 auto", padding: "0 1.5rem", position: "relative", zIndex: 1, textAlign: "center" }}>
+            <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.65, ease: EASE }}>
+              <div className="ark-badge" style={{ justifyContent: "center", marginBottom: 24 }}>
+                <span style={{ fontSize: 12, fontWeight: 500, color: "var(--ark-accent-2)" }}>{c.badge}</span>
               </div>
-              <p style={{ fontSize: 14, color: "var(--ark-text-muted)" }}>{c.customBody}</p>
-            </div>
-            <Link href="/contact" className="btn grad-border" style={{ background: "var(--ark-surface)", color: "var(--ark-text)", flexShrink: 0 }}>
-              {c.customCta}
-              <ArrowRight size={14} />
-            </Link>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* ── Premium benefits ─────────────────────────────────────────── */}
-      <section style={{ padding: "64px 0", borderTop: "1px solid transparent", borderImage: "linear-gradient(to right, transparent, rgba(148,163,184,0.15), transparent) 1" }}>
-        <div style={{ maxWidth: "72rem", margin: "0 auto", padding: "0 1.5rem" }}>
-          <h2 style={{
-            fontFamily: "Nacelle, sans-serif", fontSize: "clamp(1.4rem, 2.5vw, 1.9rem)",
-            fontWeight: 600, letterSpacing: "-0.04em", marginBottom: 32, color: "var(--ark-text-heading)",
-          }}>
-            {c.benefitsTitle}
-          </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
-            {c.benefits.map(({ title, desc }, i) => {
-              const Icon = BENEFIT_ICONS[i];
-              return (
-                <motion.div
-                  key={title}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, ease: EASE, delay: i * 0.08 }}
-                  style={{
-                    padding: "24px 20px",
-                    borderRadius: 12,
-                    background: "var(--ark-card)",
-                    border: "1px solid var(--ark-border)",
-                  }}
-                >
-                  <div style={{ marginBottom: 12 }}>
-                    <Icon size={20} strokeWidth={1.5} style={{ color: "var(--ark-text-muted)" }} />
-                  </div>
-                  <div style={{ fontFamily: "Nacelle, sans-serif", fontWeight: 600, fontSize: 14, color: "var(--ark-text)", marginBottom: 6, letterSpacing: "-0.01em" }}>
-                    {title}
-                  </div>
-                  <p style={{ fontSize: 13, color: "var(--ark-text-muted)", lineHeight: 1.6, margin: 0 }}>{desc}</p>
-                </motion.div>
-              );
-            })}
+              <h1 style={{
+                fontFamily: "Nacelle, sans-serif", fontWeight: 600,
+                fontSize: "clamp(2.25rem, 5vw, 3.5rem)", letterSpacing: "-0.04em",
+                lineHeight: 1.05, marginBottom: 20, whiteSpace: "pre-line",
+              }}>
+                <span className="heading-gradient">{c.h1}</span>
+              </h1>
+              <p style={{ fontSize: 17, color: "var(--ark-text-muted)", lineHeight: 1.65, maxWidth: 560, margin: "0 auto" }}>
+                {c.sub}
+              </p>
+            </motion.div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* ── Unified FAQ + conditions ─────────────────────────────────── */}
-      <section style={{ padding: "64px 0 96px", borderTop: "1px solid transparent", borderImage: "linear-gradient(to right, transparent, rgba(148,163,184,0.15), transparent) 1" }}>
-        <div style={{ maxWidth: "56rem", margin: "0 auto", padding: "0 1.5rem" }}>
-          <h2 style={{ fontFamily: "Nacelle, sans-serif", fontSize: "clamp(1.5rem, 3vw, 2.25rem)", fontWeight: 600, letterSpacing: "-0.04em", textAlign: "center", marginBottom: 48 }}>
-            <span className="heading-gradient">{c.faqTitle}</span>
-          </h2>
+        {/* ── Pricing cards ─────────────────────────────────────────── */}
+        <section style={{ padding: "0 0 96px" }}>
+          <div style={{ maxWidth: "80rem", margin: "0 auto", padding: "0 1.5rem" }}>
 
-          {/* FAQ accordion */}
-          <div style={{ display: "flex", flexDirection: "column", gap: 1, marginBottom: 40 }}>
-            {c.faqs.map((faq, i) => {
-              const isOpen = open === i;
-              const last = i === c.faqs.length - 1;
-              return (
-                <div
-                  key={i}
-                  style={{
-                    padding: "20px 24px",
-                    borderRadius: i === 0 ? "12px 12px 0 0" : last ? "0 0 12px 12px" : 0,
-                    background: "var(--ark-card)",
-                    border: "1px solid var(--ark-border)",
-                    borderBottom: last ? "1px solid var(--ark-border)" : "none",
-                    cursor: "pointer",
-                  }}
-                  onClick={() => setOpen(isOpen ? null : i)}
-                >
-                  <div style={{ display: "flex", alignItems: "flex-start", gap: 12 }}>
-                    <div style={{ flex: 1 }}>
-                      <p style={{ fontFamily: "Nacelle, sans-serif", fontSize: 15, fontWeight: 600, color: "var(--ark-text)", marginBottom: isOpen ? 8 : 0 }}>
-                        {faq.q}
-                      </p>
-                      {isOpen && (
-                        <p style={{ fontSize: 14, color: "var(--ark-text-muted)", lineHeight: 1.65, margin: 0 }}>
-                          {faq.a}
-                        </p>
-                      )}
-                    </div>
-                    <ChevronDown
-                      size={16}
-                      style={{
-                        color: "var(--ark-text-muted)",
-                        flexShrink: 0,
-                        marginTop: 2,
-                        transition: "transform 0.2s",
-                        transform: isOpen ? "rotate(180deg)" : "rotate(0deg)",
-                      }}
-                    />
+            {activePlans.length === 0 && (
+              <div style={{ textAlign: "center", padding: "64px 0", color: "rgba(148,163,184,0.5)", fontSize: 15 }}>
+                {lang === "en" ? "Loading pricing..." : lang === "uz" ? "Tariflar yuklanmoqda..." : "Загрузка тарифов..."}
+              </div>
+            )}
+
+            {/* Scrollable row */}
+            <div
+              ref={scrollRef}
+              className="pricing-scroll"
+              style={{
+                display: "flex", gap: 16, overflowX: "auto", paddingBottom: 8,
+                paddingTop: 24, /* space for badge */
+                scrollSnapType: "x mandatory",
+                justifyContent: activePlans.length <= 3 ? "center" : "flex-start",
+              }}
+            >
+              {activePlans.map((plan, i) => {
+                const meta = PLAN_META[plan.code] ?? PLAN_META.micro;
+                return (
+                  <div key={plan.code} style={{ scrollSnapAlign: "start", flexShrink: 0 }}>
+                    <PricingCard plan={plan} meta={meta} c={c} lang={lang} index={i} />
                   </div>
+                );
+              })}
+            </div>
+
+            {/* Custom plan strip */}
+            <motion.div
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, ease: EASE }}
+              style={{
+                marginTop: 32, borderRadius: 16, padding: "28px 32px",
+                background: "var(--ark-card)", border: "1px solid var(--ark-border)",
+                display: "flex", alignItems: "center", justifyContent: "space-between", gap: 24, flexWrap: "wrap",
+              }}
+            >
+              <div>
+                <div style={{ fontFamily: "Nacelle, sans-serif", fontSize: 18, fontWeight: 600, color: "var(--ark-text)", marginBottom: 6 }}>
+                  {c.customTitle}
                 </div>
-              );
-            })}
+                <p style={{ fontSize: 14, color: "var(--ark-text-muted)" }}>{c.customBody}</p>
+              </div>
+              <Link href="/contact" className="btn grad-border" style={{ background: "var(--ark-surface)", color: "var(--ark-text)", flexShrink: 0 }}>
+                {c.customCta}
+                <ArrowRight size={14} />
+              </Link>
+            </motion.div>
           </div>
+        </section>
 
-          {/* Commercial conditions */}
-          <div style={{
-            padding: "28px 32px",
-            borderRadius: 12,
-            background: "var(--ark-bg-2)",
-            border: "1px solid var(--ark-border)",
-          }}>
-            <div style={{ fontFamily: "Nacelle, sans-serif", fontSize: 15, fontWeight: 600, color: "var(--ark-text)", marginBottom: 16, letterSpacing: "-0.01em" }}>
-              {c.conditionsTitle}
+        {/* ── Benefits ──────────────────────────────────────────────── */}
+        <section style={{ padding: "64px 0", borderTop: "1px solid transparent", borderImage: "linear-gradient(to right, transparent, rgba(148,163,184,0.15), transparent) 1" }}>
+          <div style={{ maxWidth: "72rem", margin: "0 auto", padding: "0 1.5rem" }}>
+            <h2 style={{ fontFamily: "Nacelle, sans-serif", fontSize: "clamp(1.4rem, 2.5vw, 1.9rem)", fontWeight: 600, letterSpacing: "-0.04em", marginBottom: 32, color: "var(--ark-text-heading)" }}>
+              {c.benefitsTitle}
+            </h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+              {c.benefits.map(({ title, desc }, i) => {
+                const Icon = BENEFIT_ICONS[i];
+                return (
+                  <motion.div key={title} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, ease: EASE, delay: i * 0.08 }}
+                    style={{ padding: "24px 20px", borderRadius: 12, background: "var(--ark-card)", border: "1px solid var(--ark-border)" }}>
+                    <div style={{ marginBottom: 12 }}><Icon size={20} strokeWidth={1.5} style={{ color: "var(--ark-text-muted)" }} /></div>
+                    <div style={{ fontFamily: "Nacelle, sans-serif", fontWeight: 600, fontSize: 14, color: "var(--ark-text)", marginBottom: 6, letterSpacing: "-0.01em" }}>{title}</div>
+                    <p style={{ fontSize: 13, color: "var(--ark-text-muted)", lineHeight: 1.6, margin: 0 }}>{desc}</p>
+                  </motion.div>
+                );
+              })}
             </div>
-            <ul style={{ margin: 0, padding: 0, listStyle: "none", display: "flex", flexDirection: "column", gap: 10 }}>
-              {c.conditions.map((cond, i) => (
-                <li key={i} style={{ display: "flex", alignItems: "flex-start", gap: 10, fontSize: 14, color: "var(--ark-text-muted)", lineHeight: 1.6 }}>
-                  <span style={{ width: 4, height: 4, borderRadius: "50%", background: "var(--ark-accent)", flexShrink: 0, marginTop: 8 }} />
-                  {cond}
-                </li>
-              ))}
-            </ul>
           </div>
-        </div>
-      </section>
-    </div>
+        </section>
+
+        {/* ── FAQ ───────────────────────────────────────────────────── */}
+        <section style={{ padding: "64px 0 96px", borderTop: "1px solid transparent", borderImage: "linear-gradient(to right, transparent, rgba(148,163,184,0.15), transparent) 1" }}>
+          <div style={{ maxWidth: "56rem", margin: "0 auto", padding: "0 1.5rem" }}>
+            <h2 style={{ fontFamily: "Nacelle, sans-serif", fontSize: "clamp(1.5rem, 3vw, 2.25rem)", fontWeight: 600, letterSpacing: "-0.04em", textAlign: "center", marginBottom: 48 }}>
+              <span className="heading-gradient">{c.faqTitle}</span>
+            </h2>
+            <div style={{ display: "flex", flexDirection: "column", gap: 1, marginBottom: 40 }}>
+              {c.faqs.map((faq, i) => {
+                const isOpen = open === i;
+                const last = i === c.faqs.length - 1;
+                return (
+                  <div key={i} style={{ padding: "20px 24px", borderRadius: i === 0 ? "12px 12px 0 0" : last ? "0 0 12px 12px" : 0, background: "var(--ark-card)", border: "1px solid var(--ark-border)", borderBottom: last ? "1px solid var(--ark-border)" : "none", cursor: "pointer" }}
+                    onClick={() => setOpen(isOpen ? null : i)} role="button" aria-expanded={isOpen} tabIndex={0}
+                    onKeyDown={e => (e.key === "Enter" || e.key === " ") && setOpen(isOpen ? null : i)}>
+                    <div style={{ display: "flex", alignItems: "flex-start", gap: 12 }}>
+                      <div style={{ flex: 1 }}>
+                        <p style={{ fontFamily: "Nacelle, sans-serif", fontSize: 15, fontWeight: 600, color: "var(--ark-text)", marginBottom: isOpen ? 8 : 0 }}>{faq.q}</p>
+                        {isOpen && <p style={{ fontSize: 14, color: "var(--ark-text-muted)", lineHeight: 1.65, margin: 0 }}>{faq.a}</p>}
+                      </div>
+                      <ChevronDown size={16} style={{ color: "var(--ark-text-muted)", flexShrink: 0, marginTop: 2, transition: "transform 0.2s", transform: isOpen ? "rotate(180deg)" : "rotate(0deg)" }} />
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+            <div style={{ padding: "28px 32px", borderRadius: 12, background: "var(--ark-bg-2)", border: "1px solid var(--ark-border)" }}>
+              <div style={{ fontFamily: "Nacelle, sans-serif", fontSize: 15, fontWeight: 600, color: "var(--ark-text)", marginBottom: 16, letterSpacing: "-0.01em" }}>{c.conditionsTitle}</div>
+              <ul style={{ margin: 0, padding: 0, listStyle: "none", display: "flex", flexDirection: "column", gap: 10 }}>
+                {c.conditions.map((cond, i) => (
+                  <li key={i} style={{ display: "flex", alignItems: "flex-start", gap: 10, fontSize: 14, color: "var(--ark-text-muted)", lineHeight: 1.6 }}>
+                    <span style={{ width: 4, height: 4, borderRadius: "50%", background: "var(--ark-accent)", flexShrink: 0, marginTop: 8 }} />
+                    {cond}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </section>
+      </div>
+    </>
   );
 }
