@@ -5,11 +5,10 @@ import { HomeComparison } from "@/components/home/HomeComparison";
 import { HomePlatform } from "@/components/home/HomePlatform";
 import { HomeJourney } from "@/components/home/HomeJourney";
 import { HomeCases } from "@/components/home/HomeCases";
-import { HomePricing } from "@/components/home/HomePricing";
 import { HomeContact } from "@/components/home/HomeContact";
 import { HomeCTA } from "@/components/home/HomeCTA";
 import { organizationSchema, localBusinessSchema } from "@/lib/seo";
-import { getPricing, getSettings } from "@/lib/cms-api";
+import { getSettings } from "@/lib/cms-api";
 
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL ?? "https://arkana.uz";
 
@@ -29,10 +28,7 @@ export const metadata: Metadata = {
 const schemas = [organizationSchema, localBusinessSchema];
 
 export default async function HomePage() {
-  const [plans, settings] = await Promise.all([
-    getPricing("ru"),
-    getSettings("ru"),
-  ]);
+  const settings = await getSettings("ru");
 
   return (
     <>
@@ -46,8 +42,7 @@ export default async function HomePage() {
       <HomePlatform />
       <HomeJourney />
       <HomeCases />
-      <HomePricing plans={plans.length > 0 ? plans : undefined} />
-      <HomeContact settings={settings} />
+<HomeContact settings={settings} />
       <HomeCTA />
     </>
   );
