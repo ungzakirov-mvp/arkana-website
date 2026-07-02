@@ -301,7 +301,8 @@ function PricingCard({
           ? "linear-gradient(135deg, #3b82f6 0%, #6366f1 50%, #3b82f6 100%)"
           : "transparent",
         flexShrink: 0,
-        width: 220,
+        width: 260,
+        height: "100%",
         cursor: "default",
       }}
     >
@@ -364,7 +365,7 @@ function PricingCard({
           background: "rgba(255,255,255,0.05)", borderRadius: 10, overflow: "hidden",
         }}>
           {[
-            { label: c.pcs, val: plan.userLimit ? `До ${plan.userLimit} ПК` : "—" },
+            { label: c.pcs, val: plan.userLimit ? `${plan.userLimit} ПК` : "—" },
             { label: "SLA", val: meta.sla },
             { label: c.tickets, val: plan.ticketLimitMo?.toString() ?? "—" },
             { label: c.refills, val: plan.printerRefillLimit != null ? plan.printerRefillLimit.toString() : c.unlimited },
@@ -540,6 +541,7 @@ export function PricingSection() {
                 display: "flex", gap: 16, overflowX: "auto", paddingBottom: 8,
                 paddingTop: 24, /* space for badge */
                 scrollSnapType: "x mandatory",
+                alignItems: "stretch",
                 justifyContent: activePlans.length <= 3 ? "center" : "flex-start",
               }}
             >
