@@ -116,12 +116,6 @@ export default async function RootLayout({
   return (
     <html lang="ru" className={`${inter.variable} ${manrope.variable} ${jetbrainsMono.variable}`} suppressHydrationWarning>
       <head>
-        {/* Theme flicker prevention */}
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `(function(){var t=localStorage.getItem('ark-theme')||'dark';document.documentElement.setAttribute('data-theme',t);})()`,
-          }}
-        />
 
         {/* Structured data */}
         <script

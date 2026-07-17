@@ -1,5 +1,17 @@
-// Footer strip — replaces old CTA section
+"use client";
+
+import { useApp } from "@/components/providers/ThemeLanguageProvider";
+
+const COPY = {
+  ru: { rights: "Все права защищены.", city: "Ташкент, Узбекистан" },
+  uz: { rights: "Barcha huquqlar himoyalangan.", city: "Toshkent, O'zbekiston" },
+  en: { rights: "All rights reserved.", city: "Tashkent, Uzbekistan" },
+} as const;
+
 export function HomeCTA() {
+  const { lang } = useApp();
+  const c = COPY[lang] ?? COPY.ru;
+
   return (
     <footer style={{
       position: "relative", zIndex: 2,
@@ -8,8 +20,8 @@ export function HomeCTA() {
       flexWrap: "wrap", gap: 16, fontSize: 13, color: "#748078",
       borderTop: "1px solid rgba(238,242,238,0.06)",
     }}>
-      <span>© {new Date().getFullYear()} ARKANA. Все права защищены.</span>
-      <span>Ташкент, Узбекистан</span>
+      <span>© {new Date().getFullYear()} ARKANA. {c.rights}</span>
+      <span>{c.city}</span>
     </footer>
   );
 }

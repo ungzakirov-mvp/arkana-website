@@ -2,9 +2,43 @@
 
 import Link from "next/link";
 import { useRef, useEffect, useState } from "react";
+import { useApp } from "@/components/providers/ThemeLanguageProvider";
 import type { SiteSettings } from "@/lib/cms-api";
 
 const EASE = "cubic-bezier(.16,1,.3,1)";
+
+const COPY = {
+  ru: {
+    eyebrow:       "Контакты",
+    h2:            "Начните работать с технологическим партнёром.",
+    sub:           "Расскажите о бизнесе — подготовим предложение за один рабочий день. Без обязательств.",
+    cta1:          "Получить предложение",
+    cta2:          "Получить консультацию",
+    labelEmail:    "Email",
+    labelTelegram: "Telegram",
+    labelAddress:  "Адрес",
+  },
+  uz: {
+    eyebrow:       "Kontaktlar",
+    h2:            "Texnologik sherik bilan ishlashni boshlang.",
+    sub:           "Biznesingiz haqida ayting — bir ish kuni ichida taklif tayyorlaymiz. Majburiyatsiz.",
+    cta1:          "Taklif olish",
+    cta2:          "Maslahat olish",
+    labelEmail:    "Email",
+    labelTelegram: "Telegram",
+    labelAddress:  "Manzil",
+  },
+  en: {
+    eyebrow:       "Contact",
+    h2:            "Start working with your technology partner.",
+    sub:           "Tell us about your business — we'll prepare a proposal within one business day. No obligations.",
+    cta1:          "Get a Proposal",
+    cta2:          "Get a Consultation",
+    labelEmail:    "Email",
+    labelTelegram: "Telegram",
+    labelAddress:  "Address",
+  },
+} as const;
 
 function useReveal() {
   const ref = useRef<HTMLElement>(null);
@@ -20,11 +54,14 @@ function useReveal() {
 }
 
 export function HomeContact({ settings }: { settings?: SiteSettings | null }) {
+  const { lang } = useApp();
+  const c = COPY[lang] ?? COPY.ru;
   const { ref, visible } = useReveal();
-  const email = settings?.emails?.[0]?.value ?? "info@arkana.uz";
-  const telegram = settings?.telegram ?? "@arkana_uz";
-  const telegramHref = settings?.telegram_href ?? "https://t.me/arkana_uz";
-  const address = settings?.address ?? "г. Ташкент, ул. Мирзо Улугбека 97";
+
+  const email       = settings?.emails?.[0]?.value ?? "info@arkana.uz";
+  const telegram    = settings?.telegram           ?? "@arkana_uz";
+  const telegramHref = settings?.telegram_href     ?? "https://t.me/arkana_uz";
+  const address     = settings?.address            ?? "г. Ташкент, ул. Мирзо Улугбека 97";
 
   return (
     <section
@@ -39,12 +76,12 @@ export function HomeContact({ settings }: { settings?: SiteSettings | null }) {
     >
       <div className="contact-grid" style={{ maxWidth: 1280, margin: "0 auto", display: "grid", gridTemplateColumns: "1.2fr 0.8fr", gap: 60, alignItems: "end" }}>
         <div>
-          <div style={{ fontFamily: "var(--font-mono, monospace)", fontSize: 12, letterSpacing: "0.12em", color: "#4fd18a", textTransform: "uppercase", marginBottom: 16, fontWeight: 600 }}>Контакты</div>
+          <div style={{ fontFamily: "var(--font-mono, monospace)", fontSize: 12, letterSpacing: "0.12em", color: "#4fd18a", textTransform: "uppercase", marginBottom: 16, fontWeight: 600 }}>{c.eyebrow}</div>
           <h2 style={{ fontSize: "clamp(30px,4.4vw,54px)", fontWeight: 800, margin: "0 0 24px", lineHeight: 1.1, letterSpacing: "-0.01em", fontFamily: "var(--font-manrope), sans-serif" }}>
-            Начните работать с технологическим партнёром.
+            {c.h2}
           </h2>
           <p style={{ fontSize: 16, color: "#9fb0a6", maxWidth: 480, margin: "0 0 36px", lineHeight: 1.6 }}>
-            Расскажите о бизнесе — подготовим предложение за один рабочий день. Без обязательств.
+            {c.sub}
           </p>
           <div style={{ display: "flex", gap: 16, flexWrap: "wrap" }}>
             <Link href="/contact" style={{
@@ -55,7 +92,7 @@ export function HomeContact({ settings }: { settings?: SiteSettings | null }) {
               onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = "#7ee3ac"; }}
               onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = "#4fd18a"; }}
             >
-              Получить предложение
+              {c.cta1}
             </Link>
             <Link href="/contact" style={{
               padding: "16px 32px", border: "1px solid rgba(238,242,238,0.16)", color: "#eef2ee",
@@ -65,22 +102,22 @@ export function HomeContact({ settings }: { settings?: SiteSettings | null }) {
               onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.borderColor = "#4fd18a"; el.style.color = "#4fd18a"; }}
               onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.borderColor = "rgba(238,242,238,0.16)"; el.style.color = "#eef2ee"; }}
             >
-              Получить консультацию
+              {c.cta2}
             </Link>
           </div>
         </div>
 
         <div className="contact-info" style={{ fontSize: 14, display: "flex", flexDirection: "column", gap: 16, borderLeft: "1px solid rgba(238,242,238,0.1)", paddingLeft: 32 }}>
           <div>
-            <span style={{ color: "#748078", fontSize: 12, letterSpacing: "0.06em", textTransform: "uppercase" }}>Email</span><br />
+            <span style={{ color: "#748078", fontSize: 12, letterSpacing: "0.06em", textTransform: "uppercase" }}>{c.labelEmail}</span><br />
             <a href={`mailto:${email}`} style={{ color: "#eef2ee", fontWeight: 600, textDecoration: "none" }}>{email}</a>
           </div>
           <div>
-            <span style={{ color: "#748078", fontSize: 12, letterSpacing: "0.06em", textTransform: "uppercase" }}>Telegram</span><br />
+            <span style={{ color: "#748078", fontSize: 12, letterSpacing: "0.06em", textTransform: "uppercase" }}>{c.labelTelegram}</span><br />
             <a href={telegramHref} style={{ color: "#eef2ee", fontWeight: 600, textDecoration: "none" }}>{telegram}</a>
           </div>
           <div>
-            <span style={{ color: "#748078", fontSize: 12, letterSpacing: "0.06em", textTransform: "uppercase" }}>Адрес</span><br />
+            <span style={{ color: "#748078", fontSize: 12, letterSpacing: "0.06em", textTransform: "uppercase" }}>{c.labelAddress}</span><br />
             <span style={{ color: "#eef2ee", fontWeight: 600 }}>{address}</span>
           </div>
         </div>

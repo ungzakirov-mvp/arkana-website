@@ -2,8 +2,75 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import { useApp } from "@/components/providers/ThemeLanguageProvider";
 
 const EASE = "cubic-bezier(.16,1,.3,1)";
+
+const COPY = {
+  ru: {
+    badge:   "IT-партнёр для вашего бизнеса",
+    h1:      "Технологический партнёр",
+    h1green: "для развития вашего бизнеса.",
+    sub:     "Один договор. Фиксированная стоимость. Полная ответственность. Ваш IT работает предсказуемо — вы видите всё через GoARKAN.",
+    cta:     "Получить коммерческое предложение →",
+    ctaNote: "Ответим в течение рабочего дня",
+    chips: [
+      { title: "IT Outsourcing",  sub: "и поддержка" },
+      { title: "Инфраструктура", sub: "и безопасность" },
+      { title: "Автоматизация",  sub: "процессов" },
+      { title: "Облако",         sub: "и интеграция" },
+    ],
+    stats: [
+      { val: "99.9%", label: "Надёжность SLA" },
+      { val: "< 2ч",  label: "Первый ответ" },
+      { val: "5 дн.", label: "Средний срок запуска" },
+      { val: "100+",  label: "Клиентов по Узбекистану" },
+      { val: "24/7",  label: "Мониторинг" },
+    ],
+  },
+  uz: {
+    badge:   "Biznes uchun IT-sherik",
+    h1:      "Texnologik sherik",
+    h1green: "biznesingiz rivojlanishi uchun.",
+    sub:     "Bitta shartnoma. Belgilangan narx. To'liq mas'uliyat. IT'ingiz barqaror ishlaydi — GoARKAN orqali hammasini ko'rasiz.",
+    cta:     "Tijorat taklif olish →",
+    ctaNote: "Bir ish kuni ichida javob beramiz",
+    chips: [
+      { title: "IT Outsourcing",     sub: "va qo'llab-quvvatlash" },
+      { title: "Infratuzilma",       sub: "va xavfsizlik" },
+      { title: "Avtomatlashtirish",  sub: "jarayonlari" },
+      { title: "Bulut",              sub: "va integratsiya" },
+    ],
+    stats: [
+      { val: "99.9%",   label: "SLA ishonchliligi" },
+      { val: "< 2 soat", label: "Birinchi javob" },
+      { val: "5 kun",   label: "O'rtacha ishga tushirish" },
+      { val: "100+",    label: "O'zbekiston bo'ylab mijozlar" },
+      { val: "24/7",    label: "Monitoring" },
+    ],
+  },
+  en: {
+    badge:   "IT Partner for Your Business",
+    h1:      "Technology Partner",
+    h1green: "for your business growth.",
+    sub:     "One contract. Fixed cost. Full responsibility. Your IT runs predictably — you see everything through GoARKAN.",
+    cta:     "Get a Commercial Proposal →",
+    ctaNote: "We respond within one business day",
+    chips: [
+      { title: "IT Outsourcing",  sub: "& Support" },
+      { title: "Infrastructure",  sub: "& Security" },
+      { title: "Automation",      sub: "& Processes" },
+      { title: "Cloud",           sub: "& Integration" },
+    ],
+    stats: [
+      { val: "99.9%",   label: "SLA Reliability" },
+      { val: "< 2h",    label: "First Response" },
+      { val: "5 days",  label: "Avg. Launch Time" },
+      { val: "100+",    label: "Clients across Uzbekistan" },
+      { val: "24/7",    label: "Monitoring" },
+    ],
+  },
+} as const;
 
 function useTween(duration = 1400) {
   const [progress, setProgress] = useState(0);
@@ -32,7 +99,7 @@ function BurstCanvas() {
     const resize = () => {
       const rect = canvas.getBoundingClientRect();
       if (rect.width > 0 && rect.height > 0) {
-        canvas.width = Math.round(rect.width * dpr);
+        canvas.width  = Math.round(rect.width  * dpr);
         canvas.height = Math.round(rect.height * dpr);
         ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       }
@@ -43,11 +110,11 @@ function BurstCanvas() {
 
     type P = { angle: number; life: number; speed: number; wobble: number; size: number };
     const particles: P[] = Array.from({ length: 40 }, () => ({
-      angle: Math.random() * Math.PI * 2,
-      life: Math.random(),
-      speed: 0.003 + Math.random() * 0.004,
+      angle:  Math.random() * Math.PI * 2,
+      life:   Math.random(),
+      speed:  0.003 + Math.random() * 0.004,
       wobble: (Math.random() - 0.5) * 0.6,
-      size: 1 + Math.random() * 1.5,
+      size:   1 + Math.random() * 1.5,
     }));
 
     let frame: number;
@@ -78,27 +145,24 @@ function BurstCanvas() {
   );
 }
 
-function Chip({ pos, icon, title, sub, delay }: {
-  pos: React.CSSProperties; icon: React.ReactNode; title: string; sub: string; delay: string;
-}) {
-  return (
-    <div style={{
-      ...pos, position: "absolute", zIndex: 3,
-      display: "flex", alignItems: "center", gap: 10, padding: "12px 18px",
-      borderRadius: 16, background: "rgba(5,8,10,0.82)",
-      border: "1px solid rgba(238,242,238,0.1)", backdropFilter: "blur(6px)",
-      animation: `riseIn .8s ${EASE} ${delay} both`,
-    }}>
-      {icon}
-      <div style={{ fontSize: 13, lineHeight: 1.3 }}>
-        <div style={{ fontWeight: 700 }}>{title}</div>
-        <div style={{ color: "#9fb0a6" }}>{sub}</div>
-      </div>
-    </div>
-  );
-}
+const CHIP_POSITIONS = [
+  { top: "6%",  left: "-2%" },
+  { top: "6%",  right: "-4%" },
+  { bottom: "10%", left: "-4%" },
+  { bottom: "10%", right: "-2%" },
+] as const;
+
+const CHIP_ICONS = [
+  <svg key="a" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4fd18a" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 14v-2a9 9 0 0 1 18 0v2"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg>,
+  <svg key="b" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4fd18a" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>,
+  <svg key="c" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4fd18a" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="6" cy="6" r="2.4"/><circle cx="18" cy="6" r="2.4"/><circle cx="12" cy="18" r="2.4"/><path d="M8 7.2 10.5 16M16 7.2 13.5 16M8.4 6h7.2"/></svg>,
+  <svg key="d" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4fd18a" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17.5 19H8a5.5 5.5 0 1 1 1.3-10.8 6 6 0 0 1 11.4 2.4A4.3 4.3 0 0 1 17.5 19z"/></svg>,
+];
 
 export function HomeHero() {
+  const { lang } = useApp();
+  const c = COPY[lang] ?? COPY.ru;
+
   const videoRef = useRef<HTMLVideoElement>(null);
   const progress = useTween(1400);
 
@@ -128,6 +192,7 @@ export function HomeHero() {
       backgroundSize: "100% 100%, 64px 64px, 64px 64px",
     }}>
       <div className="hero-grid" style={{ display: "grid", gridTemplateColumns: "1.05fr 1fr", gap: "clamp(24px,4vw,48px)", alignItems: "center" }}>
+
         {/* Left */}
         <div>
           <div style={{
@@ -136,7 +201,7 @@ export function HomeHero() {
             marginBottom: 28, animation: `riseIn .9s ${EASE} both`,
           }}>
             <span style={{ width: 6, height: 6, borderRadius: "50%", background: "#4fd18a" }} />
-            <span style={{ fontSize: 13, color: "#c3d0c8" }}>IT-партнёр для вашего бизнеса</span>
+            <span style={{ fontSize: 13, color: "#c3d0c8" }}>{c.badge}</span>
           </div>
 
           <h1 style={{
@@ -145,8 +210,8 @@ export function HomeHero() {
             animation: `riseIn .9s ${EASE} .1s both`,
             fontFamily: "var(--font-manrope), sans-serif",
           }}>
-            Технологический партнёр{" "}
-            <span style={{ color: "#4fd18a" }}>для развития вашего бизнеса.</span>
+            {c.h1}{" "}
+            <span style={{ color: "#4fd18a" }}>{c.h1green}</span>
           </h1>
 
           <p style={{
@@ -154,7 +219,7 @@ export function HomeHero() {
             maxWidth: 480, margin: "0 0 36px",
             animation: `riseIn .9s ${EASE} .2s both`,
           }}>
-            Один договор. Фиксированная стоимость. Полная ответственность. Ваш IT работает предсказуемо — вы видите всё через GoARKAN.
+            {c.sub}
           </p>
 
           <div style={{ display: "flex", alignItems: "center", gap: 20, flexWrap: "wrap", animation: `riseIn .9s ${EASE} .3s both` }}>
@@ -167,9 +232,9 @@ export function HomeHero() {
               onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.background = "#7ee3ac"; el.style.transform = "translateY(-2px)"; }}
               onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.background = "#4fd18a"; el.style.transform = ""; }}
             >
-              Получить коммерческое предложение →
+              {c.cta}
             </Link>
-            <span style={{ fontSize: 13, color: "#748078" }}>Ответим в течение рабочего дня</span>
+            <span style={{ fontSize: 13, color: "#748078" }}>{c.ctaNote}</span>
           </div>
         </div>
 
@@ -187,18 +252,22 @@ export function HomeHero() {
               src="/hero-globe.mp4"
             />
           </div>
-          <Chip pos={{ top: "6%", left: "-2%" }} delay=".4s" title="IT Outsourcing" sub="и поддержка"
-            icon={<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4fd18a" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 14v-2a9 9 0 0 1 18 0v2"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg>}
-          />
-          <Chip pos={{ top: "6%", right: "-4%" }} delay=".5s" title="Инфраструктура" sub="и безопасность"
-            icon={<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4fd18a" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>}
-          />
-          <Chip pos={{ bottom: "10%", left: "-4%" }} delay=".6s" title="Автоматизация" sub="процессов"
-            icon={<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4fd18a" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="6" cy="6" r="2.4"/><circle cx="18" cy="6" r="2.4"/><circle cx="12" cy="18" r="2.4"/><path d="M8 7.2 10.5 16M16 7.2 13.5 16M8.4 6h7.2"/></svg>}
-          />
-          <Chip pos={{ bottom: "10%", right: "-2%" }} delay=".7s" title="Облако" sub="и интеграция"
-            icon={<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4fd18a" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17.5 19H8a5.5 5.5 0 1 1 1.3-10.8 6 6 0 0 1 11.4 2.4A4.3 4.3 0 0 1 17.5 19z"/></svg>}
-          />
+          {c.chips.map((chip, i) => (
+            <div key={i} style={{
+              ...(CHIP_POSITIONS[i] as React.CSSProperties),
+              position: "absolute", zIndex: 3,
+              display: "flex", alignItems: "center", gap: 10, padding: "12px 18px",
+              borderRadius: 16, background: "rgba(5,8,10,0.82)",
+              border: "1px solid rgba(238,242,238,0.1)", backdropFilter: "blur(6px)",
+              animation: `riseIn .8s ${EASE} ${0.4 + i * 0.1}s both`,
+            }}>
+              {CHIP_ICONS[i]}
+              <div style={{ fontSize: 13, lineHeight: 1.3 }}>
+                <div style={{ fontWeight: 700 }}>{chip.title}</div>
+                <div style={{ color: "#9fb0a6" }}>{chip.sub}</div>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
 
@@ -209,21 +278,24 @@ export function HomeHero() {
         display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(160px,1fr))", gap: 24,
         animation: `riseIn .9s ${EASE} .4s both`,
       }}>
-        {[
-          { icon: "✓", val: `${progress === 1 ? "99.9" : (progress * 99.9).toFixed(1)}%`, label: "Надёжность SLA" },
-          { icon: "◔", val: `< ${Math.round(progress * 2)}ч`, label: "Первый ответ" },
-          { icon: "▤", val: `${Math.round(progress * 5)} дн.`, label: "Средний срок запуска" },
-          { icon: "◆", val: "100+", label: "Клиентов по Узбекистану" },
-          { icon: "◐", val: "24/7", label: "Мониторинг" },
-        ].map(({ icon, val, label }) => (
-          <div key={label} style={{ display: "flex", alignItems: "center", gap: 14 }}>
-            <span style={{ color: "#4fd18a", fontSize: 20 }}>{icon}</span>
-            <div>
-              <div style={{ fontSize: 22, fontWeight: 800, fontFamily: "var(--font-manrope), sans-serif" }}>{val}</div>
-              <div style={{ fontSize: 12, color: "#748078" }}>{label}</div>
+        {c.stats.map(({ val: rawVal, label }, idx) => {
+          // animate first two numeric stats; rest are static
+          const animated = idx === 0
+            ? `${(progress * 99.9).toFixed(1)}%`
+            : idx === 1
+              ? lang === "ru" ? `< ${Math.round(progress * 2)}ч` : lang === "uz" ? `< ${Math.round(progress * 2)} soat` : `< ${Math.round(progress * 2)}h`
+              : rawVal;
+          const icons = ["✓", "◔", "▤", "◆", "◐"];
+          return (
+            <div key={label} style={{ display: "flex", alignItems: "center", gap: 14 }}>
+              <span style={{ color: "#4fd18a", fontSize: 20 }}>{icons[idx]}</span>
+              <div>
+                <div style={{ fontSize: 22, fontWeight: 800, fontFamily: "var(--font-manrope), sans-serif" }}>{animated}</div>
+                <div style={{ fontSize: 12, color: "#748078" }}>{label}</div>
+              </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </section>
   );
