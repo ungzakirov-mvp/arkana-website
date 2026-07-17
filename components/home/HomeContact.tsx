@@ -21,7 +21,7 @@ function useReveal() {
 
 export function HomeContact({ settings }: { settings?: SiteSettings | null }) {
   const { ref, visible } = useReveal();
-  const email = settings?.emails?.[0]?.email ?? "info@arkana.uz";
+  const email = settings?.emails?.[0]?.value ?? "info@arkana.uz";
   const telegram = settings?.telegram ?? "@arkana_uz";
   const telegramHref = settings?.telegram_href ?? "https://t.me/arkana_uz";
   const address = settings?.address ?? "г. Ташкент, ул. Мирзо Улугбека 97";
