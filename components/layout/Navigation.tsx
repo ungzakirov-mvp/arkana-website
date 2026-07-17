@@ -180,7 +180,6 @@ export function Navigation() {
             }}
             onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.background = "#7ee3ac")}
             onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.background = "#4fd18a")}
-            onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.backgroundSize = "100% 100%")}
             >
               {labels.cta}
             </Link>
