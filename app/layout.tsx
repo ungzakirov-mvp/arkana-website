@@ -160,8 +160,8 @@ ym(${METRIKA_ID},'init',{clickmap:true,trackLinks:true,accurateTrackBounce:true,
       </head>
       <body
         className="text-base antialiased"
-        style={{ fontFamily: "var(--font-manrope, var(--font-inter)), sans-serif", background: "#05080a", color: "#eef2ee" }}
         style={{
+          fontFamily: "var(--font-manrope, var(--font-inter)), sans-serif",
           background: "var(--ark-bg)",
           color: "var(--ark-text)",
           transition: "background 0.3s, color 0.3s",
