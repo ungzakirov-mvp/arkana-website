@@ -169,17 +169,17 @@ export function Navigation() {
 
             {/* CTA */}
             <Link href="/contact" className="hidden md:inline-flex btn-sm" style={{
-              background: "linear-gradient(to bottom, #6366f1, #4f46e5)",
-              backgroundSize: "100% 100%",
-              backgroundPosition: "bottom",
-              color: "white",
-              boxShadow: "inset 0 1px 0 rgba(255,255,255,0.16)",
-              transition: "background-size 0.2s",
+              background: "#4fd18a",
+              color: "#05080a",
+              borderRadius: 100,
+              fontWeight: 700,
+              transition: "background .2s",
               minWidth: 164,
               justifyContent: "center",
               whiteSpace: "nowrap",
             }}
-            onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.backgroundSize = "100% 150%")}
+            onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.background = "#7ee3ac")}
+            onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.background = "#4fd18a")}
             onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.backgroundSize = "100% 100%")}
             >
               {labels.cta}

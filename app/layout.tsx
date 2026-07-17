@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Inter, Manrope, JetBrains_Mono } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 import { Navigation } from "@/components/layout/Navigation";
@@ -12,6 +12,20 @@ const inter = Inter({
   subsets: ["latin", "cyrillic"],
   variable: "--font-inter",
   display: "swap",
+});
+
+const manrope = Manrope({
+  subsets: ["latin", "cyrillic"],
+  variable: "--font-manrope",
+  display: "swap",
+  weight: ["400", "500", "600", "700", "800"],
+});
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ["latin"],
+  variable: "--font-mono",
+  display: "swap",
+  weight: ["400", "500", "600"],
 });
 
 const GA_ID       = process.env.NEXT_PUBLIC_GA_ID;
@@ -100,7 +114,7 @@ export default async function RootLayout({
   const siteSettings = await getSettings("ru");
 
   return (
-    <html lang="ru" className={inter.variable} suppressHydrationWarning>
+    <html lang="ru" className={`${inter.variable} ${manrope.variable} ${jetbrainsMono.variable}`} suppressHydrationWarning>
       <head>
         {/* Theme flicker prevention */}
         <script
@@ -145,7 +159,8 @@ ym(${METRIKA_ID},'init',{clickmap:true,trackLinks:true,accurateTrackBounce:true,
         )}
       </head>
       <body
-        className="font-inter text-base antialiased"
+        className="text-base antialiased"
+        style={{ fontFamily: "var(--font-manrope, var(--font-inter)), sans-serif", background: "#05080a", color: "#eef2ee" }}
         style={{
           background: "var(--ark-bg)",
           color: "var(--ark-text)",

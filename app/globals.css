@@ -94,54 +94,37 @@
 
 /* ─── CSS custom properties — dark by default ────────────── */
 :root {
-  --ark-bg: #0a0a0f;
-  --ark-bg-2: #0d1117;
-  --ark-surface: #111827;
-  --ark-border: rgba(255,255,255,0.08);
-  --ark-border-strong: rgba(255,255,255,0.14);
-  --ark-line: rgba(255,255,255,0.06);
-  --ark-text: #e5e7eb;
-  --ark-text-heading: #ffffff;
-  --ark-text-muted: #6b7280;
-  --ark-text-sub: rgba(255,255,255,0.38);
-  --ark-text-hint: rgba(255,255,255,0.42);
-  --ark-text-faint: rgba(255,255,255,0.32);
-  --ark-text-label: rgba(255,255,255,0.42);
-  --ark-text-dim: #374151;
-  --ark-accent: #6366f1;
-  --ark-accent-2: #818cf8;
-  --ark-accent-glow: rgba(99,102,241,0.15);
-  --ark-nav: rgba(3,7,18,0.85);
-  --ark-gradient-h: linear-gradient(to right,#e2e8f0,#a5b4fc,#f8fafc,#c7d2fe,#e2e8f0);
-  --ark-card: #111827;
-  --ark-card-border: rgba(255,255,255,0.06);
-  --ark-divider: rgba(255,255,255,0.06);
+  --ark-bg: #05080a;
+  --ark-bg-2: #0b1210;
+  --ark-surface: #0f1a16;
+  --ark-border: rgba(238,242,238,0.08);
+  --ark-border-strong: rgba(238,242,238,0.14);
+  --ark-line: rgba(238,242,238,0.06);
+  --ark-text: #eef2ee;
+  --ark-text-heading: #eef2ee;
+  --ark-text-muted: #9fb0a6;
+  --ark-text-sub: #748078;
+  --ark-text-hint: rgba(238,242,238,0.42);
+  --ark-text-faint: rgba(238,242,238,0.32);
+  --ark-text-label: #748078;
+  --ark-text-dim: #c3d0c8;
+  --ark-accent: #4fd18a;
+  --ark-accent-2: #7ee3ac;
+  --ark-accent-glow: rgba(79,209,138,0.15);
+  --ark-nav: rgba(5,8,10,0.72);
+  --ark-gradient-h: linear-gradient(to right,#eef2ee,#4fd18a,#c3d0c8,#7ee3ac,#eef2ee);
+  --ark-card: #0b1210;
+  --ark-card-border: rgba(238,242,238,0.08);
+  --ark-divider: rgba(238,242,238,0.06);
+  --ark-font-mono: 'JetBrains Mono', monospace;
 }
 
-[data-theme="light"] {
-  --ark-bg: #f8f9fc;
-  --ark-bg-2: #eef0f5;
-  --ark-surface: #e5e7eb;
-  --ark-border: rgba(0,0,0,0.07);
-  --ark-border-strong: rgba(0,0,0,0.12);
-  --ark-line: rgba(0,0,0,0.06);
-  --ark-text: #111827;
-  --ark-text-heading: #0a0a0f;
-  --ark-text-muted: #6b7280;
-  --ark-text-sub: rgba(0,0,0,0.55);
-  --ark-text-hint: rgba(0,0,0,0.4);
-  --ark-text-faint: rgba(0,0,0,0.3);
-  --ark-text-label: rgba(0,0,0,0.38);
-  --ark-text-dim: #d1d5db;
-  --ark-accent: #4f46e5;
-  --ark-accent-2: #6366f1;
-  --ark-accent-glow: rgba(79,70,229,0.08);
-  --ark-nav: rgba(255,255,255,0.88);
-  --ark-gradient-h: linear-gradient(to right,#1f2937,#4f46e5,#111827,#6366f1,#1f2937);
-  --ark-card: #ffffff;
-  --ark-card-border: rgba(0,0,0,0.06);
-  --ark-divider: rgba(0,0,0,0.06);
-}
+/* New design keyframes */
+@keyframes riseIn { from { opacity: 0; transform: translateY(26px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes breathe { 0%, 100% { opacity: 0.55; } 50% { opacity: 1; } }
+@keyframes drift { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+@keyframes spinSlow { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+@keyframes revealUp { from { opacity: 0; transform: translateY(36px); } to { opacity: 1; transform: translateY(0); } }
 
 /* ─── btn utilities ─────────────────────────────────────── */
 @layer components {

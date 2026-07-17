@@ -38,11 +38,11 @@ export default async function HomePage() {
       />
       <HomeHero />
       <HomeTrust />
-      <HomeComparison />
       <HomePlatform />
+      <HomeComparison />
       <HomeJourney />
       <HomeCases />
-<HomeContact settings={settings} />
+      <HomeContact settings={settings} />
       <HomeCTA />
     </>
   );

@@ -1,160 +1,65 @@
 "use client";
 
-import Link from "next/link";
-import { motion } from "framer-motion";
-import { useApp } from "@/components/providers/ThemeLanguageProvider";
+import { useRef, useEffect, useState } from "react";
 
-const COPY: Record<string, {
-  label: string; h2: string; all: string;
-  industries: { index: string; sector: string; problem: string; solution: string; result: string }[];
-}> = {
-  ru: {
-    label: "Отрасли",
-    h2: "Решения для разных отраслей",
-    all: "Все решения →",
-    industries: [
-      {
-        index: "01", sector: "Торговля",
-        problem: "IT-инфраструктура разрастается вместе с сетью магазинов. Отдельные инженеры в точках, разная техника, нет единого управления.",
-        solution: "ARKANA берёт на обслуживание все точки по единому договору. Централизованный реестр оборудования, единый Service Desk, дистанционная поддержка — без выезда в каждый магазин.",
-        result: "Руководство видит состояние IT по всей сети в одном месте. Проблемы решаются быстрее, расходы на IT становятся предсказуемыми.",
-      },
-      {
-        index: "02", sector: "Производство",
-        problem: "Простой оборудования из-за IT-сбоя — прямые потери. Нет резервного копирования, нет мониторинга, нет документации по инфраструктуре.",
-        solution: "Настраиваем резервное копирование и мониторинг всех критичных систем. Документируем инфраструктуру в GoARKAN. Реагируем на инциденты по приоритету критичности.",
-        result: "IT-риски для производства снижаются. Вы знаете, что происходит с вашей инфраструктурой, и получаете предупреждение до того, как что-то сломается.",
-      },
-      {
-        index: "03", sector: "Медицина",
-        problem: "Требования к безопасности данных жёсткие, но IT-безопасность не выстроена. Незащищённые сети, отсутствие политик, регуляторные риски.",
-        solution: "Проводим аудит безопасности, закрываем уязвимости, выстраиваем политику доступа и защиты данных. Мониторим сеть на предмет угроз в режиме 24/7.",
-        result: "Медицинская организация соответствует требованиям регуляторов. Данные пациентов защищены. Руководство уверено в безопасности IT.",
-      },
-    ],
+const EASE = "cubic-bezier(.16,1,.3,1)";
+
+const INDUSTRIES = [
+  {
+    n: "01", title: "Торговля и ритейл",
+    body: "Поддержка кассовых систем, товароучёта, корпоративной сети и видеонаблюдения. Минимальный простой — максимальная скорость реакции.",
   },
-  en: {
-    label: "Industries",
-    h2: "Solutions for different industries",
-    all: "All solutions →",
-    industries: [
-      {
-        index: "01", sector: "Retail",
-        problem: "IT infrastructure grows with the store network. Separate engineers at locations, different hardware, no central management.",
-        solution: "ARKANA takes all locations under a single contract. Centralised hardware registry, unified Service Desk, remote support — without visiting each store.",
-        result: "Management sees the IT status across the entire network in one place. Issues are resolved faster, IT costs become predictable.",
-      },
-      {
-        index: "02", sector: "Manufacturing",
-        problem: "Equipment downtime from an IT failure means direct losses. No backups, no monitoring, no infrastructure documentation.",
-        solution: "We configure backup and monitoring for all critical systems. Document the infrastructure in GoARKAN. Respond to incidents by criticality priority.",
-        result: "IT risks to production decrease. You know what is happening with your infrastructure and receive warnings before something breaks.",
-      },
-      {
-        index: "03", sector: "Healthcare",
-        problem: "Data security requirements are strict, but IT security is not in place. Unsecured networks, no policies, regulatory risks.",
-        solution: "We conduct a security audit, close vulnerabilities, establish access and data protection policies. Monitor the network for threats 24/7.",
-        result: "The medical organisation meets regulatory requirements. Patient data is protected. Management is confident in IT security.",
-      },
-    ],
+  {
+    n: "02", title: "Производство",
+    body: "Инфраструктура цехов, промышленные сети, интеграция с ERP. Чёткие SLA и именной инженер, знающий вашу специфику.",
   },
-  uz: {
-    label: "Sohalar",
-    h2: "Turli sohalarga yechimlar",
-    all: "Barcha yechimlar →",
-    industries: [
-      {
-        index: "01", sector: "Savdo",
-        problem: "IT infratuzilmasi do'konlar tarmog'i bilan birga o'sadi. Har bir nuqtada alohida muhandislar, turli texnikalar, yagona boshqaruv yo'q.",
-        solution: "ARKANA barcha nuqtalarni yagona shartnoma bo'yicha xizmatga oladi. Markazlashtirilgan uskunalar reestri, yagona Service Desk, masofaviy qo'llab-quvvatlash — har bir do'konga bormasdan.",
-        result: "Rahbariyat butun tarmoqdagi IT holatini bir joyda ko'radi. Muammolar tezroq hal qilinadi, IT xarajatlari taxmin qilinadigan bo'ladi.",
-      },
-      {
-        index: "02", sector: "Ishlab chiqarish",
-        problem: "IT nosozligi sababli uskunalarning to'xtashi bevosita zarar. Zaxira nusxa yo'q, monitoring yo'q, infratuzilma hujjatlari yo'q.",
-        solution: "Barcha muhim tizimlar uchun zaxira nusxa va monitoringni sozlaymiz. Infratuzilmani GoARKAN'da hujjatlashtiramiz. Hodisalarga muhimlik darajasi bo'yicha javob beramiz.",
-        result: "Ishlab chiqarish uchun IT xavflari kamayadi. Infratuzilmangizda nima bo'layotganini bilasiz va biror narsa buzilishidan oldin ogohlantirish olasiz.",
-      },
-      {
-        index: "03", sector: "Tibbiyot",
-        problem: "Ma'lumotlar xavfsizligiga talablar qat'iy, lekin IT xavfsizligi tashkil etilmagan. Himoyalanmagan tarmoqlar, siyosatlar yo'q, tartibga solish xavflari.",
-        solution: "Xavfsizlik auditi o'tkazamiz, zaifliklarni yonamiz, kirish va ma'lumotlarni himoya qilish siyosatini tashkil etamiz. Tarmoqni 24/7 rejimida tahdidlar bo'yicha monitoring qilamiz.",
-        result: "Tibbiy tashkilot tartibga solish talablariga javob beradi. Bemorlar ma'lumotlari himoyalangan. Rahbariyat IT xavfsizligiga ishonch bilan qarashadi.",
-      },
-    ],
+  {
+    n: "03", title: "Медицина и клиники",
+    body: "Безопасность данных пациентов, надёжность медицинского оборудования и IT, соответствие требованиям регуляторов.",
   },
-};
+];
+
+function useReveal() {
+  const ref = useRef<HTMLElement>(null);
+  const [visible, setVisible] = useState(false);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setVisible(true); obs.disconnect(); } }, { threshold: 0.15 });
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
+  return { ref, visible };
+}
 
 export function HomeCases() {
-  const { lang } = useApp();
-  const c = COPY[lang] ?? COPY.ru;
-
+  const { ref, visible } = useReveal();
   return (
-    <section style={{ background: "var(--ark-bg)", borderTop: "1px solid var(--ark-divider)" }}>
-      <div className="max-w-[1280px] mx-auto px-5 sm:px-8 lg:px-10">
-
-        <div className="flex items-end justify-between flex-wrap gap-6" style={{ paddingTop: 64, paddingBottom: 48 }}>
-          <div>
-            <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--ark-text-hint)", marginBottom: 16 }}>{c.label}</div>
-            <h2 style={{ fontFamily: "Nacelle, sans-serif", fontWeight: 600, fontSize: "clamp(1.75rem, 3.5vw, 3.25rem)", lineHeight: 1.1, letterSpacing: "-0.04em", color: "var(--ark-text-heading)", margin: 0 }}>
-              {c.h2}
-            </h2>
-          </div>
-          <Link href="/cases" style={{ fontSize: 13, fontWeight: 500, color: "var(--ark-text-muted)", textDecoration: "none", letterSpacing: "-0.01em" }}>
-            {c.all}
-          </Link>
-        </div>
-
-        <div style={{ borderTop: "1px solid var(--ark-divider)", paddingBottom: 64 }}>
-          {c.industries.map((ind, i) => (
-            <motion.div
-              key={ind.index}
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true, margin: "-60px" }}
-              transition={{ duration: 0.5, delay: i * 0.06, ease: [0.25, 0.46, 0.45, 0.94] }}
-              className="grid grid-cols-1 lg:grid-cols-[56px_200px_1fr_1fr] lg:gap-8 items-start"
-              style={{ padding: "36px 0", borderBottom: "1px solid var(--ark-divider)", gap: "16px" }}
+    <section ref={ref as React.RefObject<HTMLElement>} id="industries" style={{ position: "relative", zIndex: 2, padding: "0 clamp(20px,4vw,64px) 120px", maxWidth: 1280, margin: "0 auto" }}>
+      <div style={{ opacity: visible ? 1 : 0, transform: visible ? "none" : "translateY(36px)", transition: `opacity .7s ${EASE}, transform .7s ${EASE}` }}>
+        <div style={{ fontFamily: "var(--font-mono, monospace)", fontSize: 12, letterSpacing: "0.12em", color: "#4fd18a", textTransform: "uppercase", marginBottom: 16, fontWeight: 600 }}>Отрасли</div>
+        <h2 style={{ fontSize: "clamp(28px,3.6vw,44px)", fontWeight: 800, margin: "0 0 56px", maxWidth: 680, lineHeight: 1.15, letterSpacing: "-0.01em", fontFamily: "var(--font-manrope), sans-serif" }}>
+          Решения для разных отраслей
+        </h2>
+      </div>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(280px,1fr))", gap: 24 }}>
+        {INDUSTRIES.map((ind, i) => (
+          <div key={ind.n} style={{
+            opacity: visible ? 1 : 0,
+            transform: visible ? "none" : "translateY(36px)",
+            transition: `opacity .7s ${EASE} ${i * 90}ms, transform .7s ${EASE} ${i * 90}ms`,
+          }}>
+            <div
+              style={{ background: "#0b1210", border: "1px solid rgba(238,242,238,0.08)", borderRadius: 24, padding: 36, height: "100%", boxSizing: "border-box", transition: "box-shadow .3s ease, transform .3s ease" }}
+              onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.boxShadow = "0 12px 32px rgba(79,209,138,0.12)"; el.style.transform = "translateY(-4px)"; }}
+              onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.boxShadow = ""; el.style.transform = ""; }}
             >
-              {/* Index + Sector — combined on mobile */}
-              <div className="flex lg:contents gap-3 items-baseline">
-                <div style={{ fontSize: 11, fontWeight: 500, color: "var(--ark-text-faint)", letterSpacing: "0.04em", flexShrink: 0 }}>{ind.index}</div>
-                <div>
-                  <div style={{ fontFamily: "Nacelle, sans-serif", fontSize: 20, fontWeight: 600, color: "var(--ark-text-heading)", letterSpacing: "-0.03em", lineHeight: 1.2 }}>
-                    {ind.sector}
-                  </div>
-                </div>
-              </div>
-
-              {/* Problem + Solution */}
-              <div className="hidden lg:block" />
-              <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-                <div>
-                  <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--ark-text-muted)", marginBottom: 8 }}>
-                    {lang === "ru" ? "Ситуация" : lang === "uz" ? "Vaziyat" : "Situation"}
-                  </div>
-                  <p style={{ fontSize: 13, color: "var(--ark-text-sub)", lineHeight: 1.65, margin: 0, letterSpacing: "-0.01em" }}>{ind.problem}</p>
-                </div>
-                <div>
-                  <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--ark-text-muted)", marginBottom: 8 }}>
-                    {lang === "ru" ? "Решение ARKANA" : lang === "uz" ? "ARKANA yechimi" : "ARKANA solution"}
-                  </div>
-                  <p style={{ fontSize: 13, color: "var(--ark-text-sub)", lineHeight: 1.65, margin: 0, letterSpacing: "-0.01em" }}>{ind.solution}</p>
-                </div>
-              </div>
-
-              {/* Result */}
-              <div>
-                <div style={{ width: 2, height: 20, background: "var(--ark-border-strong)", borderRadius: 2, marginBottom: 12 }} />
-                <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--ark-text-faint)", marginBottom: 8 }}>
-                  {lang === "ru" ? "Результат" : lang === "uz" ? "Natija" : "Result"}
-                </div>
-                <p style={{ fontSize: 14, fontWeight: 500, color: "var(--ark-text-muted)", lineHeight: 1.65, letterSpacing: "-0.01em", margin: 0 }}>{ind.result}</p>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-
+              <span style={{ fontFamily: "var(--font-mono, monospace)", fontSize: 11, letterSpacing: "0.1em", color: "#4fd18a", fontWeight: 600 }}>{ind.n}</span>
+              <h3 style={{ fontSize: 20, fontWeight: 700, margin: "16px 0 14px", fontFamily: "var(--font-manrope), sans-serif" }}>{ind.title}</h3>
+              <p style={{ fontSize: 14, lineHeight: 1.6, color: "#9fb0a6", margin: 0 }}>{ind.body}</p>
+            </div>
+          </div>
+        ))}
       </div>
     </section>
   );
