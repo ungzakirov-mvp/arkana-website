@@ -270,3 +270,39 @@
     outline: none;
   }
 }
+
+/* ── Mobile responsive ───────────────────────────────────── */
+@media (max-width: 768px) {
+  /* Hero: stack text above globe */
+  .hero-grid {
+    grid-template-columns: 1fr !important;
+  }
+  .hero-globe {
+    display: none !important;
+  }
+  .hero-stats {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 16px !important;
+  }
+
+  /* Comparison table: horizontal scroll */
+  .compare-scroll {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .compare-inner {
+    min-width: 580px;
+  }
+
+  /* Contact: stack columns */
+  .contact-grid {
+    grid-template-columns: 1fr !important;
+    gap: 32px !important;
+  }
+  .contact-info {
+    border-left: none !important;
+    padding-left: 0 !important;
+    border-top: 1px solid rgba(238,242,238,0.1);
+    padding-top: 24px;
+  }
+}

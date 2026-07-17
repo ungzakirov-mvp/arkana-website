@@ -38,7 +38,8 @@ export function HomeComparison() {
           Почему ARKANA выгоднее собственного IT-отдела
         </h2>
       </div>
-      <div style={{ border: "1px solid rgba(238,242,238,0.08)", borderRadius: 24, overflow: "hidden", background: "#0b1210" }}>
+      <div className="compare-scroll">
+      <div className="compare-inner" style={{ border: "1px solid rgba(238,242,238,0.08)", borderRadius: 24, overflow: "hidden", background: "#0b1210" }}>
         {/* Header row */}
         <div style={{ display: "grid", gridTemplateColumns: "180px 1fr 1fr", background: "#0f1a16", borderBottom: "1px solid rgba(238,242,238,0.08)", fontSize: 12, letterSpacing: "0.06em", textTransform: "uppercase", fontWeight: 700 }}>
           <div style={{ padding: "16px 20px", color: "#748078" }}>Параметр</div>
@@ -58,6 +59,7 @@ export function HomeComparison() {
             </div>
           </div>
         ))}
+      </div>
       </div>
     </section>
   );

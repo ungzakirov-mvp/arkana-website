@@ -127,7 +127,7 @@ export function HomeHero() {
       backgroundImage: "radial-gradient(circle at 18% 22%, rgba(79,209,138,0.05), transparent 40%), linear-gradient(rgba(238,242,238,0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(238,242,238,0.025) 1px, transparent 1px)",
       backgroundSize: "100% 100%, 64px 64px, 64px 64px",
     }}>
-      <div style={{ display: "grid", gridTemplateColumns: "1.05fr 1fr", gap: "clamp(24px,4vw,48px)", alignItems: "center" }}>
+      <div className="hero-grid" style={{ display: "grid", gridTemplateColumns: "1.05fr 1fr", gap: "clamp(24px,4vw,48px)", alignItems: "center" }}>
         {/* Left */}
         <div>
           <div style={{
@@ -174,7 +174,7 @@ export function HomeHero() {
         </div>
 
         {/* Right — video globe */}
-        <div style={{ position: "relative", width: "100%", aspectRatio: "1/1" }}>
+        <div className="hero-globe" style={{ position: "relative", width: "100%", aspectRatio: "1/1" }}>
           <BurstCanvas />
           <div style={{
             position: "absolute", inset: "6%", borderRadius: "50%", pointerEvents: "none", zIndex: 1,
@@ -203,7 +203,7 @@ export function HomeHero() {
       </div>
 
       {/* Stats bar */}
-      <div style={{
+      <div className="hero-stats" style={{
         marginTop: 64, padding: "32px clamp(16px,3vw,40px)",
         borderRadius: 24, background: "#0b1210", border: "1px solid rgba(238,242,238,0.08)",
         display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(160px,1fr))", gap: 24,

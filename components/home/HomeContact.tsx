@@ -37,7 +37,7 @@ export function HomeContact({ settings }: { settings?: SiteSettings | null }) {
         transition: `opacity .7s ${EASE}, transform .7s ${EASE}`,
       }}
     >
-      <div style={{ maxWidth: 1280, margin: "0 auto", display: "grid", gridTemplateColumns: "1.2fr 0.8fr", gap: 60, alignItems: "end" }}>
+      <div className="contact-grid" style={{ maxWidth: 1280, margin: "0 auto", display: "grid", gridTemplateColumns: "1.2fr 0.8fr", gap: 60, alignItems: "end" }}>
         <div>
           <div style={{ fontFamily: "var(--font-mono, monospace)", fontSize: 12, letterSpacing: "0.12em", color: "#4fd18a", textTransform: "uppercase", marginBottom: 16, fontWeight: 600 }}>Контакты</div>
           <h2 style={{ fontSize: "clamp(30px,4.4vw,54px)", fontWeight: 800, margin: "0 0 24px", lineHeight: 1.1, letterSpacing: "-0.01em", fontFamily: "var(--font-manrope), sans-serif" }}>
@@ -70,7 +70,7 @@ export function HomeContact({ settings }: { settings?: SiteSettings | null }) {
           </div>
         </div>
 
-        <div style={{ fontSize: 14, display: "flex", flexDirection: "column", gap: 16, borderLeft: "1px solid rgba(238,242,238,0.1)", paddingLeft: 32 }}>
+        <div className="contact-info" style={{ fontSize: 14, display: "flex", flexDirection: "column", gap: 16, borderLeft: "1px solid rgba(238,242,238,0.1)", paddingLeft: 32 }}>
           <div>
             <span style={{ color: "#748078", fontSize: 12, letterSpacing: "0.06em", textTransform: "uppercase" }}>Email</span><br />
             <a href={`mailto:${email}`} style={{ color: "#eef2ee", fontWeight: 600, textDecoration: "none" }}>{email}</a>
