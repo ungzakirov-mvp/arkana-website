@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useRef, useEffect, useState } from "react";
+import type { SiteSettings } from "@/lib/cms-api";
 
 const EASE = "cubic-bezier(.16,1,.3,1)";
 
@@ -18,9 +19,11 @@ function useReveal() {
   return { ref, visible };
 }
 
-export function HomeContact({ settings }: { settings?: { phone?: string; email?: string; address?: string } }) {
+export function HomeContact({ settings }: { settings?: SiteSettings | null }) {
   const { ref, visible } = useReveal();
-  const email = settings?.email ?? "info@arkana.uz";
+  const email = settings?.emails?.[0]?.email ?? "info@arkana.uz";
+  const telegram = settings?.telegram ?? "@arkana_uz";
+  const telegramHref = settings?.telegram_href ?? "https://t.me/arkana_uz";
   const address = settings?.address ?? "г. Ташкент, ул. Мирзо Улугбека 97";
 
   return (
@@ -74,7 +77,7 @@ export function HomeContact({ settings }: { settings?: { phone?: string; email?:
           </div>
           <div>
             <span style={{ color: "#748078", fontSize: 12, letterSpacing: "0.06em", textTransform: "uppercase" }}>Telegram</span><br />
-            <a href="https://t.me/arkana_uz" style={{ color: "#eef2ee", fontWeight: 600, textDecoration: "none" }}>@arkana_uz</a>
+            <a href={telegramHref} style={{ color: "#eef2ee", fontWeight: 600, textDecoration: "none" }}>{telegram}</a>
           </div>
           <div>
             <span style={{ color: "#748078", fontSize: 12, letterSpacing: "0.06em", textTransform: "uppercase" }}>Адрес</span><br />
