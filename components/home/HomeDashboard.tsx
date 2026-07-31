@@ -158,8 +158,22 @@ export function HomeDashboard() {
           </div>
         </div>
 
-        {/* Dashboard window */}
-        <div style={{
+        {/* Scroll hint — mobile only */}
+        <div className="dash-scroll-hint" style={{
+          display: "none", alignItems: "center", justifyContent: "center",
+          gap: 8, marginBottom: 12,
+          fontSize: 11, color: "#748078", fontFamily: "var(--font-mono, monospace)",
+          letterSpacing: "0.06em",
+        }}>
+          <svg width="14" height="14" viewBox="0 0 20 20" fill="none">
+            <path d="M4 10h12M10 4l6 6-6 6" stroke="#748078" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
+          SCROLL TO EXPLORE
+        </div>
+
+        {/* Dashboard window — scrollable on mobile */}
+        <div className="dash-scroll-wrapper" style={{ position: "relative" }}>
+        <div className="dash-window" style={{
           borderRadius: 20, overflow: "hidden",
           border: "1px solid rgba(238,242,238,0.1)",
           boxShadow: "0 40px 80px rgba(0,0,0,0.5), 0 0 0 1px rgba(238,242,238,0.04), inset 0 1px 0 rgba(255,255,255,0.04)",
@@ -328,6 +342,14 @@ export function HomeDashboard() {
             </div>
           </div>
         </div>
+        {/* Right fade — desktop hidden, mobile shown */}
+        <div className="dash-fade-right" style={{
+          display: "none", position: "absolute", top: 0, right: 0,
+          width: 48, height: "100%", borderRadius: "0 20px 20px 0",
+          background: "linear-gradient(to right, transparent, #05080a)",
+          pointerEvents: "none", zIndex: 2,
+        }} />
+        </div>
 
         {/* Footnote */}
         <p style={{
@@ -340,12 +362,54 @@ export function HomeDashboard() {
       </div>
 
       <style>{`
-        @media (max-width: 900px) {
+        /* Desktop */
+        @media (min-width: 769px) {
+          .dash-kpi-grid { grid-template-columns: repeat(4, 1fr) !important; }
+          .dash-bottom-grid { grid-template-columns: 1fr 1fr 1fr !important; }
+          .dash-scroll-hint { display: none !important; }
+          .dash-fade-right { display: none !important; }
+        }
+        /* Tablet ≤900px — KPI 2×4, bottom stack */
+        @media (max-width: 900px) and (min-width: 769px) {
           .dash-kpi-grid { grid-template-columns: repeat(2, 1fr) !important; }
           .dash-bottom-grid { grid-template-columns: 1fr !important; }
         }
-        @media (max-width: 560px) {
-          .dash-kpi-grid { grid-template-columns: repeat(2, 1fr) !important; }
+        /* Mobile ≤768px — horizontal scroll, preserve full layout */
+        @media (max-width: 768px) {
+          .dash-scroll-hint {
+            display: flex !important;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 12px;
+            font-size: 11px;
+            color: #748078;
+            font-family: var(--font-mono, monospace);
+            letter-spacing: 0.06em;
+          }
+          .dash-scroll-wrapper {
+            overflow-x: auto !important;
+            overflow-y: visible !important;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+            position: relative;
+          }
+          .dash-scroll-wrapper::-webkit-scrollbar { display: none; }
+          .dash-window {
+            min-width: 680px !important;
+          }
+          .dash-fade-right {
+            display: block !important;
+            position: absolute;
+            top: 0; right: 0;
+            width: 56px; height: 100%;
+            border-radius: 0 20px 20px 0;
+            background: linear-gradient(to right, transparent, #05080a);
+            pointer-events: none;
+            z-index: 2;
+          }
+          .dash-kpi-grid { grid-template-columns: repeat(4, 1fr) !important; }
+          .dash-bottom-grid { grid-template-columns: 1fr 1fr 1fr !important; }
         }
       `}</style>
     </section>

@@ -646,6 +646,30 @@ button, [role="button"], select {
   .trust-ticker span[style] { font-size: 10px !important; }
 }
 
+/* ── HomeDashboard: scrollable preview on mobile ─────────── */
+@media (max-width: 768px) {
+  .dash-scroll-hint { display: flex !important; }
+  .dash-scroll-wrapper {
+    overflow-x: auto;
+    overflow-y: visible;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: none;
+    /* Hide scrollbar — keep UX clean */
+    scrollbar-width: none;
+  }
+  .dash-scroll-wrapper::-webkit-scrollbar { display: none; }
+  .dash-window {
+    min-width: 680px;
+  }
+  .dash-fade-right { display: block !important; }
+  /* KPI tiles: 4-col preserved inside scroll, bottom stays 3-col */
+  .dash-kpi-grid { grid-template-columns: repeat(4, 1fr) !important; }
+  .dash-bottom-grid { grid-template-columns: 1fr 1fr 1fr !important; }
+}
+@media (max-width: 480px) {
+  .dash-window { min-width: 620px; }
+}
+
 /* ── HomePricing: 1-col on phone ─────────────────────────── */
 @media (max-width: 640px) {
   .pricing-grid {
