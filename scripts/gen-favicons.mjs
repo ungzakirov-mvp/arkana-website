@@ -1,47 +1,73 @@
 /**
- * Favicon generator for ARKANA.
+ * ARKANA — Favicon Generator
  *
- * Source images:
- *   - public/logo-3d.png  → large icons (180, 192, 512) — full brand mark
- *   - public/icon.svg     → small icons (16, 32) rasterized via sharp's SVG support
+ * ─────────────────────────────────────────────────────────────────────────
+ * PLACEHOLDER: Currently using public/icon.svg as the brand source.
+ *
+ * When the final brand logo is provided:
+ *   1. Place the file at: public/brand-logo.svg  (or brand-logo.png)
+ *   2. Update BRAND_SOURCE below to point to the new file
+ *   3. Run: node scripts/gen-favicons.mjs
+ *   All PNG variants regenerate automatically from a single source.
+ * ─────────────────────────────────────────────────────────────────────────
+ *
+ * Generated outputs (all in /public):
+ *   favicon-16x16.png        — browser tab, address bar (small)
+ *   favicon-32x32.png        — browser tab, bookmarks, Win taskbar
+ *   apple-touch-icon.png     — iOS Home Screen (180×180)
+ *   android-chrome-192x192.png — Android Home Screen (192×192)
+ *   android-chrome-512x512.png — PWA splash screen, Play Store (512×512)
+ *   site.webmanifest         — PWA manifest
  *
  * Run: node scripts/gen-favicons.mjs
  */
 
 import sharp from "sharp";
-import { readFileSync, writeFileSync } from "fs";
+import { readFileSync, existsSync, writeFileSync } from "fs";
 import { fileURLToPath } from "url";
 import path from "path";
 
 const __dir = path.dirname(fileURLToPath(import.meta.url));
 const pub = path.resolve(__dir, "../public");
 
-const svgSrc = readFileSync(path.join(pub, "icon.svg"));
-const pngSrc = path.join(pub, "logo-3d.png");
+// ── Brand source ──────────────────────────────────────────────────────────────
+// PLACEHOLDER: replace with the final brand logo file once provided.
+// Supported formats: .svg, .png (transparent background preferred)
+const BRAND_SOURCE = "icon.svg"; // TODO: replace with "brand-logo.svg" (or .png)
 
-// ── Small icons: use SVG (clean geometry, no text noise at 16–32px) ──────────
-async function fromSvg(size, outFile) {
-  await sharp(svgSrc)
-    .resize(size, size)
-    .png({ compressionLevel: 9 })
-    .toFile(path.join(pub, outFile));
-  console.log(`✓ ${outFile} (${size}×${size} from SVG)`);
+const srcPath = path.join(pub, BRAND_SOURCE);
+if (!existsSync(srcPath)) {
+  console.error(`✗ Brand source not found: ${srcPath}`);
+  process.exit(1);
 }
 
-// ── Large icons: use logo-3d.png (full brand mark, readable at 128px+) ───────
-async function fromPng(size, outFile, pad = 0) {
-  const bg = { r: 7, g: 9, b: 15, alpha: 1 }; // #07090f — matches icon.svg bg
+const isSvg = BRAND_SOURCE.endsWith(".svg");
+// sharp accepts both SVG buffers and PNG file paths
+const src = isSvg ? readFileSync(srcPath) : srcPath;
+
+console.log(`Source: ${BRAND_SOURCE}${BRAND_SOURCE === "icon.svg" ? " (placeholder — awaiting final brand logo)" : ""}\n`);
+
+// Brand background — matches icon.svg dark base, used on all icons
+const BG = { r: 7, g: 9, b: 15, alpha: 1 }; // #07090f
+
+/**
+ * Resize brand source to `size×size` with optional padding,
+ * composite onto dark background, write PNG.
+ */
+async function generate(size, outFile, pad = 0) {
   const inner = size - pad * 2;
-  await sharp(pngSrc)
-    .resize(inner, inner, { fit: "contain", background: { r: 0, g: 0, b: 0, alpha: 0 } })
-    .extend({ top: pad, bottom: pad, left: pad, right: pad, background: bg })
-    .flatten({ background: bg })
+  await sharp(src)
+    .resize(inner, inner, {
+      fit: "contain",
+      background: { r: 0, g: 0, b: 0, alpha: 0 },
+    })
+    .extend({ top: pad, bottom: pad, left: pad, right: pad, background: BG })
+    .flatten({ background: BG })
     .png({ compressionLevel: 9 })
     .toFile(path.join(pub, outFile));
-  console.log(`✓ ${outFile} (${size}×${size} from PNG, pad=${pad})`);
+  console.log(`✓ ${outFile.padEnd(32)} ${size}×${size}px  pad=${pad}`);
 }
 
-// ── Manifest ─────────────────────────────────────────────────────────────────
 function writeManifest() {
   const manifest = {
     name: "ARKANA",
@@ -63,12 +89,17 @@ function writeManifest() {
   console.log("✓ site.webmanifest");
 }
 
-// ── Run ───────────────────────────────────────────────────────────────────────
-await fromSvg(16,  "favicon-16x16.png");
-await fromSvg(32,  "favicon-32x32.png");
-await fromPng(180, "apple-touch-icon.png",       10);   // iOS: ~94% fill, dark bg
-await fromPng(192, "android-chrome-192x192.png",  12);  // Android: slight inset
-await fromPng(512, "android-chrome-512x512.png",  32);  // PWA store icon
+// ── Generate all sizes ────────────────────────────────────────────────────────
+//                         size   file                          pad
+await generate(            16,   "favicon-16x16.png",           1);
+await generate(            32,   "favicon-32x32.png",           2);
+await generate(           180,   "apple-touch-icon.png",       10);
+await generate(           192,   "android-chrome-192x192.png", 12);
+await generate(           512,   "android-chrome-512x512.png", 32);
 writeManifest();
 
 console.log("\n✅ All favicon assets generated in /public");
+if (BRAND_SOURCE === "icon.svg") {
+  console.log("   ⚠  Using placeholder source (icon.svg).");
+  console.log("   Replace BRAND_SOURCE with the final logo file and rerun.");
+}
