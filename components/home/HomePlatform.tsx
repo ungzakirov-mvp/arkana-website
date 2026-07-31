@@ -22,13 +22,13 @@ const COPY = {
         n: "02", tag: "OPERATIONS",
         title: "Персональный менеджер. Команда за ним.",
         desc: "Единая точка входа для всех IT-вопросов. Ваш сервис-менеджер знает инфраструктуру — за ним стоит полная инженерная команда.",
-        items: ["Ответ < 2ч", "Персональный менеджер", "Инженерная команда", "99.9% uptime"],
+        items: ["Ответ < 30 мин", "Персональный менеджер", "Инженерная команда", "99.9% uptime"],
       },
       {
         n: "03", tag: "BUSINESS",
         title: "Один договор. Ноль сюрпризов.",
         desc: "Фиксированная стоимость, предсказуемый бюджет, ежемесячная отчётность по всем работам.",
-        items: ["Запуск 5 дней", "0 скрытых платежей", "Масштабирование", "Отчёт каждый месяц"],
+        items: ["Запуск 14 дней", "0 скрытых платежей", "Масштабирование", "Отчёт каждый месяц"],
       },
     ],
   },
@@ -46,13 +46,13 @@ const COPY = {
         n: "02", tag: "OPERATIONS",
         title: "Shaxsiy menejer. Ortida to'liq jamoa.",
         desc: "Barcha IT masalalari uchun yagona kirish nuqtasi. Xizmat menejeringiz infratuzilmani biladi — ortida to'liq muhandislar jamoasi turadi.",
-        items: ["Javob < 2 soat", "Shaxsiy xizmat menejeri", "Muhandislar jamoasi", "99.9% uptime"],
+        items: ["Javob < 30 daqiqa", "Shaxsiy xizmat menejeri", "Muhandislar jamoasi", "99.9% uptime"],
       },
       {
         n: "03", tag: "BUSINESS",
         title: "Bitta shartnoma. Hech qanday kutilmagan xarajat.",
         desc: "Belgilangan narx, prognozli byudjet, barcha bajarilgan ishlar bo'yicha oylik hisobot.",
-        items: ["5 kunda ishga tushirish", "Yashirin to'lovlar yo'q", "Kengayish imkoniyati", "Har oylik hisobot"],
+        items: ["14 kunda ishga tushirish", "Yashirin to'lovlar yo'q", "Kengayish imkoniyati", "Har oylik hisobot"],
       },
     ],
   },
@@ -70,13 +70,13 @@ const COPY = {
         n: "02", tag: "OPERATIONS",
         title: "Dedicated service manager. Full team behind them.",
         desc: "One point of contact for all your IT. Your service manager knows your infrastructure — backed by the full engineering team.",
-        items: ["Response < 2h", "Dedicated service manager", "Full engineering team", "99.9% Uptime"],
+        items: ["Response < 30 min", "Dedicated service manager", "Full engineering team", "99.9% Uptime"],
       },
       {
         n: "03", tag: "BUSINESS",
         title: "One contract. Zero surprises.",
         desc: "Fixed price, predictable budget, and a monthly report on every task completed.",
-        items: ["5-day onboarding", "No hidden fees", "Scale on demand", "Monthly report"],
+        items: ["14-day onboarding", "No hidden fees", "Scale on demand", "Monthly report"],
       },
     ],
   },
@@ -146,6 +146,26 @@ export function HomePlatform() {
                     </div>
                   ))}
                 </div>
+                {isHero && (
+                  // Why own platform matters — the key insight for the buyer
+                  <div style={{
+                    marginTop: 24, padding: "16px 18px",
+                    borderRadius: 12, background: "rgba(79,209,138,0.05)",
+                    border: "1px solid rgba(79,209,138,0.14)",
+                  }}>
+                    {[
+                      { a: lang === "uz" ? "Email orqali so'rov" : lang === "en" ? "Request by email" : "Запрос по email",       b: lang === "uz" ? "Portal, 30 soniyada" : lang === "en" ? "Portal, 30 seconds" : "Портал, 30 секунд" },
+                      { a: lang === "uz" ? "Qo'ng'iroq = status" : lang === "en" ? "Call for status" : "Звонок = статус",        b: lang === "uz" ? "Doshbord, real vaqt" : lang === "en" ? "Dashboard, real time" : "Дашборд в реальном времени" },
+                      { a: lang === "uz" ? "Choraklik hisobot" : lang === "en" ? "Quarterly report" : "Квартальный отчёт",      b: lang === "uz" ? "Oylik o'lchashlar" : lang === "en" ? "Monthly metrics" : "Ежемесячные метрики" },
+                    ].map(row => (
+                      <div key={row.a} style={{ display: "flex", gap: 8, alignItems: "center", fontSize: 12, marginBottom: 7 }}>
+                        <span style={{ color: "#748078", textDecoration: "line-through", flex: 1, textDecorationColor: "rgba(248,113,113,0.5)" }}>{row.a}</span>
+                        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" style={{ flexShrink: 0 }}><path d="M2 6h8M7 3l3 3-3 3" stroke="#4fd18a" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                        <span style={{ color: "#c3d0c8", flex: 1, fontWeight: 600 }}>{row.b}</span>
+                      </div>
+                    ))}
+                  </div>
+                )}
                 {isHero && (
                   <Link href="/goarkan" style={{
                     display: "inline-flex", alignItems: "center", gap: 6, marginTop: 24,

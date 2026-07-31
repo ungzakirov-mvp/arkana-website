@@ -468,3 +468,47 @@ button, [role="button"], select {
     transition: none !important;
   }
 }
+
+/* ── Dashboard responsive ────────────────────────────────── */
+@media (max-width: 900px) {
+  .dash-kpi-grid { grid-template-columns: repeat(2, 1fr) !important; }
+  .dash-bottom-grid { grid-template-columns: 1fr !important; }
+}
+
+/* ── Enterprise grid responsive ──────────────────────────── */
+@media (max-width: 1024px) {
+  .enterprise-grid { grid-template-columns: repeat(3, 1fr) !important; }
+}
+@media (max-width: 640px) {
+  .enterprise-grid { grid-template-columns: repeat(2, 1fr) !important; }
+}
+
+/* ── Clients section responsive ─────────────────────────── */
+.featured-card { grid-template-columns: 1fr 1fr; }
+@media (max-width: 900px) {
+  .clients-grid { grid-template-columns: 1fr 1fr !important; }
+  .featured-card { grid-template-columns: 1fr !important; }
+  .featured-card > div:first-child { min-height: 280px !important; }
+}
+@media (max-width: 640px) {
+  .clients-grid { grid-template-columns: 1fr !important; }
+  .clients-cta { grid-template-columns: 1fr !important; }
+}
+
+/* ── Operation flow responsive ───────────────────────────── */
+@media (max-width: 1024px) {
+  .flow-grid { grid-template-columns: repeat(3, 1fr) !important; gap: 48px 0 !important; }
+}
+@media (max-width: 600px) {
+  .flow-grid { grid-template-columns: 1fr 1fr !important; gap: 36px 0 !important; }
+}
+
+/* ── Journey: 3 columns on tablet ───────────────────────── */
+@media (min-width: 769px) and (max-width: 1100px) {
+  .journey-grid { grid-template-columns: repeat(3, 1fr) !important; }
+}
+
+@keyframes flowLine {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}

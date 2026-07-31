@@ -27,7 +27,7 @@ const COPY: Record<string, {
         cta_label: "Начать с START", cta_href: "/contact", website_show_contact_sales: false,
         features: [
           { text: "Service Desk (GoARKAN)", is_included: true },
-          { text: "SLA — реакция 2 часа", is_included: true },
+          { text: "SLA — реакция 30 минут", is_included: true },
           { text: "Именной инженер", is_included: false },
         ],
         services: [
@@ -79,7 +79,7 @@ const COPY: Record<string, {
         cta_label: "Start with START", cta_href: "/contact", website_show_contact_sales: false,
         features: [
           { text: "Service Desk (GoARKAN)", is_included: true },
-          { text: "SLA — 2h response", is_included: true },
+          { text: "SLA — 30 min response", is_included: true },
           { text: "Named engineer", is_included: false },
         ],
         services: [
@@ -131,7 +131,7 @@ const COPY: Record<string, {
         cta_label: "START bilan boshlash", cta_href: "/contact", website_show_contact_sales: false,
         features: [
           { text: "Service Desk (GoARKAN)", is_included: true },
-          { text: "SLA — 2 soat ichida javob", is_included: true },
+          { text: "SLA — 30 daqiqa ichida javob", is_included: true },
           { text: "Shaxsiy muhandis", is_included: false },
         ],
         services: [

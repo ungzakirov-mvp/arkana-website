@@ -6,6 +6,45 @@ import { useApp } from "@/components/providers/ThemeLanguageProvider";
 
 const EASE = "cubic-bezier(.16,1,.3,1)";
 
+// ── Hero visual configuration ──────────────────────────────────────────────────
+// All visual parameters for the Hero globe animation and video treatment.
+// Edit values here — the component reads exclusively from this object.
+// Never put numeric literals for visuals directly in JSX below.
+const HERO_VISUALS = {
+  // BurstCanvas particle animation
+  canvas: {
+    count:      40,           // number of active particles
+    speedMin:   0.003,        // life units per frame (min)
+    speedMax:   0.007,        // life units per frame (max); actual = speedMin + rand*(speedMax-speedMin)
+    wobble:     0.6,          // angle wobble amplitude in radians (±wobble/2 each side)
+    sizeMin:    1,            // particle radius in px (min)
+    sizeExtra:  1.5,          // additional random radius (max size = sizeMin + sizeExtra)
+    alpha:      0.7,          // peak alpha multiplier for rgba fill
+    maxRadius:  0.44,         // max orbit radius as fraction of Math.min(canvasW, canvasH)
+    color:      "79,209,138", // RGB values only — used inside rgba(R,G,B,a)
+  },
+  // Outer glow ring (the green halo around the globe)
+  glow: {
+    ringOpacity:      0.35,   // peak opacity of the green ring at 78% stop
+    blur:             "6px",  // CSS blur filter on the ring overlay
+    breatheDuration:  "4s",   // CSS animation duration for the breathe keyframe
+  },
+  // <video> CSS filter — defines the colour treatment of hero-globe.mp4
+  video: {
+    hueRotate:  130,          // deg — shifts the base colour of the footage
+    saturate:   1.15,         // multiplier — boosts colour saturation
+    brightness: 0.92,         // multiplier — slightly dims the footage
+  },
+  // Section background radial glow (subtle green at top-left)
+  bg: {
+    glowOpacity: 0.05,
+  },
+  // Counter tween on page load
+  tween: {
+    durationMs: 1400,
+  },
+} as const;
+
 const COPY = {
   ru: {
     badge:   "IT-партнёр для вашего бизнеса",
@@ -21,9 +60,9 @@ const COPY = {
       { title: "Облако",         sub: "и интеграция" },
     ],
     stats: [
-      { val: "99.9%", label: "Надёжность SLA" },
-      { val: "< 2ч",  label: "Первый ответ" },
-      { val: "5 дн.", label: "Средний срок запуска" },
+      { val: "95%",      label: "SLA выполнение" },
+      { val: "< 30 мин", label: "Первый ответ" },
+      { val: "14 дн.",   label: "Средний срок запуска" },
       { val: "GoARKAN", label: "ITSM-платформа" },
       { val: "24/7",  label: "Мониторинг" },
     ],
@@ -42,9 +81,9 @@ const COPY = {
       { title: "Bulut",              sub: "va integratsiya" },
     ],
     stats: [
-      { val: "99.9%",    label: "SLA kafolati" },
-      { val: "< 2 soat", label: "Birinchi javob" },
-      { val: "5 kun",    label: "O'rtacha onboarding" },
+      { val: "95%",          label: "SLA bajarish" },
+      { val: "< 30 daqiqa", label: "Birinchi javob" },
+      { val: "14 kun",       label: "O'rtacha onboarding" },
       { val: "GoARKAN", label: "ITSM platforma" },
       { val: "24/7",     label: "Monitoring" },
     ],
@@ -63,16 +102,16 @@ const COPY = {
       { title: "Cloud",           sub: "& Integration" },
     ],
     stats: [
-      { val: "99.9%",  label: "SLA Uptime" },
-      { val: "< 2h",   label: "First Response" },
-      { val: "5 days", label: "Average Onboarding" },
+      { val: "95%",     label: "SLA Compliance" },
+      { val: "< 30 min", label: "First Response" },
+      { val: "14 days", label: "Average Onboarding" },
       { val: "GoARKAN", label: "ITSM Platform" },
       { val: "24/7",   label: "Monitoring" },
     ],
   },
 } as const;
 
-function useTween(duration = 1400) {
+function useTween(duration = HERO_VISUALS.tween.durationMs) {
   const [progress, setProgress] = useState(0);
   useEffect(() => {
     const start = performance.now();
@@ -108,20 +147,21 @@ function BurstCanvas() {
     ro.observe(canvas);
     requestAnimationFrame(() => requestAnimationFrame(resize));
 
+    const cv = HERO_VISUALS.canvas;
     type P = { angle: number; life: number; speed: number; wobble: number; size: number };
-    const particles: P[] = Array.from({ length: 40 }, () => ({
+    const particles: P[] = Array.from({ length: cv.count }, () => ({
       angle:  Math.random() * Math.PI * 2,
       life:   Math.random(),
-      speed:  0.003 + Math.random() * 0.004,
-      wobble: (Math.random() - 0.5) * 0.6,
-      size:   1 + Math.random() * 1.5,
+      speed:  cv.speedMin + Math.random() * (cv.speedMax - cv.speedMin),
+      wobble: (Math.random() - 0.5) * cv.wobble,
+      size:   cv.sizeMin + Math.random() * cv.sizeExtra,
     }));
 
     let frame: number;
     const draw = () => {
       const w = canvas.width / dpr, h = canvas.height / dpr;
       ctx.clearRect(0, 0, w, h);
-      const cx = w / 2, cy = h / 2, maxR = Math.min(w, h) * 0.44;
+      const cx = w / 2, cy = h / 2, maxR = Math.min(w, h) * cv.maxRadius;
       particles.forEach((p) => {
         p.life = (p.life + p.speed) % 1;
         const r = maxR * p.life;
@@ -129,7 +169,7 @@ function BurstCanvas() {
         const alpha = p.life < 0.15 ? p.life / 0.15 : (1 - p.life) / 0.85;
         ctx.beginPath();
         ctx.arc(cx + Math.cos(a) * r, cy + Math.sin(a) * r, p.size, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(79,209,138,${alpha * 0.7})`;
+        ctx.fillStyle = `rgba(${cv.color},${alpha * cv.alpha})`;
         ctx.fill();
       });
       frame = requestAnimationFrame(draw);
@@ -164,7 +204,7 @@ export function HomeHero() {
   const c = COPY[lang] ?? COPY.ru;
 
   const videoRef = useRef<HTMLVideoElement>(null);
-  const progress = useTween(1400);
+  const progress = useTween();
 
   useEffect(() => {
     const vid = videoRef.current;
@@ -180,11 +220,16 @@ export function HomeHero() {
     return () => { vid.removeEventListener("ended", onEnded); vid.removeEventListener("pause", onPause); };
   }, []);
 
+  const vf = HERO_VISUALS.video;
+  const videoFilter = `hue-rotate(${vf.hueRotate}deg) saturate(${vf.saturate}) brightness(${vf.brightness})`;
+  const gv = HERO_VISUALS.glow;
+  const glowBg = `radial-gradient(circle, rgba(79,209,138,0) 62%, rgba(79,209,138,${gv.ringOpacity}) 78%, rgba(79,209,138,0) 92%)`;
+
   return (
     <section style={{
       position: "relative", padding: "64px clamp(20px,4vw,64px) 60px",
       overflow: "hidden", zIndex: 2, maxWidth: 1440, margin: "0 auto",
-      backgroundImage: "radial-gradient(circle at 18% 22%, rgba(79,209,138,0.05), transparent 40%), linear-gradient(rgba(238,242,238,0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(238,242,238,0.025) 1px, transparent 1px)",
+      backgroundImage: `radial-gradient(circle at 18% 22%, rgba(79,209,138,${HERO_VISUALS.bg.glowOpacity}), transparent 40%), linear-gradient(rgba(238,242,238,0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(238,242,238,0.025) 1px, transparent 1px)`,
       backgroundSize: "100% 100%, 64px 64px, 64px 64px",
     }}>
       <div className="hero-grid" style={{ display: "grid", gridTemplateColumns: "1.05fr 1fr", gap: "clamp(24px,4vw,48px)", alignItems: "center" }}>
@@ -196,7 +241,7 @@ export function HomeHero() {
             borderRadius: 100, border: "1px solid rgba(79,209,138,0.3)", background: "rgba(79,209,138,0.06)",
             marginBottom: 28, animation: `riseIn .9s ${EASE} both`,
           }}>
-            <span style={{ width: 6, height: 6, borderRadius: "50%", background: "#4fd18a", animation: "statusPulse 2.4s ease-in-out infinite" }} />
+            <span style={{ width: 6, height: 6, borderRadius: "50%", background: "#4fd18a" }} />
             <span style={{ fontSize: 13, color: "#c3d0c8" }}>{c.badge}</span>
           </div>
 
@@ -207,7 +252,7 @@ export function HomeHero() {
             fontFamily: "var(--font-manrope), sans-serif",
           }}>
             <span style={{ display: "block" }}>{c.h1}</span>
-            <span style={{ display: "block", color: "#c3d0c8", fontWeight: 700, fontSize: "0.78em", letterSpacing: "-0.02em", lineHeight: 1.2, marginTop: "0.1em" }}>{c.h1green}</span>
+            <span style={{ display: "block", color: "#9fb0a6", fontWeight: 700, fontSize: "0.78em", letterSpacing: "-0.02em", lineHeight: 1.2, marginTop: "0.1em" }}>{c.h1green}</span>
           </h1>
 
           <p style={{
@@ -241,12 +286,12 @@ export function HomeHero() {
           <BurstCanvas />
           <div style={{
             position: "absolute", inset: "6%", borderRadius: "50%", pointerEvents: "none", zIndex: 1,
-            background: "radial-gradient(circle, rgba(79,209,138,0) 62%, rgba(79,209,138,0.35) 78%, rgba(79,209,138,0) 92%)",
-            filter: "blur(6px)", animation: "breathe 4s ease-in-out infinite",
+            background: glowBg,
+            filter: `blur(${gv.blur})`, animation: `breathe ${gv.breatheDuration} ease-in-out infinite`,
           }} />
           <div style={{ position: "absolute", inset: "6%", borderRadius: "50%", overflow: "hidden", zIndex: 2 }}>
             <video ref={videoRef} autoPlay loop muted playsInline
-              style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", filter: "hue-rotate(130deg) saturate(1.15) brightness(0.92)" }}
+              style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", filter: videoFilter }}
               src="/hero-globe.mp4"
             />
           </div>
@@ -278,23 +323,18 @@ export function HomeHero() {
       }}>
         {c.stats.map(({ val: rawVal, label }, idx) => {
           const animated = idx === 0
-            ? `${(progress * 99.9).toFixed(1)}%`
+            ? `${(progress * 95).toFixed(0)}%`
             : idx === 1
-              ? lang === "ru" ? `< ${Math.round(progress * 2)}ч` : lang === "uz" ? `< ${Math.round(progress * 2)} soat` : `< ${Math.round(progress * 2)}h`
+              ? lang === "ru" ? `< ${Math.round(progress * 30)} мин` : lang === "uz" ? `< ${Math.round(progress * 30)} daq` : `< ${Math.round(progress * 30)} min`
               : rawVal;
           const STAT_ICONS = [
-            // Shield check — SLA
             <svg key="s0" width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M10 2L3 5v5.5c0 3.87 2.98 7.5 7 8.5 4.02-1 7-4.63 7-8.5V5L10 2z" fill="rgba(79,209,138,0.12)" stroke="#4fd18a" strokeWidth="1.35" strokeLinejoin="round"/><path d="M7 10.5l2 2 4-4" stroke="#4fd18a" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>,
-            // Clock — Response
             <svg key="s1" width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="7.5" stroke="#4fd18a" strokeWidth="1.35"/><path d="M10 6.5V10.5l2.5 2" stroke="#4fd18a" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>,
-            // Calendar — Onboarding
             <svg key="s2" width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><rect x="2.5" y="4.5" width="15" height="13" rx="2" stroke="#4fd18a" strokeWidth="1.35"/><path d="M2.5 8.5h15" stroke="#4fd18a" strokeWidth="1.2"/><path d="M7 2.5v3M13 2.5v3" stroke="#4fd18a" strokeWidth="1.5" strokeLinecap="round"/><rect x="6" y="11" width="2.5" height="2.5" rx="0.5" fill="#4fd18a" opacity="0.75"/></svg>,
-            // Hexagon stack — Platform
             <svg key="s3" width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M10 2.5L17.5 7v6L10 17.5 2.5 13V7L10 2.5z" stroke="#4fd18a" strokeWidth="1.35" strokeLinejoin="round"/><path d="M2.5 7L10 11.5l7.5-4.5" stroke="#4fd18a" strokeWidth="1.1" opacity="0.55"/><line x1="10" y1="11.5" x2="10" y2="17.5" stroke="#4fd18a" strokeWidth="1.1" opacity="0.55"/></svg>,
-            // Eye — Monitoring
             <svg key="s4" width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M2 10s3-5.5 8-5.5S18 10 18 10s-3 5.5-8 5.5S2 10 2 10z" stroke="#4fd18a" strokeWidth="1.35"/><circle cx="10" cy="10" r="2.5" fill="rgba(79,209,138,0.2)" stroke="#4fd18a" strokeWidth="1.3"/></svg>,
           ];
-          const isTextStat = idx === 3; // GoARKAN — smaller font
+          const isTextStat = idx === 3;
           return (
             <div key={label} style={{ display: "flex", alignItems: "center", gap: 12 }}>
               <div style={{ flexShrink: 0, width: 36, height: 36, borderRadius: 10, background: "rgba(79,209,138,0.07)", display: "flex", alignItems: "center", justifyContent: "center" }}>

@@ -1,8 +1,12 @@
 import type { Metadata } from "next";
 import { HomeHero } from "@/components/home/HomeHero";
 import { HomeTrust } from "@/components/home/HomeTrust";
+import { HomeEnterprise } from "@/components/home/HomeEnterprise";
+import { HomeClients } from "@/components/home/HomeClients";
 import { HomeComparison } from "@/components/home/HomeComparison";
 import { HomePlatform } from "@/components/home/HomePlatform";
+import { HomeDashboard } from "@/components/home/HomeDashboard";
+import { HomeOperationFlow } from "@/components/home/HomeOperationFlow";
 import { HomeJourney } from "@/components/home/HomeJourney";
 import { HomeContact } from "@/components/home/HomeContact";
 import { organizationSchema, localBusinessSchema } from "@/lib/seo";
@@ -37,6 +41,10 @@ export default async function HomePage() {
       <HomeHero />
       <HomeTrust />
       <HomePlatform />
+      <HomeDashboard />
+      <HomeEnterprise />
+      <HomeOperationFlow />
+      <HomeClients />
       <HomeComparison />
       <HomeJourney />
       <HomeContact settings={settings} />
