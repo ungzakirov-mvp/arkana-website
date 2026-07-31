@@ -106,7 +106,7 @@ const COPY: Record<string, Copy> = {
       },
       {
         id: "silk",
-        client: "Silk Road Energy Engineering",
+        client: "Silk Road Energy Planning and Engineering",
         industry: "Энергетика",
         services: ["HP Fleet Deployment", "Workplace Setup", "Network Connectivity"],
         photo: "/cases/silk-office.jpg",
@@ -169,7 +169,7 @@ const COPY: Record<string, Copy> = {
       },
       {
         id: "silk",
-        client: "Silk Road Energy Engineering",
+        client: "Silk Road Energy Planning and Engineering",
         industry: "Energetika",
         services: ["HP Fleet Deployment", "Workplace Setup", "Tarmoq ulanishi"],
         photo: "/cases/silk-office.jpg",
@@ -232,7 +232,7 @@ const COPY: Record<string, Copy> = {
       },
       {
         id: "silk",
-        client: "Silk Road Energy Engineering",
+        client: "Silk Road Energy Planning and Engineering",
         industry: "Energy",
         services: ["HP Fleet Deployment", "Workplace Setup", "Network Connectivity"],
         photo: "/cases/silk-office.jpg",
@@ -282,8 +282,6 @@ function FeaturedCard({ p, tag, deliveredLabel, visible }: {
   deliveredLabel: string;
   visible: boolean;
 }) {
-  const [hov, setHov] = useState(false);
-
   return (
     <div
       style={{
@@ -294,17 +292,13 @@ function FeaturedCard({ p, tag, deliveredLabel, visible }: {
       }}
     >
       <div
-        className="featured-card"
-        onMouseEnter={() => setHov(true)}
-        onMouseLeave={() => setHov(false)}
+        className="featured-card fc-card"
         style={{
           display: "grid",
           borderRadius: 16,
           overflow: "hidden",
-          border: "1px solid",
-          borderColor: hov ? "rgba(79,209,138,0.3)" : "rgba(238,242,238,0.1)",
+          border: "1px solid rgba(238,242,238,0.1)",
           background: "#0b1210",
-          transition: `border-color 220ms ease`,
           minHeight: 380,
         }}
       >
@@ -316,11 +310,10 @@ function FeaturedCard({ p, tag, deliveredLabel, visible }: {
             fill
             priority
             sizes="(max-width: 768px) 100vw, 50vw"
+            className="fc-img"
             style={{
               objectFit: "cover",
               objectPosition: "center 30%",
-              transition: "transform 500ms ease",
-              transform: hov ? "scale(1.04)" : "scale(1)",
             }}
           />
           {/* gradient overlay */}
@@ -412,32 +405,21 @@ function FeaturedCard({ p, tag, deliveredLabel, visible }: {
 }
 
 function GridCard({ p, i, visible }: { p: GridProject; i: number; visible: boolean }) {
-  const [hov, setHov] = useState(false);
-  const [focused, setFocused] = useState(false);
-
-  const active = hov || focused;
-
   return (
     <div
       tabIndex={0}
       role="article"
       aria-label={`${p.client} — ${p.industry}`}
-      onMouseEnter={() => setHov(true)}
-      onMouseLeave={() => setHov(false)}
-      onFocus={() => setFocused(true)}
-      onBlur={() => setFocused(false)}
+      className="gc-card"
       style={{
         opacity: visible ? 1 : 0,
         transform: visible ? "none" : "translateY(20px)",
         borderRadius: 12,
         overflow: "hidden",
-        border: "1px solid",
-        borderColor: active ? "rgba(79,209,138,0.28)" : "rgba(238,242,238,0.09)",
+        border: "1px solid rgba(238,242,238,0.09)",
         background: "#0b1210",
-        outline: focused ? "2px solid rgba(79,209,138,0.6)" : "none",
-        outlineOffset: 2,
         cursor: "default",
-        transition: `opacity .5s ${EASE} ${i * 70}ms, transform .5s ${EASE} ${i * 70}ms, border-color 200ms ease, outline 150ms ease`,
+        transition: `opacity .5s ${EASE} ${i * 70}ms, transform .5s ${EASE} ${i * 70}ms`,
       }}
     >
       {/* Photo */}
@@ -448,11 +430,11 @@ function GridCard({ p, i, visible }: { p: GridProject; i: number; visible: boole
           fill
           loading="lazy"
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+          className="gc-img"
           style={{
             objectFit: "cover",
             objectPosition: "center",
-            transition: "transform 400ms ease",
-            transform: active ? "scale(1.05)" : "scale(1)",
+            willChange: "transform",
           }}
         />
         <div style={{

@@ -1,24 +1,65 @@
-const ITEMS = [
-  "95% SLA Compliance",
-  "< 30 min Response SLA",
-  "24/7 Monitoring",
-  "Microsoft 365 Partner",
-  "GoARKAN Platform",
-  "Dedicated Service Manager",
-  "14-Day Onboarding",
-  "Contractual SLA",
-  "Endpoint Protection",
-  "Asset Registry Included",
-  "Network Operations",
-  "Certified Engineers",
-  "Transparent Reporting",
-  "IT Outsourcing",
-  "Business Continuity",
-];
+"use client";
+
+import { useApp } from "@/components/providers/ThemeLanguageProvider";
+
+const ITEMS: Record<string, string[]> = {
+  ru: [
+    "95% SLA выполнение",
+    "< 30 мин первый ответ",
+    "Мониторинг 24/7",
+    "Партнёр Microsoft 365",
+    "Платформа GoARKAN",
+    "Персональный менеджер",
+    "Запуск за 14 дней",
+    "SLA в договоре",
+    "Защита конечных точек",
+    "Реестр активов",
+    "Сетевые операции",
+    "Сертифицированные инженеры",
+    "Прозрачная отчётность",
+    "IT Аутсорсинг",
+    "Непрерывность бизнеса",
+  ],
+  uz: [
+    "95% SLA bajarish",
+    "< 30 daqiqa birinchi javob",
+    "24/7 Monitoring",
+    "Microsoft 365 hamkor",
+    "GoARKAN platforma",
+    "Shaxsiy menejer",
+    "14 kunda ishga tushirish",
+    "Shartnomadagi SLA",
+    "Endpoint himoyasi",
+    "Aktivlar reestri",
+    "Tarmoq operatsiyalari",
+    "Sertifikatlangan muhandislar",
+    "Shaffof hisobot",
+    "IT Autsorsingi",
+    "Biznes uzluksizligi",
+  ],
+  en: [
+    "95% SLA Compliance",
+    "< 30 min Response SLA",
+    "24/7 Monitoring",
+    "Microsoft 365 Partner",
+    "GoARKAN Platform",
+    "Dedicated Service Manager",
+    "14-Day Onboarding",
+    "Contractual SLA",
+    "Endpoint Protection",
+    "Asset Registry Included",
+    "Network Operations",
+    "Certified Engineers",
+    "Transparent Reporting",
+    "IT Outsourcing",
+    "Business Continuity",
+  ],
+};
 
 export function HomeTrust() {
-  // Quadruple for a seamless loop at any viewport width
-  const track = [...ITEMS, ...ITEMS, ...ITEMS, ...ITEMS];
+  const { lang } = useApp();
+  const items = ITEMS[lang] ?? ITEMS.ru;
+  const track = [...items, ...items, ...items, ...items];
 
   return (
     <div

@@ -514,6 +514,20 @@ button, [role="button"], select {
   .pricing-card { padding: 28px 20px 32px !important; }
 }
 
+/* ── Clients section hover (CSS-only, no JS re-renders) ──── */
+.fc-card { transition: border-color 220ms ease; }
+.fc-card:hover { border-color: rgba(79,209,138,0.3) !important; }
+.fc-card:hover .fc-img { transform: scale(1.04); }
+.fc-img { transition: transform 500ms ease; will-change: transform; }
+
+.gc-card { transition: border-color 200ms ease, outline 150ms ease; }
+.gc-card:hover,
+.gc-card:focus-visible { border-color: rgba(79,209,138,0.28) !important; }
+.gc-card:focus-visible { outline: 2px solid rgba(79,209,138,0.6); outline-offset: 2px; }
+.gc-card:hover .gc-img,
+.gc-card:focus-visible .gc-img { transform: scale(1.05); }
+.gc-img { transition: transform 400ms ease; will-change: transform; }
+
 /* ── Clients section responsive ─────────────────────────── */
 .featured-card { grid-template-columns: 1fr 1fr; }
 @media (max-width: 900px) {
