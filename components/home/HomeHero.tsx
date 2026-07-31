@@ -291,9 +291,12 @@ export function HomeHero() {
           }} />
           <div style={{ position: "absolute", inset: "6%", borderRadius: "50%", overflow: "hidden", zIndex: 2 }}>
             <video ref={videoRef} autoPlay loop muted playsInline
+              poster="/hero-poster.jpg"
               style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", filter: videoFilter }}
-              src="/hero-globe.mp4"
-            />
+            >
+              <source src="/hero-globe.webm" type="video/webm" />
+              <source src="/hero-globe-720.mp4" type="video/mp4" />
+            </video>
           </div>
           {c.chips.map((chip, i) => (
             <div key={i} style={{
