@@ -226,12 +226,22 @@ export function HomeHero() {
   const glowBg = `radial-gradient(circle, rgba(79,209,138,0) 62%, rgba(79,209,138,${gv.ringOpacity}) 78%, rgba(79,209,138,0) 92%)`;
 
   return (
-    <section style={{
+    <section className="hero-section" style={{
       position: "relative", padding: "64px clamp(20px,4vw,64px) 60px",
       overflow: "hidden", zIndex: 2, maxWidth: 1440, margin: "0 auto",
       backgroundImage: `radial-gradient(circle at 18% 22%, rgba(79,209,138,${HERO_VISUALS.bg.glowOpacity}), transparent 40%), linear-gradient(rgba(238,242,238,0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(238,242,238,0.025) 1px, transparent 1px)`,
       backgroundSize: "100% 100%, 64px 64px, 64px 64px",
     }}>
+      {/* Mobile-only video background — shown instead of globe on small screens */}
+      <div className="hero-video-bg" aria-hidden="true">
+        <video autoPlay loop muted playsInline poster="/hero-poster.jpg"
+          style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }}
+        >
+          <source src="/hero-globe.webm" type="video/webm" />
+          <source src="/hero-globe-720.mp4" type="video/mp4" />
+        </video>
+      </div>
+
       <div className="hero-grid" style={{ display: "grid", gridTemplateColumns: "1.05fr 1fr", gap: "clamp(24px,4vw,48px)", alignItems: "center" }}>
 
         {/* Left */}

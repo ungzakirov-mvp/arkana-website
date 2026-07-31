@@ -117,7 +117,7 @@ export function Footer({ settings }: { settings?: SiteSettings | null }) {
               {c.desc}
             </p>
             {/* 2-column contact grid */}
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
+            <div className="footer-contacts-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
               {emails.map((e) => <Chip key={e.href} href={e.href} icon={<IconEmail />} text={e.value} />)}
               {tg && <Chip href={tgHref ?? "#"} icon={<IconTg />} text={tg} />}
               {phones.map((p) => <Chip key={p.href} href={p.href} icon={<IconPhone />} text={p.value} />)}
@@ -125,7 +125,7 @@ export function Footer({ settings }: { settings?: SiteSettings | null }) {
           </div>
 
           {/* Services */}
-          <div>
+          <div className="footer-nav-col">
             <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.07em", textTransform: "uppercase", color: "var(--ark-text-muted)", marginBottom: 16 }}>{c.services}</div>
             <nav style={{ display: "flex", flexDirection: "column", gap: 10 }}>
               {c.serviceLinks.map((label, i) => (
@@ -137,7 +137,7 @@ export function Footer({ settings }: { settings?: SiteSettings | null }) {
           </div>
 
           {/* Company */}
-          <div>
+          <div className="footer-nav-col">
             <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.07em", textTransform: "uppercase", color: "var(--ark-text-muted)", marginBottom: 16 }}>{c.company}</div>
             <nav style={{ display: "flex", flexDirection: "column", gap: 10 }}>
               {c.companyLinks.map((label, i) => (

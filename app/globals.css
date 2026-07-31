@@ -562,3 +562,155 @@ button, [role="button"], select {
   from { opacity: 0; }
   to   { opacity: 1; }
 }
+
+/* ═══════════════════════════════════════════════════════════
+   MOBILE / TABLET — comprehensive responsive pass
+   Breakpoints: 768px (tablet), 480px (phone), 360px (small)
+   ═══════════════════════════════════════════════════════════ */
+
+/* ── Hero: mobile video background ──────────────────────── */
+.hero-video-bg {
+  display: none;
+}
+@media (max-width: 768px) {
+  .hero-video-bg {
+    display: block;
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+  }
+  .hero-video-bg::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(to bottom, rgba(5,8,10,0.55) 0%, rgba(5,8,10,0.92) 100%),
+      radial-gradient(ellipse 80% 60% at 50% 40%, rgba(79,209,138,0.08), transparent 70%);
+    z-index: 1;
+  }
+  .hero-video-bg video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.28;
+    filter: saturate(1.3) brightness(0.75);
+  }
+
+  /* Hero section: tighter padding, content above video */
+  .hero-section {
+    padding-top: 40px !important;
+    padding-bottom: 40px !important;
+    position: relative;
+    z-index: 1;
+  }
+  .hero-section > * { position: relative; z-index: 2; }
+
+  /* Hero text: larger on mobile since it's the only visual */
+  .hero-section h1 {
+    font-size: clamp(32px, 9vw, 48px) !important;
+  }
+  .hero-section p {
+    font-size: 15px !important;
+    max-width: 100% !important;
+  }
+
+  /* Stats bar: tighter */
+  .hero-stats {
+    margin-top: 32px !important;
+    padding: 20px 16px !important;
+    border-radius: 16px !important;
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)) !important;
+    gap: 16px !important;
+  }
+}
+
+/* ── Section vertical padding — all home sections ────────── */
+@media (max-width: 768px) {
+  /* Targets sections with id (all home sections) */
+  section[id] {
+    padding-top: 72px !important;
+    padding-bottom: 72px !important;
+  }
+}
+@media (max-width: 480px) {
+  section[id] {
+    padding-top: 56px !important;
+    padding-bottom: 56px !important;
+  }
+}
+
+/* ── HomeTrust ticker: reduce font on narrow ─────────────── */
+@media (max-width: 480px) {
+  .trust-ticker span[style] { font-size: 10px !important; }
+}
+
+/* ── HomePricing: 1-col on phone ─────────────────────────── */
+@media (max-width: 640px) {
+  .pricing-grid {
+    grid-template-columns: 1fr !important;
+    border-radius: 12px !important;
+  }
+  .pricing-card {
+    border-right: none !important;
+    border-bottom: 1px solid var(--ark-border) !important;
+    padding: 28px 20px 32px !important;
+  }
+  .pricing-card:last-child { border-bottom: none !important; }
+}
+
+/* ── HomeClients: stack everything on phone ──────────────── */
+@media (max-width: 480px) {
+  .clients-grid { grid-template-columns: 1fr !important; }
+}
+
+/* ── HomeComparison: wider scroll on phone ───────────────── */
+@media (max-width: 480px) {
+  .compare-inner { min-width: 520px !important; }
+}
+
+/* ── HomePlatform / Dashboard: reduce font, fix overflow ── */
+@media (max-width: 768px) {
+  .dash-kpi-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 10px !important; }
+  .dash-bottom-grid { grid-template-columns: 1fr !important; }
+}
+
+/* ── HomeOperationFlow: 2-col on phone ───────────────────── */
+@media (max-width: 480px) {
+  .flow-grid { grid-template-columns: 1fr 1fr !important; gap: 28px 0 !important; }
+}
+
+/* ── Footer: 1-col contact grid on narrow phone ─────────── */
+@media (max-width: 480px) {
+  .footer-contacts-grid { grid-template-columns: 1fr !important; gap: 6px !important; }
+}
+/* Footer nav columns: stack on mobile */
+@media (max-width: 640px) {
+  .footer-nav-col { display: none !important; }
+}
+
+/* ── Navigation mobile menu: full-width links ────────────── */
+@media (max-width: 768px) {
+  /* Bigger tap targets in mobile menu */
+  header nav a { min-height: 44px; display: flex !important; align-items: center; }
+}
+
+/* ── Global horizontal overflow guard ───────────────────── */
+@media (max-width: 768px) {
+  body { overflow-x: hidden; }
+  /* Prevent any section from pushing past viewport */
+  main > * { max-width: 100vw; overflow-x: hidden; }
+}
+
+/* ── Tablet (769–1024px) tweaks ──────────────────────────── */
+@media (min-width: 769px) and (max-width: 1024px) {
+  section[id] {
+    padding-top: 96px !important;
+    padding-bottom: 96px !important;
+  }
+  .hero-section {
+    padding-top: 52px !important;
+    padding-bottom: 52px !important;
+  }
+}
