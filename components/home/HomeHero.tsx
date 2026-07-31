@@ -108,9 +108,8 @@ function BurstCanvas() {
     ro.observe(canvas);
     requestAnimationFrame(() => requestAnimationFrame(resize));
 
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     type P = { angle: number; life: number; speed: number; wobble: number; size: number };
-    const particles: P[] = Array.from({ length: 28 }, () => ({
+    const particles: P[] = Array.from({ length: 40 }, () => ({
       angle:  Math.random() * Math.PI * 2,
       life:   Math.random(),
       speed:  0.003 + Math.random() * 0.004,
