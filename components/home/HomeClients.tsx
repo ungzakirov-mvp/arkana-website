@@ -429,7 +429,6 @@ function GridCard({ p, i, visible }: { p: GridProject; i: number; visible: boole
       style={{
         opacity: visible ? 1 : 0,
         transform: visible ? "none" : "translateY(20px)",
-        transition: `opacity .5s ${EASE} ${i * 70}ms, transform .5s ${EASE} ${i * 70}ms`,
         borderRadius: 12,
         overflow: "hidden",
         border: "1px solid",
@@ -438,12 +437,7 @@ function GridCard({ p, i, visible }: { p: GridProject; i: number; visible: boole
         outline: focused ? "2px solid rgba(79,209,138,0.6)" : "none",
         outlineOffset: 2,
         cursor: "default",
-        transition: [
-          `opacity .5s ${EASE} ${i * 70}ms`,
-          `transform .5s ${EASE} ${i * 70}ms`,
-          "border-color 200ms ease",
-          "outline 150ms ease",
-        ].join(", "),
+        transition: `opacity .5s ${EASE} ${i * 70}ms, transform .5s ${EASE} ${i * 70}ms, border-color 200ms ease, outline 150ms ease`,
       }}
     >
       {/* Photo */}
