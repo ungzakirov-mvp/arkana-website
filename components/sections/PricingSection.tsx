@@ -283,8 +283,7 @@ function PricingCard({
         background: isRecommended
           ? "linear-gradient(135deg, #3b82f6 0%, #6366f1 50%, #3b82f6 100%)"
           : "transparent",
-        flexShrink: 0,
-        width: 260,
+        width: "100%",
         height: "100%",
         cursor: "default",
       }}
@@ -570,24 +569,15 @@ export function PricingSection() {
               </div>
             )}
 
-            {/* Scrollable row */}
+            {/* Responsive grid */}
             <div
-              ref={scrollRef}
-              className="pricing-scroll"
-              style={{
-                display: "flex", gap: 16, overflowX: "auto", paddingBottom: 8,
-                paddingTop: 24, /* space for badge */
-                scrollSnapType: "x mandatory",
-                alignItems: "stretch",
-                justifyContent: activePlans.length <= 3 ? "center" : "flex-start",
-              }}
+              className="pricing-plans-grid"
+              style={{ paddingTop: 24 }}
             >
               {activePlans.map((plan, i) => {
                 const meta = PLAN_META[plan.code] ?? PLAN_META.micro;
                 return (
-                  <div key={plan.code} style={{ scrollSnapAlign: "start", flexShrink: 0 }}>
-                    <PricingCard plan={plan} meta={meta} c={c} lang={lang} index={i} />
-                  </div>
+                  <PricingCard key={plan.code} plan={plan} meta={meta} c={c} lang={lang} index={i} />
                 );
               })}
             </div>
