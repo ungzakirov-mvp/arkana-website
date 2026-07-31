@@ -89,13 +89,18 @@ export const metadata: Metadata = {
     images: [`${SITE_URL}/og-image.png`],
   },
   icons: {
-    icon:     [
-      { url: "/icon.svg",    type: "image/svg+xml", sizes: "any" },
-      { url: "/favicon.ico", type: "image/x-icon",  sizes: "48x48" },
+    icon: [
+      { url: "/icon.svg",          type: "image/svg+xml", sizes: "any" },
+      { url: "/favicon-32x32.png", type: "image/png",     sizes: "32x32" },
+      { url: "/favicon-16x16.png", type: "image/png",     sizes: "16x16" },
+      { url: "/favicon.ico",       type: "image/x-icon",  sizes: "48x48" },
     ],
-    shortcut:  "/favicon.ico",
-    apple:     [{ url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
-    other:     [{ rel: "mask-icon", url: "/icon.svg", color: "#4fd18a" }],
+    shortcut: "/favicon.ico",
+    apple:    [{ url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
+    other: [
+      { rel: "mask-icon",   url: "/icon.svg",   color: "#4fd18a" },
+      { rel: "manifest",    url: "/site.webmanifest" },
+    ],
   },
   robots: {
     index: true,
