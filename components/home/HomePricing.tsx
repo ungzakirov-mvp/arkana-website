@@ -178,7 +178,7 @@ export function HomePricing({ plans = [] }: { plans?: Plan[] }) {
 
   return (
     <section id="pricing" style={{ background: "var(--ark-bg)", padding: "120px 0" }}>
-      <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 40px" }}>
+      <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 clamp(16px,4vw,40px)" }}>
 
         {/* Header */}
         <div style={{ marginBottom: 64 }}>
@@ -195,7 +195,7 @@ export function HomePricing({ plans = [] }: { plans?: Plan[] }) {
         </div>
 
         {/* Cards */}
-        <div className="grid grid-cols-1 lg:grid-cols-3" style={{ borderRadius: 12, overflow: "hidden", border: "1px solid var(--ark-border)" }}>
+        <div className="pricing-grid" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", borderRadius: 12, overflow: "hidden", border: "1px solid var(--ark-border)" }}>
           {activePlans.map((plan, i) => (
             <motion.div
               key={plan.slug}
@@ -204,6 +204,7 @@ export function HomePricing({ plans = [] }: { plans?: Plan[] }) {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: i * 0.08, ease: [0.25, 0.46, 0.45, 0.94] }}
+              className="pricing-card"
               style={{
                 background: plan.is_popular ? "var(--ark-bg-2)" : "var(--ark-bg)",
                 borderRight: i < activePlans.length - 1 ? "1px solid var(--ark-border)" : "none",
