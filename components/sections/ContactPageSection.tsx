@@ -95,21 +95,22 @@ const COPY: Record<string, {
 };
 
 function buildContacts(s: SiteSettings | null | undefined, c: typeof COPY["ru"]) {
-  const phone     = s?.phones?.[0]?.value;
-  const phoneHref = s?.phones?.[0]?.href ?? "";
+  const fallbackPhones = [
+    { value: "+998 99 998 17 77", href: "tel:+998999981777" },
+    { value: "+998 50 120 88 88", href: "tel:+998501208888" },
+  ];
+  const phonesArr = s?.phones?.length ? s.phones : fallbackPhones;
   const email     = s?.emails?.[0]?.value    ?? "info@arkana.uz";
   const emailHref = s?.emails?.[0]?.href     ?? "mailto:info@arkana.uz";
   const tg        = s?.telegram               ?? "@arkana_uz";
   const tgHref    = s?.telegram_href          ?? "https://t.me/arkana_uz";
-  const address   = s?.address                ?? "г. Ташкент, ул. Мирзо Улугбека 97";
   const hoursStr  = s?.working_hours ? Object.entries(s.working_hours).map(([d, h]) => `${d}: ${h}`).join(", ") : "Пн–Пт: 9:00–18:00";
   return [
-    phone ? { icon: Phone,  label: c.phone,    value: phone,    href: phoneHref } : null,
+    ...phonesArr.map(p => ({ icon: Phone, label: c.phone, value: p.value, href: p.href })),
     { icon: Send,   label: c.telegram, value: tg,       href: tgHref    },
     { icon: Mail,   label: c.email,    value: email,    href: emailHref },
-    { icon: MapPin, label: c.address,  value: address,  href: "#"       },
     { icon: Clock,  label: c.hours,    value: hoursStr, href: "#"       },
-  ].filter(Boolean) as { icon: typeof Phone; label: string; value: string; href: string }[];
+  ] as { icon: typeof Phone; label: string; value: string; href: string }[];
 }
 
 const INITIAL_STATE: ContactFormState = { status: "idle" };

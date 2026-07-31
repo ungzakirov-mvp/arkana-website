@@ -16,7 +16,7 @@ const COPY = {
     cta2:          "Получить консультацию",
     labelEmail:    "Email",
     labelTelegram: "Telegram",
-    labelAddress:  "Адрес",
+    labelPhone:    "Телефон",
     trust: [
       { icon: "shield", text: "SLA в договоре" },
       { icon: "clock",  text: "Ответ за 1 рабочий день" },
@@ -31,7 +31,7 @@ const COPY = {
     cta2:          "Maslahat so'rash",
     labelEmail:    "Email",
     labelTelegram: "Telegram",
-    labelAddress:  "Manzil",
+    labelPhone:    "Telefon",
     trust: [
       { icon: "shield", text: "Shartnomada SLA" },
       { icon: "clock",  text: "1 ish kunida javob" },
@@ -46,7 +46,7 @@ const COPY = {
     cta2:          "Book a Call",
     labelEmail:    "Email",
     labelTelegram: "Telegram",
-    labelAddress:  "Address",
+    labelPhone:    "Phone",
     trust: [
       { icon: "shield", text: "Contractual SLA" },
       { icon: "clock",  text: "Response in 1 business day" },
@@ -76,7 +76,10 @@ export function HomeContact({ settings }: { settings?: SiteSettings | null }) {
   const email       = settings?.emails?.[0]?.value ?? "info@arkana.uz";
   const telegram    = settings?.telegram           ?? "@arkana_uz";
   const telegramHref = settings?.telegram_href     ?? "https://t.me/arkana_uz";
-  const address     = settings?.address            ?? "г. Ташкент, ул. Мирзо Улугбека 97";
+  const phones = settings?.phones?.length ? settings.phones : [
+    { value: "+998 99 998 17 77", href: "tel:+998999981777" },
+    { value: "+998 50 120 88 88", href: "tel:+998501208888" },
+  ];
 
   return (
     <section
@@ -154,8 +157,10 @@ export function HomeContact({ settings }: { settings?: SiteSettings | null }) {
             <a href={telegramHref} className="contact-link">{telegram}</a>
           </div>
           <div>
-            <span style={{ color: "#748078", fontSize: 12, letterSpacing: "0.06em", textTransform: "uppercase" }}>{c.labelAddress}</span><br />
-            <span style={{ color: "#eef2ee", fontWeight: 600 }}>{address}</span>
+            <span style={{ color: "#748078", fontSize: 12, letterSpacing: "0.06em", textTransform: "uppercase" }}>{c.labelPhone}</span><br />
+            {phones.map(p => (
+              <a key={p.href} href={p.href} className="contact-link" style={{ display: "block" }}>{p.value}</a>
+            ))}
           </div>
         </div>
       </div>
