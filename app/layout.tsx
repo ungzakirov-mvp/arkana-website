@@ -89,8 +89,13 @@ export const metadata: Metadata = {
     images: [`${SITE_URL}/og-image.png`],
   },
   icons: {
-    icon:     [{ url: "/icon.svg", type: "image/svg+xml" }, { url: "/favicon.ico", type: "image/x-icon" }],
-    shortcut: "/favicon.ico",
+    icon:     [
+      { url: "/icon.svg",    type: "image/svg+xml", sizes: "any" },
+      { url: "/favicon.ico", type: "image/x-icon",  sizes: "48x48" },
+    ],
+    shortcut:  "/favicon.ico",
+    apple:     [{ url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
+    other:     [{ rel: "mask-icon", url: "/icon.svg", color: "#4fd18a" }],
   },
   robots: {
     index: true,
