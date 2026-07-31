@@ -96,8 +96,8 @@ const COPY: Record<string, {
 
 function buildContacts(s: SiteSettings | null | undefined, c: typeof COPY["ru"]) {
   const fallbackPhones = [
-    { value: "+998 99 998 17 77", href: "tel:+998999981777" },
-    { value: "+998 50 120 88 88", href: "tel:+998501208888" },
+    { label: "Телефон", value: "+998 99 998 17 77", href: "tel:+998999981777" },
+    { label: "Телефон", value: "+998 50 120 88 88", href: "tel:+998501208888" },
   ];
   const phonesArr = s?.phones?.length ? s.phones : fallbackPhones;
   const email     = s?.emails?.[0]?.value    ?? "info@arkana.uz";

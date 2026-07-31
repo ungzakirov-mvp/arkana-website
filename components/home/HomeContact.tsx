@@ -77,8 +77,8 @@ export function HomeContact({ settings }: { settings?: SiteSettings | null }) {
   const telegram    = settings?.telegram           ?? "@arkana_uz";
   const telegramHref = settings?.telegram_href     ?? "https://t.me/arkana_uz";
   const phones = settings?.phones?.length ? settings.phones : [
-    { value: "+998 99 998 17 77", href: "tel:+998999981777" },
-    { value: "+998 50 120 88 88", href: "tel:+998501208888" },
+    { label: "Телефон", value: "+998 99 998 17 77", href: "tel:+998999981777" },
+    { label: "Телефон", value: "+998 50 120 88 88", href: "tel:+998501208888" },
   ];
 
   return (

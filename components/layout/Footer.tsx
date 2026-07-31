@@ -8,8 +8,8 @@ import type { SiteSettings } from "@/lib/cms-api";
 const FALLBACK: Pick<SiteSettings, "company_name" | "phones" | "emails" | "telegram" | "telegram_href" | "address"> = {
   company_name: "ARKANA",
   phones: [
-    { value: "+998 99 998 17 77", href: "tel:+998999981777" },
-    { value: "+998 50 120 88 88", href: "tel:+998501208888" },
+    { label: "Телефон", value: "+998 99 998 17 77", href: "tel:+998999981777" },
+    { label: "Телефон", value: "+998 50 120 88 88", href: "tel:+998501208888" },
   ],
   emails: [{ value: "info@arkana.uz", href: "mailto:info@arkana.uz" }],
   telegram: "@arkana_uz",
