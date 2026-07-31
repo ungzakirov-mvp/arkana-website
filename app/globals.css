@@ -514,6 +514,11 @@ button, [role="button"], select {
   .pricing-card { padding: 28px 20px 32px !important; }
 }
 
+/* ── Footer contact links ────────────────────────────────── */
+.footer-contact-link { transition: color 180ms ease; }
+.footer-contact-link:hover { color: #e8efe9 !important; }
+.footer-contact-link:hover > span:first-child { background: rgba(79,209,138,0.14) !important; border-color: rgba(79,209,138,0.3) !important; }
+
 /* ── Clients section hover (CSS-only, no JS re-renders) ──── */
 .fc-card { transition: border-color 220ms ease; }
 .fc-card:hover { border-color: rgba(79,209,138,0.3) !important; }

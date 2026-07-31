@@ -7,11 +7,11 @@ import type { SiteSettings } from "@/lib/cms-api";
 
 const FALLBACK: Pick<SiteSettings, "company_name" | "phones" | "emails" | "telegram" | "telegram_href" | "address"> = {
   company_name: "ARKANA",
-  phones: [],
+  phones: [{ value: "+998 99 998 17 77", href: "tel:+998999981777" }],
   emails: [{ value: "info@arkana.uz", href: "mailto:info@arkana.uz" }],
   telegram: "@arkana_uz",
   telegram_href: "https://t.me/arkana_uz",
-  address: "г. Ташкент, ул. Мирзо Улугбека 97",
+  address: "",
 };
 
 const COPY: Record<string, {
@@ -89,15 +89,38 @@ export function Footer({ settings }: { settings?: SiteSettings | null }) {
             <p style={{ fontSize: 13.5, color: "var(--ark-text-muted)", lineHeight: 1.65, maxWidth: 280, marginBottom: 20 }}>
               {c.desc}
             </p>
-            <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+            <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
               {emails.map((e) => (
-                <a key={e.href} href={e.href} style={{ fontSize: 13, color: "var(--ark-text-muted)", textDecoration: "none" }}>{e.value}</a>
+                <a key={e.href} href={e.href} style={{ display: "flex", alignItems: "center", gap: 10, textDecoration: "none", color: "var(--ark-text-muted)" }} className="footer-contact-link">
+                  <span style={{ flexShrink: 0, width: 32, height: 32, borderRadius: 8, background: "rgba(79,209,138,0.08)", border: "1px solid rgba(79,209,138,0.15)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" style={{ color: "#4fd18a" }}>
+                      <rect x="2" y="4" width="20" height="16" rx="3"/>
+                      <path d="m2 7 10 7 10-7"/>
+                    </svg>
+                  </span>
+                  <span style={{ fontSize: 13, letterSpacing: "-0.01em" }}>{e.value}</span>
+                </a>
               ))}
+              {tg && (
+                <a href={tgHref ?? "#"} style={{ display: "flex", alignItems: "center", gap: 10, textDecoration: "none", color: "var(--ark-text-muted)" }} className="footer-contact-link">
+                  <span style={{ flexShrink: 0, width: 32, height: 32, borderRadius: 8, background: "rgba(79,209,138,0.08)", border: "1px solid rgba(79,209,138,0.15)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" style={{ color: "#4fd18a" }}>
+                      <path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm4.93 6.878-1.694 7.988c-.128.58-.461.721-.936.449l-2.583-1.903-1.248 1.2c-.138.138-.253.253-.52.253l.186-2.638 4.803-4.337c.209-.186-.046-.29-.322-.104L8.08 14.866l-2.55-.797c-.554-.173-.565-.554.116-.82l9.967-3.843c.46-.168.867.103.717.672z"/>
+                    </svg>
+                  </span>
+                  <span style={{ fontSize: 13, letterSpacing: "-0.01em" }}>{tg}</span>
+                </a>
+              )}
               {phones.map((p) => (
-                <a key={p.href} href={p.href} style={{ fontSize: 13, color: "var(--ark-text-muted)", textDecoration: "none" }}>{p.value}</a>
+                <a key={p.href} href={p.href} style={{ display: "flex", alignItems: "center", gap: 10, textDecoration: "none", color: "var(--ark-text-muted)" }} className="footer-contact-link">
+                  <span style={{ flexShrink: 0, width: 32, height: 32, borderRadius: 8, background: "rgba(79,209,138,0.08)", border: "1px solid rgba(79,209,138,0.15)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" style={{ color: "#4fd18a" }}>
+                      <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
+                    </svg>
+                  </span>
+                  <span style={{ fontSize: 13, letterSpacing: "-0.01em" }}>{p.value}</span>
+                </a>
               ))}
-              {tg && <a href={tgHref ?? "#"} style={{ fontSize: 13, color: "var(--ark-text-muted)", textDecoration: "none" }}>{tg}</a>}
-              {address && <span style={{ fontSize: 13, color: "var(--ark-text-muted)" }}>{address}</span>}
             </div>
           </div>
 
