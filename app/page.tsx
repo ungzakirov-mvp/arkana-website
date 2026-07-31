@@ -4,9 +4,7 @@ import { HomeTrust } from "@/components/home/HomeTrust";
 import { HomeComparison } from "@/components/home/HomeComparison";
 import { HomePlatform } from "@/components/home/HomePlatform";
 import { HomeJourney } from "@/components/home/HomeJourney";
-import { HomeCases } from "@/components/home/HomeCases";
 import { HomeContact } from "@/components/home/HomeContact";
-import { HomeCTA } from "@/components/home/HomeCTA";
 import { organizationSchema, localBusinessSchema } from "@/lib/seo";
 import { getSettings } from "@/lib/cms-api";
 
@@ -41,9 +39,7 @@ export default async function HomePage() {
       <HomePlatform />
       <HomeComparison />
       <HomeJourney />
-      <HomeCases />
       <HomeContact settings={settings} />
-      <HomeCTA />
     </>
   );
 }

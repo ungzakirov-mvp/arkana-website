@@ -126,6 +126,7 @@
 @keyframes spinSlow { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 @keyframes revealUp { from { opacity: 0; transform: translateY(36px); } to { opacity: 1; transform: translateY(0); } }
 @keyframes trustScroll { from { transform: translateX(0); } to { transform: translateX(-25%); } }
+@keyframes dropdownIn { from { opacity: 0; transform: translateY(-6px) scale(0.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
 
 /* ─── btn utilities ─────────────────────────────────────── */
 @layer components {
@@ -139,8 +140,18 @@
     font-size: 0.875rem;
     font-weight: 600;
     text-decoration: none;
-    transition: all 0.2s;
+    cursor: pointer;
+    user-select: none;
+    transition:
+      background-color 150ms cubic-bezier(0.4, 0, 0.2, 1),
+      box-shadow 150ms cubic-bezier(0.4, 0, 0.2, 1),
+      transform 100ms cubic-bezier(0.4, 0, 0.2, 1),
+      opacity 150ms,
+      border-color 150ms cubic-bezier(0.4, 0, 0.2, 1);
     white-space: nowrap;
+  }
+  .btn:active {
+    transform: scale(0.97);
   }
   .btn-sm {
     display: inline-flex;
@@ -152,8 +163,17 @@
     font-size: 0.8125rem;
     font-weight: 600;
     text-decoration: none;
-    transition: all 0.2s;
+    cursor: pointer;
+    user-select: none;
+    transition:
+      background-color 150ms cubic-bezier(0.4, 0, 0.2, 1),
+      box-shadow 150ms cubic-bezier(0.4, 0, 0.2, 1),
+      transform 100ms cubic-bezier(0.4, 0, 0.2, 1),
+      opacity 150ms;
     white-space: nowrap;
+  }
+  .btn-sm:active {
+    transform: scale(0.97);
   }
 
   /* Spotlight card wrapper */
@@ -230,6 +250,29 @@
     mask-composite: exclude;
   }
 
+  /* Card lift — consistent hover for all interactive cards */
+  .ark-card-lift {
+    transition:
+      transform 220ms cubic-bezier(0.4, 0, 0.2, 1),
+      box-shadow 220ms cubic-bezier(0.4, 0, 0.2, 1),
+      border-color 220ms cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: transform;
+  }
+  .ark-card-lift:hover {
+    transform: translateY(-4px);
+  }
+
+  /* Nav link — subtle pill on hover */
+  .ark-nav-link {
+    transition:
+      color 150ms cubic-bezier(0.4, 0, 0.2, 1),
+      background-color 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .ark-nav-link:hover {
+    color: var(--ark-text);
+    background: rgba(238,242,238,0.05);
+  }
+
   /* Section divider */
   .section-divider {
     border-top: 1px solid transparent;
@@ -272,6 +315,28 @@
   }
 }
 
+/* ─── Focus ring — brand green, keyboard nav ────────────── */
+:focus-visible {
+  outline: 2px solid rgba(79, 209, 138, 0.65);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* ─── Cursor policy ─────────────────────────────────────── */
+button, [role="button"], select {
+  cursor: pointer;
+}
+
+/* ─── Reduced motion ─────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
 /* ── Mobile responsive ───────────────────────────────────── */
 @media (max-width: 768px) {
   /* Hero: stack text above globe */
@@ -284,15 +349,24 @@
   .hero-stats {
     grid-template-columns: 1fr 1fr !important;
     gap: 16px !important;
+    padding: 24px 20px !important;
   }
 
   /* Comparison table: horizontal scroll */
   .compare-scroll {
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
+    /* subtle scroll indicator */
+    scroll-snap-type: x mandatory;
   }
   .compare-inner {
     min-width: 580px;
+  }
+
+  /* Journey: force 2-col on mobile */
+  .journey-grid {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 24px !important;
   }
 
   /* Contact: stack columns */
@@ -305,5 +379,34 @@
     padding-left: 0 !important;
     border-top: 1px solid rgba(238,242,238,0.1);
     padding-top: 24px;
+  }
+}
+
+/* ── Narrow mobile (≤ 480px) ─────────────────────────────── */
+@media (max-width: 480px) {
+  /* Hero stats: reduce font for 4th "GoARKAN" text stat */
+  .hero-stats > div > div > div:first-child {
+    font-size: 18px !important;
+  }
+  /* Comparison verdict strip: stack vertically */
+  .compare-verdict {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 16px !important;
+  }
+  /* Journey grid: 1 column at very narrow */
+  .journey-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* ── Touch targets — minimum 44×44px ─────────────────────── */
+@media (pointer: coarse) {
+  .btn {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  button {
+    min-height: 44px;
   }
 }

@@ -24,50 +24,50 @@ const COPY = {
       { val: "99.9%", label: "Надёжность SLA" },
       { val: "< 2ч",  label: "Первый ответ" },
       { val: "5 дн.", label: "Средний срок запуска" },
-      { val: "100+",  label: "Клиентов по Узбекистану" },
+      { val: "GoARKAN", label: "ITSM-платформа" },
       { val: "24/7",  label: "Мониторинг" },
     ],
   },
   uz: {
-    badge:   "Biznes uchun IT-sherik",
-    h1:      "Texnologik sherik",
-    h1green: "biznesingiz rivojlanishi uchun.",
-    sub:     "Bitta shartnoma. Belgilangan narx. To'liq mas'uliyat. IT'ingiz barqaror ishlaydi — GoARKAN orqali hammasini ko'rasiz.",
-    cta:     "Tijorat taklif olish →",
+    badge:   "Biznesingizga IT hamkor",
+    h1:      "Texnologik hamkor",
+    h1green: "biznesingizni rivojlantirish uchun.",
+    sub:     "Bitta shartnoma. Belgilangan narx. To'liq mas'uliyat. IT'ingiz ishlaydi — GoARKAN orqali barchasini ko'rasiz.",
+    cta:     "Taklif so'rash →",
     ctaNote: "Bir ish kuni ichida javob beramiz",
     chips: [
-      { title: "IT Outsourcing",     sub: "va qo'llab-quvvatlash" },
+      { title: "IT Autsorsing",      sub: "va qo'llab-quvvatlash" },
       { title: "Infratuzilma",       sub: "va xavfsizlik" },
-      { title: "Avtomatlashtirish",  sub: "jarayonlari" },
+      { title: "Avtomatlashtirish",  sub: "va jarayonlar" },
       { title: "Bulut",              sub: "va integratsiya" },
     ],
     stats: [
-      { val: "99.9%",   label: "SLA ishonchliligi" },
+      { val: "99.9%",    label: "SLA kafolati" },
       { val: "< 2 soat", label: "Birinchi javob" },
-      { val: "5 kun",   label: "O'rtacha ishga tushirish" },
-      { val: "100+",    label: "O'zbekiston bo'ylab mijozlar" },
-      { val: "24/7",    label: "Monitoring" },
+      { val: "5 kun",    label: "O'rtacha onboarding" },
+      { val: "GoARKAN", label: "ITSM platforma" },
+      { val: "24/7",     label: "Monitoring" },
     ],
   },
   en: {
-    badge:   "IT Partner for Your Business",
+    badge:   "Your IT partner for business",
     h1:      "Technology Partner",
-    h1green: "for your business growth.",
-    sub:     "One contract. Fixed cost. Full responsibility. Your IT runs predictably — you see everything through GoARKAN.",
-    cta:     "Get a Commercial Proposal →",
+    h1green: "built to grow your business.",
+    sub:     "One contract. Fixed price. Full accountability. Your IT runs predictably — with complete visibility through GoARKAN.",
+    cta:     "Request a Proposal →",
     ctaNote: "We respond within one business day",
     chips: [
       { title: "IT Outsourcing",  sub: "& Support" },
       { title: "Infrastructure",  sub: "& Security" },
-      { title: "Automation",      sub: "& Processes" },
+      { title: "Automation",      sub: "& Workflows" },
       { title: "Cloud",           sub: "& Integration" },
     ],
     stats: [
-      { val: "99.9%",   label: "SLA Reliability" },
-      { val: "< 2h",    label: "First Response" },
-      { val: "5 days",  label: "Avg. Launch Time" },
-      { val: "100+",    label: "Clients across Uzbekistan" },
-      { val: "24/7",    label: "Monitoring" },
+      { val: "99.9%",  label: "SLA Uptime" },
+      { val: "< 2h",   label: "First Response" },
+      { val: "5 days", label: "Average Onboarding" },
+      { val: "GoARKAN", label: "ITSM Platform" },
+      { val: "24/7",   label: "Monitoring" },
     ],
   },
 } as const;
@@ -186,7 +186,7 @@ export function HomeHero() {
 
   return (
     <section style={{
-      position: "relative", padding: "120px clamp(20px,4vw,64px) 60px",
+      position: "relative", padding: "64px clamp(20px,4vw,64px) 60px",
       overflow: "hidden", zIndex: 2, maxWidth: 1440, margin: "0 auto",
       backgroundImage: "radial-gradient(circle at 18% 22%, rgba(79,209,138,0.05), transparent 40%), linear-gradient(rgba(238,242,238,0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(238,242,238,0.025) 1px, transparent 1px)",
       backgroundSize: "100% 100%, 64px 64px, 64px 64px",
@@ -205,13 +205,13 @@ export function HomeHero() {
           </div>
 
           <h1 style={{
-            fontSize: "clamp(36px,4.6vw,58px)", lineHeight: 1.1, fontWeight: 800,
-            margin: "0 0 24px", letterSpacing: "-0.02em",
+            fontSize: "clamp(36px,4.6vw,64px)", lineHeight: 1.06, fontWeight: 800,
+            margin: "0 0 24px", letterSpacing: "-0.03em",
             animation: `riseIn .9s ${EASE} .1s both`,
             fontFamily: "var(--font-manrope), sans-serif",
           }}>
-            {c.h1}{" "}
-            <span style={{ color: "#4fd18a" }}>{c.h1green}</span>
+            <span style={{ display: "block" }}>{c.h1}</span>
+            <span style={{ display: "block", color: "#9fb0a6", fontWeight: 700, fontSize: "0.78em", letterSpacing: "-0.02em", lineHeight: 1.2, marginTop: "0.1em" }}>{c.h1green}</span>
           </h1>
 
           <p style={{
@@ -227,10 +227,12 @@ export function HomeHero() {
               padding: "16px 32px", background: "#4fd18a", color: "#05080a",
               borderRadius: 100, fontWeight: 700, fontSize: 15,
               display: "inline-block", textDecoration: "none",
-              transition: "background .2s, transform .2s",
+              transition: "background 150ms cubic-bezier(0.4,0,0.2,1), box-shadow 150ms cubic-bezier(0.4,0,0.2,1), transform 100ms cubic-bezier(0.4,0,0.2,1)",
             }}
-              onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.background = "#7ee3ac"; el.style.transform = "translateY(-2px)"; }}
-              onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.background = "#4fd18a"; el.style.transform = ""; }}
+              onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.background = "#7ee3ac"; el.style.boxShadow = "0 8px 24px rgba(79,209,138,0.4)"; }}
+              onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.background = "#4fd18a"; el.style.boxShadow = "none"; }}
+              onMouseDown={e => { (e.currentTarget as HTMLElement).style.transform = "scale(0.97)"; }}
+              onMouseUp={e => { (e.currentTarget as HTMLElement).style.transform = "scale(1)"; }}
             >
               {c.cta}
             </Link>
@@ -248,7 +250,7 @@ export function HomeHero() {
           }} />
           <div style={{ position: "absolute", inset: "6%", borderRadius: "50%", overflow: "hidden", zIndex: 2 }}>
             <video ref={videoRef} autoPlay loop muted playsInline
-              style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }}
+              style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", filter: "hue-rotate(130deg) saturate(1.15) brightness(0.92)" }}
               src="/hero-globe.mp4"
             />
           </div>
@@ -274,7 +276,7 @@ export function HomeHero() {
       {/* Stats bar */}
       <div className="hero-stats" style={{
         marginTop: 64, padding: "32px clamp(16px,3vw,40px)",
-        borderRadius: 24, background: "#0b1210", border: "1px solid rgba(238,242,238,0.08)",
+        borderRadius: 24, background: "#0b1210", border: "1px solid rgba(238,242,238,0.12)", boxShadow: "inset 0 1px 0 rgba(255,255,255,0.04)",
         display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(160px,1fr))", gap: 24,
         animation: `riseIn .9s ${EASE} .4s both`,
       }}>

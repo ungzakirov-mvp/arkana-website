@@ -19,21 +19,21 @@ const COPY = {
     labelAddress:  "Адрес",
   },
   uz: {
-    eyebrow:       "Kontaktlar",
-    h2:            "Texnologik sherik bilan ishlashni boshlang.",
-    sub:           "Biznesingiz haqida ayting — bir ish kuni ichida taklif tayyorlaymiz. Majburiyatsiz.",
-    cta1:          "Taklif olish",
-    cta2:          "Maslahat olish",
+    eyebrow:       "Aloqa",
+    h2:            "Texnologik hamkor bilan ishlashni boshlang.",
+    sub:           "Biznesingiz haqida aytib bering — bir ish kuni ichida taklif tayyorlaymiz. Majburiyatsiz.",
+    cta1:          "Taklif so'rash",
+    cta2:          "Maslahat so'rash",
     labelEmail:    "Email",
     labelTelegram: "Telegram",
     labelAddress:  "Manzil",
   },
   en: {
     eyebrow:       "Contact",
-    h2:            "Start working with your technology partner.",
-    sub:           "Tell us about your business — we'll prepare a proposal within one business day. No obligations.",
-    cta1:          "Get a Proposal",
-    cta2:          "Get a Consultation",
+    h2:            "Ready to work with a technology partner?",
+    sub:           "Tell us about your business — we'll have a proposal ready within one business day. No strings attached.",
+    cta1:          "Request a Proposal",
+    cta2:          "Book a Call",
     labelEmail:    "Email",
     labelTelegram: "Telegram",
     labelAddress:  "Address",
@@ -70,8 +70,8 @@ export function HomeContact({ settings }: { settings?: SiteSettings | null }) {
       style={{
         position: "relative", zIndex: 2, padding: "120px clamp(20px,4vw,64px)",
         borderTop: "1px solid rgba(238,242,238,0.08)", background: "#0b1210",
-        opacity: visible ? 1 : 0, transform: visible ? "none" : "translateY(36px)",
-        transition: `opacity .7s ${EASE}, transform .7s ${EASE}`,
+        opacity: visible ? 1 : 0, transform: visible ? "none" : "translateY(20px)",
+        transition: `opacity .4s ${EASE}, transform .4s ${EASE}`,
       }}
     >
       <div className="contact-grid" style={{ maxWidth: 1280, margin: "0 auto", display: "grid", gridTemplateColumns: "1.2fr 0.8fr", gap: 60, alignItems: "end" }}>
@@ -87,20 +87,24 @@ export function HomeContact({ settings }: { settings?: SiteSettings | null }) {
             <Link href="/contact" style={{
               padding: "16px 32px", background: "#4fd18a", color: "#05080a",
               borderRadius: 100, fontWeight: 700, fontSize: 15, display: "inline-block", textDecoration: "none",
-              transition: "background .2s",
+              transition: "background 150ms cubic-bezier(0.4,0,0.2,1), box-shadow 150ms cubic-bezier(0.4,0,0.2,1), transform 100ms cubic-bezier(0.4,0,0.2,1)",
             }}
-              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = "#7ee3ac"; }}
-              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = "#4fd18a"; }}
+              onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.background = "#7ee3ac"; el.style.boxShadow = "0 6px 20px rgba(79,209,138,0.35)"; }}
+              onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.background = "#4fd18a"; el.style.boxShadow = "none"; }}
+              onMouseDown={e => { (e.currentTarget as HTMLElement).style.transform = "scale(0.97)"; }}
+              onMouseUp={e => { (e.currentTarget as HTMLElement).style.transform = "scale(1)"; }}
             >
               {c.cta1}
             </Link>
             <Link href="/contact" style={{
               padding: "16px 32px", border: "1px solid rgba(238,242,238,0.16)", color: "#eef2ee",
               borderRadius: 100, fontWeight: 700, fontSize: 15, display: "inline-block", textDecoration: "none",
-              transition: "border-color .2s, color .2s",
+              transition: "border-color 150ms cubic-bezier(0.4,0,0.2,1), color 150ms cubic-bezier(0.4,0,0.2,1), transform 100ms cubic-bezier(0.4,0,0.2,1)",
             }}
               onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.borderColor = "#4fd18a"; el.style.color = "#4fd18a"; }}
               onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.borderColor = "rgba(238,242,238,0.16)"; el.style.color = "#eef2ee"; }}
+              onMouseDown={e => { (e.currentTarget as HTMLElement).style.transform = "scale(0.97)"; }}
+              onMouseUp={e => { (e.currentTarget as HTMLElement).style.transform = "scale(1)"; }}
             >
               {c.cta2}
             </Link>

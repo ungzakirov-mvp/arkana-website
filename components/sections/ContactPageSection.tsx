@@ -48,20 +48,20 @@ const COPY: Record<string, {
     badge: "Contact",
     h1a: "Get a commercial",
     h1b: "proposal in 1 day",
-    sub: "Tell us about your business. We will find the right solution and prepare a proposal with no obligation.",
+    sub: "Tell us about your business. We'll find the right fit and put together a proposal — no commitment required.",
     howTitle: "How to reach us",
     phone: "Phone", telegram: "Telegram", email: "Email", address: "Address", hours: "Working hours",
     nextTitle: "What happens next",
     next: [
-      { title: "We respond", desc: "Within one business day — by phone or Telegram message" },
-      { title: "We study your situation", desc: "We learn about your business and IT needs" },
-      { title: "We prepare a proposal", desc: "Written calculation and work plan. No pressure." },
+      { title: "We respond", desc: "Within one business day — by phone or Telegram" },
+      { title: "We assess your needs", desc: "We dig into your business context and IT priorities" },
+      { title: "We send a proposal", desc: "A scoped, written plan — no vague estimates, no pressure." },
     ],
     youGet: "What you get",
-    items: ["Analysis of your current IT situation", "Commercial proposal tailored to your business", "IT development recommendations", "No obligation"],
-    formTitle: "Request a commercial proposal",
-    success: "Request sent!", successSub: "We will contact you within one business day.",
-    sending: "Sending...", submit: "Send request", disclaimer: "We reply within one business day · No spam · No obligation",
+    items: ["A clear picture of your current IT environment", "A proposal tailored to your business", "Actionable IT recommendations", "No obligation"],
+    formTitle: "Request a proposal",
+    success: "Request received!", successSub: "We'll be in touch within one business day.",
+    sending: "Sending...", submit: "Send request", disclaimer: "Reply within 1 business day · No spam · No obligation",
     name: "Your name *", namePh: "John Smith",
     company: "Company *", companyPh: "Your Company LLC",
     emailLabel: "Email *", emailPh: "john@company.uz",
@@ -73,19 +73,19 @@ const COPY: Record<string, {
     h1a: "1 kunda tijorat",
     h1b: "taklifini oling",
     sub: "Biznesingiz haqida ayting. Yechim topamiz va majburiyatsiz taklif tayyorlaymiz.",
-    howTitle: "Biz bilan qanday bog'lanish",
+    howTitle: "Biz bilan bog'laning",
     phone: "Telefon", telegram: "Telegram", email: "Email", address: "Manzil", hours: "Ish vaqti",
     nextTitle: "Keyin nima bo'ladi",
     next: [
-      { title: "Javob beramiz", desc: "Bir ish kuni ichida — qo'ng'iroq yoki Telegram xabar" },
-      { title: "Vaziyatni o'rganamiz", desc: "Biznesingiz va IT ehtiyojlaringizni tushunib olamiz" },
-      { title: "Taklif tayyorlaymiz", desc: "Yozma hisob-kitob va ish rejasi. Bosim yo'q." },
+      { title: "Javob beramiz", desc: "Bir ish kuni ichida — qo'ng'iroq yoki Telegram xabari" },
+      { title: "Ehtiyojlarni aniqlaymiz", desc: "Biznesingiz va IT vaziyatingizni chuqurroq o'rganamiz" },
+      { title: "Taklif tayyorlaymiz", desc: "Aniq hisob-kitob va ish rejasi. Majburiyat yo'q." },
     ],
     youGet: "Nima olasiz",
-    items: ["Joriy IT vaziyatini tahlil qilish", "Biznesingizga moslashtirilgan tijorat taklifi", "IT rivojlantirish bo'yicha tavsiyalar", "Majburiyatsiz"],
-    formTitle: "Tijorat taklifi so'rash",
-    success: "Ariza yuborildi!", successSub: "Bir ish kuni ichida siz bilan bog'lanamiz.",
-    sending: "Yuborilmoqda...", submit: "Ariza yuborish", disclaimer: "Bir ish kuni ichida javob · Spam yo'q · Majburiyat yo'q",
+    items: ["Joriy IT muhitingizning aniq tasviri", "Biznesingizga moslashtirilgan taklif", "Amaliy IT tavsiyalar", "Majburiyatsiz"],
+    formTitle: "Taklif so'rash",
+    success: "Ariza qabul qilindi!", successSub: "Bir ish kuni ichida siz bilan bog'lanamiz.",
+    sending: "Yuborilmoqda...", submit: "Ariza yuborish", disclaimer: "1 ish kuni ichida javob · Spam yo'q · Majburiyatsiz",
     name: "Ismingiz *", namePh: "Alisher Umarov",
     company: "Kompaniya *", companyPh: "Sizning kompaniyangiz",
     emailLabel: "Email *", emailPh: "alisher@company.uz",
@@ -165,9 +165,9 @@ export function ContactPageSection({ settings }: { settings?: SiteSettings | nul
                 <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
                   {CONTACTS.map(({ icon: Icon, label, value, href }) => (
                     <a key={label} href={href}
-                      style={{ display: "flex", alignItems: "flex-start", gap: 14, padding: "14px 16px", borderRadius: 12, background: "var(--ark-card)", border: "1px solid var(--ark-card-border)", textDecoration: "none", transition: "border-color 0.2s" }}
-                      onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.borderColor = "var(--ark-accent)")}
-                      onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.borderColor = "var(--ark-card-border)")}
+                      style={{ display: "flex", alignItems: "flex-start", gap: 14, padding: "14px 16px", borderRadius: 12, background: "var(--ark-card)", border: "1px solid var(--ark-card-border)", textDecoration: "none", transition: "border-color 150ms cubic-bezier(0.4,0,0.2,1), transform 150ms cubic-bezier(0.4,0,0.2,1)" }}
+                      onMouseEnter={(e) => { const el = e.currentTarget as HTMLElement; el.style.borderColor = "var(--ark-accent)"; el.style.transform = "translateX(3px)"; }}
+                      onMouseLeave={(e) => { const el = e.currentTarget as HTMLElement; el.style.borderColor = "var(--ark-card-border)"; el.style.transform = ""; }}
                     >
                       <div style={{ width: 36, height: 36, borderRadius: 8, background: "var(--ark-accent-glow)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
                         <Icon size={16} style={{ color: "var(--ark-accent-2)" }} />

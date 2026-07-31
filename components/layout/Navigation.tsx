@@ -32,8 +32,8 @@ const SERVICE_LINKS: Record<string, { label: string; href: string }[]> = {
 
 const NAV_LABELS: Record<string, Record<string, string>> = {
   ru: { services: "Услуги", pricing: "Тарифы", goarkan: "GoARKAN", cases: "Кейсы", blog: "Блог", contact: "Контакты", cta: "Получить предложение", audit: "Получить предложение" },
-  en: { services: "Services", pricing: "Pricing", goarkan: "GoARKAN", cases: "Cases", blog: "Blog", contact: "Contact", cta: "Get proposal", audit: "Get a proposal" },
-  uz: { services: "Xizmatlar", pricing: "Narxlar", goarkan: "GoARKAN", cases: "Loyihalar", blog: "Blog", contact: "Aloqa", cta: "Taklif olish", audit: "Taklif olish" },
+  en: { services: "Services", pricing: "Pricing", goarkan: "GoARKAN", cases: "Cases", blog: "Blog", contact: "Contact", cta: "Get a Proposal", audit: "Get a Proposal" },
+  uz: { services: "Xizmatlar", pricing: "Tariflar", goarkan: "GoARKAN", cases: "Loyihalar", blog: "Blog", contact: "Aloqa", cta: "Taklif so'rash", audit: "Taklif so'rash" },
 };
 
 export function Navigation() {
@@ -88,35 +88,35 @@ export function Navigation() {
               <button
                 onClick={() => setServicesOpen(!servicesOpen)}
                 onBlur={() => setTimeout(() => setServicesOpen(false), 150)}
+                className="ark-nav-link"
                 style={{
                   display: "flex", alignItems: "center", gap: 4,
                   padding: "6px 12px", borderRadius: 8, fontSize: 14,
-                  color: "var(--ark-text-muted)", background: "none",
-                  border: "none", cursor: "pointer", transition: "color 0.15s",
+                  color: "var(--ark-text-muted)", background: "transparent",
+                  border: "none",
                 }}
-                onMouseEnter={(e) => (e.currentTarget.style.color = "var(--ark-text)")}
-                onMouseLeave={(e) => (e.currentTarget.style.color = "var(--ark-text-muted)")}
               >
                 {labels.services}
-                <ChevronDown size={12} style={{ transition: "transform 0.2s", transform: servicesOpen ? "rotate(180deg)" : "none" }} />
+                <ChevronDown size={12} style={{
+                  transition: "transform 220ms cubic-bezier(0.4,0,0.2,1)",
+                  transform: servicesOpen ? "rotate(180deg)" : "rotate(0deg)",
+                }} />
               </button>
               {servicesOpen && (
                 <div style={{
-                  position: "absolute", left: 0, top: "calc(100% + 4px)",
+                  position: "absolute", left: 0, top: "calc(100% + 6px)",
                   minWidth: 220, borderRadius: 12, padding: "6px",
                   background: "#0d1117",
                   border: "1px solid rgba(255,255,255,0.08)",
-                  boxShadow: "0 16px 48px rgba(0,0,0,0.4)",
+                  boxShadow: "0 20px 60px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.04)",
                   zIndex: 100,
+                  animation: "dropdownIn 160ms cubic-bezier(0.4,0,0.2,1)",
                 }}>
                   {serviceLinks.map((s) => (
-                    <Link key={s.href} href={s.href} style={{
+                    <Link key={s.href} href={s.href} className="ark-nav-link" style={{
                       display: "block", padding: "8px 12px", borderRadius: 8, fontSize: 13.5,
-                      color: "var(--ark-text-muted)", textDecoration: "none", transition: "all 0.15s",
-                    }}
-                    onMouseEnter={(e) => { e.currentTarget.style.color = "var(--ark-text)"; e.currentTarget.style.background = "rgba(255,255,255,0.04)"; }}
-                    onMouseLeave={(e) => { e.currentTarget.style.color = "var(--ark-text-muted)"; e.currentTarget.style.background = "transparent"; }}
-                    >
+                      color: "var(--ark-text-muted)", textDecoration: "none",
+                    }}>
                       {s.label}
                     </Link>
                   ))}
@@ -125,13 +125,10 @@ export function Navigation() {
             </div>
 
             {(["pricing", "goarkan", "cases", "blog", "contact"] as const).map((key) => (
-              <Link key={key} href={`/${key}`} style={{
+              <Link key={key} href={`/${key}`} className="ark-nav-link" style={{
                 padding: "6px 12px", borderRadius: 8, fontSize: 14,
-                color: "var(--ark-text-muted)", textDecoration: "none", transition: "color 0.15s",
-              }}
-              onMouseEnter={(e) => (e.currentTarget.style.color = "var(--ark-text)")}
-              onMouseLeave={(e) => (e.currentTarget.style.color = "var(--ark-text-muted)")}
-              >
+                color: "var(--ark-text-muted)", textDecoration: "none",
+              }}>
                 {labels[key]}
               </Link>
             ))}
@@ -146,7 +143,8 @@ export function Navigation() {
                   padding: "4px 9px", borderRadius: 6, fontSize: 11, fontWeight: 700, textTransform: "uppercase",
                   color: lang === l ? "#fff" : "var(--ark-text-muted)",
                   background: lang === l ? "var(--ark-accent)" : "transparent",
-                  border: "none", cursor: "pointer", transition: "all 0.15s",
+                  border: "none",
+                  transition: "background-color 150ms cubic-bezier(0.4,0,0.2,1), color 150ms cubic-bezier(0.4,0,0.2,1)",
                 }}>
                   {l}
                 </button>
@@ -159,13 +157,12 @@ export function Navigation() {
               color: "#05080a",
               borderRadius: 100,
               fontWeight: 700,
-              transition: "background .2s",
               minWidth: 164,
               justifyContent: "center",
               whiteSpace: "nowrap",
             }}
-            onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.background = "#7ee3ac")}
-            onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.background = "#4fd18a")}
+            onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = "#7ee3ac"; (e.currentTarget as HTMLElement).style.boxShadow = "0 4px 16px rgba(79,209,138,0.3)"; }}
+            onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = "#4fd18a"; (e.currentTarget as HTMLElement).style.boxShadow = "none"; }}
             >
               {labels.cta}
             </Link>

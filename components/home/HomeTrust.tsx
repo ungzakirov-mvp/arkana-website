@@ -1,20 +1,19 @@
-// Enterprise Trust Bar — premium slow-scroll capability indicators
 const ITEMS = [
-  "99.9% SLA Availability",
+  "99.9% SLA Uptime",
+  "< 2h Response SLA",
   "24/7 Monitoring",
-  "Enterprise Security",
-  "Microsoft 365 Experts",
-  "IT Outsourcing",
-  "Infrastructure Management",
-  "Help Desk",
-  "Asset Management",
-  "Cloud Solutions",
+  "Microsoft 365 Partner",
+  "GoARKAN Platform",
+  "Dedicated Service Manager",
+  "5-Day Onboarding",
+  "Contractual SLA",
+  "Endpoint Protection",
+  "Asset Registry Included",
   "Network Operations",
-  "Cybersecurity",
-  "Business Continuity",
   "Certified Engineers",
-  "Fast Response",
-  "IT Operations Platform",
+  "Transparent Reporting",
+  "IT Outsourcing",
+  "Business Continuity",
 ];
 
 export function HomeTrust() {

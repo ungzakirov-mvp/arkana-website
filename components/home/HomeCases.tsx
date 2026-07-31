@@ -17,20 +17,20 @@ const COPY = {
   },
   uz: {
     eyebrow: "Tarmoqlar",
-    h2: "Turli tarmoqlar uchun yechimlar",
+    h2: "Turli sohalardagi yechimlar",
     industries: [
-      { n: "01", title: "Savdo va riteil",          body: "Kassa tizimlari, tovar hisobi, korporativ tarmoq va videokuzatuvni qo'llab-quvvatlash. Minimal to'xtash — maksimal javob tezligi." },
-      { n: "02", title: "Ishlab chiqarish",         body: "Sex infratuzilmasi, sanoat tarmoqlari, ERP bilan integratsiya. Aniq SLA va mutaxassislikni biladigan shaxsiy muhandis." },
-      { n: "03", title: "Tibbiyot va klinikalar",   body: "Bemor ma'lumotlari xavfsizligi, tibbiy uskunalar va IT ishonchliligi, regulyator talablariga muvofiqlik." },
+      { n: "01", title: "Savdo va chakana",         body: "Kassa tizimlari, tovar hisobi, korporativ tarmoq va videokuzatuvni qo'llab-quvvatlash. Minimal to'xtash vaqti — maksimal javob tezligi." },
+      { n: "02", title: "Ishlab chiqarish",         body: "Sex infratuzilmasi, sanoat tarmoqlari, ERP integratsiyasi. Aniq SLA va soha spesifikasini biladigan shaxsiy muhandis." },
+      { n: "03", title: "Tibbiyot va klinikalar",   body: "Bemor ma'lumotlari xavfsizligi, tibbiy uskunalar va IT ishonchliligi, regulyator talablariga to'liq muvofiqlik." },
     ],
   },
   en: {
     eyebrow: "Industries",
-    h2: "Solutions across industries",
+    h2: "Built for the industries that can't afford downtime",
     industries: [
-      { n: "01", title: "Retail & Trade",      body: "Support for POS systems, inventory management, corporate network and CCTV. Minimal downtime — maximum response speed." },
-      { n: "02", title: "Manufacturing",       body: "Factory infrastructure, industrial networks, ERP integration. Clear SLAs and a named engineer who knows your specifics." },
-      { n: "03", title: "Healthcare & Clinics", body: "Patient data security, medical equipment and IT reliability, regulatory compliance." },
+      { n: "01", title: "Retail & Trade",       body: "POS systems, inventory, corporate networks, and CCTV — all maintained under one SLA. Fast response when a register goes down or the network drops." },
+      { n: "02", title: "Manufacturing",        body: "Shop floor infrastructure, industrial networks, and ERP integration. A named engineer who understands your production environment." },
+      { n: "03", title: "Healthcare & Clinics", body: "Patient data protection, reliable medical IT, and regulatory compliance — handled by engineers who treat uptime as non-negotiable." },
     ],
   },
 } as const;
@@ -55,7 +55,7 @@ export function HomeCases() {
 
   return (
     <section ref={ref as React.RefObject<HTMLElement>} id="industries" style={{ position: "relative", zIndex: 2, padding: "0 clamp(20px,4vw,64px) 120px", maxWidth: 1280, margin: "0 auto" }}>
-      <div style={{ opacity: visible ? 1 : 0, transform: visible ? "none" : "translateY(36px)", transition: `opacity .7s ${EASE}, transform .7s ${EASE}` }}>
+      <div style={{ opacity: visible ? 1 : 0, transform: visible ? "none" : "translateY(20px)", transition: `opacity .4s ${EASE}, transform .4s ${EASE}` }}>
         <div style={{ fontFamily: "var(--font-mono, monospace)", fontSize: 12, letterSpacing: "0.12em", color: "#4fd18a", textTransform: "uppercase", marginBottom: 16, fontWeight: 600 }}>{c.eyebrow}</div>
         <h2 style={{ fontSize: "clamp(28px,3.6vw,44px)", fontWeight: 800, margin: "0 0 56px", maxWidth: 680, lineHeight: 1.15, letterSpacing: "-0.01em", fontFamily: "var(--font-manrope), sans-serif" }}>
           {c.h2}
@@ -65,15 +65,15 @@ export function HomeCases() {
         {c.industries.map((ind, i) => (
           <div key={ind.n} style={{
             opacity: visible ? 1 : 0,
-            transform: visible ? "none" : "translateY(36px)",
-            transition: `opacity .7s ${EASE} ${i * 90}ms, transform .7s ${EASE} ${i * 90}ms`,
+            transform: visible ? "none" : "translateY(20px)",
+            transition: `opacity .4s ${EASE} ${i * 90}ms, transform .4s ${EASE} ${i * 90}ms`,
           }}>
             <div
-              style={{ background: "#0b1210", border: "1px solid rgba(238,242,238,0.08)", borderRadius: 24, padding: 36, height: "100%", boxSizing: "border-box", transition: "box-shadow .3s ease, transform .3s ease" }}
-              onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.boxShadow = "0 12px 32px rgba(79,209,138,0.12)"; el.style.transform = "translateY(-4px)"; }}
-              onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.boxShadow = ""; el.style.transform = ""; }}
+              style={{ background: "#0b1210", border: "1px solid rgba(238,242,238,0.12)", borderRadius: 24, padding: 36, height: "100%", boxSizing: "border-box", boxShadow: "inset 0 1px 0 rgba(255,255,255,0.04)", transition: "box-shadow 200ms cubic-bezier(0.4,0,0.2,1), transform 200ms cubic-bezier(0.4,0,0.2,1), border-color 200ms cubic-bezier(0.4,0,0.2,1)", cursor: "default", willChange: "transform" }}
+              onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.boxShadow = "0 12px 32px rgba(79,209,138,0.12)"; el.style.transform = "translateY(-4px)"; el.style.borderColor = "rgba(79,209,138,0.2)"; }}
+              onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.boxShadow = "inset 0 1px 0 rgba(255,255,255,0.04)"; el.style.transform = ""; el.style.borderColor = "rgba(238,242,238,0.12)"; }}
             >
-              <span style={{ fontFamily: "var(--font-mono, monospace)", fontSize: 11, letterSpacing: "0.1em", color: "#4fd18a", fontWeight: 600 }}>{ind.n}</span>
+              <span style={{ fontFamily: "var(--font-mono, monospace)", fontSize: 11, letterSpacing: "0.1em", color: "#748078", fontWeight: 600 }}>{ind.n}</span>
               <h3 style={{ fontSize: 20, fontWeight: 700, margin: "16px 0 14px", fontFamily: "var(--font-manrope), sans-serif" }}>{ind.title}</h3>
               <p style={{ fontSize: 14, lineHeight: 1.6, color: "#9fb0a6", margin: 0 }}>{ind.body}</p>
             </div>

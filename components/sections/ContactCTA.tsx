@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { ArrowRight, Calendar } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { useApp } from "@/components/providers/ThemeLanguageProvider";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
@@ -21,22 +21,22 @@ const COPY: Record<string, {
     note: "Без обязательств · Результат за 1 день",
   },
   en: {
-    badge: "Get started",
-    h2a: "Your IT department, turnkey",
-    h2b: "without overhead",
-    sub: "Request a commercial proposal. We'll prepare it in one business day — tailored to your infrastructure and goals.",
-    btn1: "Get a commercial proposal",
+    badge: "Get started today",
+    h2a: "Your IT department, fully managed",
+    h2b: "without the overhead",
+    sub: "Request a proposal and we'll have it ready within one business day — scoped to your infrastructure and business needs.",
+    btn1: "Request a proposal",
     btn2: "View pricing",
-    note: "No obligations · Response in 1 day",
+    note: "No obligation · Response within 1 business day",
   },
   uz: {
-    badge: "Boshlang",
-    h2a: "Kalit ostida IT bo'lim",
+    badge: "Hozir boshlang",
+    h2a: "To'liq boshqariladigan IT",
     h2b: "qo'shimcha xarajatlarsiz",
-    sub: "Tijorat taklifi so'rang. Bir ish kuni ichida tayyorlaymiz — infratuzilmangiz va vazifalaringizni hisobga olgan holda.",
-    btn1: "Tijorat taklifi olish",
+    sub: "Taklif so'rang. Infratuzilmangiz va vazifalaringizga moslashtirilgan holda bir ish kuni ichida tayyorlaymiz.",
+    btn1: "Taklif so'rash",
     btn2: "Tariflarni ko'rish",
-    note: "Majburiyatsiz · 1 kun ichida javob",
+    note: "Majburiyatsiz · 1 ish kuni ichida javob",
   },
 };
 
@@ -51,18 +51,18 @@ export function ContactCTA() {
         bottom: "-20%", left: "50%",
         transform: "translateX(-60%)",
         width: 760, height: 668,
-        background: "radial-gradient(ellipse, rgba(99,102,241,0.15), transparent 70%)",
+        background: "radial-gradient(ellipse, rgba(79,209,138,0.1), transparent 70%)",
         pointerEvents: "none",
         zIndex: 0,
       }} />
 
       <div style={{ maxWidth: "72rem", margin: "0 auto", padding: "0 1.5rem", position: "relative", zIndex: 1 }}>
         <div style={{
-          background: "linear-gradient(to right, rgba(99,102,241,0.12), rgba(79,70,229,0.08))",
+          background: "linear-gradient(135deg, rgba(79,209,138,0.07), rgba(79,209,138,0.03))",
           borderRadius: 20,
           padding: "72px 56px",
           textAlign: "center",
-          border: "1px solid rgba(99,102,241,0.25)",
+          border: "1px solid rgba(79,209,138,0.16)",
         }} className="max-sm:px-8 max-sm:py-12">
           <motion.div
             initial={{ opacity: 0, y: 24 }}
@@ -87,34 +87,30 @@ export function ContactCTA() {
             </p>
 
             <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
-              <Link href="/contact" className="btn" style={{
-                background: "linear-gradient(to bottom, #6366f1, #4f46e5)",
-                backgroundSize: "100% 100%",
-                backgroundPosition: "bottom",
-                color: "white",
-                boxShadow: "inset 0 1px 0 rgba(255,255,255,0.16)",
-              }}
-              onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.backgroundSize = "100% 150%")}
-              onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.backgroundSize = "100% 100%")}
+              <Link
+                href="/contact"
+                className="btn"
+                style={{ background: "#4fd18a", color: "#05080a" }}
+                onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.background = "#7ee3ac"; el.style.boxShadow = "0 8px 24px rgba(79,209,138,0.35)"; }}
+                onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.background = "#4fd18a"; el.style.boxShadow = "none"; }}
+                onMouseDown={e => { (e.currentTarget as HTMLElement).style.transform = "scale(0.97)"; }}
+                onMouseUp={e => { (e.currentTarget as HTMLElement).style.transform = "scale(1)"; }}
               >
-                <Calendar size={15} />
                 {c.btn1}
               </Link>
-              <Link href="/pricing" className="btn grad-border" style={{
-                background: "linear-gradient(to bottom, var(--ark-surface), rgba(17,24,39,0.6))",
-                backgroundSize: "100% 100%",
-                backgroundPosition: "bottom",
-                color: "var(--ark-text-muted)",
-              }}
-              onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.backgroundSize = "100% 150%")}
-              onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.backgroundSize = "100% 100%")}
+              <Link
+                href="/pricing"
+                className="btn grad-border"
+                style={{ background: "var(--ark-surface)", color: "var(--ark-text-muted)" }}
+                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = "var(--ark-text)"; }}
+                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = "var(--ark-text-muted)"; }}
               >
                 {c.btn2}
                 <ArrowRight size={15} />
               </Link>
             </div>
 
-            <p style={{ fontSize: 12, color: "var(--ark-text-muted)", marginTop: 24 }}>
+            <p style={{ fontSize: 13, color: "var(--ark-text-muted)", marginTop: 24, opacity: 0.7 }}>
               {c.note}
             </p>
           </motion.div>

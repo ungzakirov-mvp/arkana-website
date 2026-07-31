@@ -18,9 +18,9 @@ const COPY = {
       },
       {
         n: "02", tag: "OPERATIONS",
-        title: "Именной инженер. SLA в договоре.",
-        desc: "Фиксированные обязательства с штрафными санкциями. Ваш инженер знает вашу инфраструктуру.",
-        items: ["Ответ < 2ч", "Мониторинг 24/7", "Удалённо сначала", "99.9% uptime"],
+        title: "Персональный менеджер. Команда за ним.",
+        desc: "Единая точка входа для всех IT-вопросов. Ваш сервис-менеджер знает инфраструктуру — за ним стоит полная инженерная команда.",
+        items: ["Ответ < 2ч", "Персональный менеджер", "Инженерная команда", "99.9% uptime"],
       },
       {
         n: "03", tag: "BUSINESS",
@@ -36,21 +36,21 @@ const COPY = {
     pillars: [
       {
         n: "01", tag: "GOARKAN",
-        title: "Siz bizning ko'rganlarimizni ko'rasiz",
-        desc: "Real vaqtda to'liq shaffoflik. Birorta ham so'rov yo'qolmaydi, birorta ham muddat o'tkazilmaydi.",
-        items: ["30 soniyada so'rov portali", "SLA panel", "Texnika ro'yxati", "Tarmoq hujjatlari"],
+        title: "Siz ham biz ko'rganlarni ko'rasiz",
+        desc: "Real vaqtda to'liq shaffoflik. Birorta ham ariza yo'qolmaydi, birorta ham muddat o'tkazib yuborilmaydi.",
+        items: ["30 soniyada ariza portali", "SLA paneli", "Texnika reestri", "Tarmoq hujjatlari"],
       },
       {
         n: "02", tag: "OPERATIONS",
-        title: "Shaxsiy muhandis. SLA shartnomada.",
-        desc: "Jarima sanksiyalari bilan belgilangan majburiyatlar. Muhandisingiz infratuzilmangizni biladi.",
-        items: ["Javob < 2 soat", "24/7 monitoring", "Avval masofadan", "99.9% uptime"],
+        title: "Shaxsiy menejer. Ortida to'liq jamoa.",
+        desc: "Barcha IT masalalari uchun yagona kirish nuqtasi. Xizmat menejeringiz infratuzilmani biladi — ortida to'liq muhandislar jamoasi turadi.",
+        items: ["Javob < 2 soat", "Shaxsiy xizmat menejeri", "Muhandislar jamoasi", "99.9% uptime"],
       },
       {
         n: "03", tag: "BUSINESS",
-        title: "Bitta shartnoma. Nol kutilmagan xarajat.",
-        desc: "Belgilangan narx, bashoratli byudjet, barcha ishlar bo'yicha oylik hisobot.",
-        items: ["5 kunda ishga tushirish", "0 yashirin to'lov", "Kengaytirish", "Har oy hisobot"],
+        title: "Bitta shartnoma. Hech qanday kutilmagan xarajat.",
+        desc: "Belgilangan narx, prognozli byudjet, barcha bajarilgan ishlar bo'yicha oylik hisobot.",
+        items: ["5 kunda ishga tushirish", "Yashirin to'lovlar yo'q", "Kengayish imkoniyati", "Har oylik hisobot"],
       },
     ],
   },
@@ -61,20 +61,20 @@ const COPY = {
       {
         n: "01", tag: "GOARKAN",
         title: "You see exactly what we see",
-        desc: "Full transparency in real time. No ticket is lost, no deadline is missed.",
+        desc: "Full transparency in real time. No ticket gets lost, no deadline slips through.",
         items: ["Ticket portal in 30 sec", "SLA Dashboard", "Asset Registry", "Network Documentation"],
       },
       {
         n: "02", tag: "OPERATIONS",
-        title: "Named engineer. SLA in the contract.",
-        desc: "Fixed commitments with penalty clauses. Your engineer knows your infrastructure.",
-        items: ["Response < 2h", "24/7 Monitoring", "Remote-first", "99.9% uptime"],
+        title: "Dedicated service manager. Full team behind them.",
+        desc: "One point of contact for all your IT. Your service manager knows your infrastructure — backed by the full engineering team.",
+        items: ["Response < 2h", "Dedicated service manager", "Full engineering team", "99.9% Uptime"],
       },
       {
         n: "03", tag: "BUSINESS",
         title: "One contract. Zero surprises.",
-        desc: "Fixed cost, predictable budget, monthly reports on all work performed.",
-        items: ["5-day launch", "0 hidden fees", "Scalability", "Monthly report"],
+        desc: "Fixed price, predictable budget, and a monthly report on every task completed.",
+        items: ["5-day onboarding", "No hidden fees", "Scale on demand", "Monthly report"],
       },
     ],
   },
@@ -100,36 +100,54 @@ export function HomePlatform() {
 
   return (
     <section ref={ref as React.RefObject<HTMLElement>} id="platform" style={{ position: "relative", zIndex: 2, padding: "120px clamp(20px,4vw,64px)", maxWidth: 1280, margin: "0 auto" }}>
-      <div style={{ opacity: visible ? 1 : 0, transform: visible ? "none" : "translateY(36px)", transition: `opacity .7s ${EASE}, transform .7s ${EASE}` }}>
+      <div style={{ opacity: visible ? 1 : 0, transform: visible ? "none" : "translateY(20px)", transition: `opacity .4s ${EASE}, transform .4s ${EASE}` }}>
         <div style={{ fontFamily: "var(--font-mono, monospace)", fontSize: 12, letterSpacing: "0.12em", color: "#4fd18a", textTransform: "uppercase", marginBottom: 16, fontWeight: 600 }}>{c.eyebrow}</div>
         <h2 style={{ fontSize: "clamp(28px,3.6vw,44px)", fontWeight: 800, margin: "0 0 60px", maxWidth: 640, lineHeight: 1.15, letterSpacing: "-0.01em", fontFamily: "var(--font-manrope), sans-serif" }}>
           {c.h2}
         </h2>
       </div>
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(300px,1fr))", gap: 24 }}>
-        {c.pillars.map((p, i) => (
-          <div key={p.n} style={{
-            opacity: visible ? 1 : 0,
-            transform: visible ? "none" : "translateY(36px)",
-            transition: `opacity .7s ${EASE} ${i * 90}ms, transform .7s ${EASE} ${i * 90}ms`,
-          }}>
-            <div style={{ background: "#0b1210", border: "1px solid rgba(238,242,238,0.08)", borderRadius: 24, padding: 36, height: "100%", boxSizing: "border-box" }}>
-              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 28 }}>
-                <span style={{ fontFamily: "var(--font-mono, monospace)", fontSize: 32, fontWeight: 700, color: "rgba(238,242,238,0.12)" }}>{p.n}</span>
-                <span style={{ fontFamily: "var(--font-mono, monospace)", fontSize: 11, letterSpacing: "0.1em", color: "#4fd18a", fontWeight: 600 }}>{p.tag}</span>
-              </div>
-              <h3 style={{ fontSize: 21, fontWeight: 700, margin: "0 0 14px", lineHeight: 1.3, fontFamily: "var(--font-manrope), sans-serif" }}>{p.title}</h3>
-              <p style={{ fontSize: 14, lineHeight: 1.6, color: "#9fb0a6", margin: "0 0 24px" }}>{p.desc}</p>
-              <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-                {p.items.map(it => (
-                  <div key={it} style={{ display: "flex", gap: 10, alignItems: "baseline", fontSize: 13, color: "#c3d0c8" }}>
-                    <span style={{ color: "#4fd18a" }}>✓</span><span>{it}</span>
-                  </div>
-                ))}
+        {c.pillars.map((p, i) => {
+          const isHero = i === 0;
+          return (
+            <div key={p.n} style={{
+              opacity: visible ? 1 : 0,
+              transform: visible ? "none" : "translateY(20px)",
+              transition: `opacity .4s ${EASE} ${i * 90}ms, transform .4s ${EASE} ${i * 90}ms`,
+            }}>
+              <div
+                style={{
+                  background: isHero ? "linear-gradient(145deg, #0f2018, #0b1210)" : "#0b1210",
+                  border: isHero ? "1px solid rgba(79,209,138,0.22)" : "1px solid rgba(238,242,238,0.12)",
+                  borderRadius: 24, padding: isHero ? 40 : 36,
+                  boxShadow: isHero ? "0 0 40px rgba(79,209,138,0.07), inset 0 1px 0 rgba(79,209,138,0.08)" : "inset 0 1px 0 rgba(255,255,255,0.04)",
+                  height: "100%", boxSizing: "border-box" as const,
+                  transition: "transform 200ms cubic-bezier(0.4,0,0.2,1), box-shadow 200ms cubic-bezier(0.4,0,0.2,1), border-color 200ms cubic-bezier(0.4,0,0.2,1)",
+                  willChange: "transform",
+                }}
+                onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.transform = "translateY(-4px)"; el.style.boxShadow = isHero ? "0 16px 40px rgba(79,209,138,0.14), inset 0 1px 0 rgba(79,209,138,0.08)" : "0 12px 32px rgba(0,0,0,0.3)"; }}
+                onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.transform = ""; el.style.boxShadow = isHero ? "0 0 40px rgba(79,209,138,0.07), inset 0 1px 0 rgba(79,209,138,0.08)" : "inset 0 1px 0 rgba(255,255,255,0.04)"; }}
+              >
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 28 }}>
+                  <span style={{ fontFamily: "var(--font-mono, monospace)", fontSize: isHero ? 36 : 32, fontWeight: 700, color: isHero ? "rgba(79,209,138,0.18)" : "rgba(238,242,238,0.12)" }}>{p.n}</span>
+                  <span style={{ fontFamily: "var(--font-mono, monospace)", fontSize: 11, letterSpacing: "0.1em", color: "#4fd18a", fontWeight: 600 }}>{p.tag}</span>
+                </div>
+                <h3 style={{ fontSize: isHero ? 23 : 21, fontWeight: 700, margin: "0 0 14px", lineHeight: 1.3, fontFamily: "var(--font-manrope), sans-serif" }}>{p.title}</h3>
+                <p style={{ fontSize: 14, lineHeight: 1.6, color: "#9fb0a6", margin: "0 0 24px" }}>{p.desc}</p>
+                <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+                  {p.items.map(it => (
+                    <div key={it} style={{ display: "flex", gap: 10, alignItems: "center", fontSize: 13, color: "#c3d0c8" }}>
+                      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" style={{ flexShrink: 0 }}>
+                        <path d="M2.5 7L5.5 10L11.5 4" stroke="#9fb0a6" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"/>
+                      </svg>
+                      <span>{it}</span>
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </section>
   );

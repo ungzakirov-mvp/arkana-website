@@ -37,7 +37,7 @@ const COPY: Record<string, {
     privacy: "Политика конфиденциальности",
   },
   en: {
-    desc: "Technology partner for businesses in Tashkent. One contract — full accountability for IT.",
+    desc: "Technology partner for businesses in Tashkent. One contract. Full accountability for your IT.",
     services: "Services",
     company: "Company",
     pricing: "Pricing",
@@ -48,7 +48,7 @@ const COPY: Record<string, {
     privacy: "Privacy Policy",
   },
   uz: {
-    desc: "Toshkentdagi biznes uchun texnologiya hamkori. Bitta shartnoma — IT uchun to'liq javobgarlik.",
+    desc: "Toshkentdagi biznes uchun texnologik hamkor. Bitta shartnoma — IT uchun to'liq mas'uliyat.",
     services: "Xizmatlar",
     company: "Kompaniya",
     pricing: "Tariflar",
@@ -78,7 +78,7 @@ export function Footer({ settings }: { settings?: SiteSettings | null }) {
   return (
     <footer style={{ borderTop: "1px solid transparent", borderImage: "linear-gradient(to right, transparent, rgba(148,163,184,0.15), transparent) 1", padding: "48px 0 32px" }}>
       <div style={{ maxWidth: "72rem", margin: "0 auto", padding: "0 1.5rem" }}>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-[2fr_1fr_1fr_1fr] gap-8 lg:gap-12 mb-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-[2fr_1fr_1fr] gap-8 lg:gap-12 mb-12">
 
           {/* Brand + contacts */}
           <div>
@@ -107,9 +107,7 @@ export function Footer({ settings }: { settings?: SiteSettings | null }) {
             <nav style={{ display: "flex", flexDirection: "column", gap: 10 }}>
               {c.serviceLinks.map((label, i) => (
                 <Link key={SERVICE_HREFS[i]} href={SERVICE_HREFS[i]}
-                  style={{ fontSize: 13.5, color: "var(--ark-text-muted)", textDecoration: "none", transition: "color 0.15s" }}
-                  onMouseEnter={(e) => (e.currentTarget.style.color = "var(--ark-text)")}
-                  onMouseLeave={(e) => (e.currentTarget.style.color = "var(--ark-text-muted)")}
+                  className="ark-nav-link" style={{ fontSize: 13.5, color: "var(--ark-text-muted)", textDecoration: "none" }}
                 >{label}</Link>
               ))}
             </nav>
@@ -121,27 +119,12 @@ export function Footer({ settings }: { settings?: SiteSettings | null }) {
             <nav style={{ display: "flex", flexDirection: "column", gap: 10 }}>
               {c.companyLinks.map((label, i) => (
                 <Link key={COMPANY_HREFS[i]} href={COMPANY_HREFS[i]}
-                  style={{ fontSize: 13.5, color: "var(--ark-text-muted)", textDecoration: "none", transition: "color 0.15s" }}
-                  onMouseEnter={(e) => (e.currentTarget.style.color = "var(--ark-text)")}
-                  onMouseLeave={(e) => (e.currentTarget.style.color = "var(--ark-text-muted)")}
+                  className="ark-nav-link" style={{ fontSize: 13.5, color: "var(--ark-text-muted)", textDecoration: "none" }}
                 >{label}</Link>
               ))}
             </nav>
           </div>
 
-          {/* Pricing */}
-          <div>
-            <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.07em", textTransform: "uppercase", color: "var(--ark-text-muted)", marginBottom: 16 }}>{c.pricing}</div>
-            <nav style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-              {c.pricingLinks.map((label, i) => (
-                <Link key={PRICING_HREFS[i]} href={PRICING_HREFS[i]}
-                  style={{ fontSize: 13.5, color: "var(--ark-text-muted)", textDecoration: "none", transition: "color 0.15s" }}
-                  onMouseEnter={(e) => (e.currentTarget.style.color = "var(--ark-text)")}
-                  onMouseLeave={(e) => (e.currentTarget.style.color = "var(--ark-text-muted)")}
-                >{label}</Link>
-              ))}
-            </nav>
-          </div>
         </div>
 
         {/* Bottom bar */}

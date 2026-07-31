@@ -21,7 +21,7 @@ const COPY: Record<string, {
       {
         title: "IT-аутсорсинг",
         tagline: "Полная IT-команда без найма сотрудников.",
-        body: "Именные инженеры, закреплённые за вашим аккаунтом. Поддержка L1–L3, управление устройствами, закупки, работа с поставщиками и стратегическое IT-планирование — всё под одной крышей.",
+        body: "Персональный сервис-менеджер и инженерная команда, закреплённые за вашим аккаунтом. Поддержка L1–L3, управление устройствами, закупки, работа с поставщиками и стратегическое IT-планирование — всё под одной крышей.",
         highlights: ["Именная команда", "Покрытие L1/L2/L3", "Управление поставщиками", "IT-стратегия"],
       },
       {
@@ -46,68 +46,68 @@ const COPY: Record<string, {
   },
   en: {
     heroBadge: "Our services",
-    h1a: "All your IT.",
+    h1a: "Complete IT coverage.",
     h1b: "One contract.",
-    sub: "From the first helpdesk ticket to corporate infrastructure strategy — ARKANA handles everything under one contract and one point of contact.",
-    cta: "Get a commercial proposal",
+    sub: "From the first helpdesk ticket to enterprise infrastructure strategy — ARKANA handles everything under a single contract with one point of accountability.",
+    cta: "Request a proposal",
     learnMore: "Learn more",
     services: [
       {
         title: "IT Outsourcing",
-        tagline: "A full IT team without hiring staff.",
-        body: "Named engineers assigned to your account. L1–L3 support, device management, procurement, vendor management, and strategic IT planning — all under one roof.",
-        highlights: ["Named team", "L1/L2/L3 coverage", "Vendor management", "IT strategy"],
+        tagline: "A complete IT team — without the headcount.",
+        body: "A dedicated service manager and engineering team assigned to your account. L1–L3 support, device management, procurement, vendor relations, and strategic IT planning — all under one contract.",
+        highlights: ["Dedicated account team", "L1/L2/L3 coverage", "Vendor management", "IT roadmap"],
       },
       {
         title: "Cybersecurity",
-        tagline: "Security controls your business can sustain.",
-        body: "Endpoint protection, access management, quarterly backup testing, employee training, and incident response. Everything configured and maintained on schedule.",
+        tagline: "Security your business can actually maintain.",
+        body: "Endpoint protection, access controls, quarterly backup verification, employee training, and incident response — configured once, maintained continuously.",
         highlights: ["Endpoint protection", "Access management", "Backup testing", "Monthly reports"],
       },
       {
         title: "Infrastructure",
-        tagline: "Infrastructure that works when you need it.",
-        body: "Server and network management, cloud environments, firewalls, and quarterly recovery testing. The technical foundation documented and maintained.",
+        tagline: "Infrastructure that holds up under pressure.",
+        body: "Server and network management, cloud environments, firewalls, and quarterly recovery testing. Every layer documented, monitored, and maintained.",
         highlights: ["Server management", "Cloud environments", "Network security", "Recovery testing"],
       },
       {
         title: "IT Service Management",
-        tagline: "Process-driven IT management that scales.",
-        body: "Ticket tracking, asset inventory, incident and change management — all through GoARKAN. Monthly performance reports from the system that records everything.",
+        tagline: "Process-driven IT management that scales with you.",
+        body: "Ticket tracking, asset inventory, incident and change management — all running through GoARKAN. Monthly performance reports from the system that logs everything.",
         highlights: ["GoARKAN platform", "Incident management", "Monthly reporting", "Change control"],
       },
     ],
   },
   uz: {
     heroBadge: "Bizning xizmatlar",
-    h1a: "Barcha IT xizmat.",
+    h1a: "Barcha IT xizmatlari.",
     h1b: "Bitta shartnoma.",
-    sub: "Birinchi xizmat ko'rsatish so'rovidan korporativ infratuzilma strategiyasiga qadar — ARKANA hamma narsani bitta shartnoma va bitta aloqa nuqtasi bilan o'z zimmasiga oladi.",
-    cta: "Tijorat taklifi olish",
+    sub: "Birinchi arizadan korporativ infratuzilma strategiyasiga qadar — ARKANA hamma narsani bitta shartnoma va bitta mas'ul shaxs bilan hal qiladi.",
+    cta: "Taklif so'rash",
     learnMore: "Batafsil",
     services: [
       {
         title: "IT Autsorsing",
-        tagline: "Xodim yollamasdan to'liq IT jamoasi.",
-        body: "Hisobingizga biriktirilgan nominal muhandislar. L1–L3 qo'llab-quvvatlash, qurilmalarni boshqarish, xaridlar, vendor bilan ishlash va strategik IT rejalash — hammasi bir joyda.",
-        highlights: ["Nominal jamoa", "L1/L2/L3 qamrov", "Vendor boshqaruvi", "IT strategiya"],
+        tagline: "To'liq IT jamoasi — qo'shimcha xodimarsiz.",
+        body: "Hisobingizga biriktirilgan shaxsiy xizmat menejeri va muhandislar jamoasi. L1–L3 qo'llab-quvvatlash, qurilmalarni boshqarish, xaridlar, vendor bilan ishlash va strategik IT rejalash — hammasi bir shartnomada.",
+        highlights: ["Shaxsiy jamoa", "L1/L2/L3 qamrov", "Vendor boshqaruvi", "IT strategiya"],
       },
       {
         title: "Kiberxavfsizlik",
-        tagline: "Biznesingiz qo'llab-quvvatlay oladigan xavfsizlik nazorati.",
-        body: "Qurilma himoyasi, kirish boshqaruvi, choraklik zaxira nusxalashni sinovdan o'tkazish, xodimlarni o'qitish va hodisalarga munosabat. Hammasi jadvalga ko'ra sozlangan va qo'llab-quvvatlanadi.",
+        tagline: "Biznesingiz amalda qo'llab-quvvatlay oladigan himoya.",
+        body: "Qurilma himoyasi, kirish boshqaruvi, choraklik zaxira tekshiruvi, xodimlarni o'qitish va hodisalarga tezkor munosabat — bir marta sozlanadi, doimiy qo'llab-quvvatlanadi.",
         highlights: ["Qurilma himoyasi", "Kirish boshqaruvi", "Zaxira sinovi", "Oylik hisobotlar"],
       },
       {
         title: "Infratuzilma",
-        tagline: "Kerak bo'lganda ishlaydigan infratuzilma.",
-        body: "Server va tarmoq boshqaruvi, bulut muhitlari, xavfsizlik devorlari va choraklik tiklash sinovi. Texnik asos hujjatlashtirilgan va qo'llab-quvvatlanadi.",
+        tagline: "Kerak bo'lganda ishdan to'xtamaydigan infratuzilma.",
+        body: "Server va tarmoq boshqaruvi, bulut muhitlari, xavfsizlik devorlari va choraklik tiklash sinovi. Har bir qatlam hujjatlashtirilgan, kuzatiladigan va qo'llab-quvvatlanadigan.",
         highlights: ["Server boshqaruvi", "Bulut muhitlari", "Tarmoq xavfsizligi", "Tiklash sinovi"],
       },
       {
         title: "IT Xizmat Boshqaruvi",
-        tagline: "Kengayadigan jarayon asosida IT boshqaruvi.",
-        body: "Ariza kuzatish, aktiv inventarizatsiyasi, hodisa va o'zgarishlarni boshqarish — hammasi GoARKAN orqali. Hamma narsani qayd etadigan tizimdan oylik samaradorlik hisobotlari.",
+        tagline: "Biznesingiz bilan birga kengayadigan IT boshqaruvi.",
+        body: "Ariza kuzatish, aktiv inventarizatsiyasi, hodisa va o'zgarishlarni boshqarish — hammasi GoARKAN orqali. Barcha harakatlarni qayd etadigan tizimdan oylik hisobotlar.",
         highlights: ["GoARKAN platformasi", "Hodisa boshqaruvi", "Oylik hisobot", "O'zgarish nazorati"],
       },
     ],
@@ -149,10 +149,15 @@ export function ServicesPage() {
             href="/contact"
             style={{
               display: "inline-flex", alignItems: "center", gap: 8,
-              padding: "12px 28px", borderRadius: 12,
-              background: "var(--ark-accent)", color: "#ffffff",
+              padding: "13px 28px", borderRadius: 100,
+              background: "#4fd18a", color: "#05080a",
               fontSize: 14, fontWeight: 700, textDecoration: "none",
+              transition: "background 150ms cubic-bezier(0.4,0,0.2,1), box-shadow 150ms cubic-bezier(0.4,0,0.2,1), transform 100ms cubic-bezier(0.4,0,0.2,1)",
             }}
+            onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.background = "#7ee3ac"; el.style.boxShadow = "0 8px 24px rgba(79,209,138,0.35)"; }}
+            onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.background = "#4fd18a"; el.style.boxShadow = "none"; }}
+            onMouseDown={e => { (e.currentTarget as HTMLElement).style.transform = "scale(0.97)"; }}
+            onMouseUp={e => { (e.currentTarget as HTMLElement).style.transform = "scale(1)"; }}
           >
             {c.cta}
             <ArrowRight size={15} />
@@ -169,15 +174,50 @@ export function ServicesPage() {
               return (
                 <div
                   key={SERVICE_HREFS[i]}
-                  className="group rounded-[22px] p-8 hover:-translate-y-1 transition-all duration-200"
-                  style={{ background: "var(--ark-card)", border: "1px solid var(--ark-card-border)" }}
+                  className="group rounded-[24px] p-8"
+                  style={{
+                    background: "var(--ark-card)",
+                    border: "1px solid var(--ark-card-border)",
+                    transition: "transform 220ms cubic-bezier(0.4,0,0.2,1), box-shadow 220ms cubic-bezier(0.4,0,0.2,1), border-color 220ms cubic-bezier(0.4,0,0.2,1)",
+                    willChange: "transform",
+                    position: "relative",
+                    overflow: "hidden",
+                  }}
+                  onMouseEnter={e => {
+                    const el = e.currentTarget as HTMLElement;
+                    el.style.transform = "translateY(-5px)";
+                    el.style.boxShadow = "0 20px 48px rgba(0,0,0,0.32), 0 0 0 1px rgba(79,209,138,0.12)";
+                    el.style.borderColor = "rgba(79,209,138,0.22)";
+                  }}
+                  onMouseLeave={e => {
+                    const el = e.currentTarget as HTMLElement;
+                    el.style.transform = "";
+                    el.style.boxShadow = "";
+                    el.style.borderColor = "var(--ark-card-border)";
+                  }}
                 >
-                  <div
-                    className="w-12 h-12 rounded-[14px] flex items-center justify-center mb-6"
-                    style={{ background: "var(--ark-accent-glow)", border: "1px solid var(--ark-border)" }}
-                  >
-                    <Icon size={22} style={{ color: "var(--ark-accent-2)" }} />
+                  {/* Card header: icon + number */}
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 24 }}>
+                    <div
+                      style={{
+                        width: 48, height: 48, borderRadius: 14,
+                        display: "flex", alignItems: "center", justifyContent: "center",
+                        background: "linear-gradient(135deg, rgba(79,209,138,0.14), rgba(79,209,138,0.05))",
+                        border: "1px solid rgba(79,209,138,0.22)",
+                        boxShadow: "0 0 24px rgba(79,209,138,0.1)",
+                      }}
+                    >
+                      <Icon size={22} style={{ color: "#4fd18a" }} />
+                    </div>
+                    <span style={{
+                      fontFamily: "var(--font-mono, monospace)",
+                      fontSize: 12, color: "rgba(79,209,138,0.28)",
+                      fontWeight: 600, letterSpacing: "0.04em",
+                    }}>
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
                   </div>
+
                   <h2 className="text-[22px] font-[800] mb-2" style={{ color: "var(--ark-text-heading)" }}>{title}</h2>
                   <p className="text-[14px] font-[600] mb-4" style={{ color: "var(--ark-accent-2)" }}>{tagline}</p>
                   <p className="text-[14.5px] leading-[1.65] mb-6" style={{ color: "var(--ark-text-sub)" }}>{body}</p>
@@ -196,8 +236,11 @@ export function ServicesPage() {
 
                   <Link
                     href={SERVICE_HREFS[i]}
-                    className="inline-flex items-center gap-2 text-[13.5px] font-[700] group-hover:gap-3 transition-all duration-150"
-                    style={{ color: "var(--ark-accent-2)" }}
+                    className="inline-flex items-center gap-2 text-[13.5px] font-[700] group-hover:gap-3"
+                    style={{
+                      color: "var(--ark-accent-2)",
+                      transition: "gap 180ms cubic-bezier(0.4,0,0.2,1), color 150ms cubic-bezier(0.4,0,0.2,1)",
+                    }}
                   >
                     {c.learnMore}
                     <ArrowRight size={14} />

@@ -30,105 +30,88 @@ type ApiPlan = {
 const PLAN_META: Record<string, {
   sla: string;
   recommended?: boolean;
-  sdFeatures: string[];
-  services: { color: string; label: string }[];
+  sdFeatures: Record<string, string[]>;
+  services: { color: string; label: Record<string, string> }[];
   cta: Record<string, string>;
 }> = {
   micro: {
     sla: "SLA 8h",
-    sdFeatures: [],
+    sdFeatures: { ru: [], en: [], uz: [] },
     services: [
-      { color: "#94a3b8", label: "Удалённая и выездная поддержка" },
-      { color: "#94a3b8", label: "IT Support" },
-      { color: "#94a3b8", label: "Сетевые работы" },
+      { color: "#94a3b8", label: { ru: "Удалённая и выездная поддержка", en: "Remote & on-site support", uz: "Masofaviy va joyida qo'llab-quvvatlash" } },
+      { color: "#94a3b8", label: { ru: "IT Support", en: "IT Support", uz: "IT Support" } },
+      { color: "#94a3b8", label: { ru: "Сетевые работы", en: "Network services", uz: "Tarmoq ishlari" } },
     ],
     cta: { ru: "Начать работу", en: "Get started", uz: "Boshlash" },
   },
   start: {
     sla: "SLA 4h",
-    sdFeatures: [
-      "Telegram Bot для заявок",
-      "Присвоение номера заявки",
-      "Контроль статуса",
-      "История заявок",
-      "Уведомления пользователей",
-    ],
+    sdFeatures: {
+      ru: ["Telegram Bot для заявок", "Присвоение номера заявки", "Контроль статуса", "История заявок", "Уведомления пользователей"],
+      en: ["Telegram Bot for tickets", "Ticket number assignment", "Status tracking", "Ticket history", "User notifications"],
+      uz: ["Arizalar uchun Telegram Bot", "Ariza raqamini belgilash", "Holat nazorati", "Arizalar tarixi", "Foydalanuvchi xabarnomalar"],
+    },
     services: [
-      { color: "#f97316", label: "Приоритетная поддержка" },
-      { color: "#94a3b8", label: "IT Support" },
-      { color: "#94a3b8", label: "Сетевые работы" },
-      { color: "#22c55e", label: "Видеонаблюдение" },
+      { color: "#f97316", label: { ru: "Приоритетная поддержка", en: "Priority support", uz: "Ustuvor qo'llab-quvvatlash" } },
+      { color: "#94a3b8", label: { ru: "IT Support", en: "IT Support", uz: "IT Support" } },
+      { color: "#94a3b8", label: { ru: "Сетевые работы", en: "Network services", uz: "Tarmoq ishlari" } },
+      { color: "#22c55e", label: { ru: "Видеонаблюдение", en: "CCTV", uz: "Videokuzatuv" } },
     ],
     cta: { ru: "Подключить Service Desk", en: "Connect Service Desk", uz: "Service Desk ulash" },
   },
   business: {
     sla: "SLA 2–4h",
     recommended: true,
-    sdFeatures: [
-      "Telegram Bot для заявок",
-      "Присвоение номера заявки",
-      "Контроль статуса",
-      "История заявок",
-      "Уведомления пользователей",
-      "Мобильное приложение",
-      "Push-уведомления",
-      "Управление заявками",
-    ],
+    sdFeatures: {
+      ru: ["Telegram Bot для заявок", "Присвоение номера заявки", "Контроль статуса", "История заявок", "Уведомления пользователей", "Мобильное приложение", "Push-уведомления", "Управление заявками"],
+      en: ["Telegram Bot for tickets", "Ticket number assignment", "Status tracking", "Ticket history", "User notifications", "Mobile app", "Push notifications", "Ticket management"],
+      uz: ["Arizalar uchun Telegram Bot", "Ariza raqamini belgilash", "Holat nazorati", "Arizalar tarixi", "Foydalanuvchi xabarnomalar", "Mobil ilova", "Push-xabarnomalar", "Arizalarni boshqarish"],
+    },
     services: [
-      { color: "#f97316", label: "Приоритетный выезд" },
-      { color: "#94a3b8", label: "IT Support" },
-      { color: "#94a3b8", label: "Сетевые работы" },
-      { color: "#94a3b8", label: "Серверы" },
-      { color: "#22c55e", label: "Видеонаблюдение" },
-      { color: "#3b82f6", label: "IP-телефония" },
-      { color: "#a855f7", label: "IT аудит" },
+      { color: "#f97316", label: { ru: "Приоритетный выезд", en: "Priority on-site", uz: "Ustuvor tashrif" } },
+      { color: "#94a3b8", label: { ru: "IT Support", en: "IT Support", uz: "IT Support" } },
+      { color: "#94a3b8", label: { ru: "Сетевые работы", en: "Network services", uz: "Tarmoq ishlari" } },
+      { color: "#94a3b8", label: { ru: "Серверы", en: "Servers", uz: "Serverlar" } },
+      { color: "#22c55e", label: { ru: "Видеонаблюдение", en: "CCTV", uz: "Videokuzatuv" } },
+      { color: "#3b82f6", label: { ru: "IP-телефония", en: "IP telephony", uz: "IP-telefon" } },
+      { color: "#a855f7", label: { ru: "IT аудит", en: "IT audit", uz: "IT audit" } },
     ],
     cta: { ru: "Подключить Service Desk", en: "Connect Service Desk", uz: "Service Desk ulash" },
   },
   enterprise_plus: {
     sla: "SLA 2h",
-    sdFeatures: [
-      "Telegram Bot для заявок",
-      "Присвоение номера заявки",
-      "Контроль статуса",
-      "История заявок",
-      "Уведомления пользователей",
-      "Мобильное приложение",
-      "Push-уведомления",
-      "Управление заявками",
-    ],
+    sdFeatures: {
+      ru: ["Telegram Bot для заявок", "Присвоение номера заявки", "Контроль статуса", "История заявок", "Уведомления пользователей", "Мобильное приложение", "Push-уведомления", "Управление заявками"],
+      en: ["Telegram Bot for tickets", "Ticket number assignment", "Status tracking", "Ticket history", "User notifications", "Mobile app", "Push notifications", "Ticket management"],
+      uz: ["Arizalar uchun Telegram Bot", "Ariza raqamini belgilash", "Holat nazorati", "Arizalar tarixi", "Foydalanuvchi xabarnomalar", "Mobil ilova", "Push-xabarnomalar", "Arizalarni boshqarish"],
+    },
     services: [
-      { color: "#f97316", label: "Максимальный приоритет" },
-      { color: "#94a3b8", label: "IT Support" },
-      { color: "#94a3b8", label: "Сетевые работы" },
-      { color: "#94a3b8", label: "Серверы" },
-      { color: "#22c55e", label: "Видеонаблюдение" },
-      { color: "#3b82f6", label: "IP-телефония" },
-      { color: "#a855f7", label: "IT аудит" },
+      { color: "#f97316", label: { ru: "Максимальный приоритет", en: "Maximum priority", uz: "Maksimal ustuvorlik" } },
+      { color: "#94a3b8", label: { ru: "IT Support", en: "IT Support", uz: "IT Support" } },
+      { color: "#94a3b8", label: { ru: "Сетевые работы", en: "Network services", uz: "Tarmoq ishlari" } },
+      { color: "#94a3b8", label: { ru: "Серверы", en: "Servers", uz: "Serverlar" } },
+      { color: "#22c55e", label: { ru: "Видеонаблюдение", en: "CCTV", uz: "Videokuzatuv" } },
+      { color: "#3b82f6", label: { ru: "IP-телефония", en: "IP telephony", uz: "IP-telefon" } },
+      { color: "#a855f7", label: { ru: "IT аудит", en: "IT audit", uz: "IT audit" } },
     ],
     cta: { ru: "Подключить Service Desk", en: "Connect Service Desk", uz: "Service Desk ulash" },
   },
   pro: {
     sla: "SLA 1h",
-    sdFeatures: [
-      "Telegram Bot для заявок",
-      "Присвоение номера заявки",
-      "Контроль статуса",
-      "История заявок",
-      "Уведомления пользователей",
-      "Мобильное приложение",
-      "Push-уведомления",
-      "Управление заявками",
-    ],
+    sdFeatures: {
+      ru: ["Telegram Bot для заявок", "Присвоение номера заявки", "Контроль статуса", "История заявок", "Уведомления пользователей", "Мобильное приложение", "Push-уведомления", "Управление заявками"],
+      en: ["Telegram Bot for tickets", "Ticket number assignment", "Status tracking", "Ticket history", "User notifications", "Mobile app", "Push notifications", "Ticket management"],
+      uz: ["Arizalar uchun Telegram Bot", "Ariza raqamini belgilash", "Holat nazorati", "Arizalar tarixi", "Foydalanuvchi xabarnomalar", "Mobil ilova", "Push-xabarnomalar", "Arizalarni boshqarish"],
+    },
     services: [
-      { color: "#f97316", label: "Инженер постоянно в офисе" },
-      { color: "#f97316", label: "Полный контроль IT" },
-      { color: "#94a3b8", label: "IT Support" },
-      { color: "#94a3b8", label: "Сетевые работы" },
-      { color: "#94a3b8", label: "Серверы" },
-      { color: "#22c55e", label: "Видеонаблюдение" },
-      { color: "#3b82f6", label: "IP-телефония" },
-      { color: "#a855f7", label: "IT аудит" },
+      { color: "#f97316", label: { ru: "Инженер постоянно в офисе", en: "Dedicated on-site engineer", uz: "Doimiy ofis muhandisi" } },
+      { color: "#f97316", label: { ru: "Полный контроль IT", en: "Full IT control", uz: "To'liq IT nazorati" } },
+      { color: "#94a3b8", label: { ru: "IT Support", en: "IT Support", uz: "IT Support" } },
+      { color: "#94a3b8", label: { ru: "Сетевые работы", en: "Network services", uz: "Tarmoq ishlari" } },
+      { color: "#94a3b8", label: { ru: "Серверы", en: "Servers", uz: "Serverlar" } },
+      { color: "#22c55e", label: { ru: "Видеонаблюдение", en: "CCTV", uz: "Videokuzatuv" } },
+      { color: "#3b82f6", label: { ru: "IP-телефония", en: "IP telephony", uz: "IP-telefon" } },
+      { color: "#a855f7", label: { ru: "IT аудит", en: "IT audit", uz: "IT audit" } },
     ],
     cta: { ru: "Получить IT-поддержку", en: "Get IT support", uz: "IT yordam olish" },
   },
@@ -136,7 +119,7 @@ const PLAN_META: Record<string, {
 
 /* ─── Copy ─────────────────────────────────────────────────────────── */
 const COPY: Record<string, {
-  badge: string; h1: string; sub: string; currency: string; mo: string;
+  badge: string; h1: string; sub: string; currency: string; mo: string; wstUnit: string;
   pcs: string; tickets: string; refills: string; sdLabel: string; recommended: string;
   unlimited: string; contactSales: string;
   customTitle: string; customBody: string; customCta: string;
@@ -148,7 +131,7 @@ const COPY: Record<string, {
     badge: "Тарифы",
     h1: "Выберите уровень IT,\nкоторый нужен вашему бизнесу.",
     sub: "Каждый тариф включает работу по SLA, доступ к GoARKAN и сопровождение вашей IT-инфраструктуры. Отличается только объём обслуживания и доступные ресурсы.",
-    currency: "сум", mo: "/ месяц",
+    currency: "сум", mo: "/ месяц", wstUnit: "ПК",
     pcs: "РАБОЧИХ МЕСТ", tickets: "ЗАЯВОК", refills: "ЗАПРАВКИ", sdLabel: "SERVICE DESK ВКЛЮЧЁН",
     recommended: "Рекомендуемый", unlimited: "∞", contactSales: "По запросу",
     customTitle: "Нестандартные требования?",
@@ -187,7 +170,7 @@ const COPY: Record<string, {
     badge: "Pricing",
     h1: "Choose the IT level\nyour business needs.",
     sub: "Every plan includes SLA-backed service, GoARKAN access, and full IT infrastructure support. The difference is service volume and available resources.",
-    currency: "UZS", mo: "/ month",
+    currency: "UZS", mo: "/ month", wstUnit: "PC",
     pcs: "WORKSTATIONS", tickets: "TICKETS", refills: "REFILLS", sdLabel: "SERVICE DESK INCLUDED",
     recommended: "Recommended", unlimited: "∞", contactSales: "By request",
     customTitle: "Non-standard requirements?",
@@ -206,7 +189,7 @@ const COPY: Record<string, {
       { q: "What counts as one ticket?", a: "One ticket is one employee request: a fault, configuration, question, remote session, or on-site visit. Every request is logged in GoARKAN and closed separately." },
       { q: "What is included in remote support?", a: "Remote connection to an employee's computer for diagnostics, configuration, or software installation. One session equals one connection, regardless of duration." },
       { q: "What is not included?", a: "Hardware and license procurement, software development, large project work (ERP rollout, server migration), and any work not agreed in advance. These are handled separately by agreement." },
-      { q: "What happens when limits are reached?", a: "We notify you in advance. Additional work is performed only after your approval and billed at the current price list. No work stops without your knowledge." },
+      { q: "What happens when limits are reached?", a: "We notify you in advance. Nothing proceeds without your approval. Additional work is billed at the current price list — no surprises." },
       { q: "Can I change my plan?", a: "Yes. You can upgrade at any time. Downgrading is subject to the conditions of the current contract. Custom terms are available for ENTERPRISE." },
       { q: "Do unused services roll over?", a: "No. Unused service volume does not carry over to the next month. Limits reset at the start of each billing period." },
       { q: "How does onboarding work?", a: "After signing, our team conducts an initial infrastructure review, sets up monitoring and the GoARKAN Service Desk. Launch takes up to 5 business days." },
@@ -226,7 +209,7 @@ const COPY: Record<string, {
     badge: "Tariflar",
     h1: "Biznesingizga kerakli\nIT darajasini tanlang.",
     sub: "Har bir tarif SLA bo'yicha xizmat, GoARKAN kirishi va IT-infratuzilmangizni qo'llab-quvvatlashni o'z ichiga oladi. Farqi faqat xizmat hajmi va mavjud resurslarda.",
-    currency: "so'm", mo: "/ oy",
+    currency: "so'm", mo: "/ oy", wstUnit: "ish joyi",
     pcs: "ISH JOYLARI", tickets: "ARIZALAR", refills: "TO\'LDIRISH", sdLabel: "SERVICE DESK KIRITILGAN",
     recommended: "Tavsiya etiladi", unlimited: "∞", contactSales: "So'rov bo'yicha",
     customTitle: "Nostandart talablar?",
@@ -277,7 +260,7 @@ function PricingCard({
 }) {
   const isRecommended = meta.recommended;
   const isCustom = plan.pricingModel === "custom";
-  const hasSd = meta.sdFeatures.length > 0;
+  const hasSd = (meta.sdFeatures[lang] ?? meta.sdFeatures.ru).length > 0;
 
   const statLabel: React.CSSProperties = {
     fontSize: 9, fontWeight: 700, letterSpacing: "0.1em",
@@ -292,7 +275,7 @@ function PricingCard({
       initial={{ opacity: 0, y: 28 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.55, ease: EASE, delay: index * 0.08 }}
-      whileHover={{ y: -6, transition: { duration: 0.25, ease: "easeOut" } }}
+      whileHover={{ y: -5, transition: { duration: 0.2, ease: [0.4, 0, 0.2, 1] } }}
       style={{
         position: "relative",
         borderRadius: 16,
@@ -365,7 +348,7 @@ function PricingCard({
           background: "rgba(255,255,255,0.05)", borderRadius: 10, overflow: "hidden",
         }}>
           {[
-            { label: c.pcs, val: plan.userLimit ? `${plan.userLimit} ПК` : "—" },
+            { label: c.pcs, val: plan.userLimit ? `${plan.userLimit} ${c.wstUnit}` : "—" },
             { label: "SLA", val: meta.sla },
             { label: c.tickets, val: plan.ticketLimitMo?.toString() ?? "—" },
             { label: c.refills, val: plan.printerRefillLimit != null ? plan.printerRefillLimit.toString() : c.unlimited },
@@ -395,7 +378,7 @@ function PricingCard({
               </span>
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 5, paddingLeft: 4 }}>
-              {meta.sdFeatures.map((f) => (
+              {(meta.sdFeatures[lang] ?? meta.sdFeatures.ru).map((f) => (
                 <div key={f} style={{ display: "flex", alignItems: "center", gap: 7 }}>
                   <div style={{ width: 5, height: 5, borderRadius: "50%", background: "#3b82f6", flexShrink: 0 }} />
                   <span style={{ fontSize: 11.5, color: "rgba(148,163,184,0.85)", lineHeight: 1.3 }}>{f}</span>
@@ -409,9 +392,9 @@ function PricingCard({
         {/* Services checklist */}
         <div style={{ display: "flex", flexDirection: "column", gap: 7, flex: 1, marginBottom: 20 }}>
           {meta.services.map(({ color, label }) => (
-            <div key={label} style={{ display: "flex", alignItems: "flex-start", gap: 8 }}>
+            <div key={label.ru} style={{ display: "flex", alignItems: "flex-start", gap: 8 }}>
               <Check size={13} style={{ color, flexShrink: 0, marginTop: 1 }} strokeWidth={2.5} />
-              <span style={{ fontSize: 12, color: "rgba(241,245,249,0.8)", lineHeight: 1.4 }}>{label}</span>
+              <span style={{ fontSize: 12, color: "rgba(241,245,249,0.8)", lineHeight: 1.4 }}>{label[lang] ?? label.ru}</span>
             </div>
           ))}
         </div>
@@ -425,7 +408,7 @@ function PricingCard({
             borderRadius: 10,
             fontSize: 12.5, fontWeight: 700,
             textDecoration: "none",
-            transition: "all 0.2s ease",
+            transition: "background-color 150ms cubic-bezier(0.4,0,0.2,1), box-shadow 150ms cubic-bezier(0.4,0,0.2,1), transform 100ms cubic-bezier(0.4,0,0.2,1), color 150ms",
             ...(isRecommended ? {
               background: "linear-gradient(135deg, #3b82f6, #6366f1)",
               color: "#fff",
@@ -451,6 +434,7 @@ export function PricingSection() {
   const c = COPY[lang] ?? COPY.ru;
   const [open, setOpen] = useState<number | null>(null);
   const [apiPlans, setApiPlans] = useState<ApiPlan[] | null>(null);
+  const [pricingReady, setPricingReady] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -469,8 +453,9 @@ export function PricingSection() {
           try { sessionStorage.setItem(cacheKey, JSON.stringify(plans)); } catch { /* ignore */ }
           setApiPlans(plans);
         }
+        setPricingReady(true);
       })
-      .catch(() => { /* sessionStorage fallback */ });
+      .catch(() => { setPricingReady(true); });
   }, [lang]);
 
   const activePlans = (apiPlans ?? []).sort((a, b) => a.sortOrder - b.sortOrder);
@@ -527,9 +512,61 @@ export function PricingSection() {
         <section style={{ padding: "0 0 96px" }}>
           <div style={{ maxWidth: "80rem", margin: "0 auto", padding: "0 1.5rem" }}>
 
-            {activePlans.length === 0 && (
-              <div style={{ textAlign: "center", padding: "64px 0", color: "rgba(148,163,184,0.5)", fontSize: 15 }}>
-                {lang === "en" ? "Loading pricing..." : lang === "uz" ? "Tariflar yuklanmoqda..." : "Загрузка тарифов..."}
+            {activePlans.length === 0 && !pricingReady && (
+              <div style={{ display: "flex", gap: 16, overflowX: "auto", paddingBottom: 8, paddingTop: 24, justifyContent: "center" }}>
+                {["MICRO", "START", "BUSINESS", "ENTERPRISE+", "PRO"].map((name) => (
+                  <div key={name} style={{
+                    flexShrink: 0, width: 220, borderRadius: 16, padding: "24px 18px",
+                    background: "#0f1117", border: "1px solid rgba(255,255,255,0.06)",
+                    display: "flex", flexDirection: "column", gap: 12,
+                  }}>
+                    <div style={{ height: 14, width: "60%", borderRadius: 6, background: "rgba(255,255,255,0.06)" }} />
+                    <div style={{ height: 28, width: "80%", borderRadius: 6, background: "rgba(255,255,255,0.04)" }} />
+                    <div style={{ height: 10, width: "50%", borderRadius: 4, background: "rgba(255,255,255,0.04)", marginTop: 8 }} />
+                    <div style={{ height: 10, width: "70%", borderRadius: 4, background: "rgba(255,255,255,0.04)" }} />
+                    <div style={{ height: 10, width: "55%", borderRadius: 4, background: "rgba(255,255,255,0.04)" }} />
+                    <div style={{ height: 36, borderRadius: 10, background: "rgba(255,255,255,0.06)", marginTop: "auto" }} />
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {activePlans.length === 0 && pricingReady && (
+              <div style={{ display: "flex", gap: 16, overflowX: "auto", paddingBottom: 8, paddingTop: 24, justifyContent: "center", flexWrap: "wrap" }}>
+                {[
+                  { name: "MICRO",       sla: "SLA 8h",   code: "micro" },
+                  { name: "START",       sla: "SLA 4h",   code: "start" },
+                  { name: "BUSINESS",    sla: "SLA 2–4h", code: "business", recommended: true },
+                  { name: "ENTERPRISE+", sla: "SLA 2h",   code: "enterprise_plus" },
+                  { name: "PRO",         sla: "SLA 1h",   code: "pro" },
+                ].map(({ name, sla, code, recommended }) => (
+                  <div key={code} style={{
+                    flexShrink: 0, width: 220, borderRadius: 16,
+                    padding: recommended ? 2 : 0,
+                    background: recommended ? "linear-gradient(135deg,#4fd18a,#7ee3ac)" : "transparent",
+                  }}>
+                    <div style={{
+                      borderRadius: recommended ? 14 : 16,
+                      background: "#0f1117", border: recommended ? "none" : "1px solid rgba(255,255,255,0.08)",
+                      padding: "24px 18px 20px", display: "flex", flexDirection: "column", gap: 8,
+                    }}>
+                      <div style={{ fontFamily: "var(--font-mono,monospace)", fontSize: 10, letterSpacing: "0.1em", color: "#4fd18a", fontWeight: 600 }}>{sla}</div>
+                      <div style={{ fontSize: 18, fontWeight: 800, fontFamily: "var(--font-manrope),sans-serif", color: "#eef2ee" }}>{name}</div>
+                      <p style={{ fontSize: 13, color: "#748078", lineHeight: 1.5, marginTop: 4 }}>
+                        {lang === "ru" ? "Цена по запросу" : lang === "uz" ? "Narx so'rov bo'yicha" : "Pricing on request"}
+                      </p>
+                      <Link href={`/contact?plan=${code}`} style={{
+                        marginTop: 12, display: "block", textAlign: "center", padding: "10px 16px",
+                        borderRadius: 10, fontSize: 13, fontWeight: 700, textDecoration: "none",
+                        background: recommended ? "linear-gradient(135deg,#4fd18a,#7ee3ac)" : "transparent",
+                        color: recommended ? "#05080a" : "#eef2ee",
+                        border: recommended ? "none" : "1px solid rgba(255,255,255,0.15)",
+                      }}>
+                        {c.contactSales}
+                      </Link>
+                    </div>
+                  </div>
+                ))}
               </div>
             )}
 
@@ -622,7 +659,7 @@ export function PricingSection() {
                         <p style={{ fontFamily: "Nacelle, sans-serif", fontSize: 15, fontWeight: 600, color: "var(--ark-text)", marginBottom: isOpen ? 8 : 0 }}>{faq.q}</p>
                         {isOpen && <p style={{ fontSize: 14, color: "var(--ark-text-muted)", lineHeight: 1.65, margin: 0 }}>{faq.a}</p>}
                       </div>
-                      <ChevronDown size={16} style={{ color: "var(--ark-text-muted)", flexShrink: 0, marginTop: 2, transition: "transform 0.2s", transform: isOpen ? "rotate(180deg)" : "rotate(0deg)" }} />
+                      <ChevronDown size={16} style={{ color: "var(--ark-text-muted)", flexShrink: 0, marginTop: 2, transition: "transform 220ms cubic-bezier(0.4,0,0.2,1)", transform: isOpen ? "rotate(180deg)" : "rotate(0deg)" }} />
                     </div>
                   </div>
                 );
