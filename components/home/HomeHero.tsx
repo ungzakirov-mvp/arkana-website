@@ -29,11 +29,11 @@ const HERO_VISUALS = {
     blur:             "6px",  // CSS blur filter on the ring overlay
     breatheDuration:  "4s",   // CSS animation duration for the breathe keyframe
   },
-  // <video> CSS filter — defines the colour treatment of hero-globe.mp4
+  // <video> CSS filter — original video colours preserved
   video: {
-    hueRotate:  130,          // deg — shifts the base colour of the footage
-    saturate:   1.15,         // multiplier — boosts colour saturation
-    brightness: 0.92,         // multiplier — slightly dims the footage
+    hueRotate:  0,            // deg — no hue shift, show natural colours
+    saturate:   1.0,          // multiplier — natural saturation
+    brightness: 0.88,         // multiplier — slightly dim
   },
   // Section background radial glow (subtle green at top-left)
   bg: {
