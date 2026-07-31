@@ -17,6 +17,11 @@ const COPY = {
     labelEmail:    "Email",
     labelTelegram: "Telegram",
     labelAddress:  "Адрес",
+    trust: [
+      { icon: "shield", text: "SLA в договоре" },
+      { icon: "clock",  text: "Ответ за 1 рабочий день" },
+      { icon: "lock",   text: "Конфиденциально" },
+    ],
   },
   uz: {
     eyebrow:       "Aloqa",
@@ -27,6 +32,11 @@ const COPY = {
     labelEmail:    "Email",
     labelTelegram: "Telegram",
     labelAddress:  "Manzil",
+    trust: [
+      { icon: "shield", text: "Shartnomada SLA" },
+      { icon: "clock",  text: "1 ish kunida javob" },
+      { icon: "lock",   text: "Maxfiylik kafolati" },
+    ],
   },
   en: {
     eyebrow:       "Contact",
@@ -37,6 +47,11 @@ const COPY = {
     labelEmail:    "Email",
     labelTelegram: "Telegram",
     labelAddress:  "Address",
+    trust: [
+      { icon: "shield", text: "Contractual SLA" },
+      { icon: "clock",  text: "Response in 1 business day" },
+      { icon: "lock",   text: "Confidential" },
+    ],
   },
 } as const;
 
@@ -83,6 +98,24 @@ export function HomeContact({ settings }: { settings?: SiteSettings | null }) {
           <p style={{ fontSize: 16, color: "#9fb0a6", maxWidth: 480, margin: "0 0 36px", lineHeight: 1.6 }}>
             {c.sub}
           </p>
+          {/* Trust micro-signals */}
+          <div style={{ display: "flex", gap: 20, flexWrap: "wrap", marginBottom: 28 }}>
+            {c.trust.map(({ icon, text }) => (
+              <div key={text} style={{ display: "flex", alignItems: "center", gap: 7 }}>
+                {icon === "shield" && (
+                  <svg width="14" height="14" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M10 2L3 5v5.5c0 3.87 2.98 7.5 7 8.5 4.02-1 7-4.63 7-8.5V5L10 2z" fill="rgba(79,209,138,0.1)" stroke="#4fd18a" strokeWidth="1.4" strokeLinejoin="round"/><path d="M7 10.5l2 2 4-4" stroke="#4fd18a" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                )}
+                {icon === "clock" && (
+                  <svg width="14" height="14" viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="7.5" stroke="#4fd18a" strokeWidth="1.4"/><path d="M10 6.5V10.5l2.5 2" stroke="#4fd18a" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                )}
+                {icon === "lock" && (
+                  <svg width="14" height="14" viewBox="0 0 20 20" fill="none" aria-hidden="true"><rect x="4" y="9" width="12" height="9" rx="2" stroke="#4fd18a" strokeWidth="1.4"/><path d="M7 9V6.5a3 3 0 0 1 6 0V9" stroke="#4fd18a" strokeWidth="1.4" strokeLinecap="round"/></svg>
+                )}
+                <span style={{ fontSize: 12.5, color: "#748078" }}>{text}</span>
+              </div>
+            ))}
+          </div>
+
           <div style={{ display: "flex", gap: 16, flexWrap: "wrap" }}>
             <Link href="/contact" style={{
               padding: "16px 32px", background: "#4fd18a", color: "#05080a",
@@ -114,11 +147,11 @@ export function HomeContact({ settings }: { settings?: SiteSettings | null }) {
         <div className="contact-info" style={{ fontSize: 14, display: "flex", flexDirection: "column", gap: 16, borderLeft: "1px solid rgba(238,242,238,0.1)", paddingLeft: 32 }}>
           <div>
             <span style={{ color: "#748078", fontSize: 12, letterSpacing: "0.06em", textTransform: "uppercase" }}>{c.labelEmail}</span><br />
-            <a href={`mailto:${email}`} style={{ color: "#eef2ee", fontWeight: 600, textDecoration: "none" }}>{email}</a>
+            <a href={`mailto:${email}`} className="contact-link">{email}</a>
           </div>
           <div>
             <span style={{ color: "#748078", fontSize: 12, letterSpacing: "0.06em", textTransform: "uppercase" }}>{c.labelTelegram}</span><br />
-            <a href={telegramHref} style={{ color: "#eef2ee", fontWeight: 600, textDecoration: "none" }}>{telegram}</a>
+            <a href={telegramHref} className="contact-link">{telegram}</a>
           </div>
           <div>
             <span style={{ color: "#748078", fontSize: 12, letterSpacing: "0.06em", textTransform: "uppercase" }}>{c.labelAddress}</span><br />

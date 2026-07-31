@@ -22,6 +22,7 @@ export function HomeTrust() {
 
   return (
     <div
+      className="trust-ticker"
       style={{
         position: "relative",
         zIndex: 2,
@@ -32,6 +33,7 @@ export function HomeTrust() {
         borderBottom: "1px solid rgba(238,242,238,0.08)",
         maskImage:         "linear-gradient(to right, transparent 0%, black 6%, black 94%, transparent 100%)",
         WebkitMaskImage:   "linear-gradient(to right, transparent 0%, black 6%, black 94%, transparent 100%)",
+        cursor: "default",
       }}
     >
       <div

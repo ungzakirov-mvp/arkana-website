@@ -1,6 +1,8 @@
 "use client";
 
 import { useRef, useEffect, useState } from "react";
+import Link from "next/link";
+import { ArrowRight } from "lucide-react";
 import { useApp } from "@/components/providers/ThemeLanguageProvider";
 
 const EASE = "cubic-bezier(.16,1,.3,1)";
@@ -138,12 +140,25 @@ export function HomePlatform() {
                   {p.items.map(it => (
                     <div key={it} style={{ display: "flex", gap: 10, alignItems: "center", fontSize: 13, color: "#c3d0c8" }}>
                       <svg width="14" height="14" viewBox="0 0 14 14" fill="none" style={{ flexShrink: 0 }}>
-                        <path d="M2.5 7L5.5 10L11.5 4" stroke="#9fb0a6" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"/>
+                        <path d="M2.5 7L5.5 10L11.5 4" stroke="#4fd18a" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"/>
                       </svg>
                       <span>{it}</span>
                     </div>
                   ))}
                 </div>
+                {isHero && (
+                  <Link href="/goarkan" style={{
+                    display: "inline-flex", alignItems: "center", gap: 6, marginTop: 24,
+                    fontSize: 13, fontWeight: 700, color: "#4fd18a", textDecoration: "none",
+                    transition: "gap 200ms cubic-bezier(0.4,0,0.2,1), opacity 150ms",
+                    opacity: 0.85,
+                  }}
+                    onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.gap = "10px"; el.style.opacity = "1"; }}
+                    onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.gap = "6px"; el.style.opacity = "0.85"; }}
+                  >
+                    Открыть платформу <ArrowRight size={13} />
+                  </Link>
+                )}
               </div>
             </div>
           );

@@ -73,9 +73,22 @@ export function HomeJourney() {
           {c.sub}
         </p>
       </div>
-      {/* Progress line */}
-      <div style={{ position: "relative", height: 2, background: "rgba(238,242,238,0.1)", margin: "0 0 48px", borderRadius: 2 }}>
-        <span style={{ position: "absolute", top: -3, width: 8, height: 8, borderRadius: "50%", background: "#4fd18a", left: 0, animation: "drift 3.2s linear infinite" }} />
+      {/* Progress line with animated dot */}
+      <div style={{ position: "relative", height: 2, background: "rgba(238,242,238,0.08)", margin: "0 0 40px", borderRadius: 2 }}>
+        {/* Step connector dots */}
+        {[0, 1, 2, 3, 4].map(i => (
+          <span key={i} style={{
+            position: "absolute", top: -3, width: 8, height: 8, borderRadius: "50%",
+            background: "rgba(79,209,138,0.3)", border: "1px solid rgba(79,209,138,0.5)",
+            left: `calc(${i * 25}% + ${i === 0 ? 0 : -4}px)`,
+          }} />
+        ))}
+        {/* Sliding progress dot */}
+        <span style={{
+          position: "absolute", top: -3, width: 8, height: 8, borderRadius: "50%",
+          background: "#4fd18a", boxShadow: "0 0 8px rgba(79,209,138,0.6)",
+          left: 0, animation: "dotTrack 3.2s cubic-bezier(0.4,0,0.6,1) infinite",
+        }} />
       </div>
       <div className="journey-grid" style={{ display: "grid", gridTemplateColumns: "repeat(5,1fr)", gap: 28 }}>
         {c.steps.map((step, i) => (
@@ -84,10 +97,18 @@ export function HomeJourney() {
             transform: visible ? "none" : "translateY(20px)",
             transition: `opacity .4s ${EASE} ${i * 90}ms, transform .4s ${EASE} ${i * 90}ms`,
           }}>
-            <div style={{ fontFamily: "var(--font-mono, monospace)", fontSize: 22, fontWeight: 700, color: "rgba(238,242,238,0.14)", marginBottom: 16 }}>{step.n}</div>
-            <div style={{ fontFamily: "var(--font-mono, monospace)", fontSize: 11, letterSpacing: "0.1em", color: "#4fd18a", textTransform: "uppercase", marginBottom: 10, fontWeight: 600 }}>{step.role}</div>
-            <h3 style={{ fontSize: 17, fontWeight: 700, margin: "0 0 10px", lineHeight: 1.3, fontFamily: "var(--font-manrope), sans-serif" }}>{step.title}</h3>
-            <p style={{ fontSize: 13, lineHeight: 1.6, color: "#9fb0a6", margin: 0 }}>{step.desc}</p>
+            <div className="journey-step">
+              <div style={{ fontFamily: "var(--font-mono, monospace)", fontSize: 20, fontWeight: 700, color: "rgba(79,209,138,0.2)", marginBottom: 14, letterSpacing: "-0.02em" }}>{step.n}</div>
+              <div style={{
+                display: "inline-flex", alignItems: "center", gap: 5, marginBottom: 12,
+                padding: "3px 8px", borderRadius: 6, background: "rgba(79,209,138,0.07)",
+                border: "1px solid rgba(79,209,138,0.14)",
+              }}>
+                <span style={{ fontFamily: "var(--font-mono, monospace)", fontSize: 10, letterSpacing: "0.08em", color: "#4fd18a", textTransform: "uppercase", fontWeight: 700 }}>{step.role}</span>
+              </div>
+              <h3 style={{ fontSize: 16, fontWeight: 700, margin: "0 0 8px", lineHeight: 1.3, fontFamily: "var(--font-manrope), sans-serif" }}>{step.title}</h3>
+              <p style={{ fontSize: 13, lineHeight: 1.6, color: "#9fb0a6", margin: 0 }}>{step.desc}</p>
+            </div>
           </div>
         ))}
       </div>

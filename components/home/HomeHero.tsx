@@ -108,8 +108,9 @@ function BurstCanvas() {
     ro.observe(canvas);
     requestAnimationFrame(() => requestAnimationFrame(resize));
 
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     type P = { angle: number; life: number; speed: number; wobble: number; size: number };
-    const particles: P[] = Array.from({ length: 40 }, () => ({
+    const particles: P[] = Array.from({ length: 28 }, () => ({
       angle:  Math.random() * Math.PI * 2,
       life:   Math.random(),
       speed:  0.003 + Math.random() * 0.004,
@@ -174,14 +175,10 @@ export function HomeHero() {
     vid.loop = true;
     vid.play().catch(() => {});
     const onEnded = () => { vid.currentTime = 0.01; vid.play().catch(() => {}); };
-    const onPause = () => { vid.play().catch(() => {}); };
+    const onPause = () => { if (document.visibilityState !== "hidden") vid.play().catch(() => {}); };
     vid.addEventListener("ended", onEnded);
     vid.addEventListener("pause", onPause);
-    const poll = setInterval(() => {
-      if (vid.duration && vid.currentTime >= vid.duration - 0.08) vid.currentTime = 0.01;
-      if (vid.paused) vid.play().catch(() => {});
-    }, 200);
-    return () => { clearInterval(poll); vid.removeEventListener("ended", onEnded); vid.removeEventListener("pause", onPause); };
+    return () => { vid.removeEventListener("ended", onEnded); vid.removeEventListener("pause", onPause); };
   }, []);
 
   return (
@@ -200,7 +197,7 @@ export function HomeHero() {
             borderRadius: 100, border: "1px solid rgba(79,209,138,0.3)", background: "rgba(79,209,138,0.06)",
             marginBottom: 28, animation: `riseIn .9s ${EASE} both`,
           }}>
-            <span style={{ width: 6, height: 6, borderRadius: "50%", background: "#4fd18a" }} />
+            <span style={{ width: 6, height: 6, borderRadius: "50%", background: "#4fd18a", animation: "statusPulse 2.4s ease-in-out infinite" }} />
             <span style={{ fontSize: 13, color: "#c3d0c8" }}>{c.badge}</span>
           </div>
 
@@ -211,7 +208,7 @@ export function HomeHero() {
             fontFamily: "var(--font-manrope), sans-serif",
           }}>
             <span style={{ display: "block" }}>{c.h1}</span>
-            <span style={{ display: "block", color: "#9fb0a6", fontWeight: 700, fontSize: "0.78em", letterSpacing: "-0.02em", lineHeight: 1.2, marginTop: "0.1em" }}>{c.h1green}</span>
+            <span style={{ display: "block", color: "#c3d0c8", fontWeight: 700, fontSize: "0.78em", letterSpacing: "-0.02em", lineHeight: 1.2, marginTop: "0.1em" }}>{c.h1green}</span>
           </h1>
 
           <p style={{
@@ -281,19 +278,32 @@ export function HomeHero() {
         animation: `riseIn .9s ${EASE} .4s both`,
       }}>
         {c.stats.map(({ val: rawVal, label }, idx) => {
-          // animate first two numeric stats; rest are static
           const animated = idx === 0
             ? `${(progress * 99.9).toFixed(1)}%`
             : idx === 1
               ? lang === "ru" ? `< ${Math.round(progress * 2)}ч` : lang === "uz" ? `< ${Math.round(progress * 2)} soat` : `< ${Math.round(progress * 2)}h`
               : rawVal;
-          const icons = ["✓", "◔", "▤", "◆", "◐"];
+          const STAT_ICONS = [
+            // Shield check — SLA
+            <svg key="s0" width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M10 2L3 5v5.5c0 3.87 2.98 7.5 7 8.5 4.02-1 7-4.63 7-8.5V5L10 2z" fill="rgba(79,209,138,0.12)" stroke="#4fd18a" strokeWidth="1.35" strokeLinejoin="round"/><path d="M7 10.5l2 2 4-4" stroke="#4fd18a" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>,
+            // Clock — Response
+            <svg key="s1" width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="7.5" stroke="#4fd18a" strokeWidth="1.35"/><path d="M10 6.5V10.5l2.5 2" stroke="#4fd18a" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>,
+            // Calendar — Onboarding
+            <svg key="s2" width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><rect x="2.5" y="4.5" width="15" height="13" rx="2" stroke="#4fd18a" strokeWidth="1.35"/><path d="M2.5 8.5h15" stroke="#4fd18a" strokeWidth="1.2"/><path d="M7 2.5v3M13 2.5v3" stroke="#4fd18a" strokeWidth="1.5" strokeLinecap="round"/><rect x="6" y="11" width="2.5" height="2.5" rx="0.5" fill="#4fd18a" opacity="0.75"/></svg>,
+            // Hexagon stack — Platform
+            <svg key="s3" width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M10 2.5L17.5 7v6L10 17.5 2.5 13V7L10 2.5z" stroke="#4fd18a" strokeWidth="1.35" strokeLinejoin="round"/><path d="M2.5 7L10 11.5l7.5-4.5" stroke="#4fd18a" strokeWidth="1.1" opacity="0.55"/><line x1="10" y1="11.5" x2="10" y2="17.5" stroke="#4fd18a" strokeWidth="1.1" opacity="0.55"/></svg>,
+            // Eye — Monitoring
+            <svg key="s4" width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M2 10s3-5.5 8-5.5S18 10 18 10s-3 5.5-8 5.5S2 10 2 10z" stroke="#4fd18a" strokeWidth="1.35"/><circle cx="10" cy="10" r="2.5" fill="rgba(79,209,138,0.2)" stroke="#4fd18a" strokeWidth="1.3"/></svg>,
+          ];
+          const isTextStat = idx === 3; // GoARKAN — smaller font
           return (
-            <div key={label} style={{ display: "flex", alignItems: "center", gap: 14 }}>
-              <span style={{ color: "#4fd18a", fontSize: 20 }}>{icons[idx]}</span>
+            <div key={label} style={{ display: "flex", alignItems: "center", gap: 12 }}>
+              <div style={{ flexShrink: 0, width: 36, height: 36, borderRadius: 10, background: "rgba(79,209,138,0.07)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                {STAT_ICONS[idx]}
+              </div>
               <div>
-                <div style={{ fontSize: 22, fontWeight: 800, fontFamily: "var(--font-manrope), sans-serif" }}>{animated}</div>
-                <div style={{ fontSize: 12, color: "#748078" }}>{label}</div>
+                <div style={{ fontSize: isTextStat ? 15 : 22, fontWeight: 800, fontFamily: "var(--font-manrope), sans-serif", letterSpacing: isTextStat ? "0.01em" : "-0.02em" }}>{animated}</div>
+                <div style={{ fontSize: 11.5, color: "#748078", marginTop: 1 }}>{label}</div>
               </div>
             </div>
           );
