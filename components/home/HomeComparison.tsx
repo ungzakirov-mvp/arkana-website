@@ -212,6 +212,19 @@ export function HomeComparison() {
           <ArrowRight size={15} />
         </Link>
       </div>
+
+      <style>{`
+        @media (max-width: 768px) {
+          .compare-scroll {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+          }
+          .compare-scroll::-webkit-scrollbar { display: none; }
+          .compare-inner { min-width: 540px; }
+          .compare-verdict { flex-direction: column; }
+        }
+      `}</style>
     </section>
   );
 }

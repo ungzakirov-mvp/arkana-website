@@ -123,6 +123,7 @@ export function HomeDashboard() {
   return (
     <section
       ref={ref as React.RefObject<HTMLElement>}
+      className="dash-section"
       style={{
         position: "relative", zIndex: 2,
         padding: "100px clamp(20px,4vw,64px) 120px",
@@ -410,6 +411,13 @@ export function HomeDashboard() {
           }
           .dash-kpi-grid { grid-template-columns: repeat(4, 1fr) !important; }
           .dash-bottom-grid { grid-template-columns: 1fr 1fr 1fr !important; }
+        }
+        /* Mobile: reduce section padding */
+        @media (max-width: 768px) {
+          .dash-section { padding-top: 72px !important; padding-bottom: 72px !important; }
+        }
+        @media (max-width: 480px) {
+          .dash-section { padding-top: 56px !important; padding-bottom: 56px !important; }
         }
       `}</style>
     </section>

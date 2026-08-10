@@ -438,20 +438,12 @@ export function PricingSection() {
 
   useEffect(() => {
     const locale = lang === "en" ? "en" : lang === "uz" ? "uz" : "ru";
-    const cacheKey = `${PLANS_CACHE_KEY}_${locale}`;
-    try {
-      const cached = sessionStorage.getItem(cacheKey);
-      if (cached) setApiPlans(JSON.parse(cached));
-    } catch { /* ignore */ }
 
     fetch(`${PORTAL_API}?locale=${locale}`)
       .then(r => r.ok ? r.json() : null)
       .then(json => {
         const plans: ApiPlan[] = json?.data ?? [];
-        if (plans.length > 0) {
-          try { sessionStorage.setItem(cacheKey, JSON.stringify(plans)); } catch { /* ignore */ }
-          setApiPlans(plans);
-        }
+        if (plans.length > 0) setApiPlans(plans);
         setPricingReady(true);
       })
       .catch(() => { setPricingReady(true); });

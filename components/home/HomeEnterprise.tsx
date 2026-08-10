@@ -85,6 +85,7 @@ export function HomeEnterprise() {
   return (
     <section
       ref={ref as React.RefObject<HTMLElement>}
+      className="enterprise-section"
       style={{
         position: "relative", zIndex: 2,
         padding: "100px clamp(20px,4vw,64px)",
@@ -174,6 +175,12 @@ export function HomeEnterprise() {
         }
         @media (max-width: 640px) {
           .enterprise-grid { grid-template-columns: repeat(2, 1fr) !important; }
+        }
+        @media (max-width: 768px) {
+          .enterprise-section { padding-top: 72px !important; padding-bottom: 72px !important; }
+        }
+        @media (max-width: 480px) {
+          .enterprise-section { padding-top: 56px !important; padding-bottom: 56px !important; }
         }
       `}</style>
     </section>
