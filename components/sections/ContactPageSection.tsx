@@ -118,7 +118,7 @@ const COPY: Record<string, {
   },
 };
 
-function buildContacts(s: SiteSettings | null | undefined, c: typeof COPY["ru"]) {
+function buildContacts(s: SiteSettings | null | undefined, c: typeof COPY["ru"], lang: string) {
   const fallbackPhones = [
     { label: "Телефон", value: "+998 99 998 17 77", href: "tel:+998999981777" },
     { label: "Телефон", value: "+998 50 120 88 88", href: "tel:+998501208888" },
@@ -128,7 +128,8 @@ function buildContacts(s: SiteSettings | null | undefined, c: typeof COPY["ru"])
   const emailHref = s?.emails?.[0]?.href     ?? "mailto:info@arkana.uz";
   const tg        = s?.telegram               ?? "@arkana_uz";
   const tgHref    = s?.telegram_href          ?? "https://t.me/arkana_uz";
-  const hoursStr  = s?.working_hours ? Object.entries(s.working_hours).map(([d, h]) => `${d}: ${h}`).join(", ") : "Пн–Пт: 9:00–18:00";
+  const hoursFallback: Record<string, string> = { ru: "Пн–Пт: 9:00–18:00", en: "Mon–Fri: 9:00–18:00", uz: "Du–Ju: 9:00–18:00", zh: "周一至周五：9:00–18:00" };
+  const hoursStr  = s?.working_hours ? Object.entries(s.working_hours).map(([d, h]) => `${d}: ${h}`).join(", ") : (hoursFallback[lang] ?? "Пн–Пт: 9:00–18:00");
   return [
     ...phonesArr.map(p => ({ icon: Phone, label: c.phone, value: p.value, href: p.href })),
     { icon: Send,   label: c.telegram, value: tg,       href: tgHref    },
@@ -144,7 +145,7 @@ export function ContactPageSection({ settings }: { settings?: SiteSettings | nul
   const c = COPY[lang] ?? COPY.ru;
   const [state, action, pending] = useActionState(submitContact, INITIAL_STATE);
   const formRef = useRef<HTMLFormElement>(null);
-  const CONTACTS = buildContacts(settings, c);
+  const CONTACTS = buildContacts(settings, c, lang);
 
   useEffect(() => {
     if (state.status === "success") formRef.current?.reset();
@@ -189,7 +190,7 @@ export function ContactPageSection({ settings }: { settings?: SiteSettings | nul
                 </h2>
                 <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
                   {CONTACTS.map(({ icon: Icon, label, value, href }) => (
-                    <a key={label} href={href}
+                    <a key={value} href={href}
                       style={{ display: "flex", alignItems: "flex-start", gap: 14, padding: "14px 16px", borderRadius: 12, background: "var(--ark-card)", border: "1px solid var(--ark-card-border)", textDecoration: "none", transition: "border-color 150ms cubic-bezier(0.4,0,0.2,1), transform 150ms cubic-bezier(0.4,0,0.2,1)" }}
                       onMouseEnter={(e) => { const el = e.currentTarget as HTMLElement; el.style.borderColor = "var(--ark-accent)"; el.style.transform = "translateX(3px)"; }}
                       onMouseLeave={(e) => { const el = e.currentTarget as HTMLElement; el.style.borderColor = "var(--ark-card-border)"; el.style.transform = ""; }}
