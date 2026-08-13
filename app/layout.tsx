@@ -26,6 +26,7 @@ const jetbrainsMono = JetBrains_Mono({
   variable: "--font-mono",
   display: "swap",
   weight: ["400", "500", "600"],
+  preload: false,
 });
 
 const GA_ID       = process.env.NEXT_PUBLIC_GA_ID;
