@@ -28,7 +28,7 @@ const METRIKA_ID  = process.env.NEXT_PUBLIC_YANDEX_METRIKA_ID;
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "IT-аутсорсинг в Ташкенте | ARKANA — Технологический партнёр",
+    default: "ARKANA — IT-партнёр для бизнеса",
     template: "%s | ARKANA",
   },
   description:
