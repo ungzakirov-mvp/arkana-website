@@ -155,8 +155,8 @@ export function HomePlatform() {
                   }}>
                     {[
                       { a: lang === "uz" ? "Email orqali so'rov" : lang === "en" ? "Request by email" : "Запрос по email",       b: lang === "uz" ? "Portal, 30 soniyada" : lang === "en" ? "Portal, 30 seconds" : "Портал, 30 секунд" },
-                      { a: lang === "uz" ? "Qo'ng'iroq = status" : lang === "en" ? "Call for status" : "Звонок = статус",        b: lang === "uz" ? "Doshbord, real vaqt" : lang === "en" ? "Dashboard, real time" : "Дашборд в реальном времени" },
-                      { a: lang === "uz" ? "Choraklik hisobot" : lang === "en" ? "Quarterly report" : "Квартальный отчёт",      b: lang === "uz" ? "Oylik o'lchashlar" : lang === "en" ? "Monthly metrics" : "Ежемесячные метрики" },
+                      { a: lang === "uz" ? "Qo'ng'iroq = holat" : lang === "en" ? "Call for status" : "Звонок = статус",        b: lang === "uz" ? "Dashboard, real vaqtda" : lang === "en" ? "Dashboard, real time" : "Дашборд в реальном времени" },
+                      { a: lang === "uz" ? "Choraklik hisobot" : lang === "en" ? "Quarterly report" : "Квартальный отчёт",      b: lang === "uz" ? "Oylik ko'rsatkichlar" : lang === "en" ? "Monthly metrics" : "Ежемесячные метрики" },
                     ].map(row => (
                       <div key={row.a} style={{ display: "flex", gap: 8, alignItems: "center", fontSize: 12, marginBottom: 7 }}>
                         <span style={{ color: "#748078", textDecoration: "line-through", flex: 1, textDecorationColor: "rgba(248,113,113,0.5)" }}>{row.a}</span>
@@ -176,7 +176,7 @@ export function HomePlatform() {
                     onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.gap = "10px"; el.style.opacity = "1"; }}
                     onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.gap = "6px"; el.style.opacity = "0.85"; }}
                   >
-                    Открыть платформу <ArrowRight size={13} />
+                    {lang === "uz" ? "Platformani ochish" : lang === "en" ? "Open platform" : "Открыть платформу"} <ArrowRight size={13} />
                   </Link>
                 )}
               </div>

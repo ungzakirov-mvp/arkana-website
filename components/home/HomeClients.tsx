@@ -176,7 +176,7 @@ const COPY: Record<string, Copy> = {
       },
     ],
     cta: {
-      heading: "O'z sohangiizni topmadingizmi?",
+      heading: "O'z sohanginizni topmadingizmi?",
       sub: "Biz qo'llab-quvvatlash jarayonlarini kompaniyangizning o'ziga xosligiga moslashtiramiz.",
       btn: "Maslahat olish",
     },

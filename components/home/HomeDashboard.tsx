@@ -7,7 +7,11 @@ const EASE = "cubic-bezier(.16,1,.3,1)";
 
 // Ticket volume over 30 days — deliberate downward trend (fewer incidents = better ops)
 const TICKET_DATA = [11, 8, 14, 7, 9, 4, 8, 6, 10, 5, 7, 3, 6, 8, 4, 5, 3, 7, 4, 4, 6, 3, 4, 3, 5, 3, 3, 3, 2, 3];
-const MONTHS = ["1 июл", "8 июл", "15 июл", "22 июл", "29 июл"];
+const MONTHS = {
+  ru: ["1 июл", "8 июл", "15 июл", "22 июл", "29 июл"],
+  uz: ["1 iyul", "8 iyul", "15 iyul", "22 iyul", "29 iyul"],
+  en: ["Jul 1", "Jul 8", "Jul 15", "Jul 22", "Jul 29"],
+};
 
 function sparkPath(data: number[], w: number, h: number): string {
   const mn = Math.min(...data), mx = Math.max(...data), rng = mx - mn || 1;
@@ -34,30 +38,91 @@ function useReveal() {
   return { ref, visible };
 }
 
-const KPIS_RU = [
-  { label: "Открытых заявок", value: "3", trend: "−4 за 30д", up: true,   icon: <svg width="16" height="16" viewBox="0 0 20 20" fill="none"><rect x="3" y="4" width="14" height="14" rx="2" stroke="#4fd18a" strokeWidth="1.3"/><path d="M3 8.5h14" stroke="#4fd18a" strokeWidth="1.2"/><path d="M7 2.5v3M13 2.5v3" stroke="#4fd18a" strokeWidth="1.4" strokeLinecap="round"/></svg> },
-  { label: "SLA выполнение", value: "95.4%", trend: "+0.4%", up: true,   icon: <svg width="16" height="16" viewBox="0 0 20 20" fill="none"><path d="M10 2L3 5v5.5c0 3.87 2.98 7.5 7 8.5 4.02-1 7-4.63 7-8.5V5L10 2z" stroke="#4fd18a" strokeWidth="1.3"/><path d="M7 10.5l2 2 4-4" stroke="#4fd18a" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"/></svg> },
-  { label: "Активов в реестре", value: "142", trend: "+1 за мес.", up: true,   icon: <svg width="16" height="16" viewBox="0 0 20 20" fill="none"><rect x="2" y="3" width="7" height="7" rx="1.2" stroke="#4fd18a" strokeWidth="1.3"/><rect x="11" y="3" width="7" height="7" rx="1.2" stroke="#4fd18a" strokeWidth="1.3"/><rect x="2" y="12" width="7" height="6" rx="1.2" stroke="#4fd18a" strokeWidth="1.3"/><rect x="11" y="12" width="7" height="6" rx="1.2" stroke="#4fd18a" strokeWidth="1.3"/></svg> },
-  { label: "Лицензий активно", value: "89/92", trend: "97% покрытие", up: true,   icon: <svg width="16" height="16" viewBox="0 0 20 20" fill="none"><rect x="3" y="6" width="14" height="10" rx="1.5" stroke="#4fd18a" strokeWidth="1.3"/><path d="M7 6V5a3 3 0 0 1 6 0v1" stroke="#4fd18a" strokeWidth="1.3"/><circle cx="10" cy="11.5" r="1.3" fill="#4fd18a" opacity="0.8"/></svg> },
-  { label: "Сотрудников", value: "47", trend: "в базе поддержки", up: true,   icon: <svg width="16" height="16" viewBox="0 0 20 20" fill="none"><circle cx="8" cy="7" r="3" stroke="#4fd18a" strokeWidth="1.3"/><path d="M2 17c0-3.31 2.69-6 6-6h4c3.31 0 6 2.69 6 6" stroke="#4fd18a" strokeWidth="1.3" strokeLinecap="round"/></svg> },
-  { label: "Доступность", value: "99.9%", trend: "30д uptime", up: true,   icon: <svg width="16" height="16" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="7.5" stroke="#4fd18a" strokeWidth="1.3"/><path d="M10 6.5V10.5l2.5 2" stroke="#4fd18a" strokeWidth="1.3" strokeLinecap="round"/></svg> },
-  { label: "Среднее время ответа", value: "24 мин", trend: "−3 мин за мес.", up: true,   icon: <svg width="16" height="16" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="7.5" stroke="#4fd18a" strokeWidth="1.3"/><path d="M10 5.5v4.5l3 2" stroke="#4fd18a" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/></svg> },
-  { label: "Безопасность", value: "100%", trend: "0 критических", up: true,   icon: <svg width="16" height="16" viewBox="0 0 20 20" fill="none"><path d="M10 2L3 5v5.5c0 3.87 2.98 7.5 7 8.5 4.02-1 7-4.63 7-8.5V5L10 2z" stroke="#4fd18a" strokeWidth="1.3" strokeLinejoin="round"/></svg> },
-] as const;
+const KPI_ICONS = [
+  <svg key="k0" width="16" height="16" viewBox="0 0 20 20" fill="none"><rect x="3" y="4" width="14" height="14" rx="2" stroke="#4fd18a" strokeWidth="1.3"/><path d="M3 8.5h14" stroke="#4fd18a" strokeWidth="1.2"/><path d="M7 2.5v3M13 2.5v3" stroke="#4fd18a" strokeWidth="1.4" strokeLinecap="round"/></svg>,
+  <svg key="k1" width="16" height="16" viewBox="0 0 20 20" fill="none"><path d="M10 2L3 5v5.5c0 3.87 2.98 7.5 7 8.5 4.02-1 7-4.63 7-8.5V5L10 2z" stroke="#4fd18a" strokeWidth="1.3"/><path d="M7 10.5l2 2 4-4" stroke="#4fd18a" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"/></svg>,
+  <svg key="k2" width="16" height="16" viewBox="0 0 20 20" fill="none"><rect x="2" y="3" width="7" height="7" rx="1.2" stroke="#4fd18a" strokeWidth="1.3"/><rect x="11" y="3" width="7" height="7" rx="1.2" stroke="#4fd18a" strokeWidth="1.3"/><rect x="2" y="12" width="7" height="6" rx="1.2" stroke="#4fd18a" strokeWidth="1.3"/><rect x="11" y="12" width="7" height="6" rx="1.2" stroke="#4fd18a" strokeWidth="1.3"/></svg>,
+  <svg key="k3" width="16" height="16" viewBox="0 0 20 20" fill="none"><rect x="3" y="6" width="14" height="10" rx="1.5" stroke="#4fd18a" strokeWidth="1.3"/><path d="M7 6V5a3 3 0 0 1 6 0v1" stroke="#4fd18a" strokeWidth="1.3"/><circle cx="10" cy="11.5" r="1.3" fill="#4fd18a" opacity="0.8"/></svg>,
+  <svg key="k4" width="16" height="16" viewBox="0 0 20 20" fill="none"><circle cx="8" cy="7" r="3" stroke="#4fd18a" strokeWidth="1.3"/><path d="M2 17c0-3.31 2.69-6 6-6h4c3.31 0 6 2.69 6 6" stroke="#4fd18a" strokeWidth="1.3" strokeLinecap="round"/></svg>,
+  <svg key="k5" width="16" height="16" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="7.5" stroke="#4fd18a" strokeWidth="1.3"/><path d="M10 6.5V10.5l2.5 2" stroke="#4fd18a" strokeWidth="1.3" strokeLinecap="round"/></svg>,
+  <svg key="k6" width="16" height="16" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="7.5" stroke="#4fd18a" strokeWidth="1.3"/><path d="M10 5.5v4.5l3 2" stroke="#4fd18a" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/></svg>,
+  <svg key="k7" width="16" height="16" viewBox="0 0 20 20" fill="none"><path d="M10 2L3 5v5.5c0 3.87 2.98 7.5 7 8.5 4.02-1 7-4.63 7-8.5V5L10 2z" stroke="#4fd18a" strokeWidth="1.3" strokeLinejoin="round"/></svg>,
+];
 
-const TICKETS_RU = [
-  { id: "GRK-2850", title: "Патч безопасности — 12 хостов",     pri: "high",   status: "Выполнена", time: "2ч назад" },
-  { id: "GRK-2849", title: "Обновление VPN-конфигурации",        pri: "medium", status: "В работе",  time: "4ч назад" },
-  { id: "GRK-2848", title: "Плановое обслуживание серверов",     pri: "low",    status: "Выполнена", time: "Вчера"    },
-  { id: "GRK-2847", title: "Продление лицензий Microsoft 365",   pri: "low",    status: "Выполнена", time: "Вчера"    },
-] as const;
+const KPI_DATA = {
+  ru: [
+    { label: "Открытых заявок",    value: "3",      trend: "−4 за 30д" },
+    { label: "SLA выполнение",     value: "95.4%",  trend: "+0.4%" },
+    { label: "Активов в реестре",  value: "142",    trend: "+1 за мес." },
+    { label: "Лицензий активно",   value: "89/92",  trend: "97% покрытие" },
+    { label: "Сотрудников",        value: "47",     trend: "в базе поддержки" },
+    { label: "Доступность",        value: "99.9%",  trend: "30д uptime" },
+    { label: "Среднее время отв.", value: "24 мин", trend: "−3 мин за мес." },
+    { label: "Безопасность",       value: "100%",   trend: "0 критических" },
+  ],
+  uz: [
+    { label: "Ochiq arizalar",     value: "3",      trend: "−4 30 kunda" },
+    { label: "SLA bajarilishi",    value: "95.4%",  trend: "+0.4%" },
+    { label: "Aktivlar reestri",   value: "142",    trend: "+1 oyda" },
+    { label: "Faol litsenziyalar", value: "89/92",  trend: "97% qamrov" },
+    { label: "Xodimlar",           value: "47",     trend: "qo'llab-quvvatlash bazasida" },
+    { label: "Mavjudlik",          value: "99.9%",  trend: "30k uptime" },
+    { label: "O'rtacha javob vaqti", value: "24 min", trend: "−3 min oyda" },
+    { label: "Xavfsizlik",         value: "100%",   trend: "0 kritik" },
+  ],
+  en: [
+    { label: "Open tickets",       value: "3",      trend: "−4 in 30d" },
+    { label: "SLA compliance",     value: "95.4%",  trend: "+0.4%" },
+    { label: "Assets in registry", value: "142",    trend: "+1 this month" },
+    { label: "Active licences",    value: "89/92",  trend: "97% coverage" },
+    { label: "Employees",          value: "47",     trend: "in support base" },
+    { label: "Availability",       value: "99.9%",  trend: "30d uptime" },
+    { label: "Avg response time",  value: "24 min", trend: "−3 min/mo" },
+    { label: "Security",           value: "100%",   trend: "0 critical" },
+  ],
+} as const;
 
-const ASSETS_RU = [
-  { label: "Рабочие станции", count: 87,  color: "#4fd18a" },
-  { label: "Серверы",          count: 12,  color: "#7ee3ac" },
-  { label: "Сетевое обор.",    count: 31,  color: "#3ba86e" },
-  { label: "Мобильные",        count: 12,  color: "#2d8a5a" },
-] as const;
+const TICKET_DATA_I18N = {
+  ru: [
+    { id: "GRK-2850", title: "Патч безопасности — 12 хостов",   pri: "high",   status: "done", time: "2ч назад" },
+    { id: "GRK-2849", title: "Обновление VPN-конфигурации",      pri: "medium", status: "wip",  time: "4ч назад" },
+    { id: "GRK-2848", title: "Плановое обслуживание серверов",   pri: "low",    status: "done", time: "Вчера" },
+    { id: "GRK-2847", title: "Продление лицензий Microsoft 365", pri: "low",    status: "done", time: "Вчера" },
+  ],
+  uz: [
+    { id: "GRK-2850", title: "Xavfsizlik yamoqlari — 12 host",   pri: "high",   status: "done", time: "2s oldin" },
+    { id: "GRK-2849", title: "VPN konfiguratsiyasini yangilash", pri: "medium", status: "wip",  time: "4s oldin" },
+    { id: "GRK-2848", title: "Serverlarni rejalashtirilgan xizmat", pri: "low", status: "done", time: "Kecha" },
+    { id: "GRK-2847", title: "Microsoft 365 litsenziyalarini uzaytirish", pri: "low", status: "done", time: "Kecha" },
+  ],
+  en: [
+    { id: "GRK-2850", title: "Security patch — 12 hosts",        pri: "high",   status: "done", time: "2h ago" },
+    { id: "GRK-2849", title: "VPN configuration update",         pri: "medium", status: "wip",  time: "4h ago" },
+    { id: "GRK-2848", title: "Planned server maintenance",       pri: "low",    status: "done", time: "Yesterday" },
+    { id: "GRK-2847", title: "Microsoft 365 licence renewal",    pri: "low",    status: "done", time: "Yesterday" },
+  ],
+} as const;
+
+const ASSETS_I18N = {
+  ru: [
+    { label: "Рабочие станции", count: 87, color: "#4fd18a" },
+    { label: "Серверы",          count: 12, color: "#7ee3ac" },
+    { label: "Сетевое обор.",    count: 31, color: "#3ba86e" },
+    { label: "Мобильные",        count: 12, color: "#2d8a5a" },
+  ],
+  uz: [
+    { label: "Ish stantsiyalari", count: 87, color: "#4fd18a" },
+    { label: "Serverlar",          count: 12, color: "#7ee3ac" },
+    { label: "Tarmoq jihozlari",   count: 31, color: "#3ba86e" },
+    { label: "Mobil qurilmalar",   count: 12, color: "#2d8a5a" },
+  ],
+  en: [
+    { label: "Workstations", count: 87, color: "#4fd18a" },
+    { label: "Servers",       count: 12, color: "#7ee3ac" },
+    { label: "Network equip.", count: 31, color: "#3ba86e" },
+    { label: "Mobile devices", count: 12, color: "#2d8a5a" },
+  ],
+} as const;
 
 const PRI_COLORS: Record<string, string> = {
   high: "#f87171", medium: "#fbbf24", low: "#4fd18a",
@@ -115,10 +180,15 @@ export function HomeDashboard() {
     },
   } as const;
   const c = COPY[lang] ?? COPY.ru;
-  const kpis = KPIS_RU;
-  const tickets = TICKETS_RU;
-  const assets = ASSETS_RU;
+  const kpiData = KPI_DATA[lang] ?? KPI_DATA.ru;
+  const kpis = kpiData.map((k, i) => ({ ...k, icon: KPI_ICONS[i] }));
+  const tickets = TICKET_DATA_I18N[lang] ?? TICKET_DATA_I18N.ru;
+  const assets = ASSETS_I18N[lang] ?? ASSETS_I18N.ru;
   const total = assets.reduce((s, a) => s + a.count, 0);
+  const statusWip = { ru: "В работе", uz: "Jarayonda", en: "In progress" };
+  const statusDone = { ru: "Выполнена", uz: "Bajarildi", en: "Done" };
+  const totalLabel = { ru: `Всего: ${total} единиц`, uz: `Jami: ${total} birlik`, en: `Total: ${total} units` };
+  const footnote = { ru: "Демо-данные · Реальный интерфейс доступен после подключения", uz: "Demo ma'lumotlar · Haqiqiy interfeys ulanganidan keyin mavjud", en: "Demo data · Real interface available after onboarding" };
 
   return (
     <section
@@ -288,7 +358,7 @@ export function HomeDashboard() {
                     <path d={line} fill="none" stroke="#4fd18a" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
                   </svg>
                   <div style={{ display: "flex", justifyContent: "space-between", marginTop: 4 }}>
-                    {MONTHS.map(m => (
+                    {(MONTHS[lang] ?? MONTHS.ru).map(m => (
                       <span key={m} style={{ fontSize: 9, color: "#748078", fontFamily: "var(--font-mono, monospace)" }}>{m}</span>
                     ))}
                   </div>
@@ -309,7 +379,7 @@ export function HomeDashboard() {
                         </div>
                       </div>
                     ))}
-                    <div style={{ fontSize: 10, color: "#748078", marginTop: 4, fontFamily: "var(--font-mono, monospace)" }}>Всего: {total} единиц</div>
+                    <div style={{ fontSize: 10, color: "#748078", marginTop: 4, fontFamily: "var(--font-mono, monospace)" }}>{totalLabel[lang] ?? totalLabel.ru}</div>
                   </div>
                 </div>
 
@@ -329,11 +399,11 @@ export function HomeDashboard() {
                         </div>
                         <div style={{
                           fontSize: 9, padding: "2px 6px", borderRadius: 4, flexShrink: 0,
-                          background: t.status === "В работе" ? "rgba(251,191,36,0.1)" : "rgba(79,209,138,0.08)",
-                          color: t.status === "В работе" ? "#fbbf24" : "#4fd18a",
+                          background: t.status === "wip" ? "rgba(251,191,36,0.1)" : "rgba(79,209,138,0.08)",
+                          color: t.status === "wip" ? "#fbbf24" : "#4fd18a",
                           fontWeight: 600, whiteSpace: "nowrap",
                         }}>
-                          {t.status}
+                          {t.status === "wip" ? (statusWip[lang] ?? statusWip.ru) : (statusDone[lang] ?? statusDone.ru)}
                         </div>
                       </div>
                     ))}
@@ -358,7 +428,7 @@ export function HomeDashboard() {
           marginTop: 20, fontFamily: "var(--font-mono, monospace)",
           opacity: visible ? 1 : 0, transition: `opacity .5s ${EASE} .4s`,
         }}>
-          Демо-данные · Реальный интерфейс доступен после подключения
+          {footnote[lang] ?? footnote.ru}
         </p>
       </div>
 

@@ -83,7 +83,7 @@ const COPY = {
     stats: [
       { val: "95%",          label: "SLA bajarish" },
       { val: "< 30 daqiqa", label: "Birinchi javob" },
-      { val: "14 kun",       label: "O'rtacha onboarding" },
+      { val: "14 kun",       label: "O'rtacha ishga tushirish" },
       { val: "GoARKAN", label: "ITSM platforma" },
       { val: "24/7",     label: "Monitoring" },
     ],

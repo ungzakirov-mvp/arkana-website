@@ -34,7 +34,7 @@ const STAGES = {
     },
     {
       n: "06", title: "Развитие",
-      desc: "Технологический роードmap, масштабирование инфраструктуры вместе с ростом бизнеса.",
+      desc: "Технологический roadmap, масштабирование инфраструктуры вместе с ростом бизнеса.",
       icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 2l2.5 5 5.5.8-4 3.9.9 5.5L12 14.8l-4.9 2.4.9-5.5L4 7.8 9.5 7 12 2z" stroke="#4fd18a" strokeWidth="1.5" strokeLinejoin="round"/></svg>,
     },
   ],
@@ -106,7 +106,7 @@ const STAGES = {
 
 const COPY = {
   ru: { eyebrow: "Как мы работаем", heading: "От первого разговора до постоянного улучшения.", sub: "Предсказуемый процесс на каждом этапе. Без импровизации." },
-  uz: { eyebrow: "Qanday ishlashimiz", heading: "Birinchi muloqotdan doimiy takomilgacha.", sub: "Har bir bosqichda prognoz qilinadigan jarayon. Improvizatsiyasiz." },
+  uz: { eyebrow: "Qanday ishlashimiz", heading: "Birinchi muloqotdan doimiy rivojlanishgacha.", sub: "Har bir bosqichda aniq va bashorat qilinadigan jarayon." },
   en: { eyebrow: "How We Work", heading: "From first conversation to continuous improvement.", sub: "A predictable process at every stage. No improvisation." },
 } as const;
 
