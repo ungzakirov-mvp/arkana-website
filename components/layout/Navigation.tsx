@@ -1,10 +1,10 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useApp } from "@/components/providers/ThemeLanguageProvider";
-import { Menu, X, ChevronDown } from "lucide-react";
+import { Menu, X, ChevronDown, Globe } from "lucide-react";
 
 const SERVICE_LINKS: Record<string, { label: string; href: string }[]> = {
   ru: [
@@ -49,6 +49,16 @@ export function Navigation() {
   const [scrolled, setScrolled]       = useState(false);
   const [mobileOpen, setMobileOpen]   = useState(false);
   const [servicesOpen, setServicesOpen] = useState(false);
+  const [langOpen, setLangOpen]       = useState(false);
+  const langRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      if (langRef.current && !langRef.current.contains(e.target as Node)) setLangOpen(false);
+    };
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, []);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -144,19 +154,48 @@ export function Navigation() {
 
           {/* Right side */}
           <div style={{ display: "flex", alignItems: "center", gap: 10, flex: 1, justifyContent: "flex-end" }}>
-            {/* Lang switcher — desktop */}
-            <div className="hidden md:flex" style={{ gap: "2px", marginRight: 4 }}>
-              {(["ru", "uz", "en", "zh"] as const).map((l) => (
-                <button key={l} onClick={() => setLang(l)} style={{
-                  padding: "4px 9px", borderRadius: 6, fontSize: 11, fontWeight: 700, textTransform: "uppercase",
-                  color: lang === l ? "#fff" : "var(--ark-text-muted)",
-                  background: lang === l ? "var(--ark-accent)" : "transparent",
-                  border: "none",
-                  transition: "background-color 150ms cubic-bezier(0.4,0,0.2,1), color 150ms cubic-bezier(0.4,0,0.2,1)",
+            {/* Lang switcher — desktop dropdown */}
+            <div className="hidden md:block" style={{ position: "relative", marginRight: 4 }} ref={langRef}>
+              <button
+                onClick={() => setLangOpen(!langOpen)}
+                style={{
+                  display: "flex", alignItems: "center", gap: 5,
+                  padding: "5px 10px", borderRadius: 8, fontSize: 11, fontWeight: 700,
+                  textTransform: "uppercase", cursor: "pointer", border: "none",
+                  color: "var(--ark-text-muted)", background: "transparent",
+                  transition: "color 150ms",
+                }}
+              >
+                <Globe size={13} />
+                {lang.toUpperCase()}
+                <ChevronDown size={10} style={{ transition: "transform 180ms", transform: langOpen ? "rotate(180deg)" : "rotate(0deg)" }} />
+              </button>
+              {langOpen && (
+                <div style={{
+                  position: "absolute", right: 0, top: "calc(100% + 6px)",
+                  minWidth: 100, borderRadius: 10, padding: "4px",
+                  background: "#0d1117",
+                  border: "1px solid rgba(255,255,255,0.08)",
+                  boxShadow: "0 16px 48px rgba(0,0,0,0.5)",
+                  zIndex: 100,
+                  animation: "dropdownIn 160ms cubic-bezier(0.4,0,0.2,1)",
                 }}>
-                  {l}
-                </button>
-              ))}
+                  {(["ru", "uz", "en", "zh"] as const).map((l) => (
+                    <button key={l} onClick={() => { setLang(l); setLangOpen(false); }} style={{
+                      display: "flex", alignItems: "center", justifyContent: "space-between",
+                      width: "100%", padding: "7px 12px", borderRadius: 7,
+                      fontSize: 12, fontWeight: 700, textTransform: "uppercase",
+                      cursor: "pointer", border: "none", textAlign: "left",
+                      color: lang === l ? "#fff" : "var(--ark-text-muted)",
+                      background: lang === l ? "var(--ark-accent)" : "transparent",
+                      transition: "background 120ms, color 120ms",
+                    }}>
+                      {l === "ru" ? "Русский" : l === "uz" ? "O'zbek" : l === "en" ? "English" : "中文"}
+                      <span style={{ fontSize: 10, opacity: 0.6 }}>{l.toUpperCase()}</span>
+                    </button>
+                  ))}
+                </div>
+              )}
             </div>
 
             {/* CTA */}
