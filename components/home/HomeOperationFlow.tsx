@@ -134,38 +134,6 @@ const STAGES = {
       icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 2l2.5 5 5.5.8-4 3.9.9 5.5L12 14.8l-4.9 2.4.9-5.5L4 7.8 9.5 7 12 2z" stroke="#4fd18a" strokeWidth="1.5" strokeLinejoin="round"/></svg>,
     },
   ],
-  zh: [
-    {
-      n: "01", title: "评估",
-      desc: "基础设施审计、风险分析、技术范围界定。无需任何承诺。",
-      icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="8" stroke="#4fd18a" strokeWidth="1.5"/><path d="M21 21l-4.35-4.35" stroke="#4fd18a" strokeWidth="1.5" strokeLinecap="round"/></svg>,
-    },
-    {
-      n: "02", title: "交接",
-      desc: "账户迁移、GoARKAN集成、员工培训。周期：14个工作日。",
-      icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M8 6H5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-3" stroke="#4fd18a" strokeWidth="1.5"/><rect x="8" y="2" width="8" height="8" rx="2" stroke="#4fd18a" strokeWidth="1.5"/></svg>,
-    },
-    {
-      n: "03", title: "运营",
-      desc: "服务台、远程与现场支持、按合同SLA处理事件。",
-      icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M14.5 10.5a4.5 4.5 0 1 1-9 0 4.5 4.5 0 0 1 9 0z" stroke="#4fd18a" strokeWidth="1.5"/></svg>,
-    },
-    {
-      n: "04", title: "监控",
-      desc: "7×24小时主动监控，在异常演变为事件前提前发现。",
-      icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="2" y="3" width="20" height="14" rx="2" stroke="#4fd18a" strokeWidth="1.5"/><path d="M6 10l3 3 4-5 3 3" stroke="#4fd18a" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/></svg>,
-    },
-    {
-      n: "05", title: "优化",
-      desc: "每月度量指标复盘，识别瓶颈，提供降本增效建议。",
-      icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M3 17l5-5 4 3 5-7" stroke="#4fd18a" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>,
-    },
-    {
-      n: "06", title: "持续成长",
-      desc: "技术路线图规划，随业务增长同步扩展基础设施。",
-      icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 2l2.5 5 5.5.8-4 3.9.9 5.5L12 14.8l-4.9 2.4.9-5.5L4 7.8 9.5 7 12 2z" stroke="#4fd18a" strokeWidth="1.5" strokeLinejoin="round"/></svg>,
-    },
-  ],
 } as const;
 
 const COPY = {

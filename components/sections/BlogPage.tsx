@@ -167,7 +167,7 @@ const POSTS: { categoryKey: CategoryKey; title: I18nStr; excerpt: I18nStr; date:
       ru: "Service Desk для бизнеса: что это такое и почему это не просто «техподдержка»",
       en: "Service Desk for business: what it is and why it's more than just tech support",
       uz: "Biznes uchun Service Desk: bu nima va nima uchun bu shunchaki texnik yordam emas",
-      zh: "企业服务台：是什么，为什么不只是"技术支持"",
+      zh: "企业服务台：是什么，为什么不只是「技术支持」",
     },
     excerpt: {
       ru: "Service Desk — это не просто номер телефона. Разбираем, как устроен профессиональный Service Desk и что он даёт бизнесу в Узбекистане.",
