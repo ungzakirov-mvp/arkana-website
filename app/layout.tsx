@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Manrope, JetBrains_Mono } from "next/font/google";
+import { Inter, Manrope } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 import { Navigation } from "@/components/layout/Navigation";
@@ -21,13 +21,6 @@ const manrope = Manrope({
   weight: ["400", "500", "600", "700", "800"],
 });
 
-const jetbrainsMono = JetBrains_Mono({
-  subsets: ["latin"],
-  variable: "--font-mono",
-  display: "swap",
-  weight: ["400", "500", "600"],
-  preload: false,
-});
 
 const GA_ID       = process.env.NEXT_PUBLIC_GA_ID;
 const METRIKA_ID  = process.env.NEXT_PUBLIC_YANDEX_METRIKA_ID;
@@ -126,7 +119,7 @@ export default async function RootLayout({
   const siteSettings = await getSettings("ru");
 
   return (
-    <html lang="ru" className={`${inter.variable} ${manrope.variable} ${jetbrainsMono.variable}`} suppressHydrationWarning>
+    <html lang="ru" className={`${inter.variable} ${manrope.variable}`} suppressHydrationWarning>
       <head>
 
         {/* Structured data */}

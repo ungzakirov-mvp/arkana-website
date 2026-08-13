@@ -94,6 +94,7 @@
 
 /* ─── CSS custom properties — dark by default ────────────── */
 :root {
+  --font-mono: "JetBrains Mono", "Fira Code", ui-monospace, "Cascadia Code", monospace;
   --ark-bg: #05080a;
   --ark-bg-2: #0b1210;
   --ark-surface: #0f1a16;
