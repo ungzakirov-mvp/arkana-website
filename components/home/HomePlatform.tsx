@@ -80,6 +80,30 @@ const COPY = {
       },
     ],
   },
+  zh: {
+    eyebrow: "GoARKAN平台",
+    h2: "曾经靠猜测的地方，如今一切清晰可见。",
+    pillars: [
+      {
+        n: "01", tag: "GOARKAN",
+        title: "您所看到的，与我们完全一致",
+        desc: "实时全程透明。每张工单有迹可查，每个截止日期绝不遗漏。",
+        items: ["30秒内提交工单", "SLA仪表盘", "资产管理台账", "网络文档库"],
+      },
+      {
+        n: "02", tag: "OPERATIONS",
+        title: "专属服务经理，背后是完整团队。",
+        desc: "所有IT问题统一对接。您的服务经理熟悉您的基础设施，身后有完整的工程师团队支撑。",
+        items: ["响应时间 < 30分钟", "专属服务经理", "完整工程师团队", "99.9%可用率"],
+      },
+      {
+        n: "03", tag: "BUSINESS",
+        title: "一份合同，零隐性支出。",
+        desc: "固定价格、可预期预算，以及每月完成所有工作的详细报告。",
+        items: ["14天完成交接", "无隐性收费", "按需弹性扩展", "月度报告"],
+      },
+    ],
+  },
 } as const;
 
 function useReveal() {
@@ -154,9 +178,9 @@ export function HomePlatform() {
                     border: "1px solid rgba(79,209,138,0.14)",
                   }}>
                     {[
-                      { a: lang === "uz" ? "Email orqali so'rov" : lang === "en" ? "Request by email" : "Запрос по email",       b: lang === "uz" ? "Portal, 30 soniyada" : lang === "en" ? "Portal, 30 seconds" : "Портал, 30 секунд" },
-                      { a: lang === "uz" ? "Qo'ng'iroq = holat" : lang === "en" ? "Call for status" : "Звонок = статус",        b: lang === "uz" ? "Dashboard, real vaqtda" : lang === "en" ? "Dashboard, real time" : "Дашборд в реальном времени" },
-                      { a: lang === "uz" ? "Choraklik hisobot" : lang === "en" ? "Quarterly report" : "Квартальный отчёт",      b: lang === "uz" ? "Oylik ko'rsatkichlar" : lang === "en" ? "Monthly metrics" : "Ежемесячные метрики" },
+                      { a: lang === "uz" ? "Email orqali so'rov" : lang === "en" ? "Request by email" : lang === "zh" ? "邮件提交请求" : "Запрос по email",       b: lang === "uz" ? "Portal, 30 soniyada" : lang === "en" ? "Portal, 30 seconds" : lang === "zh" ? "门户，30秒完成" : "Портал, 30 секунд" },
+                      { a: lang === "uz" ? "Qo'ng'iroq = holat" : lang === "en" ? "Call for status" : lang === "zh" ? "电话问进度" : "Звонок = статус",        b: lang === "uz" ? "Dashboard, real vaqtda" : lang === "en" ? "Dashboard, real time" : lang === "zh" ? "仪表盘，实时查看" : "Дашборд в реальном времени" },
+                      { a: lang === "uz" ? "Choraklik hisobot" : lang === "en" ? "Quarterly report" : lang === "zh" ? "季度报告" : "Квартальный отчёт",      b: lang === "uz" ? "Oylik ko'rsatkichlar" : lang === "en" ? "Monthly metrics" : lang === "zh" ? "月度指标" : "Ежемесячные метрики" },
                     ].map(row => (
                       <div key={row.a} style={{ display: "flex", gap: 8, alignItems: "center", fontSize: 12, marginBottom: 7 }}>
                         <span style={{ color: "#748078", textDecoration: "line-through", flex: 1, textDecorationColor: "rgba(248,113,113,0.5)" }}>{row.a}</span>
@@ -176,7 +200,7 @@ export function HomePlatform() {
                     onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.gap = "10px"; el.style.opacity = "1"; }}
                     onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.gap = "6px"; el.style.opacity = "0.85"; }}
                   >
-                    {lang === "uz" ? "Platformani ochish" : lang === "en" ? "Open platform" : "Открыть платформу"} <ArrowRight size={13} />
+                    {lang === "uz" ? "Platformani ochish" : lang === "en" ? "Open platform" : lang === "zh" ? "进入平台" : "Открыть платформу"} <ArrowRight size={13} />
                   </Link>
                 )}
               </div>

@@ -92,6 +92,29 @@ const COPY: Record<string, {
       { title: "Integratsiyalar", desc: "Xabarnomalar uchun Telegram, email, SMS. Tizimlaringiz bilan integratsiya uchun API." },
     ],
   },
+  zh: {
+    badge: "我们的平台 · 包含在每个方案中",
+    h1sub: "通过专属平台管理您的IT。",
+    sub: "ARKANA是塔什干唯一拥有自研ITSM系统的IT外包商。每张工单、每项资产、每个SLA指标——随时实时呈现在您眼前。",
+    features: ["已包含客户访问权限", "Telegram通知", "移动端版本", "月度报告"],
+    cta1: "预约咨询",
+    cta2: "查看定价",
+    benefitsTitle: "为什么选择GoARKAN",
+    platformCtaLabel: "即刻体验GoARKAN——演示访问已开放。",
+    platformCta: "打开GoARKAN",
+    modules: [
+      { label: "仪表盘",       desc: "综合仪表盘：关键指标、活跃事件、团队状态实时呈现。",                                        features: ["实时KPI", "SLA状态", "活跃事件", "团队负载"] },
+      { label: "服务台",       desc: "工单管理：创建、优先级排序、SLA监控、升级处理与客户通知。",                                  features: ["工单优先级", "SLA监控", "事件升级", "Telegram通知"] },
+      { label: "资产管理",     desc: "IT资产完整台账：硬件、许可证、订阅。变更历史与更换预警。",                                    features: ["硬件盘点", "许可证管理", "资产历史", "更换预警"] },
+      { label: "客户门户",     desc: "客户门户：每位客户可实时查看自己的工单、资产与SLA指标。无需来电询问进展。",                  features: ["客户工单", "企业资产", "SLA统计", "月度报告"] },
+    ],
+    benefits: [
+      { title: "透明度",   desc: "客户可查看我们团队的每张工单、每项资产与每个绩效指标。" },
+      { title: "速度",     desc: "工单自动记录，SLA计时器立即启动，绝无遗漏。" },
+      { title: "数据分析", desc: "月度报告与真实IT绩效数据，无需手工整理。" },
+      { title: "系统集成", desc: "Telegram、邮件、短信通知，并提供API与您的系统对接。" },
+    ],
+  },
 };
 
 const MODULE_ICONS = [LayoutDashboard, TicketCheck, HardDrive, Users2];

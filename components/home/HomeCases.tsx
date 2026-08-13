@@ -33,6 +33,15 @@ const COPY = {
       { n: "03", title: "Healthcare & Clinics", body: "Patient data protection, reliable medical IT, and regulatory compliance — handled by engineers who treat uptime as non-negotiable." },
     ],
   },
+  zh: {
+    eyebrow: "行业解决方案",
+    h2: "专为不能承受宕机的行业而生",
+    industries: [
+      { n: "01", title: "零售与贸易",   body: "POS收银系统、库存管理、企业网络与视频监控，全部纳入统一SLA管理。收银台宕机或网络中断，快速响应，绝不拖延。" },
+      { n: "02", title: "制造业",       body: "车间基础设施、工业网络与ERP集成。有名有姓的工程师深度了解您的生产环境与特殊需求。" },
+      { n: "03", title: "医疗与诊所",   body: "患者数据安全保护、医疗IT可靠性保障与法规合规管理，由将系统可用性视为底线的工程师全程负责。" },
+    ],
+  },
 } as const;
 
 function useReveal() {

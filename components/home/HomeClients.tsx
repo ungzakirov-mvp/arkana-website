@@ -244,6 +244,69 @@ const COPY: Record<string, Copy> = {
       btn: "Get a Consultation",
     },
   },
+
+  zh: {
+    eyebrow: "项目案例集",
+    h2: "交付经验。",
+    sub: "政府机构、工业企业、商业公司——真实项目，无任何库存图片。",
+    featuredTag: "重点项目",
+    deliveredList: "已交付",
+    featured: {
+      client: "钻井控制中心",
+      industry: "油气 · 工业",
+      scale: "运营控制中心 · 工业设施",
+      services: ["LED视频墙", "IT基础设施", "控制室", "综合布线", "交钥匙工程"],
+      deliverables: [
+        "全景LED视频墙及控制系统安装",
+        "机房完整IT基础设施：综合布线、工作站、网络设备",
+        "配置调试及设施竣工验收——完整交钥匙交付",
+      ],
+      scope: "交钥匙运营中心：从综合布线设计和LED视频墙安装，到工作站部署和设施投产验收，按期完成，生产零中断。",
+      photo: "/cases/drilling-led.jpg",
+    },
+    grid: [
+      {
+        id: "minen",
+        client: "乌兹别克斯坦能源部",
+        industry: "政府机构",
+        services: ["AV系统", "会议解决方案", "工作站部署"],
+        photo: "/cases/minen-conf.jpg",
+      },
+      {
+        id: "youth",
+        client: "青少年学习中心",
+        industry: "教育",
+        services: ["计算机实验室搭建", "工作场所部署", "资产管理"],
+        photo: "/cases/youth-lab.jpg",
+      },
+      {
+        id: "monitoring",
+        client: "工业监控中心",
+        industry: "工业",
+        services: ["SCADA", "多屏显示方案", "网络基础设施"],
+        photo: "/cases/monitoring-dash.jpg",
+      },
+      {
+        id: "jac",
+        client: "JAC Motors Tashkent",
+        industry: "汽车行业",
+        services: ["综合布线", "网络部署", "布线系统安装"],
+        photo: "/cases/jac-network.jpg",
+      },
+      {
+        id: "silk",
+        client: "Silk Road Energy Planning and Engineering",
+        industry: "能源",
+        services: ["HP设备集群部署", "工作场所搭建", "网络连接"],
+        photo: "/cases/silk-office.jpg",
+      },
+    ],
+    cta: {
+      heading: "没有找到您所在的行业？",
+      sub: "我们根据您企业的具体情况定制支持流程——无论是制造业、金融业还是零售业。",
+      btn: "获取咨询",
+    },
+  },
 };
 
 // ─── Sub-components ────────────────────────────────────────────────────────────

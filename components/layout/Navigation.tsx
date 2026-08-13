@@ -28,12 +28,20 @@ const SERVICE_LINKS: Record<string, { label: string; href: string }[]> = {
     { label: "Kiberxavfsizlik",       href: "/services/managed-it" },
     { label: "Barcha xizmatlar",      href: "/services" },
   ],
+  zh: [
+    { label: "IT外包",                href: "/services/it-outsourcing" },
+    { label: "IT服务管理",            href: "/services/itsm" },
+    { label: "基础设施",              href: "/services/infrastructure" },
+    { label: "网络安全",              href: "/services/managed-it" },
+    { label: "全部服务",              href: "/services" },
+  ],
 };
 
 const NAV_LABELS: Record<string, Record<string, string>> = {
   ru: { services: "Услуги", pricing: "Тарифы", goarkan: "GoARKAN", cases: "Кейсы", blog: "Блог", contact: "Контакты", cta: "Получить предложение", audit: "Получить предложение" },
   en: { services: "Services", pricing: "Pricing", goarkan: "GoARKAN", cases: "Cases", blog: "Blog", contact: "Contact", cta: "Get a Proposal", audit: "Get a Proposal" },
   uz: { services: "Xizmatlar", pricing: "Tariflar", goarkan: "GoARKAN", cases: "Loyihalar", blog: "Blog", contact: "Aloqa", cta: "Taklif so'rash", audit: "Taklif so'rash" },
+  zh: { services: "服务", pricing: "定价", goarkan: "GoARKAN", cases: "案例", blog: "博客", contact: "联系我们", cta: "获取方案", audit: "获取方案" },
 };
 
 export function Navigation() {
@@ -138,7 +146,7 @@ export function Navigation() {
           <div style={{ display: "flex", alignItems: "center", gap: 10, flex: 1, justifyContent: "flex-end" }}>
             {/* Lang switcher — desktop */}
             <div className="hidden md:flex" style={{ gap: "2px", marginRight: 4 }}>
-              {(["ru", "en", "uz"] as const).map((l) => (
+              {(["ru", "uz", "en", "zh"] as const).map((l) => (
                 <button key={l} onClick={() => setLang(l)} style={{
                   padding: "4px 9px", borderRadius: 6, fontSize: 11, fontWeight: 700, textTransform: "uppercase",
                   color: lang === l ? "#fff" : "var(--ark-text-muted)",
@@ -211,7 +219,7 @@ export function Navigation() {
             </nav>
             <div style={{ marginTop: 16, paddingTop: 16, borderTop: "1px solid rgba(255,255,255,0.06)", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
               <div style={{ display: "flex", gap: 4 }}>
-                {(["ru", "en", "uz"] as const).map((l) => (
+                {(["ru", "uz", "en", "zh"] as const).map((l) => (
                   <button key={l} onClick={() => setLang(l)} style={{
                     padding: "6px 10px", borderRadius: 6, fontSize: 11, fontWeight: 700, textTransform: "uppercase",
                     color: lang === l ? "#fff" : "var(--ark-text-muted)",

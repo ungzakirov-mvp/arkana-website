@@ -16,7 +16,7 @@ export function ThemeLanguageProvider({ children }: { children: React.ReactNode 
 
   useEffect(() => {
     const saved = (localStorage.getItem("ark-lang") as Lang) || "ru";
-    const valid: Lang[] = ["ru", "uz", "en"];
+    const valid: Lang[] = ["ru", "uz", "en", "zh"];
     const resolved: Lang = valid.includes(saved) ? saved : "ru";
     setLangState(resolved);
     document.documentElement.lang = resolved;

@@ -6,21 +6,21 @@ import { ContactCTA } from "@/components/sections/ContactCTA";
 import { useApp } from "@/components/providers/ThemeLanguageProvider";
 
 export interface ServicePageCopy {
-  eyebrow: { ru: string; uz: string; en: string };
-  h1: { ru: string; uz: string; en: string };
-  desc: { ru: string; uz: string; en: string };
-  ctaLabel: { ru: string; uz: string; en: string };
+  eyebrow: { ru: string; uz: string; en: string; zh?: string };
+  h1: { ru: string; uz: string; en: string; zh?: string };
+  desc: { ru: string; uz: string; en: string; zh?: string };
+  ctaLabel: { ru: string; uz: string; en: string; zh?: string };
   ctaHref: string;
-  includedLabel: { ru: string; uz: string; en: string };
-  included: { ru: string; uz: string; en: string }[];
-  steps?: { step: string; title: { ru: string; uz: string; en: string }; body: { ru: string; uz: string; en: string } }[];
-  stepsHeading?: { ru: string; uz: string; en: string };
-  backLabel: { ru: string; uz: string; en: string };
+  includedLabel: { ru: string; uz: string; en: string; zh?: string };
+  included: { ru: string; uz: string; en: string; zh?: string }[];
+  steps?: { step: string; title: { ru: string; uz: string; en: string; zh?: string }; body: { ru: string; uz: string; en: string; zh?: string } }[];
+  stepsHeading?: { ru: string; uz: string; en: string; zh?: string };
+  backLabel: { ru: string; uz: string; en: string; zh?: string };
 }
 
 export function ServicePageLayout({ copy, schemas }: { copy: ServicePageCopy; schemas?: React.ReactNode }) {
   const { lang } = useApp();
-  const t = <T extends { ru: string; uz: string; en: string }>(obj: T) => obj[lang as keyof T] ?? obj.ru;
+  const t = <T extends { ru: string; uz: string; en: string; zh?: string }>(obj: T) => obj[lang as keyof T] ?? obj.ru;
 
   return (
     <>

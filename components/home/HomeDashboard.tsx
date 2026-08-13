@@ -11,6 +11,7 @@ const MONTHS = {
   ru: ["1 июл", "8 июл", "15 июл", "22 июл", "29 июл"],
   uz: ["1 iyul", "8 iyul", "15 iyul", "22 iyul", "29 iyul"],
   en: ["Jul 1", "Jul 8", "Jul 15", "Jul 22", "Jul 29"],
+  zh: ["7月1日", "7月8日", "7月15日", "7月22日", "7月29日"],
 };
 
 function sparkPath(data: number[], w: number, h: number): string {
@@ -80,6 +81,16 @@ const KPI_DATA = {
     { label: "Avg response time",  value: "24 min", trend: "−3 min/mo" },
     { label: "Security",           value: "100%",   trend: "0 critical" },
   ],
+  zh: [
+    { label: "待处理工单",   value: "3",      trend: "30天内减少4张" },
+    { label: "SLA达成率",   value: "95.4%",  trend: "+0.4%" },
+    { label: "资产台账",    value: "142",    trend: "本月新增1台" },
+    { label: "有效许可证",  value: "89/92",  trend: "97%覆盖率" },
+    { label: "员工数量",    value: "47",     trend: "已纳入支持范围" },
+    { label: "系统可用率",  value: "99.9%",  trend: "近30天在线" },
+    { label: "平均响应时间", value: "24分钟", trend: "较上月减少3分钟" },
+    { label: "安全状态",    value: "100%",   trend: "0个严重问题" },
+  ],
 } as const;
 
 const TICKET_DATA_I18N = {
@@ -101,6 +112,12 @@ const TICKET_DATA_I18N = {
     { id: "GRK-2848", title: "Planned server maintenance",       pri: "low",    status: "done", time: "Yesterday" },
     { id: "GRK-2847", title: "Microsoft 365 licence renewal",    pri: "low",    status: "done", time: "Yesterday" },
   ],
+  zh: [
+    { id: "GRK-2850", title: "安全补丁 — 12台主机",              pri: "high",   status: "done", time: "2小时前" },
+    { id: "GRK-2849", title: "VPN配置更新",                     pri: "medium", status: "wip",  time: "4小时前" },
+    { id: "GRK-2848", title: "服务器计划维护",                   pri: "low",    status: "done", time: "昨天" },
+    { id: "GRK-2847", title: "Microsoft 365许可证续期",          pri: "low",    status: "done", time: "昨天" },
+  ],
 } as const;
 
 const ASSETS_I18N = {
@@ -121,6 +138,12 @@ const ASSETS_I18N = {
     { label: "Servers",       count: 12, color: "#7ee3ac" },
     { label: "Network equip.", count: 31, color: "#3ba86e" },
     { label: "Mobile devices", count: 12, color: "#2d8a5a" },
+  ],
+  zh: [
+    { label: "工作站",    count: 87, color: "#4fd18a" },
+    { label: "服务器",    count: 12, color: "#7ee3ac" },
+    { label: "网络设备",  count: 31, color: "#3ba86e" },
+    { label: "移动设备",  count: 12, color: "#2d8a5a" },
   ],
 } as const;
 
@@ -178,6 +201,20 @@ export function HomeDashboard() {
       viewAll: "All tickets →",
       nav: ["Dashboard", "Tickets", "Assets", "Reports", "Settings"],
     },
+    zh: {
+      eyebrow: "GoARKAN平台",
+      heading: "您的IT，实时呈现。",
+      sub: "无需电话询问状态，只有数据、指标与月度报告。",
+      badge: "演示预览",
+      greeting: "下午好，副总经理",
+      updated: "更新时间：2026年7月31日 14:32",
+      allOk: "所有系统运行正常",
+      chartTitle: "近30天工单",
+      assetsTitle: "按类型的资产",
+      ticketsTitle: "最近工单",
+      viewAll: "全部工单 →",
+      nav: ["仪表盘", "工单", "资产", "报告", "设置"],
+    },
   } as const;
   const c = COPY[lang] ?? COPY.ru;
   const kpiData = KPI_DATA[lang] ?? KPI_DATA.ru;
@@ -185,10 +222,10 @@ export function HomeDashboard() {
   const tickets = TICKET_DATA_I18N[lang] ?? TICKET_DATA_I18N.ru;
   const assets = ASSETS_I18N[lang] ?? ASSETS_I18N.ru;
   const total = assets.reduce((s, a) => s + a.count, 0);
-  const statusWip = { ru: "В работе", uz: "Jarayonda", en: "In progress" };
-  const statusDone = { ru: "Выполнена", uz: "Bajarildi", en: "Done" };
-  const totalLabel = { ru: `Всего: ${total} единиц`, uz: `Jami: ${total} birlik`, en: `Total: ${total} units` };
-  const footnote = { ru: "Демо-данные · Реальный интерфейс доступен после подключения", uz: "Demo ma'lumotlar · Haqiqiy interfeys ulanganidan keyin mavjud", en: "Demo data · Real interface available after onboarding" };
+  const statusWip = { ru: "В работе", uz: "Jarayonda", en: "In progress", zh: "处理中" };
+  const statusDone = { ru: "Выполнена", uz: "Bajarildi", en: "Done", zh: "已完成" };
+  const totalLabel = { ru: `Всего: ${total} единиц`, uz: `Jami: ${total} birlik`, en: `Total: ${total} units`, zh: `共计：${total}台` };
+  const footnote = { ru: "Демо-данные · Реальный интерфейс доступен после подключения", uz: "Demo ma'lumotlar · Haqiqiy interfeys ulanganidan keyin mavjud", en: "Demo data · Real interface available after onboarding", zh: "演示数据 · 真实界面在接入后可用" };
 
   return (
     <section

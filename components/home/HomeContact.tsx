@@ -53,6 +53,21 @@ const COPY = {
       { icon: "lock",   text: "Confidential" },
     ],
   },
+  zh: {
+    eyebrow:       "联系我们",
+    h2:            "准备好与技术合作伙伴携手共进？",
+    sub:           "告诉我们您的业务情况，我们将在一个工作日内为您准备好方案。无需任何承诺。",
+    cta1:          "获取方案",
+    cta2:          "预约通话",
+    labelEmail:    "邮箱",
+    labelTelegram: "Telegram",
+    labelPhone:    "电话",
+    trust: [
+      { icon: "shield", text: "合同约定SLA" },
+      { icon: "clock",  text: "1个工作日内响应" },
+      { icon: "lock",   text: "严格保密" },
+    ],
+  },
 } as const;
 
 function useReveal() {

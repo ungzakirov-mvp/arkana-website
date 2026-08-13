@@ -109,6 +109,27 @@ const COPY = {
       { val: "24/7",   label: "Monitoring" },
     ],
   },
+  zh: {
+    badge:   "您的企业IT合作伙伴",
+    h1:      "技术合作伙伴",
+    h1green: "助力您的业务持续增长。",
+    sub:     "一份合同，固定价格，全面负责。您的IT运行可预期——通过GoARKAN全程透明可见。",
+    cta:     "获取商务方案 →",
+    ctaNote: "一个工作日内回复",
+    chips: [
+      { title: "IT外包",   sub: "与技术支持" },
+      { title: "基础设施", sub: "与网络安全" },
+      { title: "自动化",   sub: "与流程优化" },
+      { title: "云服务",   sub: "与系统集成" },
+    ],
+    stats: [
+      { val: "95%",    label: "SLA达成率" },
+      { val: "< 30分钟", label: "首次响应" },
+      { val: "14天",   label: "平均交接周期" },
+      { val: "GoARKAN", label: "ITSM平台" },
+      { val: "24/7",  label: "监控" },
+    ],
+  },
 } as const;
 
 function useTween(duration = HERO_VISUALS.tween.durationMs) {
@@ -338,7 +359,7 @@ export function HomeHero() {
           const animated = idx === 0
             ? `${(progress * 95).toFixed(0)}%`
             : idx === 1
-              ? lang === "ru" ? `< ${Math.round(progress * 30)} мин` : lang === "uz" ? `< ${Math.round(progress * 30)} daq` : `< ${Math.round(progress * 30)} min`
+              ? lang === "ru" ? `< ${Math.round(progress * 30)} мин` : lang === "uz" ? `< ${Math.round(progress * 30)} daq` : lang === "zh" ? `< ${Math.round(progress * 30)} 分钟` : `< ${Math.round(progress * 30)} min`
               : rawVal;
           const STAT_ICONS = [
             <svg key="s0" width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M10 2L3 5v5.5c0 3.87 2.98 7.5 7 8.5 4.02-1 7-4.63 7-8.5V5L10 2z" fill="rgba(79,209,138,0.12)" stroke="#4fd18a" strokeWidth="1.35" strokeLinejoin="round"/><path d="M7 10.5l2 2 4-4" stroke="#4fd18a" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>,

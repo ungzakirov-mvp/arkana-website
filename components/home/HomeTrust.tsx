@@ -54,6 +54,23 @@ const ITEMS: Record<string, string[]> = {
     "IT Outsourcing",
     "Business Continuity",
   ],
+  zh: [
+    "SLA达成率95%",
+    "首次响应＜30分钟",
+    "7×24小时监控",
+    "Microsoft 365合作伙伴",
+    "GoARKAN平台",
+    "专属服务经理",
+    "14天完成交接",
+    "合同约定SLA",
+    "终端防护",
+    "资产注册表",
+    "网络运维",
+    "认证工程师",
+    "透明报告",
+    "IT外包",
+    "业务连续性",
+  ],
 };
 
 export function HomeTrust() {

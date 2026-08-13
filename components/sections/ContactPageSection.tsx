@@ -92,6 +92,30 @@ const COPY: Record<string, {
     phoneLabel: "Telefon", phonePh: "+998 90 123-45-67",
     message: "Vazifani tasvirlab bering (ixtiyoriy)", messagePh: "Biznesingiz va IT ehtiyojlaringiz haqida qisqacha...",
   },
+  zh: {
+    badge: "联系我们",
+    h1a: "1天内获取",
+    h1b: "商务方案",
+    sub: "告诉我们您的业务情况。我们将为您量身定制解决方案并准备好报价——无需任何承诺。",
+    howTitle: "如何联系我们",
+    phone: "电话", telegram: "Telegram", email: "邮箱", address: "地址", hours: "工作时间",
+    nextTitle: "后续流程",
+    next: [
+      { title: "及时回复", desc: "一个工作日内——电话或Telegram联系" },
+      { title: "了解需求", desc: "深入了解您的业务背景与IT优先事项" },
+      { title: "提交方案", desc: "书面方案与工作计划——清晰明确，无压力。" },
+    ],
+    youGet: "您将获得",
+    items: ["当前IT环境的清晰分析", "量身定制的商务方案", "可落地的IT建议", "无需任何承诺"],
+    formTitle: "申请商务方案",
+    success: "申请已提交！", successSub: "我们将在一个工作日内与您联系。",
+    sending: "提交中...", submit: "提交申请", disclaimer: "1个工作日内回复 · 无垃圾邮件 · 无需承诺",
+    name: "您的姓名 *", namePh: "张三",
+    company: "公司 *", companyPh: "您的公司名称",
+    emailLabel: "邮箱 *", emailPh: "zhangsan@company.uz",
+    phoneLabel: "电话", phonePh: "+998 90 123-45-67",
+    message: "描述您的需求（可选）", messagePh: "简要介绍您的业务与IT需求...",
+  },
 };
 
 function buildContacts(s: SiteSettings | null | undefined, c: typeof COPY["ru"]) {
@@ -240,7 +264,7 @@ export function ContactPageSection({ settings }: { settings?: SiteSettings | nul
                       <div style={{ display: "flex", alignItems: "center", gap: 8, padding: "10px 14px", borderRadius: 8, background: "rgba(245,158,11,0.1)", border: "1px solid rgba(245,158,11,0.25)", marginBottom: 16 }}>
                         <AlertCircle size={14} style={{ color: "#fbbf24", flexShrink: 0 }} />
                         <span style={{ fontSize: 13, color: "#fbbf24" }}>
-                          {lang === "uz" ? "Juda ko'p so'rovlar. Keyinroq urinib ko'ring." : lang === "en" ? "Too many requests. Please try again later." : "Слишком много запросов. Попробуйте позже."}
+                          {lang === "uz" ? "Juda ko'p so'rovlar. Keyinroq urinib ko'ring." : lang === "en" ? "Too many requests. Please try again later." : lang === "zh" ? "请求过于频繁，请稍后重试。" : "Слишком много запросов. Попробуйте позже."}
                         </span>
                       </div>
                     )}

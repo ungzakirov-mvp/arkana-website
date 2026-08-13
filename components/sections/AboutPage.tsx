@@ -106,6 +106,36 @@ const COPY: Record<string, {
     ctaSub: "Biznesingiz haqida aytib bering — bir ish kuni ichida taklif tayyorlaymiz.",
     ctaBtn: "Taklif so'rash",
   },
+  zh: {
+    heroBadge: "关于我们",
+    h1a: "技术合作伙伴。",
+    h1b: "不只是服务商。",
+    sub: "ARKANA是塔什干企业的技术合作伙伴。我们帮助乌兹别克斯坦各地的企业通过GoARKAN建立可预期、可追责的IT服务体系，实现全程透明。",
+    storyBadge: "我们的故事",
+    storyH2: "为解决IT外包的痛点而生。",
+    storyP1: "ARKANA源于一个简单的观察：乌兹别克斯坦的大多数IT外包要么价格太低、可靠性存疑，要么费用高昂且缺乏个性化，对成长型企业而言性价比不高。",
+    storyP2: "我们创建ARKANA正是为了填补这一空白——将企业级流程与专属账户团队模式带给那些不需要完整IT部门、但又不甘于仅仅应急维修的公司。",
+    storyP3: "我们还自主研发了GoARKAN服务管理平台，因为我们相信：客户有权对代表其执行的每一项工作拥有真正的透明度。",
+    platformBadge: "我们的平台",
+    platformH3: "GoARKAN",
+    platformDesc: "我们自主研发了ITSM平台，让每位客户都能全面了解自己的工单、资产与SLA指标。我们的工程师团队每天在上面工作。",
+    platformLink: "探索GoARKAN →",
+    quote: "「我们不只是另一家IT公司，我们是您的企业理应拥有、却从未拥有过的IT部门。」",
+    quoteAuthor: "— ARKANA团队",
+    valuesBadge: "我们的价值观",
+    valuesH2: "每一个决策背后的原则。",
+    values: [
+      { title: "责任担当", body: "每位客户都有一名具名技术负责人。当出现问题时，您始终知道谁来负责——而他也熟知您的IT环境。" },
+      { title: "透明公开", body: "我们建立GoARKAN，正是因为客户有权随时全面了解自己的IT状况。没有黑箱，无需等待迟迟不来的进展通知。" },
+      { title: "真诚合作", body: "我们不是供应商，而是您团队的延伸——聚焦于业务成果，而不仅仅是清空工单队列。" },
+    ],
+    teamBadge: "我们的团队",
+    teamH2: "支撑您IT运营的人。",
+    teamSub: "认证工程师、交付经理与技术负责人——所有人专注于一件事：让您的IT按业务需求高效运转。",
+    ctaH3: "准备好与ARKANA合作了吗？",
+    ctaSub: "告诉我们您的业务情况——我们将在一个工作日内准备好方案。",
+    ctaBtn: "申请商务方案",
+  },
 };
 
 const VALUE_ICONS = [Target, Eye, Heart];
@@ -131,6 +161,11 @@ const TEAM_LABELS: Record<string, { name: string; role: string }[]> = {
     { name: "Texnik direktor", role: "Asoschi va texnik rahbar" },
     { name: "Operatsiyalar boshlig'i", role: "Xizmat jarayonlarini boshqarish" },
     { name: "Bosh muhandis", role: "Infratuzilma va xavfsizlik" },
+  ],
+  zh: [
+    { name: "首席技术官", role: "创始人兼技术负责人" },
+    { name: "运营总监", role: "服务流程管理" },
+    { name: "首席工程师", role: "基础设施与网络安全" },
   ],
 };
 

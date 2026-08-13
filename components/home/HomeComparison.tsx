@@ -84,6 +84,26 @@ const COPY = {
     verdict: "An in-house department means one person — with taxes, vacation, and the risk of resignation. ARKANA means a full engineering team, an ITSM platform, and a contractual SLA at a fixed monthly cost.",
     cta:     "Request a proposal",
   },
+  zh: {
+    eyebrow:    "对比分析",
+    h2:         "自建IT部门：成本高、风险大、不透明",
+    callout:    "塔什干一名全职IT专员的月薪从500美元起——税费、培训成本与病假替代尚未计入。",
+    paramLabel: "对比项",
+    col1:       "自建IT部门",
+    col2:       "ARKANA",
+    rows: [
+      { label: "成本",   own: "薪资＋税费＋招聘＋培训＋离职补偿。",     arkana: "每月固定费用，无任何隐性支出。" },
+      { label: "团队",   own: "1–2名员工，存在病假、年假与离职风险。",    arkana: "完整工程师团队＋专属服务经理，随时在线。" },
+      { label: "责任",   own: "纸面上有，实际上往往"不关我的事"。",      arkana: "合同约定SLA，违约须承担经济赔偿责任。" },
+      { label: "透明度", own: "做了什么、花了多久——几乎无从知晓。",      arkana: "所有工作实时记录在GoARKAN，全程可查。" },
+      { label: "文档",   own: "文档随员工离职一并带走。",                arkana: "完整资料库：网络拓扑、设备清单、凭证、图纸。" },
+      { label: "报告",   own: "没有报告，或每季度手工整理一次。",         arkana: "每月自动生成报告，无需主动索取。" },
+      { label: "扩展",   own: "招聘新员工需2–4个月时间。",              arkana: "一个工作日内完成资源扩充。" },
+      { label: "平台",   own: "无。各自独立的聊天、邮件、表格。",         arkana: "GoARKAN：服务台、资产、SLA、报告——一站式管理。" },
+    ],
+    verdict: "自建IT部门意味着依赖一两个人，存在税务负担、休假空缺和离职风险。ARKANA提供完整工程师团队、自研ITSM平台和合同约定的SLA，费用固定，按月结算。",
+    cta:     "获取商务报价",
+  },
 };
 
 function useReveal() {

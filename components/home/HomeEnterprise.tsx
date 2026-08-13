@@ -9,52 +9,52 @@ const INDICATORS = [
   {
     icon: <svg width="18" height="18" viewBox="0 0 20 20" fill="none" aria-hidden="true"><rect x="3" y="3" width="6" height="6" rx="1.5" stroke="#4fd18a" strokeWidth="1.3"/><rect x="11" y="3" width="6" height="6" rx="1.5" stroke="#4fd18a" strokeWidth="1.3"/><rect x="3" y="11" width="6" height="6" rx="1.5" stroke="#4fd18a" strokeWidth="1.3"/><path d="M11 14h6M14 11v6" stroke="#4fd18a" strokeWidth="1.3" strokeLinecap="round"/></svg>,
     title: "SLA Management",
-    desc: { ru: "Каждый дедлайн фиксируется и измеряется", uz: "Har bir muddatni qayd etiladi va o'lchanadi", en: "Every deadline tracked and measured" },
+    desc: { ru: "Каждый дедлайн фиксируется и измеряется", uz: "Har bir muddatni qayd etiladi va o'lchanadi", en: "Every deadline tracked and measured", zh: "每个截止时间均被记录与衡量" },
   },
   {
     icon: <svg width="18" height="18" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 6h12M4 10h8M4 14h6" stroke="#4fd18a" strokeWidth="1.3" strokeLinecap="round"/><rect x="2" y="2" width="16" height="16" rx="2" stroke="#4fd18a" strokeWidth="1.3"/></svg>,
     title: "Audit Trail",
-    desc: { ru: "Полная история каждого действия и изменения", uz: "Har bir harakat va o'zgarishning to'liq tarixi", en: "Complete history of every action and change" },
+    desc: { ru: "Полная история каждого действия и изменения", uz: "Har bir harakat va o'zgarishning to'liq tarixi", en: "Complete history of every action and change", zh: "每项操作与变更的完整历史记录" },
   },
   {
     icon: <svg width="18" height="18" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M10 3L17 7v6l-7 4-7-4V7l7-4z" stroke="#4fd18a" strokeWidth="1.3" strokeLinejoin="round"/><circle cx="10" cy="10" r="2.2" stroke="#4fd18a" strokeWidth="1.3"/></svg>,
     title: "Asset Lifecycle",
-    desc: { ru: "Учёт, мониторинг и замена всего оборудования", uz: "Barcha uskunalarni hisobga olish, nazorat va almashtirish", en: "Inventory, monitoring and replacement of all equipment" },
+    desc: { ru: "Учёт, мониторинг и замена всего оборудования", uz: "Barcha uskunalarni hisobga olish, nazorat va almashtirish", en: "Inventory, monitoring and replacement of all equipment", zh: "全部设备的盘点、监控与更换管理" },
   },
   {
     icon: <svg width="18" height="18" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M10 2L3 5v5.5c0 3.87 2.98 7.5 7 8.5 4.02-1 7-4.63 7-8.5V5L10 2z" stroke="#4fd18a" strokeWidth="1.3" strokeLinejoin="round"/><path d="M7.5 10l2 2 3.5-3.5" stroke="#4fd18a" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"/></svg>,
     title: "Security First",
-    desc: { ru: "Endpoint protection и мониторинг угроз 24/7", uz: "Endpoint himoyasi va 24/7 tahdidlarni monitoring qilish", en: "Endpoint protection and 24/7 threat monitoring" },
+    desc: { ru: "Endpoint protection и мониторинг угроз 24/7", uz: "Endpoint himoyasi va 24/7 tahdidlarni monitoring qilish", en: "Endpoint protection and 24/7 threat monitoring", zh: "终端防护与7×24小时威胁监控" },
   },
   {
     icon: <svg width="18" height="18" viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="7.5" stroke="#4fd18a" strokeWidth="1.3"/><path d="M7 10.5l2 2 4-4" stroke="#4fd18a" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"/></svg>,
     title: "ITSM Best Practices",
-    desc: { ru: "Процессы по стандартам управления IT-услугами", uz: "IT xizmatlarini boshqarish standartlariga muvofiq jarayonlar", en: "Processes aligned with IT service management standards" },
+    desc: { ru: "Процессы по стандартам управления IT-услугами", uz: "IT xizmatlarini boshqarish standartlariga muvofiq jarayonlar", en: "Processes aligned with IT service management standards", zh: "符合IT服务管理标准的规范流程" },
   },
   {
     icon: <svg width="18" height="18" viewBox="0 0 20 20" fill="none" aria-hidden="true"><rect x="2.5" y="5" width="15" height="11" rx="1.5" stroke="#4fd18a" strokeWidth="1.3"/><path d="M6 5V4a4 4 0 0 1 8 0v1" stroke="#4fd18a" strokeWidth="1.3"/><circle cx="10" cy="11" r="1.5" fill="#4fd18a" opacity="0.7"/></svg>,
     title: "Microsoft 365 Partner",
-    desc: { ru: "Лицензирование, настройка и поддержка M365", uz: "M365 litsenziyalash, sozlash va qo'llab-quvvatlash", en: "M365 licensing, configuration and support" },
+    desc: { ru: "Лицензирование, настройка и поддержка M365", uz: "M365 litsenziyalash, sozlash va qo'llab-quvvatlash", en: "M365 licensing, configuration and support", zh: "M365授权、配置与技术支持" },
   },
   {
     icon: <svg width="18" height="18" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M3 14v-2a7 7 0 0 1 14 0v2" stroke="#4fd18a" strokeWidth="1.3" strokeLinecap="round"/><path d="M1 17a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-2a2 2 0 0 0-2-2H1zM14 15a2 2 0 0 1 2-2h1a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-2z" stroke="#4fd18a" strokeWidth="1.3"/></svg>,
     title: "Enterprise Support",
-    desc: { ru: "Выделенный менеджер, фиксированное SLA", uz: "Shaxsiy menejer, belgilangan SLA", en: "Dedicated manager, fixed SLA" },
+    desc: { ru: "Выделенный менеджер, фиксированное SLA", uz: "Shaxsiy menejer, belgilangan SLA", en: "Dedicated manager, fixed SLA", zh: "专属经理，固定SLA保障" },
   },
   {
     icon: <svg width="18" height="18" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M10 2v4M10 14v4M2 10h4M14 10h4" stroke="#4fd18a" strokeWidth="1.3" strokeLinecap="round"/><circle cx="10" cy="10" r="4" stroke="#4fd18a" strokeWidth="1.3"/></svg>,
     title: "Operational Excellence",
-    desc: { ru: "Метрики, процессы и постоянное улучшение", uz: "Ko'rsatkichlar, jarayonlar va doimiy takomillashtirish", en: "Metrics, processes and continuous improvement" },
+    desc: { ru: "Метрики, процессы и постоянное улучшение", uz: "Ko'rsatkichlar, jarayonlar va doimiy takomillashtirish", en: "Metrics, processes and continuous improvement", zh: "度量指标、流程规范与持续改进" },
   },
   {
     icon: <svg width="18" height="18" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M5 9V6a5 5 0 0 1 10 0v3" stroke="#4fd18a" strokeWidth="1.3" strokeLinecap="round"/><rect x="3" y="9" width="14" height="9" rx="2" stroke="#4fd18a" strokeWidth="1.3"/><circle cx="10" cy="14" r="1.5" fill="#4fd18a" opacity="0.7"/></svg>,
     title: "Compliance Ready",
-    desc: { ru: "Документация и практики для аудита", uz: "Audit uchun hujjatlar va amaliyotlar", en: "Documentation and practices ready for audit" },
+    desc: { ru: "Документация и практики для аудита", uz: "Audit uchun hujjatlar va amaliyotlar", en: "Documentation and practices ready for audit", zh: "满足审计要求的文档与实践规范" },
   },
   {
     icon: <svg width="18" height="18" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M10 2c4.4 0 8 3.6 8 8s-3.6 8-8 8-8-3.6-8-8 3.6-8 8-8z" stroke="#4fd18a" strokeWidth="1.3"/><path d="M7 10.5l2 2 4-4M4.5 4.5L10 10l5.5-5.5" stroke="#4fd18a" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" opacity="0"/><path d="M6 10l2.5 2.5L14 7" stroke="#4fd18a" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"/></svg>,
     title: "Business Continuity",
-    desc: { ru: "Резервирование, Recovery Plan, минимум простоев", uz: "Zaxiralash, tiklash rejasi, minimal to'xtashlar", en: "Redundancy, recovery plan, minimum downtime" },
+    desc: { ru: "Резервирование, Recovery Plan, минимум простоев", uz: "Zaxiralash, tiklash rejasi, minimal to'xtashlar", en: "Redundancy, recovery plan, minimum downtime", zh: "冗余备份、恢复计划与最低停机时间保障" },
   },
 ];
 
@@ -75,6 +75,7 @@ const COPY = {
   ru: { eyebrow: "Стандарты работы", heading: "Практики зрелой IT-организации.", sub: "Не декларации. Измеримые процессы, которые работают каждый день." },
   uz: { eyebrow: "Ish standartlari", heading: "Yetuk IT-tashkilotning amaliyotlari.", sub: "E'lonlar emas. Har kuni ishlayotgan o'lchanadigan jarayonlar." },
   en: { eyebrow: "Operating Standards", heading: "Practices of a mature IT organisation.", sub: "Not declarations. Measurable processes running every day." },
+  zh: { eyebrow: "运营标准", heading: "成熟IT组织的实践体系。", sub: "不是宣言，而是每天落地运行的可量化流程。" },
 } as const;
 
 export function HomeEnterprise() {

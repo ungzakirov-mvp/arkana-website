@@ -42,6 +42,18 @@ const COPY = {
       { n: "05", role: "Manager",  title: "Client Report",      desc: "A monthly report with every ticket, response time, and performance metric." },
     ],
   },
+  zh: {
+    eyebrow: "工单流转",
+    h2:  "从第一张工单到月度报告",
+    sub: "每个事件均有迹可查、有据可依。无需电话询问状态，无需催促进展。",
+    steps: [
+      { n: "01", role: "员工",   title: "提交工单",   desc: "通过Telegram机器人、网页门户或电话提交，工单即时进入系统。" },
+      { n: "02", role: "工程师", title: "接单与诊断", desc: "工程师接单后确认详情，立即开始远程诊断。" },
+      { n: "03", role: "工程师", title: "解决问题",   desc: "远程修复或现场处理，所有操作实时记录至GoARKAN。" },
+      { n: "04", role: "系统",   title: "关单与核验", desc: "GoARKAN自动记录解决时间并校验SLA达成情况。" },
+      { n: "05", role: "经理",   title: "客户报告",   desc: "月度报告涵盖所有工单、响应时间与绩效指标。" },
+    ],
+  },
 } as const;
 
 function useReveal() {

@@ -61,6 +61,17 @@ const COPY: Record<string, {
     rights: "Barcha huquqlar himoyalangan.",
     privacy: "Maxfiylik siyosati",
   },
+  zh: {
+    desc: "塔什干企业的技术合作伙伴。一份合同，全面负责您的IT。",
+    services: "服务",
+    company: "公司",
+    pricing: "定价",
+    serviceLinks: ["IT外包", "IT技术支持", "基础设施", "网络安全", "全部服务"],
+    companyLinks: ["关于我们", "案例", "博客", "GoARKAN", "联系我们"],
+    pricingLinks: ["START", "OPERATIONS", "ENTERPRISE", "定制方案"],
+    rights: "版权所有。",
+    privacy: "隐私政策",
+  },
 };
 
 const SERVICE_HREFS = ["/services/it-outsourcing", "/services/itsm", "/services/infrastructure", "/services/managed-it", "/services"];

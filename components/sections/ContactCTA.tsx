@@ -38,6 +38,15 @@ const COPY: Record<string, {
     btn2: "Tariflarni ko'rish",
     note: "Majburiyatsiz · 1 ish kuni ichida javob",
   },
+  zh: {
+    badge: "立即开始",
+    h2a: "全面托管的IT部门",
+    h2b: "告别额外管理负担",
+    sub: "申请商务方案，我们将在一个工作日内为您量身定制，充分考虑您的基础设施与业务需求。",
+    btn1: "申请商务方案",
+    btn2: "查看定价",
+    note: "无需承诺 · 1个工作日内回复",
+  },
 };
 
 export function ContactCTA() {

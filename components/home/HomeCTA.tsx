@@ -6,6 +6,7 @@ const COPY = {
   ru: { rights: "Все права защищены.", city: "Ташкент, Узбекистан" },
   uz: { rights: "Barcha huquqlar himoyalangan.", city: "Toshkent, O'zbekiston" },
   en: { rights: "All rights reserved.", city: "Tashkent, Uzbekistan" },
+  zh: { rights: "版权所有。", city: "乌兹别克斯坦·塔什干" },
 } as const;
 
 export function HomeCTA() {

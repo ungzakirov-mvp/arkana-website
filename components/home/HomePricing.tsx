@@ -168,6 +168,58 @@ const COPY: Record<string, {
     footnote: "Nostandart infratuzilma? O'ziga xos talablar?",
     footnoteLink: "Shartlarni muhokama qilish →",
   },
+  zh: {
+    label: "定价方案",
+    perMonth: "苏姆/月",
+    tagline: "固定价格，全部包含。SLA写入合同，违约须承担经济赔偿责任。",
+    popular: "热门",
+    included: "已包含",
+    custom: "定制方案",
+    subtitles: { start: "小型企业", operations: "成长型企业", enterprise: "大型企业" },
+    fallbackPlans: [
+      {
+        id: 1, slug: "start", name: "START", is_popular: false, sort_order: 1,
+        max_workstations: 25, price_label: "起价3,000,000", price_monthly: 3000000,
+        cta_label: "从START开始", cta_href: "/contact", website_show_contact_sales: false,
+        features: [
+          { text: "服务台（GoARKAN）", is_included: true },
+          { text: "SLA——30分钟响应", is_included: true },
+          { text: "专属工程师", is_included: false },
+        ],
+        services: [
+          { count: "最多25台", label: "工作站" },
+          { count: "40", label: "工单/月" },
+        ],
+      },
+      {
+        id: 2, slug: "operations", name: "OPERATIONS", is_popular: true, sort_order: 2,
+        max_workstations: 75, price_label: "起价6,000,000", price_monthly: 6000000,
+        cta_label: "从OPERATIONS开始", cta_href: "/contact", website_show_contact_sales: false,
+        features: [
+          { text: "服务台（GoARKAN）", is_included: true },
+          { text: "SLA——1小时响应", is_included: true },
+          { text: "专属工程师", is_included: true },
+        ],
+        services: [
+          { count: "最多75台", label: "工作站" },
+          { count: "100", label: "工单/月" },
+        ],
+      },
+      {
+        id: 3, slug: "enterprise", name: "ENTERPRISE", is_popular: false, sort_order: 3,
+        max_workstations: null, price_label: "定制方案", price_monthly: null,
+        cta_label: "联系我们", cta_href: "/contact", website_show_contact_sales: true,
+        features: [
+          { text: "专属团队", is_included: true },
+          { text: "定制SLA", is_included: true },
+          { text: "网络安全", is_included: true },
+        ],
+        services: [],
+      },
+    ],
+    footnote: "非标准基础设施？有特殊需求？",
+    footnoteLink: "洽谈合作条件 →",
+  },
 };
 
 export function HomePricing({ plans = [] }: { plans?: Plan[] }) {
