@@ -12,7 +12,8 @@
  * Stale-on-error: if GoARKAN is unreachable, cache serves last-known-good data.
  */
 
-const API_BASE  = process.env.GOARKAN_API_URL ?? "http://192.168.112.11";
+// Без GOARKAN_API_URL сайт работает на локальных данных (контакты — lib/company.ts), CMS не опрашивается.
+const API_BASE  = process.env.GOARKAN_API_URL ?? "";
 const TENANT    = process.env.GOARKAN_TENANT_DOMAIN ?? "arkana.uz";
 const HEADERS   = { "X-Tenant-Domain": TENANT } as const;
 
@@ -23,6 +24,7 @@ async function apiFetch<T>(
   params?: Record<string, string>,
   revalidate = 3600,
 ): Promise<T | null> {
+  if (!API_BASE) return null;
   try {
     const url = new URL(`${API_BASE}${path}`);
     if (params) {
@@ -31,6 +33,7 @@ async function apiFetch<T>(
     const res = await fetch(url.toString(), {
       headers: HEADERS,
       next: { revalidate },
+      signal: AbortSignal.timeout(4000), // CMS недоступна — не держим рендер страницы
     });
     if (!res.ok) {
       console.error(`[cms-api] ${path} → HTTP ${res.status}`);
@@ -316,7 +319,7 @@ export async function submitLead(data: LeadInput): Promise<LeadResult> {
   let goarkanOk = false;
   let goarkanLeadId: number | undefined;
 
-  try {
+  if (API_BASE) try {
     const res = await fetch(`${API_BASE}/api/public/website/leads`, {
       method: "POST",
       headers: { ...HEADERS, "Content-Type": "application/json" },
@@ -434,6 +437,7 @@ export async function trackEvent(payload: {
   utm_medium?: string;
   utm_campaign?: string;
 }): Promise<void> {
+  if (!API_BASE) return;
   try {
     await fetch(`${API_BASE}/api/public/website/analytics`, {
       method: "POST",

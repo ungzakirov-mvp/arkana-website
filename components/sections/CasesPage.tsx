@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import Link from "next/link";
+import Link from "@/components/ui/LocaleLink";
 import { ArrowRight } from "lucide-react";
 import { useApp } from "@/components/providers/ThemeLanguageProvider";
 
@@ -40,7 +40,7 @@ const COPY: Record<string, {
       {
         sector: "Медицина",
         problem: "Требования к безопасности медицинских данных жёсткие, но IT-безопасность не выстроена. Незащищённые сети, отсутствие политик доступа, регуляторные риски. Любой инцидент — угроза репутации и штрафы.",
-        solution: "ARKANA проводит аудит безопасности, закрывает уязвимости, выстраивает политику доступа и защиты данных. Постоянный мониторинг сети 24/7. Все события фиксируются в GoARKAN — у руководства есть полная документация соответствия.",
+        solution: "ARKANA проводит аудит безопасности, закрывает уязвимости, выстраивает политику доступа и защиты данных. Все события фиксируются в GoARKAN — у руководства есть полная документация соответствия.",
         outcome: "Медицинская организация соответствует требованиям регуляторов. Данные пациентов защищены. Руководство уверено в безопасности IT и имеет документальное подтверждение на случай проверки.",
       },
     ],
@@ -72,7 +72,7 @@ const COPY: Record<string, {
       {
         sector: "Healthcare",
         problem: "Medical data security requirements are strict, but IT security is not in place. Unsecured networks, no access policies, regulatory risk. Any incident is a reputational threat and a potential fine.",
-        solution: "ARKANA conducts a security audit, closes vulnerabilities, establishes access and data protection policies. Continuous 24/7 network monitoring. All events are logged in GoARKAN — management has complete compliance documentation.",
+        solution: "ARKANA conducts a security audit, closes vulnerabilities, establishes access and data protection policies. All events are logged in GoARKAN — management has complete compliance documentation.",
         outcome: "The organisation meets regulatory requirements. Patient data is protected. Management is confident in IT security and has documented proof ready for inspection.",
       },
     ],
@@ -104,7 +104,7 @@ const COPY: Record<string, {
       {
         sector: "Tibbiyot",
         problem: "Tibbiy ma'lumotlar xavfsizligiga talablar qat'iy, lekin IT xavfsizligi tashkil etilmagan. Himoyalanmagan tarmoqlar, kirish siyosati yo'q, tartibga solish xavflari. Har qanday hodisa — obro'ga tahdid va mumkin bo'lgan jarima.",
-        solution: "ARKANA xavfsizlik auditi o'tkazadi, zaifliklarni bartaraf etadi, kirish va ma'lumotlarni himoya qilish siyosatini tashkil etadi. 24/7 uzluksiz tarmoq monitoringi. Barcha hodisalar GoARKAN'da qayd etiladi — rahbariyatda to'liq muvofiqlik hujjatlari bor.",
+        solution: "ARKANA xavfsizlik auditi o'tkazadi, zaifliklarni bartaraf etadi, kirish va ma'lumotlarni himoya qilish siyosatini tashkil etadi. Barcha hodisalar GoARKAN'da qayd etiladi — rahbariyatda to'liq muvofiqlik hujjatlari bor.",
         outcome: "Tashkilot tartibga solish talablariga javob beradi. Bemorlar ma'lumotlari himoyalangan. Rahbariyat IT xavfsizligiga ishonch bilan qaraydi va tekshiruv uchun tayyorlangan hujjatli isbotga ega.",
       },
     ],

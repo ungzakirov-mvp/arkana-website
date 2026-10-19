@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import Link from "@/components/ui/LocaleLink";
 import { useRef, useEffect, useState } from "react";
 import { useApp } from "@/components/providers/ThemeLanguageProvider";
 import type { SiteSettings } from "@/lib/cms-api";

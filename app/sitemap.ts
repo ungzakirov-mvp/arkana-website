@@ -1,38 +1,47 @@
 import type { MetadataRoute } from "next";
+import { LANGS, localizePath } from "@/lib/locale";
 
 const BASE = process.env.NEXT_PUBLIC_BASE_URL ?? "https://arkana.uz";
 
+/** [путь, приоритет, частота] — каждая страница в 4 языковых версиях с hreflang. */
+const PAGES: [string, number, MetadataRoute.Sitemap[number]["changeFrequency"]][] = [
+  ["/", 1.0, "weekly"],
+  ["/services/it-outsourcing", 0.9, "monthly"],
+  ["/services/on-demand", 0.9, "monthly"],
+  ["/pricing", 0.9, "weekly"],
+  ["/services/e-imzo", 0.8, "monthly"],
+  ["/services/infrastructure", 0.8, "monthly"],
+  ["/services/telegram-bots", 0.8, "monthly"],
+  ["/services/microsoft-365", 0.7, "monthly"],
+  ["/services/development", 0.7, "monthly"],
+  ["/services", 0.8, "monthly"],
+  ["/goarkan", 0.8, "monthly"],
+  ["/contact", 0.8, "monthly"],
+  ["/cases", 0.6, "monthly"],
+  ["/about", 0.6, "monthly"],
+  ["/blog", 0.6, "weekly"],
+];
+
+/** Статьи блога — только на русском. */
+const POSTS = [
+  "it-outsourcing-tsena-tashkent", "kak-vybrat-it-kompaniyu-tashkent", "it-podderzhka-ofisa-tashkent",
+  "google-workspace-vs-microsoft-365-uzbekistan", "kiberataki-na-biznes-uzbekistan-2026", "zachem-biznesu-itsm",
+  "it-outsourcing-vs-staff", "cybersecurity-threats-2026", "m365-migration-guide", "when-to-replace-servers", "cut-it-costs", "sla-guide",
+];
+
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
-  const w = "weekly" as const;
-  const m = "monthly" as const;
-  const d = "daily" as const;
-
-  return [
-    { url: `${BASE}/`, lastModified: now, changeFrequency: w, priority: 1.0 },
-    { url: `${BASE}/pricing`, lastModified: now, changeFrequency: w, priority: 0.9 },
-    { url: `${BASE}/goarkan`, lastModified: now, changeFrequency: m, priority: 0.9 },
-    { url: `${BASE}/services`, lastModified: now, changeFrequency: m, priority: 0.8 },
-    { url: `${BASE}/services/it-outsourcing`, lastModified: now, changeFrequency: m, priority: 0.7 },
-    { url: `${BASE}/services/itsm`, lastModified: now, changeFrequency: m, priority: 0.7 },
-    { url: `${BASE}/services/infrastructure`, lastModified: now, changeFrequency: m, priority: 0.7 },
-    { url: `${BASE}/services/managed-it`, lastModified: now, changeFrequency: m, priority: 0.7 },
-    { url: `${BASE}/cases`, lastModified: now, changeFrequency: m, priority: 0.8 },
-    { url: `${BASE}/about`, lastModified: now, changeFrequency: m, priority: 0.7 },
-    { url: `${BASE}/blog`, lastModified: now, changeFrequency: d, priority: 0.8 },
-    { url: `${BASE}/contact`, lastModified: now, changeFrequency: m, priority: 0.8 },
-    // Blog articles
-    { url: `${BASE}/blog/it-outsourcing-vs-staff`, lastModified: now, changeFrequency: m, priority: 0.6 },
-    { url: `${BASE}/blog/cybersecurity-threats-2026`, lastModified: now, changeFrequency: m, priority: 0.6 },
-    { url: `${BASE}/blog/m365-migration-guide`, lastModified: now, changeFrequency: m, priority: 0.6 },
-    { url: `${BASE}/blog/when-to-replace-servers`, lastModified: now, changeFrequency: m, priority: 0.6 },
-    { url: `${BASE}/blog/cut-it-costs`, lastModified: now, changeFrequency: m, priority: 0.6 },
-    { url: `${BASE}/blog/sla-guide`, lastModified: now, changeFrequency: m, priority: 0.6 },
-    { url: `${BASE}/blog/it-outsourcing-tsena-tashkent`, lastModified: now, changeFrequency: m, priority: 0.7 },
-    { url: `${BASE}/blog/kak-vybrat-it-kompaniyu-tashkent`, lastModified: now, changeFrequency: m, priority: 0.7 },
-    { url: `${BASE}/blog/it-podderzhka-ofisa-tashkent`, lastModified: now, changeFrequency: m, priority: 0.7 },
-    { url: `${BASE}/blog/google-workspace-vs-microsoft-365-uzbekistan`, lastModified: now, changeFrequency: m, priority: 0.6 },
-    { url: `${BASE}/blog/kiberataki-na-biznes-uzbekistan-2026`, lastModified: now, changeFrequency: m, priority: 0.7 },
-    { url: `${BASE}/blog/zachem-biznesu-itsm`, lastModified: now, changeFrequency: m, priority: 0.6 },
-  ];
+  const url = (p: string) => `${BASE}${p === "/" ? "" : p}`;
+  const pages = PAGES.flatMap(([path, priority, changeFrequency]) => {
+    const languages = Object.fromEntries(LANGS.map((l) => [l, url(localizePath(path, l))]));
+    return LANGS.map((l) => ({
+      url: url(localizePath(path, l)),
+      lastModified: now,
+      changeFrequency,
+      priority: l === "ru" ? priority : Math.round(priority * 0.9 * 10) / 10,
+      alternates: { languages: { ...languages, "x-default": url(path) } },
+    }));
+  });
+  const posts = POSTS.map((slug) => ({ url: `${BASE}/blog/${slug}`, lastModified: now, changeFrequency: "monthly" as const, priority: 0.5 }));
+  return [...pages, ...posts];
 }

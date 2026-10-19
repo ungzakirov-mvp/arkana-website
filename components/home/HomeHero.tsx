@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import Link from "next/link";
+import { useEffect, useRef } from "react";
+import Link from "@/components/ui/LocaleLink";
 import { useApp } from "@/components/providers/ThemeLanguageProvider";
 
 const EASE = "cubic-bezier(.16,1,.3,1)";
@@ -39,114 +39,95 @@ const HERO_VISUALS = {
   bg: {
     glowOpacity: 0.05,
   },
-  // Counter tween on page load
-  tween: {
-    durationMs: 1400,
-  },
 } as const;
 
 const COPY = {
   ru: {
-    badge:   "IT-партнёр для вашего бизнеса",
-    h1:      "Технологический партнёр",
-    h1green: "для развития вашего бизнеса.",
-    sub:     "Один договор. Фиксированная стоимость. Полная ответственность. Ваш IT работает предсказуемо — вы видите всё через GoARKAN.",
-    cta:     "Получить коммерческое предложение →",
+    badge:   "IT-аутсорсинг в Ташкенте",
+    h1:      "IT-отдел на аутсорсе",
+    h1green: "для бизнеса в Ташкенте.",
+    sub:     "IT-обслуживание по подписке или разовый выезд мастера. Компьютеры, сети и серверы, ЭЦП и госпорталы, Microsoft 365, цифровой офис GoARKAN и Telegram-боты.",
+    cta:     "Получить расчёт →",
     ctaNote: "Ответим в течение рабочего дня",
     chips: [
-      { title: "IT Outsourcing",  sub: "и поддержка" },
-      { title: "Инфраструктура", sub: "и безопасность" },
-      { title: "Автоматизация",  sub: "процессов" },
-      { title: "Облако",         sub: "и интеграция" },
+      { title: "IT-подписка",    sub: "всё IT за один платёж" },
+      { title: "Выезд мастера",  sub: "по Ташкенту" },
+      { title: "GoARKAN",        sub: "цифровой офис" },
+      { title: "Telegram-боты",  sub: "под ключ" },
     ],
     stats: [
-      { val: "95%",      label: "SLA выполнение" },
-      { val: "< 30 мин", label: "Первый ответ" },
-      { val: "14 дн.",   label: "Средний срок запуска" },
-      { val: "GoARKAN", label: "ITSM-платформа" },
-      { val: "24/7",  label: "Мониторинг" },
+      { val: "3 формата", label: "Подписка, заявки, проекты" },
+      { val: "1 день",   label: "Расчёт стоимости" },
+      { val: "1 час",    label: "Реакция на критический сбой" },
+      { val: "GoARKAN",  label: "Заявки из Telegram" },
+      { val: "Без НДС",  label: "Цены фиксируем в договоре" },
     ],
   },
   uz: {
-    badge:   "Biznesingizga IT hamkor",
-    h1:      "Texnologik hamkor",
-    h1green: "biznesingizni rivojlantirish uchun.",
-    sub:     "Bitta shartnoma. Belgilangan narx. To'liq mas'uliyat. IT'ingiz ishlaydi — GoARKAN orqali barchasini ko'rasiz.",
-    cta:     "Taklif so'rash →",
+    badge:   "Toshkentda IT autsorsing",
+    h1:      "Autsorsingdagi IT bo'lim",
+    h1green: "Toshkentdagi biznes uchun.",
+    sub:     "Obuna bo'yicha IT xizmat yoki ustaning bir martalik tashrifi. Kompyuterlar, tarmoq va serverlar, ERI va davlat portallari, Microsoft 365, GoARKAN raqamli ofisi va Telegram-botlar.",
+    cta:     "Hisob olish →",
     ctaNote: "Bir ish kuni ichida javob beramiz",
     chips: [
-      { title: "IT Autsorsing",      sub: "va qo'llab-quvvatlash" },
-      { title: "Infratuzilma",       sub: "va xavfsizlik" },
-      { title: "Avtomatlashtirish",  sub: "va jarayonlar" },
-      { title: "Bulut",              sub: "va integratsiya" },
+      { title: "IT obuna",        sub: "bitta to'lovda butun IT" },
+      { title: "Usta chaqirish",  sub: "Toshkent bo'ylab" },
+      { title: "GoARKAN",         sub: "raqamli ofis" },
+      { title: "Telegram-botlar", sub: "tayyor holda" },
     ],
     stats: [
-      { val: "95%",          label: "SLA bajarish" },
-      { val: "< 30 daqiqa", label: "Birinchi javob" },
-      { val: "14 kun",       label: "O'rtacha ishga tushirish" },
-      { val: "GoARKAN", label: "ITSM platforma" },
-      { val: "24/7",     label: "Monitoring" },
+      { val: "3 format", label: "Obuna, ariza, loyiha" },
+      { val: "1 kun",    label: "Narx hisobi" },
+      { val: "1 soat",   label: "Jiddiy nosozlikka javob" },
+      { val: "GoARKAN",  label: "Telegram orqali arizalar" },
+      { val: "QQSsiz",   label: "Narxlar shartnomada" },
     ],
   },
   en: {
-    badge:   "Your IT partner for business",
-    h1:      "Technology Partner",
-    h1green: "built to grow your business.",
-    sub:     "One contract. Fixed price. Full accountability. Your IT runs predictably — with complete visibility through GoARKAN.",
-    cta:     "Request a Proposal →",
+    badge:   "IT outsourcing in Tashkent",
+    h1:      "Your outsourced IT department",
+    h1green: "for business in Tashkent.",
+    sub:     "IT support by subscription or a one-off call-out. PCs, networks and servers, e-signature and gov portals, Microsoft 365, the GoARKAN digital office and Telegram bots.",
+    cta:     "Get a quote →",
     ctaNote: "We respond within one business day",
     chips: [
-      { title: "IT Outsourcing",  sub: "& Support" },
-      { title: "Infrastructure",  sub: "& Security" },
-      { title: "Automation",      sub: "& Workflows" },
-      { title: "Cloud",           sub: "& Integration" },
+      { title: "IT subscription", sub: "all IT, one fee" },
+      { title: "Call-out",        sub: "across Tashkent" },
+      { title: "GoARKAN",         sub: "digital office" },
+      { title: "Telegram bots",   sub: "turnkey" },
     ],
     stats: [
-      { val: "95%",     label: "SLA Compliance" },
-      { val: "< 30 min", label: "First Response" },
-      { val: "14 days", label: "Average Onboarding" },
-      { val: "GoARKAN", label: "ITSM Platform" },
-      { val: "24/7",   label: "Monitoring" },
+      { val: "3 formats", label: "Subscription, per job, projects" },
+      { val: "1 day",    label: "Price quote" },
+      { val: "1 hour",   label: "Critical outage response" },
+      { val: "GoARKAN",  label: "Tickets via Telegram" },
+      { val: "No VAT",   label: "Prices fixed in contract" },
     ],
   },
   zh: {
-    badge:   "您的企业IT合作伙伴",
-    h1:      "技术合作伙伴",
-    h1green: "助力您的业务持续增长。",
-    sub:     "一份合同，固定价格，全面负责。您的IT运行可预期——通过GoARKAN全程透明可见。",
-    cta:     "获取商务方案 →",
+    badge:   "塔什干IT外包",
+    h1:      "外包IT部门",
+    h1green: "服务塔什干企业。",
+    sub:     "IT订阅服务或单次上门。电脑、网络与服务器、电子签名与政务门户、Microsoft 365、GoARKAN数字办公室及Telegram机器人。",
+    cta:     "获取报价 →",
     ctaNote: "一个工作日内回复",
     chips: [
-      { title: "IT外包",   sub: "与技术支持" },
-      { title: "基础设施", sub: "与网络安全" },
-      { title: "自动化",   sub: "与流程优化" },
-      { title: "云服务",   sub: "与系统集成" },
+      { title: "IT订阅",       sub: "一笔费用全包" },
+      { title: "上门服务",     sub: "覆盖塔什干" },
+      { title: "GoARKAN",      sub: "数字办公室" },
+      { title: "Telegram机器人", sub: "交钥匙" },
     ],
     stats: [
-      { val: "95%",    label: "SLA达成率" },
-      { val: "< 30分钟", label: "首次响应" },
-      { val: "14天",   label: "平均交接周期" },
-      { val: "GoARKAN", label: "ITSM平台" },
-      { val: "24/7",  label: "监控" },
+      { val: "3种模式", label: "订阅、按次、项目" },
+      { val: "1天",     label: "报价" },
+      { val: "1小时",   label: "严重故障响应" },
+      { val: "GoARKAN", label: "Telegram提交工单" },
+      { val: "免增值税", label: "价格写入合同" },
     ],
   },
 } as const;
 
-function useTween(duration = HERO_VISUALS.tween.durationMs) {
-  const [progress, setProgress] = useState(0);
-  useEffect(() => {
-    const start = performance.now();
-    let id: number;
-    const tick = (now: number) => {
-      const p = Math.min(1, (now - start) / duration);
-      setProgress(p);
-      if (p < 1) id = requestAnimationFrame(tick);
-    };
-    id = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(id);
-  }, [duration]);
-  return progress;
-}
 
 function BurstCanvas() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -225,7 +206,6 @@ export function HomeHero() {
   const c = COPY[lang] ?? COPY.ru;
 
   const videoRef = useRef<HTMLVideoElement>(null);
-  const progress = useTween();
 
   useEffect(() => {
     const vid = videoRef.current;
@@ -356,11 +336,7 @@ export function HomeHero() {
         animation: `riseIn .9s ${EASE} .4s both`,
       }}>
         {c.stats.map(({ val: rawVal, label }, idx) => {
-          const animated = idx === 0
-            ? `${(progress * 95).toFixed(0)}%`
-            : idx === 1
-              ? lang === "ru" ? `< ${Math.round(progress * 30)} мин` : lang === "uz" ? `< ${Math.round(progress * 30)} daq` : lang === "zh" ? `< ${Math.round(progress * 30)} 分钟` : `< ${Math.round(progress * 30)} min`
-              : rawVal;
+          const animated = rawVal;
           const STAT_ICONS = [
             <svg key="s0" width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M10 2L3 5v5.5c0 3.87 2.98 7.5 7 8.5 4.02-1 7-4.63 7-8.5V5L10 2z" fill="rgba(79,209,138,0.12)" stroke="#4fd18a" strokeWidth="1.35" strokeLinejoin="round"/><path d="M7 10.5l2 2 4-4" stroke="#4fd18a" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>,
             <svg key="s1" width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="7.5" stroke="#4fd18a" strokeWidth="1.35"/><path d="M10 6.5V10.5l2.5 2" stroke="#4fd18a" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>,
