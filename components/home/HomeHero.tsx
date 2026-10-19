@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import Link from "@/components/ui/LocaleLink";
 import { useApp } from "@/components/providers/ThemeLanguageProvider";
 
@@ -38,10 +38,6 @@ const HERO_VISUALS = {
   // Section background radial glow (subtle green at top-left)
   bg: {
     glowOpacity: 0.05,
-  },
-  // Counter tween on page load
-  tween: {
-    durationMs: 1400,
   },
 } as const;
 
@@ -132,21 +128,6 @@ const COPY = {
   },
 } as const;
 
-function useTween(duration = HERO_VISUALS.tween.durationMs) {
-  const [progress, setProgress] = useState(0);
-  useEffect(() => {
-    const start = performance.now();
-    let id: number;
-    const tick = (now: number) => {
-      const p = Math.min(1, (now - start) / duration);
-      setProgress(p);
-      if (p < 1) id = requestAnimationFrame(tick);
-    };
-    id = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(id);
-  }, [duration]);
-  return progress;
-}
 
 function BurstCanvas() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
