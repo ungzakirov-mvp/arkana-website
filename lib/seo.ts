@@ -1,3 +1,5 @@
+import { COMPANY } from "@/lib/company";
+
 export const SITE_URL = process.env.NEXT_PUBLIC_BASE_URL ?? "https://arkana.uz";
 
 // ─── Organization ─────────────────────────────────────────────────────────────
@@ -15,34 +17,33 @@ export const organizationSchema = {
     height: 512,
   },
   description:
-    "Технологический партнёр для бизнеса в Ташкенте и Узбекистане. IT-аутсорсинг, кибербезопасность, управление инфраструктурой и ITSM через платформу GoARKAN.",
+    "IT-аутсорсинг для бизнеса в Ташкенте: абонентское обслуживание, разовые выезды, сети и серверы, цифровой офис GoARKAN и Telegram-боты.",
   address: {
     "@type": "PostalAddress",
-    streetAddress: "ул. Мирзо Улугбека 97",
-    addressLocality: "Ташкент",
-    addressRegion: "Ташкент",
-    addressCountry: "UZ",
+    streetAddress: COMPANY.address.street,
+    addressLocality: COMPANY.address.locality,
+    addressRegion: COMPANY.address.locality,
+    addressCountry: COMPANY.address.country,
   },
-  email: "info@arkana.uz",
-  telephone: "+998712000000",
+  email: COMPANY.email,
+  telephone: COMPANY.phones[0],
   contactPoint: [
     {
       "@type": "ContactPoint",
       contactType: "sales",
-      email: "info@arkana.uz",
+      email: COMPANY.email,
+      telephone: COMPANY.phones[0],
       availableLanguage: ["Uzbek", "Russian", "English"],
     },
     {
       "@type": "ContactPoint",
       contactType: "customer support",
-      email: "info@arkana.uz",
+      email: COMPANY.email,
+      telephone: COMPANY.phones[1],
       availableLanguage: ["Uzbek", "Russian", "English"],
     },
   ],
-  sameAs: [
-    "https://www.linkedin.com/company/arkana-uz",
-    "https://t.me/arkana_uz",
-  ],
+  sameAs: [...COMPANY.sameAs],
 };
 
 // ─── LocalBusiness ────────────────────────────────────────────────────────────
@@ -53,34 +54,30 @@ export const localBusinessSchema = {
   "@id": `${SITE_URL}/#business`,
   name: "ARKANA",
   description:
-    "IT-аутсорсинг и технологический партнёр для бизнеса в Ташкенте. Управляемые IT-услуги, кибербезопасность, Service Desk, GoARKAN ITSM-платформа.",
+    "IT-аутсорсинг в Ташкенте: подписка от 8,5 млн сум/мес, выезд компьютерного мастера 100 000 сум, сети и серверы, GoARKAN, Telegram-боты.",
   url: SITE_URL,
   logo: `${SITE_URL}/logo-3d.png`,
   image: `${SITE_URL}/og-image.png`,
-  email: "info@arkana.uz",
-  telephone: "+998712000000",
-  priceRange: "$$",
+  email: COMPANY.email,
+  telephone: COMPANY.phones,
+  priceRange: "от 100 000 сум",
   currenciesAccepted: "UZS",
   paymentAccepted: "Bank Transfer, Invoice",
   address: {
     "@type": "PostalAddress",
-    streetAddress: "ул. Мирзо Улугбека 97",
-    addressLocality: "Ташкент",
-    addressRegion: "Ташкент",
-    postalCode: "100000",
-    addressCountry: "UZ",
+    streetAddress: COMPANY.address.street,
+    addressLocality: COMPANY.address.locality,
+    addressRegion: COMPANY.address.locality,
+    addressCountry: COMPANY.address.country,
   },
-  geo: {
-    "@type": "GeoCoordinates",
-    latitude: 41.2995,
-    longitude: 69.2401,
-  },
+  // TODO: geo — поставить точные координаты офиса из Google Maps
   openingHoursSpecification: {
     "@type": "OpeningHoursSpecification",
-    dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
-    opens: "09:00",
-    closes: "18:00",
+    dayOfWeek: [...COMPANY.hours.days],
+    opens: COMPANY.hours.opens,
+    closes: COMPANY.hours.closes,
   },
+  sameAs: [...COMPANY.sameAs],
   areaServed: [
     { "@type": "City", name: "Tashkent" },
     { "@type": "Country", name: "Uzbekistan" },
@@ -89,10 +86,11 @@ export const localBusinessSchema = {
     "@type": "OfferCatalog",
     name: "IT Services",
     itemListElement: [
-      { "@type": "Offer", itemOffered: { "@type": "Service", name: "IT Outsourcing" } },
-      { "@type": "Offer", itemOffered: { "@type": "Service", name: "Cybersecurity" } },
-      { "@type": "Offer", itemOffered: { "@type": "Service", name: "IT Infrastructure Management" } },
-      { "@type": "Offer", itemOffered: { "@type": "Service", name: "IT Service Management" } },
+      { "@type": "Offer", itemOffered: { "@type": "Service", name: "IT-аутсорсинг и абонентское обслуживание" }, price: 8500000, priceCurrency: "UZS" },
+      { "@type": "Offer", itemOffered: { "@type": "Service", name: "Выезд компьютерного мастера по Ташкенту" }, price: 100000, priceCurrency: "UZS" },
+      { "@type": "Offer", itemOffered: { "@type": "Service", name: "Сети, серверы, Wi-Fi, IP-телефония" } },
+      { "@type": "Offer", itemOffered: { "@type": "Service", name: "Цифровой офис GoARKAN" }, price: 1500000, priceCurrency: "UZS" },
+      { "@type": "Offer", itemOffered: { "@type": "Service", name: "Разработка Telegram-ботов" }, price: 9900000, priceCurrency: "UZS" },
     ],
   },
 };

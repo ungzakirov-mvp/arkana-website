@@ -35,7 +35,7 @@ const COPY: Record<string, {
     pricing: "Тарифы",
     serviceLinks: ["IT-аутсорсинг", "IT-поддержка", "Инфраструктура", "Кибербезопасность", "Все услуги"],
     companyLinks: ["О нас", "Кейсы", "Блог", "GoARKAN", "Контакты"],
-    pricingLinks: ["START", "OPERATIONS", "ENTERPRISE", "Индивидуально"],
+    pricingLinks: ["IT-подписка", "Выезд по заявке", "GoARKAN", "Telegram-боты"],
     rights: "Все права защищены.",
     privacy: "Политика конфиденциальности",
   },
@@ -46,7 +46,7 @@ const COPY: Record<string, {
     pricing: "Pricing",
     serviceLinks: ["IT Outsourcing", "IT Support", "Infrastructure", "Cybersecurity", "All Services"],
     companyLinks: ["About", "Cases", "Blog", "GoARKAN", "Contact"],
-    pricingLinks: ["START", "OPERATIONS", "ENTERPRISE", "Custom"],
+    pricingLinks: ["IT subscription", "Pay per job", "GoARKAN", "Telegram bots"],
     rights: "All rights reserved.",
     privacy: "Privacy Policy",
   },
@@ -57,7 +57,7 @@ const COPY: Record<string, {
     pricing: "Tariflar",
     serviceLinks: ["IT-autsorsing", "IT-qo'llab-quvvatlash", "Infratuzilma", "Kiberxavfsizlik", "Barcha xizmatlar"],
     companyLinks: ["Biz haqimizda", "Loyihalar", "Blog", "GoARKAN", "Aloqa"],
-    pricingLinks: ["START", "OPERATIONS", "ENTERPRISE", "Individual"],
+    pricingLinks: ["IT obuna", "Ariza bo'yicha", "GoARKAN", "Telegram-botlar"],
     rights: "Barcha huquqlar himoyalangan.",
     privacy: "Maxfiylik siyosati",
   },
@@ -68,7 +68,7 @@ const COPY: Record<string, {
     pricing: "定价",
     serviceLinks: ["IT外包", "IT技术支持", "基础设施", "网络安全", "全部服务"],
     companyLinks: ["关于我们", "案例", "博客", "GoARKAN", "联系我们"],
-    pricingLinks: ["START", "OPERATIONS", "ENTERPRISE", "定制方案"],
+    pricingLinks: ["IT订阅", "按次服务", "GoARKAN", "Telegram机器人"],
     rights: "版权所有。",
     privacy: "隐私政策",
   },
@@ -76,7 +76,7 @@ const COPY: Record<string, {
 
 const SERVICE_HREFS = ["/services/it-outsourcing", "/services/itsm", "/services/infrastructure", "/services/managed-it", "/services"];
 const COMPANY_HREFS = ["/about", "/cases", "/blog", "/goarkan", "/contact"];
-const PRICING_HREFS = ["/pricing#start", "/pricing#operations", "/pricing#enterprise", "/contact"];
+const PRICING_HREFS = ["/pricing#subscription", "/pricing#on-demand", "/pricing#goarkan", "/pricing#bots"];
 
 export function Footer({ settings }: { settings?: SiteSettings | null }) {
   const { lang } = useApp();

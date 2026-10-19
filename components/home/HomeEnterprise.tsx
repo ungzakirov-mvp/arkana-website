@@ -24,7 +24,7 @@ const INDICATORS = [
   {
     icon: <svg width="18" height="18" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M10 2L3 5v5.5c0 3.87 2.98 7.5 7 8.5 4.02-1 7-4.63 7-8.5V5L10 2z" stroke="#4fd18a" strokeWidth="1.3" strokeLinejoin="round"/><path d="M7.5 10l2 2 3.5-3.5" stroke="#4fd18a" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"/></svg>,
     title: "Security First",
-    desc: { ru: "Endpoint protection и мониторинг угроз 24/7", uz: "Endpoint himoyasi va 24/7 tahdidlarni monitoring qilish", en: "Endpoint protection and 24/7 threat monitoring", zh: "终端防护与7×24小时威胁监控" },
+    desc: { ru: "MFA, VPN, межсетевой экран и резервные копии", uz: "MFA, VPN, tarmoqlararo ekran va zaxira nusxalar", en: "MFA, VPN, firewall and backups", zh: "多因素认证、VPN、防火墙与备份" },
   },
   {
     icon: <svg width="18" height="18" viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="7.5" stroke="#4fd18a" strokeWidth="1.3"/><path d="M7 10.5l2 2 4-4" stroke="#4fd18a" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"/></svg>,
@@ -33,13 +33,13 @@ const INDICATORS = [
   },
   {
     icon: <svg width="18" height="18" viewBox="0 0 20 20" fill="none" aria-hidden="true"><rect x="2.5" y="5" width="15" height="11" rx="1.5" stroke="#4fd18a" strokeWidth="1.3"/><path d="M6 5V4a4 4 0 0 1 8 0v1" stroke="#4fd18a" strokeWidth="1.3"/><circle cx="10" cy="11" r="1.5" fill="#4fd18a" opacity="0.7"/></svg>,
-    title: "Microsoft 365 Partner",
-    desc: { ru: "Лицензирование, настройка и поддержка M365", uz: "M365 litsenziyalash, sozlash va qo'llab-quvvatlash", en: "M365 licensing, configuration and support", zh: "M365授权、配置与技术支持" },
+    title: "Microsoft 365",
+    desc: { ru: "Учётки, почта, Teams, OneDrive и защита входа", uz: "Hisoblar, pochta, Teams, OneDrive va kirish himoyasi", en: "Accounts, mail, Teams, OneDrive and sign-in security", zh: "账户、邮件、Teams、OneDrive与登录安全" },
   },
   {
     icon: <svg width="18" height="18" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M3 14v-2a7 7 0 0 1 14 0v2" stroke="#4fd18a" strokeWidth="1.3" strokeLinecap="round"/><path d="M1 17a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-2a2 2 0 0 0-2-2H1zM14 15a2 2 0 0 1 2-2h1a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-2z" stroke="#4fd18a" strokeWidth="1.3"/></svg>,
     title: "Enterprise Support",
-    desc: { ru: "Выделенный менеджер, фиксированное SLA", uz: "Shaxsiy menejer, belgilangan SLA", en: "Dedicated manager, fixed SLA", zh: "专属经理，固定SLA保障" },
+    desc: { ru: "Сроки реакции в договоре, отчёт каждый месяц", uz: "Javob muddatlari shartnomada, har oy hisobot", en: "Response times in contract, monthly report", zh: "响应时间写入合同，每月报告" },
   },
   {
     icon: <svg width="18" height="18" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M10 2v4M10 14v4M2 10h4M14 10h4" stroke="#4fd18a" strokeWidth="1.3" strokeLinecap="round"/><circle cx="10" cy="10" r="4" stroke="#4fd18a" strokeWidth="1.3"/></svg>,

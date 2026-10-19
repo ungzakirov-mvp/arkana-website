@@ -15,14 +15,14 @@ import { getSettings } from "@/lib/cms-api";
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL ?? "https://arkana.uz";
 
 export const metadata: Metadata = {
-  title: "ARKANA — Технологический партнёр для вашего бизнеса в Ташкенте",
+  title: { absolute: "IT-аутсорсинг в Ташкенте — обслуживание компьютеров и сетей | ARKANA" },
   description:
-    "ARKANA — технологический партнёр для бизнеса в Ташкенте. Один договор, фиксированная стоимость, SLA в договоре, полная прозрачность через GoARKAN.",
+    "IT-аутсорсинг для бизнеса в Ташкенте: подписка от 8,5 млн сум/мес, выезд компьютерного мастера 100 000 сум, сети, серверы, ЭЦП и Didox, цифровой офис GoARKAN, Telegram-боты.",
   alternates: { canonical: "/" },
   openGraph: {
-    title: "ARKANA — Технологический партнёр для вашего бизнеса",
+    title: "IT-аутсорсинг в Ташкенте | ARKANA",
     description:
-      "Технологический партнёр для бизнеса в Ташкенте. Один договор. Фиксированная стоимость. SLA в договоре. Прозрачность через GoARKAN.",
+      "Подписка от 8,5 млн сум/мес или выезд за 100 000 сум. Сети, серверы, ЭЦП, GoARKAN и Telegram-боты.",
     url: baseUrl,
   },
 };
