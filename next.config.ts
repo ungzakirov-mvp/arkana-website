@@ -8,6 +8,13 @@ const nextConfig: NextConfig = {
   images: {
     qualities: [75, 90],
   },
+  async redirects() {
+    return [
+      // Старые услуги слиты в новые страницы (308, вес ссылок сохраняется)
+      { source: "/services/itsm", destination: "/goarkan", permanent: true },
+      { source: "/services/managed-it", destination: "/services/infrastructure", permanent: true },
+    ];
+  },
 };
 
 export default nextConfig;

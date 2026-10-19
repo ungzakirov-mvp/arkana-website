@@ -1,164 +1,78 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowRight, Headset, BarChart3, Server, Cog } from "lucide-react";
+import { ArrowRight, Headset, Server, Wrench, PenLine, Send, LayoutGrid } from "lucide-react";
 import { ContactCTA } from "@/components/sections/ContactCTA";
 import { useApp } from "@/components/providers/ThemeLanguageProvider";
 import type { LucideIcon } from "lucide-react";
 
-const COPY: Record<string, {
-  heroBadge: string; h1a: string; h1b: string; sub: string; cta: string; learnMore: string;
-  services: { title: string; tagline: string; body: string; highlights: string[] }[];
-}> = {
+type Svc = { title: string; tagline: string; body: string; highlights: string[] };
+type Copy = { heroBadge: string; h1a: string; h1b: string; sub: string; cta: string; learnMore: string; services: Svc[] };
+
+const COPY: Record<string, Copy> = {
   ru: {
     heroBadge: "Наши услуги",
-    h1a: "Весь IT-сервис.",
-    h1b: "Один договор.",
-    sub: "От первой заявки в Service Desk до стратегии корпоративной инфраструктуры — ARKANA берёт всё на себя по одному договору и одному контакту.",
-    cta: "Получить коммерческое предложение",
+    h1a: "Всё IT компании.",
+    h1b: "Один подрядчик.",
+    sub: "Обслуживание по подписке, разовые выезды, сети и серверы, ЭЦП и госпорталы, цифровой офис GoARKAN и Telegram-боты — по одному договору в Ташкенте.",
+    cta: "Оставить заявку",
     learnMore: "Подробнее",
     services: [
-      {
-        title: "IT-аутсорсинг",
-        tagline: "Полная IT-команда без найма сотрудников.",
-        body: "Персональный сервис-менеджер и инженерная команда, закреплённые за вашим аккаунтом. Поддержка L1–L3, управление устройствами, закупки, работа с поставщиками и стратегическое IT-планирование — всё под одной крышей.",
-        highlights: ["Именная команда", "Покрытие L1/L2/L3", "Управление поставщиками", "IT-стратегия"],
-      },
-      {
-        title: "Кибербезопасность",
-        tagline: "Контроль безопасности, который ваш бизнес сможет поддерживать.",
-        body: "Защита конечных точек, управление доступом, ежеквартальное тестирование резервного копирования, обучение сотрудников и реагирование на инциденты. Всё настроено и поддерживается по расписанию.",
-        highlights: ["Защита конечных точек", "Управление доступом", "Тестирование резервных копий", "Ежемесячные отчёты"],
-      },
-      {
-        title: "Инфраструктура",
-        tagline: "Инфраструктура, работающая тогда, когда это нужно.",
-        body: "Управление серверами и сетью, облачными средами, межсетевыми экранами и ежеквартальное тестирование восстановления. Техническая основа задокументирована и поддерживается.",
-        highlights: ["Управление серверами", "Облачные среды", "Сетевая безопасность", "Тестирование восстановления"],
-      },
-      {
-        title: "IT Service Management",
-        tagline: "Процессный IT-менеджмент, который масштабируется.",
-        body: "Учёт заявок, инвентаризация активов, управление инцидентами и изменениями — всё через GoARKAN. Ежемесячные отчёты о производительности из системы, фиксирующей всё.",
-        highlights: ["Платформа GoARKAN", "Управление инцидентами", "Ежемесячная отчётность", "Контроль изменений"],
-      },
+      { title: "IT-обслуживание по подписке", tagline: "Ваш IT-отдел за фиксированную сумму в месяц.", body: "Поддержка сотрудников без лимита, выезды, серверы и Microsoft 365, сроки реакции в договоре, паспорт инфраструктуры и отчёт руководителю каждый месяц.", highlights: ["START / BUSINESS / ENTERPRISE", "Сроки в договоре", "Отчёт руководителю", "GoARKAN включён"] },
+      { title: "Выезд компьютерного мастера", tagline: "Платите только за сделанную работу.", body: "Компьютеры, сеть и Wi-Fi, принтеры, программы и почта. Цена известна до начала, за один выезд — сколько угодно задач, акт и счёт для бухгалтерии.", highlights: ["Без абонентской платы", "Фикс-прайс", "Акт и счёт", "Карта часов"] },
+      { title: "E-IMZO, ЭЦП и Didox", tagline: "Подпись работает на всех компьютерах.", body: "Установка E-IMZO и ключей ЭЦП, настройка Didox, my.soliq.uz и других госпорталов. Выезд или удалённо.", highlights: ["E-IMZO", "Didox", "my.soliq.uz", "Удалённо"] },
+      { title: "Сети, серверы, телефония", tagline: "Проекты с фиксированной ценой за результат.", body: "Wi-Fi и локальная сеть, VLAN, серверы и виртуализация, резервное копирование, 1С, IP-телефония, межсетевой экран, VPN и MFA. Сдаём по акту.", highlights: ["Wi-Fi и СКС", "Серверы и бэкапы", "IP-телефония", "VPN и MFA"] },
+      { title: "Telegram-боты под ключ", tagline: "Заявки, заказы и уведомления там, где все сидят.", body: "Боты для сотрудников и клиентов: заявки, опросы, учёт, интеграции с 1С, Google Sheets и CRM. Фиксированная цена и срок, хостинг и сопровождение.", highlights: ["Lite / Standard / Pro", "Интеграции", "Хостинг", "Сопровождение"] },
+      { title: "GoARKAN — цифровой офис", tagline: "Заявки, техника, склад и документы в одной системе.", body: "Service Desk с Telegram-ботом, учёт техники и лицензий, склад, договоры, документооборот с электронной подписью и дашборд руководителя.", highlights: ["Service Desk", "Учёт техники", "ЭДО с ЭЦП", "Дашборд"] },
+    ],
+  },
+  uz: {
+    heroBadge: "Xizmatlarimiz",
+    h1a: "Kompaniyaning butun IT si.",
+    h1b: "Bitta pudratchi.",
+    sub: "Obuna bo'yicha xizmat, bir martalik tashriflar, tarmoq va serverlar, ERI va davlat portallari, GoARKAN raqamli ofisi va Telegram-botlar — Toshkentda bitta shartnoma bilan.",
+    cta: "Ariza qoldirish",
+    learnMore: "Batafsil",
+    services: [
+      { title: "Obuna bo'yicha IT xizmat", tagline: "Oylik belgilangan narxdagi IT bo'limingiz.", body: "Xodimlarni cheklovsiz qo'llab-quvvatlash, tashriflar, serverlar va Microsoft 365, shartnomadagi javob muddatlari, infratuzilma pasporti va har oy rahbarga hisobot.", highlights: ["START / BUSINESS / ENTERPRISE", "Shartnomadagi muddatlar", "Rahbarga hisobot", "GoARKAN kiritilgan"] },
+      { title: "Kompyuter ustasini chaqirish", tagline: "Faqat bajarilgan ish uchun to'laysiz.", body: "Kompyuterlar, tarmoq va Wi-Fi, printerlar, dasturlar va pochta. Narx oldindan ma'lum, bitta tashrifda istalgancha vazifa, dalolatnoma va hisob.", highlights: ["Abonent to'lovisiz", "Qat'iy narxlar", "Dalolatnoma va hisob", "Soatlar kartasi"] },
+      { title: "E-IMZO, ERI va Didox", tagline: "Imzo barcha kompyuterlarda ishlaydi.", body: "E-IMZO va ERI kalitlarini o'rnatish, Didox, my.soliq.uz va boshqa davlat portallarini sozlash. Tashrif yoki masofadan.", highlights: ["E-IMZO", "Didox", "my.soliq.uz", "Masofadan"] },
+      { title: "Tarmoq, serverlar, telefoniya", tagline: "Natija uchun qat'iy narxdagi loyihalar.", body: "Wi-Fi va lokal tarmoq, VLAN, serverlar va virtualizatsiya, zaxira nusxalash, 1C, IP-telefoniya, firewall, VPN va MFA. Dalolatnoma bilan topshiramiz.", highlights: ["Wi-Fi va SKS", "Serverlar va zaxira", "IP-telefoniya", "VPN va MFA"] },
+      { title: "Tayyor Telegram-botlar", tagline: "Arizalar, buyurtmalar va xabarlar hamma o'tirgan joyda.", body: "Xodimlar va mijozlar uchun botlar: arizalar, so'rovnomalar, hisob, 1C, Google Sheets va CRM bilan integratsiya. Qat'iy narx va muddat, xosting va kuzatuv.", highlights: ["Lite / Standard / Pro", "Integratsiyalar", "Xosting", "Kuzatuv"] },
+      { title: "GoARKAN — raqamli ofis", tagline: "Arizalar, texnika, ombor va hujjatlar bitta tizimda.", body: "Telegram-botli Service Desk, texnika va litsenziyalar hisobi, ombor, shartnomalar, elektron imzoli hujjat aylanishi va rahbar paneli.", highlights: ["Service Desk", "Texnika hisobi", "ERI bilan EHA", "Panel"] },
     ],
   },
   en: {
     heroBadge: "Our services",
-    h1a: "Complete IT coverage.",
-    h1b: "One contract.",
-    sub: "From the first helpdesk ticket to enterprise infrastructure strategy — ARKANA handles everything under a single contract with one point of accountability.",
-    cta: "Request a proposal",
+    h1a: "All your company's IT.",
+    h1b: "One provider.",
+    sub: "Subscription support, one-off call-outs, networks and servers, e-signature and gov portals, the GoARKAN digital office and Telegram bots — under one contract in Tashkent.",
+    cta: "Leave a request",
     learnMore: "Learn more",
     services: [
-      {
-        title: "IT Outsourcing",
-        tagline: "A complete IT team — without the headcount.",
-        body: "A dedicated service manager and engineering team assigned to your account. L1–L3 support, device management, procurement, vendor relations, and strategic IT planning — all under one contract.",
-        highlights: ["Dedicated account team", "L1/L2/L3 coverage", "Vendor management", "IT roadmap"],
-      },
-      {
-        title: "Cybersecurity",
-        tagline: "Security your business can actually maintain.",
-        body: "Endpoint protection, access controls, quarterly backup verification, employee training, and incident response — configured once, maintained continuously.",
-        highlights: ["Endpoint protection", "Access management", "Backup testing", "Monthly reports"],
-      },
-      {
-        title: "Infrastructure",
-        tagline: "Infrastructure that holds up under pressure.",
-        body: "Server and network management, cloud environments, firewalls, and quarterly recovery testing. Every layer documented, monitored, and maintained.",
-        highlights: ["Server management", "Cloud environments", "Network security", "Recovery testing"],
-      },
-      {
-        title: "IT Service Management",
-        tagline: "Process-driven IT management that scales with you.",
-        body: "Ticket tracking, asset inventory, incident and change management — all running through GoARKAN. Monthly performance reports from the system that logs everything.",
-        highlights: ["GoARKAN platform", "Incident management", "Monthly reporting", "Change control"],
-      },
-    ],
-  },
-  uz: {
-    heroBadge: "Bizning xizmatlar",
-    h1a: "Barcha IT xizmatlari.",
-    h1b: "Bitta shartnoma.",
-    sub: "Birinchi arizadan korporativ infratuzilma strategiyasiga qadar — ARKANA hamma narsani bitta shartnoma va bitta mas'ul shaxs bilan hal qiladi.",
-    cta: "Taklif so'rash",
-    learnMore: "Batafsil",
-    services: [
-      {
-        title: "IT Autsorsing",
-        tagline: "To'liq IT jamoasi — qo'shimcha xodimarsiz.",
-        body: "Hisobingizga biriktirilgan shaxsiy xizmat menejeri va muhandislar jamoasi. L1–L3 qo'llab-quvvatlash, qurilmalarni boshqarish, xaridlar, vendor bilan ishlash va strategik IT rejalash — hammasi bir shartnomada.",
-        highlights: ["Shaxsiy jamoa", "L1/L2/L3 qamrov", "Vendor boshqaruvi", "IT strategiya"],
-      },
-      {
-        title: "Kiberxavfsizlik",
-        tagline: "Biznesingiz amalda qo'llab-quvvatlay oladigan himoya.",
-        body: "Qurilma himoyasi, kirish boshqaruvi, choraklik zaxira tekshiruvi, xodimlarni o'qitish va hodisalarga tezkor munosabat — bir marta sozlanadi, doimiy qo'llab-quvvatlanadi.",
-        highlights: ["Qurilma himoyasi", "Kirish boshqaruvi", "Zaxira sinovi", "Oylik hisobotlar"],
-      },
-      {
-        title: "Infratuzilma",
-        tagline: "Kerak bo'lganda ishdan to'xtamaydigan infratuzilma.",
-        body: "Server va tarmoq boshqaruvi, bulut muhitlari, xavfsizlik devorlari va choraklik tiklash sinovi. Har bir qatlam hujjatlashtirilgan, kuzatiladigan va qo'llab-quvvatlanadigan.",
-        highlights: ["Server boshqaruvi", "Bulut muhitlari", "Tarmoq xavfsizligi", "Tiklash sinovi"],
-      },
-      {
-        title: "IT Xizmat Boshqaruvi",
-        tagline: "Biznesingiz bilan birga kengayadigan IT boshqaruvi.",
-        body: "Ariza kuzatish, aktiv inventarizatsiyasi, hodisa va o'zgarishlarni boshqarish — hammasi GoARKAN orqali. Barcha harakatlarni qayd etadigan tizimdan oylik hisobotlar.",
-        highlights: ["GoARKAN platformasi", "Hodisa boshqaruvi", "Oylik hisobot", "O'zgarish nazorati"],
-      },
-    ],
-  },
-  zh: {
-    heroBadge: "我们的服务",
-    h1a: "全栈IT覆盖。",
-    h1b: "一份合同。",
-    sub: "从第一张服务台工单到企业基础设施战略——ARKANA以一份合同、一个负责人，为您全程处理。",
-    cta: "申请商务方案",
-    learnMore: "了解更多",
-    services: [
-      {
-        title: "IT外包",
-        tagline: "完整IT团队，无需自行招聘。",
-        body: "专属服务经理与工程师团队绑定您的账户。L1–L3支持、设备管理、采购、供应商关系与IT战略规划——全部纳入一份合同。",
-        highlights: ["专属账户团队", "L1/L2/L3全覆盖", "供应商管理", "IT路线图"],
-      },
-      {
-        title: "网络安全",
-        tagline: "您的企业真正能够持续维护的安全体系。",
-        body: "终端防护、访问管控、季度备份验证、员工培训与事件响应——一次配置，持续维护。",
-        highlights: ["终端防护", "访问管理", "备份测试", "月度报告"],
-      },
-      {
-        title: "基础设施",
-        tagline: "在压力下依然稳定运行的基础设施。",
-        body: "服务器与网络管理、云环境、防火墙与季度恢复测试。每一层均有文档记录、持续监控与维护。",
-        highlights: ["服务器管理", "云环境", "网络安全", "恢复测试"],
-      },
-      {
-        title: "IT服务管理",
-        tagline: "随业务增长可扩展的流程化IT管理。",
-        body: "工单跟踪、资产盘点、事件与变更管理——全部通过GoARKAN运行。月度绩效报告来自记录一切的系统。",
-        highlights: ["GoARKAN平台", "事件管理", "月度报告", "变更管控"],
-      },
+      { title: "IT support subscription", tagline: "Your IT department for a fixed monthly fee.", body: "Unlimited staff support, on-site visits, servers and Microsoft 365, contractual response times, an infrastructure passport and a monthly report to management.", highlights: ["START / BUSINESS / ENTERPRISE", "Times in contract", "Management report", "GoARKAN included"] },
+      { title: "On-site computer technician", tagline: "Pay only for the work done.", body: "PCs, network and Wi-Fi, printers, software and mail. Price known upfront, any number of jobs per visit, act and invoice for accounting.", highlights: ["No monthly fee", "Fixed price list", "Act and invoice", "Hour pack"] },
+      { title: "E-IMZO, e-signature and Didox", tagline: "Signing works on every PC.", body: "Install E-IMZO and e-signature keys, set up Didox, my.soliq.uz and other gov portals. On site or remotely.", highlights: ["E-IMZO", "Didox", "my.soliq.uz", "Remote"] },
+      { title: "Networks, servers, telephony", tagline: "Fixed-price projects, paid for the result.", body: "Wi-Fi and LAN, VLANs, servers and virtualization, backups, 1C, IP telephony, firewall, VPN and MFA. Signed off with an act.", highlights: ["Wi-Fi and cabling", "Servers and backups", "IP telephony", "VPN and MFA"] },
+      { title: "Turnkey Telegram bots", tagline: "Requests, orders and alerts where everyone already is.", body: "Bots for staff and clients: requests, surveys, records, integrations with 1C, Google Sheets and CRM. Fixed price and deadline, hosting and support.", highlights: ["Lite / Standard / Pro", "Integrations", "Hosting", "Support"] },
+      { title: "GoARKAN digital office", tagline: "Requests, assets, stock and documents in one system.", body: "Service Desk with a Telegram bot, asset and licence records, stock, contracts, e-docs with electronic signature and a management dashboard.", highlights: ["Service Desk", "Asset records", "E-docs", "Dashboard"] },
     ],
   },
 };
 
 const SERVICE_HREFS = [
   "/services/it-outsourcing",
-  "/services/managed-it",
+  "/services/on-demand",
+  "/services/e-imzo",
   "/services/infrastructure",
-  "/services/itsm",
+  "/services/telegram-bots",
+  "/goarkan",
 ];
-const SERVICE_ICONS: LucideIcon[] = [Headset, BarChart3, Server, Cog];
+const SERVICE_ICONS: LucideIcon[] = [Headset, Wrench, PenLine, Server, Send, LayoutGrid];
 
 export function ServicesPage() {
   const { lang } = useApp();
-  const c = COPY[lang] ?? COPY.ru;
+  const c = COPY[lang] ?? (lang === "zh" ? COPY.en : COPY.ru);
 
   return (
     <>

@@ -4,6 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useApp } from "@/components/providers/ThemeLanguageProvider";
 import type { SiteSettings } from "@/lib/cms-api";
+import { COMPANY } from "@/lib/company";
 
 const FALLBACK: Pick<SiteSettings, "company_name" | "phones" | "emails" | "telegram" | "telegram_href" | "address"> = {
   company_name: "ARKANA",
@@ -76,7 +77,31 @@ const COPY: Record<string, {
 
 const SERVICE_HREFS = ["/services/it-outsourcing", "/services/on-demand", "/services/e-imzo", "/services/infrastructure", "/services/telegram-bots"];
 const COMPANY_HREFS = ["/about", "/cases", "/blog", "/goarkan", "/contact"];
-const PRICING_HREFS = ["/pricing#subscription", "/pricing#on-demand", "/pricing#goarkan", "/pricing#bots"];
+
+const IconEmail = () => (
+  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" style={{ color: "#4fd18a" }}>
+    <rect x="2" y="4" width="20" height="16" rx="3"/><path d="m2 7 10 7 10-7"/>
+  </svg>
+);
+const IconTg = () => (
+  <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style={{ color: "#4fd18a" }}>
+    <path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm4.93 6.878-1.694 7.988c-.128.58-.461.721-.936.449l-2.583-1.903-1.248 1.2c-.138.138-.253.253-.52.253l.186-2.638 4.803-4.337c.209-.186-.046-.29-.322-.104L8.08 14.866l-2.55-.797c-.554-.173-.565-.554.116-.82l9.967-3.843c.46-.168.867.103.717.672z"/>
+  </svg>
+);
+const IconPhone = () => (
+  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" style={{ color: "#4fd18a" }}>
+    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
+  </svg>
+);
+const Chip = ({ icon, href, text }: { icon: React.ReactNode; href: string; text: string }) => (
+  <a href={href} className="footer-contact-link" style={{ display: "flex", alignItems: "center", gap: 8, textDecoration: "none", color: "var(--ark-text-muted)" }}>
+    <span style={{ flexShrink: 0, width: 26, height: 26, borderRadius: 6, background: "rgba(79,209,138,0.08)", border: "1px solid rgba(79,209,138,0.15)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+      {icon}
+    </span>
+    <span style={{ fontSize: 12.5, letterSpacing: "-0.01em" }}>{text}</span>
+  </a>
+);
+
 
 export function Footer({ settings }: { settings?: SiteSettings | null }) {
   const { lang } = useApp();
@@ -87,31 +112,6 @@ export function Footer({ settings }: { settings?: SiteSettings | null }) {
   const emails  = settings?.emails?.length  ? settings.emails  : FALLBACK.emails;
   const tg      = settings?.telegram      ?? FALLBACK.telegram;
   const tgHref  = settings?.telegram_href ?? FALLBACK.telegram_href;
-  const address = settings?.address       ?? FALLBACK.address;
-
-  const IconEmail = () => (
-    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" style={{ color: "#4fd18a" }}>
-      <rect x="2" y="4" width="20" height="16" rx="3"/><path d="m2 7 10 7 10-7"/>
-    </svg>
-  );
-  const IconTg = () => (
-    <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style={{ color: "#4fd18a" }}>
-      <path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm4.93 6.878-1.694 7.988c-.128.58-.461.721-.936.449l-2.583-1.903-1.248 1.2c-.138.138-.253.253-.52.253l.186-2.638 4.803-4.337c.209-.186-.046-.29-.322-.104L8.08 14.866l-2.55-.797c-.554-.173-.565-.554.116-.82l9.967-3.843c.46-.168.867.103.717.672z"/>
-    </svg>
-  );
-  const IconPhone = () => (
-    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" style={{ color: "#4fd18a" }}>
-      <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
-    </svg>
-  );
-  const Chip = ({ icon, href, text }: { icon: React.ReactNode; href: string; text: string }) => (
-    <a href={href} className="footer-contact-link" style={{ display: "flex", alignItems: "center", gap: 8, textDecoration: "none", color: "var(--ark-text-muted)" }}>
-      <span style={{ flexShrink: 0, width: 26, height: 26, borderRadius: 6, background: "rgba(79,209,138,0.08)", border: "1px solid rgba(79,209,138,0.15)", display: "flex", alignItems: "center", justifyContent: "center" }}>
-        {icon}
-      </span>
-      <span style={{ fontSize: 12.5, letterSpacing: "-0.01em" }}>{text}</span>
-    </a>
-  );
 
   return (
     <footer style={{ borderTop: "1px solid transparent", borderImage: "linear-gradient(to right, transparent, rgba(148,163,184,0.15), transparent) 1", padding: "32px 0 24px" }}>
@@ -133,6 +133,9 @@ export function Footer({ settings }: { settings?: SiteSettings | null }) {
               {tg && <Chip href={tgHref ?? "#"} icon={<IconTg />} text={tg} />}
               {phones.map((p) => <Chip key={p.href} href={p.href} icon={<IconPhone />} text={p.value} />)}
             </div>
+            <p style={{ fontSize: 12.5, color: "var(--ark-text-muted)", marginTop: 12, lineHeight: 1.5 }}>
+              {(COMPANY.address as Record<string, string>)[lang] ?? COMPANY.address.ru} · {lang === "uz" ? "Du–Ju 9:00–18:00" : lang === "en" ? "Mon–Fri 9:00–18:00" : lang === "zh" ? "周一至周五 9:00–18:00" : "Пн–Пт 9:00–18:00"}
+            </p>
           </div>
 
           {/* Services */}
