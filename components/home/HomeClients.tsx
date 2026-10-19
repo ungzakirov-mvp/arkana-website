@@ -2,7 +2,7 @@
 
 import { useRef, useEffect, useState } from "react";
 import Image from "next/image";
-import Link from "next/link";
+import Link from "@/components/ui/LocaleLink";
 import { ArrowRight } from "lucide-react";
 import { useApp } from "@/components/providers/ThemeLanguageProvider";
 

@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import Link from "@/components/ui/LocaleLink";
 import { Check, Minus, ArrowRight } from "lucide-react";
 import { useApp } from "@/components/providers/ThemeLanguageProvider";
 import { LeadForm, selectPlan } from "@/components/lead/LeadForm";

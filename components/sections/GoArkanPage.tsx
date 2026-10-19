@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
-import Link from "next/link";
+import Link from "@/components/ui/LocaleLink";
 import { TicketCheck, HardDrive, LayoutDashboard, Users2, ArrowRight, CheckCircle2, ShieldCheck, Zap, BarChart2, Link2, ExternalLink } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { useApp } from "@/components/providers/ThemeLanguageProvider";

@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import Link from "@/components/ui/LocaleLink";
 import { Phone, Send, FileText } from "lucide-react";
 import { useApp } from "@/components/providers/ThemeLanguageProvider";
 import { COMPANY } from "@/lib/company";

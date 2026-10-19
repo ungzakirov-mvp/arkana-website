@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import Link from "next/link";
+import Link from "@/components/ui/LocaleLink";
 import { useApp } from "@/components/providers/ThemeLanguageProvider";
 
 const EASE = "cubic-bezier(.16,1,.3,1)";

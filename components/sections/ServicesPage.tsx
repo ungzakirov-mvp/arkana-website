@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import Link from "@/components/ui/LocaleLink";
 import { ArrowRight, Headset, Server, Wrench, PenLine, Send, LayoutGrid } from "lucide-react";
 import { ContactCTA } from "@/components/sections/ContactCTA";
 import { useApp } from "@/components/providers/ThemeLanguageProvider";

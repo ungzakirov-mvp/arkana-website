@@ -18,10 +18,10 @@ export const SERVICES = [
 ] as const;
 
 const T = {
-  ru: { title: "Оставьте заявку — перезвоним", sub: "Ответим в течение рабочего дня. Без спама и обязательств.", name: "Имя", phone: "Телефон", company: "Компания", email: "Email", service: "Что нужно", msg: "Коротко о задаче", opt: "необязательно", send: "Отправить заявку", sending: "Отправляем…", okT: "Заявка отправлена!", okS: "Свяжемся с вами в течение рабочего дня. Срочно — звоните или пишите в Telegram.", or: "или сразу", call: "Позвонить", tg: "Telegram", rl: "Слишком много заявок с вашего адреса. Позвоните нам.", consent: "Нажимая кнопку, вы соглашаетесь на обработку персональных данных." },
-  uz: { title: "Ariza qoldiring — qo'ng'iroq qilamiz", sub: "Bir ish kuni ichida javob beramiz. Spam va majburiyatsiz.", name: "Ism", phone: "Telefon", company: "Kompaniya", email: "Email", service: "Nima kerak", msg: "Vazifa haqida qisqacha", opt: "ixtiyoriy", send: "Ariza yuborish", sending: "Yuborilmoqda…", okT: "Ariza yuborildi!", okS: "Bir ish kuni ichida bog'lanamiz. Shoshilinch bo'lsa — qo'ng'iroq qiling yoki Telegramga yozing.", or: "yoki darhol", call: "Qo'ng'iroq", tg: "Telegram", rl: "Juda ko'p ariza. Bizga qo'ng'iroq qiling.", consent: "Tugmani bosib, shaxsiy ma'lumotlarni qayta ishlashga rozilik bildirasiz." },
-  en: { title: "Leave a request — we'll call back", sub: "We reply within one business day. No spam, no commitment.", name: "Name", phone: "Phone", company: "Company", email: "Email", service: "What you need", msg: "Briefly about the task", opt: "optional", send: "Send request", sending: "Sending…", okT: "Request sent!", okS: "We'll get back within one business day. Urgent? Call or message us on Telegram.", or: "or right now", call: "Call", tg: "Telegram", rl: "Too many requests. Please call us.", consent: "By submitting you agree to the processing of personal data." },
-  zh: { title: "留下需求 — 我们回电", sub: "一个工作日内回复。无垃圾信息，无需承诺。", name: "姓名", phone: "电话", company: "公司", email: "邮箱", service: "需要什么", msg: "简述需求", opt: "可选", send: "提交", sending: "提交中…", okT: "已提交！", okS: "我们将在一个工作日内联系您。紧急请致电或Telegram。", or: "或直接", call: "致电", tg: "Telegram", rl: "请求过多，请致电。", consent: "提交即表示同意处理个人数据。" },
+  ru: { title: "Оставьте заявку — перезвоним", sub: "Ответим в течение рабочего дня. Без спама и обязательств.", name: "Имя", phone: "Телефон", company: "Компания", email: "Email", service: "Что нужно", msg: "Коротко о задаче", opt: "необязательно", send: "Отправить заявку", sending: "Отправляем…", okT: "Заявка отправлена!", okS: "Свяжемся с вами в течение рабочего дня. Срочно — звоните или пишите в Telegram.", or: "или сразу", call: "Позвонить", tg: "Telegram", rl: "Слишком много заявок с вашего адреса. Позвоните нам.", consent: "Нажимая кнопку, вы соглашаетесь на обработку персональных данных.", fail: "Не удалось отправить заявку. Позвоните +998 99 998 17 77 или напишите в Telegram @arkana_uz.", eName: "Укажите имя", ePhone: "Укажите номер полностью", eEmail: "Проверьте email" },
+  uz: { title: "Ariza qoldiring — qo'ng'iroq qilamiz", sub: "Bir ish kuni ichida javob beramiz. Spam va majburiyatsiz.", name: "Ism", phone: "Telefon", company: "Kompaniya", email: "Email", service: "Nima kerak", msg: "Vazifa haqida qisqacha", opt: "ixtiyoriy", send: "Ariza yuborish", sending: "Yuborilmoqda…", okT: "Ariza yuborildi!", okS: "Bir ish kuni ichida bog'lanamiz. Shoshilinch bo'lsa — qo'ng'iroq qiling yoki Telegramga yozing.", or: "yoki darhol", call: "Qo'ng'iroq", tg: "Telegram", rl: "Juda ko'p ariza. Bizga qo'ng'iroq qiling.", consent: "Tugmani bosib, shaxsiy ma'lumotlarni qayta ishlashga rozilik bildirasiz.", fail: "Ariza yuborilmadi. +998 99 998 17 77 ga qo'ng'iroq qiling yoki Telegram @arkana_uz ga yozing.", eName: "Ismingizni kiriting", ePhone: "Raqamni to'liq kiriting", eEmail: "Emailni tekshiring" },
+  en: { title: "Leave a request — we'll call back", sub: "We reply within one business day. No spam, no commitment.", name: "Name", phone: "Phone", company: "Company", email: "Email", service: "What you need", msg: "Briefly about the task", opt: "optional", send: "Send request", sending: "Sending…", okT: "Request sent!", okS: "We'll get back within one business day. Urgent? Call or message us on Telegram.", or: "or right now", call: "Call", tg: "Telegram", rl: "Too many requests. Please call us.", consent: "By submitting you agree to the processing of personal data.", fail: "Could not send the request. Call +998 99 998 17 77 or message @arkana_uz on Telegram.", eName: "Enter your name", ePhone: "Enter the full number", eEmail: "Check the email" },
+  zh: { title: "留下需求 — 我们回电", sub: "一个工作日内回复。无垃圾信息，无需承诺。", name: "姓名", phone: "电话", company: "公司", email: "邮箱", service: "需要什么", msg: "简述需求", opt: "可选", send: "提交", sending: "提交中…", okT: "已提交！", okS: "我们将在一个工作日内联系您。紧急请致电或Telegram。", or: "或直接", call: "致电", tg: "Telegram", rl: "请求过多，请致电。", consent: "提交即表示同意处理个人数据。", fail: "提交失败。请致电 +998 99 998 17 77 或 Telegram @arkana_uz。", eName: "请填写姓名", ePhone: "请填写完整号码", eEmail: "请检查邮箱" },
 };
 
 const INITIAL: ContactFormState = { status: "idle" };
@@ -75,7 +75,8 @@ export function LeadForm({ service, plan, title, sub, showContacts = true, id = 
     }
   }, [state.status, svc]);
 
-  const err = (f: string) => (state.status === "error" ? state.errors?.[f]?.[0] : undefined);
+  const ERR: Record<string, string> = { name: t.eName, phone: t.ePhone, email: t.eEmail };
+  const err = (f: string) => (state.status === "error" && state.errors?.[f]?.length ? ERR[f] ?? state.errors[f][0] : undefined);
   const svcLabel = SERVICES.find((s) => s.v === svc);
 
   return (
@@ -115,7 +116,7 @@ export function LeadForm({ service, plan, title, sub, showContacts = true, id = 
 
           {state.status === "error" && state.message && (
             <div role="alert" style={{ display: "flex", gap: 8, padding: "10px 14px", borderRadius: 10, background: "rgba(239,68,68,0.1)", border: "1px solid rgba(239,68,68,0.25)", marginBottom: 14, fontSize: 13, color: "#f87171" }}>
-              <AlertCircle size={15} style={{ flexShrink: 0, marginTop: 1 }} />{state.message}
+              <AlertCircle size={15} style={{ flexShrink: 0, marginTop: 1 }} />{t.fail}
             </div>
           )}
           {state.status === "rate_limited" && (
