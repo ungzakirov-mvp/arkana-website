@@ -1,7 +1,8 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Mail, Phone, Clock, CheckCircle2, Send } from "lucide-react";
+import { Mail, Phone, Clock, CheckCircle2, Send, MapPin } from "lucide-react";
+import { COMPANY } from "@/lib/company";
 import { LeadForm } from "@/components/lead/LeadForm";
 import { useApp } from "@/components/providers/ThemeLanguageProvider";
 import type { SiteSettings } from "@/lib/cms-api";
@@ -122,17 +123,20 @@ function buildContacts(s: SiteSettings | null | undefined, c: typeof COPY["ru"],
     { label: "Телефон", value: "+998 99 998 17 77", href: "tel:+998999981777" },
     { label: "Телефон", value: "+998 50 120 88 88", href: "tel:+998501208888" },
   ];
-  const phonesArr = s?.phones?.length ? s.phones : fallbackPhones;
-  const email     = s?.emails?.[0]?.value    ?? "info@arkana.uz";
-  const emailHref = s?.emails?.[0]?.href     ?? "mailto:info@arkana.uz";
-  const tg        = s?.telegram               ?? "@arkana_uz";
-  const tgHref    = s?.telegram_href          ?? "https://t.me/arkana_uz";
+  // Контакты — только из lib/company.ts (NAP совпадает со schema.org)
+  const phonesArr = fallbackPhones;
+  const email     = "info@arkana.uz";
+  const emailHref = "mailto:info@arkana.uz";
+  const tg        = "@arkana_uz";
+  const tgHref    = "https://t.me/arkana_uz";
   const hoursFallback: Record<string, string> = { ru: "Пн–Пт: 9:00–18:00", en: "Mon–Fri: 9:00–18:00", uz: "Du–Ju: 9:00–18:00", zh: "周一至周五：9:00–18:00" };
-  const hoursStr  = s?.working_hours ? Object.entries(s.working_hours).map(([d, h]) => `${d}: ${h}`).join(", ") : (hoursFallback[lang] ?? "Пн–Пт: 9:00–18:00");
+  const hoursStr  = hoursFallback[lang] ?? "Пн–Пт: 9:00–18:00";
+  void s;
   return [
     ...phonesArr.map(p => ({ icon: Phone, label: c.phone, value: p.value, href: p.href })),
     { icon: Send,   label: c.telegram, value: tg,       href: tgHref    },
     { icon: Mail,   label: c.email,    value: email,    href: emailHref },
+    { icon: MapPin, label: c.address,  value: (COMPANY.address as Record<string, string>)[lang] ?? COMPANY.address.ru, href: `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent("Tashkent, Hakimzoda 71")}` },
     { icon: Clock,  label: c.hours,    value: hoursStr, href: "/contact" },
   ] as { icon: typeof Phone; label: string; value: string; href: string }[];
 }

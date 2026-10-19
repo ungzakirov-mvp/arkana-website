@@ -108,10 +108,11 @@ export function Footer({ settings }: { settings?: SiteSettings | null }) {
   const c = COPY[lang] ?? COPY.ru;
   const year = new Date().getFullYear();
   const name    = settings?.company_name ?? FALLBACK.company_name;
-  const phones  = settings?.phones?.length  ? settings.phones  : FALLBACK.phones;
-  const emails  = settings?.emails?.length  ? settings.emails  : FALLBACK.emails;
-  const tg      = settings?.telegram      ?? FALLBACK.telegram;
-  const tgHref  = settings?.telegram_href ?? FALLBACK.telegram_href;
+  // Контакты — только из lib/company.ts (NAP должен совпадать со schema.org и карточками на картах)
+  const phones  = COMPANY.phonesDisplay.map((value, i) => ({ value, href: `tel:${COMPANY.phones[i]}` }));
+  const emails  = [{ value: COMPANY.email, href: `mailto:${COMPANY.email}` }];
+  const tg      = COMPANY.telegramHandle;
+  const tgHref  = COMPANY.telegram;
 
   return (
     <footer style={{ borderTop: "1px solid transparent", borderImage: "linear-gradient(to right, transparent, rgba(148,163,184,0.15), transparent) 1", padding: "32px 0 24px" }}>
