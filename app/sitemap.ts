@@ -28,5 +28,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${BASE}/blog/when-to-replace-servers`, lastModified: now, changeFrequency: m, priority: 0.6 },
     { url: `${BASE}/blog/cut-it-costs`, lastModified: now, changeFrequency: m, priority: 0.6 },
     { url: `${BASE}/blog/sla-guide`, lastModified: now, changeFrequency: m, priority: 0.6 },
+    { url: `${BASE}/blog/it-outsourcing-tsena-tashkent`, lastModified: now, changeFrequency: m, priority: 0.7 },
+    { url: `${BASE}/blog/kak-vybrat-it-kompaniyu-tashkent`, lastModified: now, changeFrequency: m, priority: 0.7 },
+    { url: `${BASE}/blog/it-podderzhka-ofisa-tashkent`, lastModified: now, changeFrequency: m, priority: 0.7 },
+    { url: `${BASE}/blog/google-workspace-vs-microsoft-365-uzbekistan`, lastModified: now, changeFrequency: m, priority: 0.6 },
+    { url: `${BASE}/blog/kiberataki-na-biznes-uzbekistan-2026`, lastModified: now, changeFrequency: m, priority: 0.7 },
+    { url: `${BASE}/blog/zachem-biznesu-itsm`, lastModified: now, changeFrequency: m, priority: 0.6 },
   ];
 }
