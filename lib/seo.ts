@@ -54,13 +54,12 @@ export const localBusinessSchema = {
   "@id": `${SITE_URL}/#business`,
   name: "ARKANA",
   description:
-    "IT-аутсорсинг в Ташкенте: подписка от 8,5 млн сум/мес, выезд компьютерного мастера 100 000 сум, сети и серверы, GoARKAN, Telegram-боты.",
+    "IT-аутсорсинг в Ташкенте: обслуживание компьютеров по подписке, выезд компьютерного мастера, сети и серверы, GoARKAN, Telegram-боты.",
   url: SITE_URL,
   logo: `${SITE_URL}/logo-3d.png`,
   image: `${SITE_URL}/og-image.png`,
   email: COMPANY.email,
   telephone: COMPANY.phones,
-  priceRange: "от 100 000 сум",
   currenciesAccepted: "UZS",
   paymentAccepted: "Bank Transfer, Invoice",
   address: {
@@ -86,11 +85,11 @@ export const localBusinessSchema = {
     "@type": "OfferCatalog",
     name: "IT Services",
     itemListElement: [
-      { "@type": "Offer", itemOffered: { "@type": "Service", name: "IT-аутсорсинг и абонентское обслуживание" }, price: 8500000, priceCurrency: "UZS" },
-      { "@type": "Offer", itemOffered: { "@type": "Service", name: "Выезд компьютерного мастера по Ташкенту" }, price: 100000, priceCurrency: "UZS" },
+      { "@type": "Offer", itemOffered: { "@type": "Service", name: "IT-аутсорсинг и абонентское обслуживание" } },
+      { "@type": "Offer", itemOffered: { "@type": "Service", name: "Выезд компьютерного мастера по Ташкенту" } },
       { "@type": "Offer", itemOffered: { "@type": "Service", name: "Сети, серверы, Wi-Fi, IP-телефония" } },
-      { "@type": "Offer", itemOffered: { "@type": "Service", name: "Цифровой офис GoARKAN" }, price: 1500000, priceCurrency: "UZS" },
-      { "@type": "Offer", itemOffered: { "@type": "Service", name: "Разработка Telegram-ботов" }, price: 9900000, priceCurrency: "UZS" },
+      { "@type": "Offer", itemOffered: { "@type": "Service", name: "Цифровой офис GoARKAN" } },
+      { "@type": "Offer", itemOffered: { "@type": "Service", name: "Разработка Telegram-ботов" } },
     ],
   },
 };

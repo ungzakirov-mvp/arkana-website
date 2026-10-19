@@ -4,6 +4,7 @@ import Script from "next/script";
 import "./globals.css";
 import { Navigation } from "@/components/layout/Navigation";
 import { Footer } from "@/components/layout/Footer";
+import { QuickContact } from "@/components/lead/QuickContact";
 import { ThemeLanguageProvider } from "@/components/providers/ThemeLanguageProvider";
 import { organizationSchema, localBusinessSchema, SITE_URL } from "@/lib/seo";
 import { getSettings } from "@/lib/cms-api";
@@ -177,6 +178,7 @@ ym(${METRIKA_ID},'init',{clickmap:true,trackLinks:true,accurateTrackBounce:true,
             <Navigation />
             <main className="flex-1">{children}</main>
             <Footer settings={siteSettings} />
+            <QuickContact />
           </div>
         </ThemeLanguageProvider>
       </body>

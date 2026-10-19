@@ -17,12 +17,12 @@ const baseUrl = process.env.NEXT_PUBLIC_BASE_URL ?? "https://arkana.uz";
 export const metadata: Metadata = {
   title: { absolute: "IT-аутсорсинг в Ташкенте — обслуживание компьютеров и сетей | ARKANA" },
   description:
-    "IT-аутсорсинг для бизнеса в Ташкенте: подписка от 8,5 млн сум/мес, выезд компьютерного мастера 100 000 сум, сети, серверы, ЭЦП и Didox, цифровой офис GoARKAN, Telegram-боты.",
+    "IT-аутсорсинг для бизнеса в Ташкенте: обслуживание компьютеров по подписке, выезд компьютерного мастера, сети и серверы, ЭЦП и Didox, цифровой офис GoARKAN, Telegram-боты.",
   alternates: { canonical: "/" },
   openGraph: {
     title: "IT-аутсорсинг в Ташкенте | ARKANA",
     description:
-      "Подписка от 8,5 млн сум/мес или выезд за 100 000 сум. Сети, серверы, ЭЦП, GoARKAN и Telegram-боты.",
+      "IT-обслуживание по подписке или разовый выезд. Сети, серверы, ЭЦП, GoARKAN и Telegram-боты.",
     url: baseUrl,
   },
 };

@@ -3,10 +3,10 @@
 import { useApp } from "@/components/providers/ThemeLanguageProvider";
 
 const ITEMS: Record<string, string[]> = {
-  ru: ["IT-подписка от 8,5 млн сум", "Выезд по Ташкенту 100 000 сум", "Сроки реакции в договоре", "Заявки из Telegram", "Цифровой офис GoARKAN", "ЭЦП, E-IMZO, Didox", "Microsoft 365", "Сети и Wi-Fi", "Серверы и бэкапы", "IP-телефония", "Telegram-боты под ключ", "Паспорт IT-инфраструктуры", "Отчёт руководителю каждый месяц", "Без НДС"],
-  uz: ["IT obuna 8,5 mln so'mdan", "Toshkent bo'ylab tashrif 100 000 so'm", "Javob muddatlari shartnomada", "Telegram orqali arizalar", "GoARKAN raqamli ofisi", "ERI, E-IMZO, Didox", "Microsoft 365", "Tarmoq va Wi-Fi", "Serverlar va zaxira", "IP-telefoniya", "Tayyor Telegram-botlar", "IT infratuzilma pasporti", "Har oy rahbarga hisobot", "QQSsiz"],
-  en: ["IT subscription from 8.5M UZS", "Call-out in Tashkent 100,000 UZS", "Response times in contract", "Tickets via Telegram", "GoARKAN digital office", "E-signature, E-IMZO, Didox", "Microsoft 365", "Networks and Wi-Fi", "Servers and backups", "IP telephony", "Turnkey Telegram bots", "IT infrastructure passport", "Monthly management report", "VAT-exempt"],
-  zh: ["IT订阅850万苏姆起", "塔什干上门10万苏姆", "响应时间写入合同", "Telegram提交工单", "GoARKAN数字办公室", "电子签名 E-IMZO Didox", "Microsoft 365", "网络与Wi-Fi", "服务器与备份", "IP电话", "Telegram机器人定制", "IT基础设施档案", "每月管理报告", "免增值税"],
+  ru: ["IT-обслуживание по подписке", "Выезд мастера по Ташкенту", "Сроки реакции в договоре", "Заявки из Telegram", "Цифровой офис GoARKAN", "ЭЦП, E-IMZO, Didox", "Microsoft 365", "Сети и Wi-Fi", "Серверы и бэкапы", "IP-телефония", "Telegram-боты под ключ", "Паспорт IT-инфраструктуры", "Отчёт руководителю каждый месяц", "Без НДС"],
+  uz: ["Obuna bo'yicha IT xizmat", "Toshkent bo'ylab usta chaqirish", "Javob muddatlari shartnomada", "Telegram orqali arizalar", "GoARKAN raqamli ofisi", "ERI, E-IMZO, Didox", "Microsoft 365", "Tarmoq va Wi-Fi", "Serverlar va zaxira", "IP-telefoniya", "Tayyor Telegram-botlar", "IT infratuzilma pasporti", "Har oy rahbarga hisobot", "QQSsiz"],
+  en: ["IT support subscription", "Call-outs across Tashkent", "Response times in contract", "Tickets via Telegram", "GoARKAN digital office", "E-signature, E-IMZO, Didox", "Microsoft 365", "Networks and Wi-Fi", "Servers and backups", "IP telephony", "Turnkey Telegram bots", "IT infrastructure passport", "Monthly management report", "VAT-exempt"],
+  zh: ["IT订阅服务", "塔什干上门服务", "响应时间写入合同", "Telegram提交工单", "GoARKAN数字办公室", "电子签名 E-IMZO Didox", "Microsoft 365", "网络与Wi-Fi", "服务器与备份", "IP电话", "Telegram机器人定制", "IT基础设施档案", "每月管理报告", "免增值税"],
 };
 
 export function HomeTrust() {

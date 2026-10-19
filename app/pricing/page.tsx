@@ -1,49 +1,43 @@
 import type { Metadata } from "next";
 import { PricingSection } from "@/components/sections/PricingSection";
 import { SITE_URL, buildBreadcrumbSchema } from "@/lib/seo";
-import { SCHEMA_OFFERS } from "@/lib/pricing";
+import { SCHEMA_SERVICES } from "@/lib/pricing";
 
 export const metadata: Metadata = {
-  title: "Цены на IT-обслуживание в Ташкенте — от 8,5 млн сум/мес",
+  title: "Услуги и тарифы IT-обслуживания в Ташкенте",
   description:
-    "IT-аутсорсинг в Ташкенте: подписка START 8,5 млн, BUSINESS 18,5 млн, ENTERPRISE 30 млн сум/мес. Выезд 100 000 сум, работы по фикс-прайсу, Telegram-боты от 9,9 млн. Без НДС.",
+    "IT-аутсорсинг в Ташкенте: подписка START, BUSINESS, ENTERPRISE, выезд компьютерного мастера, сети и серверы, GoARKAN, Telegram-боты. Расчёт стоимости за 1 рабочий день.",
   alternates: { canonical: "/pricing" },
   openGraph: {
-    title: "Цены на IT-обслуживание в Ташкенте",
-    description: "Подписка от 8,5 млн сум/мес, выезд 100 000 сум, Telegram-боты от 9,9 млн. Без НДС.",
+    title: "Услуги и тарифы IT-обслуживания в Ташкенте",
+    description: "Подписка на IT-обслуживание, разовые выезды, проекты, GoARKAN и Telegram-боты. Расчёт за 1 рабочий день.",
     url: `${SITE_URL}/pricing`,
     type: "website",
   },
 };
 
-const offersSchema = {
+const catalogSchema = {
   "@context": "https://schema.org",
   "@type": "OfferCatalog",
   "@id": `${SITE_URL}/pricing#catalog`,
-  name: "Тарифы ARKANA",
+  name: "Услуги ARKANA",
   url: `${SITE_URL}/pricing`,
-  itemListElement: SCHEMA_OFFERS.map((o) => ({
+  itemListElement: SCHEMA_SERVICES.map((name) => ({
     "@type": "Offer",
-    name: o.name,
-    priceCurrency: "UZS",
-    price: o.price,
-    ...(o.unit
-      ? { priceSpecification: { "@type": "UnitPriceSpecification", price: o.price, priceCurrency: "UZS", unitCode: o.unit } }
-      : {}),
+    itemOffered: { "@type": "Service", name, areaServed: { "@type": "City", name: "Tashkent" } },
     seller: { "@id": `${SITE_URL}/#organization` },
-    areaServed: { "@type": "City", name: "Tashkent" },
   })),
 };
 
 const breadcrumbs = buildBreadcrumbSchema([
   { name: "Главная", url: "/" },
-  { name: "Тарифы", url: "/pricing" },
+  { name: "Услуги и тарифы", url: "/pricing" },
 ]);
 
 export default function PricingPage() {
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(offersSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(catalogSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbs) }} />
       <PricingSection />
     </>

@@ -33,7 +33,7 @@ const COPY: Record<string, {
     services: "Услуги",
     company: "Компания",
     pricing: "Тарифы",
-    serviceLinks: ["IT-аутсорсинг", "IT-поддержка", "Инфраструктура", "Кибербезопасность", "Все услуги"],
+    serviceLinks: ["IT-обслуживание", "Выезд компьютерного мастера", "E-IMZO, ЭЦП, Didox", "Сети и серверы", "Telegram-боты"],
     companyLinks: ["О нас", "Кейсы", "Блог", "GoARKAN", "Контакты"],
     pricingLinks: ["IT-подписка", "Выезд по заявке", "GoARKAN", "Telegram-боты"],
     rights: "Все права защищены.",
@@ -44,7 +44,7 @@ const COPY: Record<string, {
     services: "Services",
     company: "Company",
     pricing: "Pricing",
-    serviceLinks: ["IT Outsourcing", "IT Support", "Infrastructure", "Cybersecurity", "All Services"],
+    serviceLinks: ["IT support", "On-site technician", "E-IMZO, e-signature", "Networks and servers", "Telegram bots"],
     companyLinks: ["About", "Cases", "Blog", "GoARKAN", "Contact"],
     pricingLinks: ["IT subscription", "Pay per job", "GoARKAN", "Telegram bots"],
     rights: "All rights reserved.",
@@ -55,7 +55,7 @@ const COPY: Record<string, {
     services: "Xizmatlar",
     company: "Kompaniya",
     pricing: "Tariflar",
-    serviceLinks: ["IT-autsorsing", "IT-qo'llab-quvvatlash", "Infratuzilma", "Kiberxavfsizlik", "Barcha xizmatlar"],
+    serviceLinks: ["IT xizmat", "Kompyuter ustasi", "E-IMZO, ERI, Didox", "Tarmoq va serverlar", "Telegram-botlar"],
     companyLinks: ["Biz haqimizda", "Loyihalar", "Blog", "GoARKAN", "Aloqa"],
     pricingLinks: ["IT obuna", "Ariza bo'yicha", "GoARKAN", "Telegram-botlar"],
     rights: "Barcha huquqlar himoyalangan.",
@@ -66,7 +66,7 @@ const COPY: Record<string, {
     services: "服务",
     company: "公司",
     pricing: "定价",
-    serviceLinks: ["IT外包", "IT技术支持", "基础设施", "网络安全", "全部服务"],
+    serviceLinks: ["IT服务", "上门维修", "电子签名", "网络与服务器", "Telegram机器人"],
     companyLinks: ["关于我们", "案例", "博客", "GoARKAN", "联系我们"],
     pricingLinks: ["IT订阅", "按次服务", "GoARKAN", "Telegram机器人"],
     rights: "版权所有。",
@@ -74,7 +74,7 @@ const COPY: Record<string, {
   },
 };
 
-const SERVICE_HREFS = ["/services/it-outsourcing", "/services/itsm", "/services/infrastructure", "/services/managed-it", "/services"];
+const SERVICE_HREFS = ["/services/it-outsourcing", "/services/on-demand", "/services/e-imzo", "/services/infrastructure", "/services/telegram-bots"];
 const COMPANY_HREFS = ["/about", "/cases", "/blog", "/goarkan", "/contact"];
 const PRICING_HREFS = ["/pricing#subscription", "/pricing#on-demand", "/pricing#goarkan", "/pricing#bots"];
 
