@@ -11,7 +11,6 @@ import { HomeOperationFlow } from "@/components/home/HomeOperationFlow";
 import { HomeJourney } from "@/components/home/HomeJourney";
 import { HomeContact } from "@/components/home/HomeContact";
 import { organizationSchema, localBusinessSchema } from "@/lib/seo";
-import { getSettings } from "@/lib/cms-api";
 
 
 export async function generateMetadata({ params }: { params: Promise<{ lang: string }> }): Promise<Metadata> {
@@ -21,9 +20,7 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
 
 const schemas = [organizationSchema, localBusinessSchema];
 
-export default async function HomePage({ params }: { params: Promise<{ lang: string }> }) {
-  const { lang } = await params;
-  const settings = await getSettings(lang === "zh" ? "en" : lang);
+export default function HomePage() {
 
   return (
     <>
@@ -40,7 +37,7 @@ export default async function HomePage({ params }: { params: Promise<{ lang: str
       <HomeClients />
       <HomeComparison />
       <HomeJourney />
-      <HomeContact settings={settings} />
+      <HomeContact />
     </>
   );
 }

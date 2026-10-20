@@ -38,6 +38,7 @@
 | Шаги 4, 6, 7 | Удалены неиспользуемые медиа (~65 МБ), кейсы сжаты; убраны демо-цифры SLA/uptime; `/services/itsm` и `/services/managed-it` → 308; `/services/it-outsourcing` и `/infrastructure` на новом шаблоне; новые `/services/microsoft-365`, `/services/development`; страница «Все услуги»; адрес в футере |
 | Шаг 3 | **Языковые URL**: всё в `app/[lang]`, русский на корне (`proxy.ts`: `/x` → rewrite `/ru/x`, `/ru/x` → 308 `/x`, cookie `ark-lang` уводит на выбранный язык), `<html lang>`, метаданные и hreflang по языкам (`lib/page-meta.ts`, `lib/locale.ts`), ссылки с префиксом (`components/ui/LocaleLink.tsx`), sitemap × 4 языка; CSP пропускает Метрику и GA |
 | Шаг 5 | CMS с таймаутом 4 с и без дефолтного частного IP; контакты в футере/на контактах — из `lib/company.ts` |
+| Без GoARKAN | Сайт полностью отвязан от GoARKAN: удалён `lib/cms-api.ts`, контакты — из `lib/company.ts`, тарифы — из `lib/pricing.ts`, заявки — Telegram + почта (`lib/leads.ts`). Ссылки на goarkan.uz как на продукт остались |
 | Слияние с main | 6 новых статей перенесены в `app/[lang]/blog/[slug]`; из статей убраны «рыночные цены» (80–250 тыс за место, 2–5 млн в месяц — ниже наших тарифов, мешают продаже), «24/7», «именной инженер», совет требовать штрафы по SLA; 404 → `app/[lang]/not-found.tsx` + catch-all; `public/robots.txt` удалён (дублировал `app/robots.ts`), `/_next/` больше не закрыт для роботов |
 
 Проверено здесь: tsc, eslint по изменённым файлам, `npm run build` (все страницы × 4 языка статически), прод-сервер: редиректы, hreflang, `<html lang>`, ноль цен в HTML и в `.next/static`, переключение языка и отправка формы в браузере, скриншоты.
@@ -67,7 +68,7 @@ NEXT_PUBLIC_GOOGLE_SITE_VERIFY=
 # по желанию:
 RESEND_API_KEY=               # резервная доставка заявок на почту
 CONTACT_TO_EMAIL=info@arkana.uz
-GOARKAN_API_URL=              # только если GoARKAN доступен из интернета; иначе не задавать
+# GOARKAN_API_URL, GOARKAN_TENANT_DOMAIN, PRICING_DATA_* больше не нужны — удалить из Vercel
 ```
 
 ### Проверка после деплоя

@@ -3,7 +3,7 @@
 import Link from "@/components/ui/LocaleLink";
 import { useRef, useEffect, useState } from "react";
 import { useApp } from "@/components/providers/ThemeLanguageProvider";
-import type { SiteSettings } from "@/lib/cms-api";
+import { COMPANY } from "@/lib/company";
 
 const EASE = "cubic-bezier(.16,1,.3,1)";
 
@@ -83,18 +83,15 @@ function useReveal() {
   return { ref, visible };
 }
 
-export function HomeContact({ settings }: { settings?: SiteSettings | null }) {
+export function HomeContact() {
   const { lang } = useApp();
   const c = COPY[lang] ?? COPY.ru;
   const { ref, visible } = useReveal();
 
-  const email       = settings?.emails?.[0]?.value ?? "info@arkana.uz";
-  const telegram    = settings?.telegram           ?? "@arkana_uz";
-  const telegramHref = settings?.telegram_href     ?? "https://t.me/arkana_uz";
-  const phones = settings?.phones?.length ? settings.phones : [
-    { label: "Телефон", value: "+998 99 998 17 77", href: "tel:+998999981777" },
-    { label: "Телефон", value: "+998 50 120 88 88", href: "tel:+998501208888" },
-  ];
+  const email        = COMPANY.email;
+  const telegram     = COMPANY.telegramHandle;
+  const telegramHref = COMPANY.telegram;
+  const phones = COMPANY.phonesDisplay.map((value, i) => ({ label: "Телефон", value, href: `tel:${COMPANY.phones[i]}` }));
 
   return (
     <section

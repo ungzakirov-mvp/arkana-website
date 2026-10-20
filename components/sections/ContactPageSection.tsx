@@ -5,7 +5,6 @@ import { Mail, Phone, Clock, CheckCircle2, Send, MapPin } from "lucide-react";
 import { COMPANY } from "@/lib/company";
 import { LeadForm } from "@/components/lead/LeadForm";
 import { useApp } from "@/components/providers/ThemeLanguageProvider";
-import type { SiteSettings } from "@/lib/cms-api";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
@@ -118,7 +117,7 @@ const COPY: Record<string, {
   },
 };
 
-function buildContacts(s: SiteSettings | null | undefined, c: typeof COPY["ru"], lang: string) {
+function buildContacts(c: typeof COPY["ru"], lang: string) {
   const fallbackPhones = [
     { label: "Телефон", value: "+998 99 998 17 77", href: "tel:+998999981777" },
     { label: "Телефон", value: "+998 50 120 88 88", href: "tel:+998501208888" },
@@ -131,7 +130,6 @@ function buildContacts(s: SiteSettings | null | undefined, c: typeof COPY["ru"],
   const tgHref    = "https://t.me/arkana_uz";
   const hoursFallback: Record<string, string> = { ru: "Пн–Пт: 9:00–18:00", en: "Mon–Fri: 9:00–18:00", uz: "Du–Ju: 9:00–18:00", zh: "周一至周五：9:00–18:00" };
   const hoursStr  = hoursFallback[lang] ?? "Пн–Пт: 9:00–18:00";
-  void s;
   return [
     ...phonesArr.map(p => ({ icon: Phone, label: c.phone, value: p.value, href: p.href })),
     { icon: Send,   label: c.telegram, value: tg,       href: tgHref    },
@@ -142,10 +140,10 @@ function buildContacts(s: SiteSettings | null | undefined, c: typeof COPY["ru"],
 }
 
 
-export function ContactPageSection({ settings }: { settings?: SiteSettings | null }) {
+export function ContactPageSection() {
   const { lang } = useApp();
   const c = COPY[lang] ?? COPY.ru;
-  const CONTACTS = buildContacts(settings, c, lang);
+  const CONTACTS = buildContacts(c, lang);
 
 
   return (

@@ -9,7 +9,6 @@ import { Footer } from "@/components/layout/Footer";
 import { QuickContact } from "@/components/lead/QuickContact";
 import { ThemeLanguageProvider } from "@/components/providers/ThemeLanguageProvider";
 import { organizationSchema, localBusinessSchema, SITE_URL } from "@/lib/seo";
-import { getSettings } from "@/lib/cms-api";
 
 const inter = Inter({
   subsets: ["latin", "cyrillic"],
@@ -113,7 +112,6 @@ export default async function RootLayout({
 }: Readonly<{ children: React.ReactNode; params: Promise<{ lang: string }> }>) {
   const { lang } = await params;
   if (!isLang(lang)) notFound();
-  const siteSettings = await getSettings(lang === "zh" ? "en" : lang);
 
   return (
     <html lang={lang} className={`${inter.variable} ${manrope.variable}`} suppressHydrationWarning>
@@ -180,7 +178,7 @@ ym(${METRIKA_ID},'init',{clickmap:true,trackLinks:true,accurateTrackBounce:true,
           <div className="flex min-h-screen flex-col overflow-hidden supports-[overflow:clip]:overflow-clip">
             <Navigation />
             <main className="flex-1">{children}</main>
-            <Footer settings={siteSettings} />
+            <Footer />
             <QuickContact />
           </div>
         </ThemeLanguageProvider>

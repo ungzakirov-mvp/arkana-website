@@ -3,20 +3,8 @@
 import Link from "@/components/ui/LocaleLink";
 import Image from "next/image";
 import { useApp } from "@/components/providers/ThemeLanguageProvider";
-import type { SiteSettings } from "@/lib/cms-api";
 import { COMPANY } from "@/lib/company";
 
-const FALLBACK: Pick<SiteSettings, "company_name" | "phones" | "emails" | "telegram" | "telegram_href" | "address"> = {
-  company_name: "ARKANA",
-  phones: [
-    { label: "Телефон", value: "+998 99 998 17 77", href: "tel:+998999981777" },
-    { label: "Телефон", value: "+998 50 120 88 88", href: "tel:+998501208888" },
-  ],
-  emails: [{ value: "info@arkana.uz", href: "mailto:info@arkana.uz" }],
-  telegram: "@arkana_uz",
-  telegram_href: "https://t.me/arkana_uz",
-  address: "",
-};
 
 const COPY: Record<string, {
   desc: string;
@@ -103,11 +91,11 @@ const Chip = ({ icon, href, text }: { icon: React.ReactNode; href: string; text:
 );
 
 
-export function Footer({ settings }: { settings?: SiteSettings | null }) {
+export function Footer() {
   const { lang } = useApp();
   const c = COPY[lang] ?? COPY.ru;
   const year = new Date().getFullYear();
-  const name    = settings?.company_name ?? FALLBACK.company_name;
+  const name    = COMPANY.name;
   // Контакты — только из lib/company.ts (NAP должен совпадать со schema.org и карточками на картах)
   const phones  = COMPANY.phonesDisplay.map((value, i) => ({ value, href: `tel:${COMPANY.phones[i]}` }));
   const emails  = [{ value: COMPANY.email, href: `mailto:${COMPANY.email}` }];

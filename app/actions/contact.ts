@@ -66,12 +66,12 @@ export async function submitContact(_prev: ContactFormState, formData: FormData)
   }
   const d = parsed.data;
 
-  // 4. Delivery: Telegram + GoARKAN/email
+  // 4. Доставка: Telegram + почта (сайт с GoARKAN не связан)
   const res = await deliverLead({
     name: d.name,
     phone: d.phone,
-    company: d.company || "",
-    email: d.email || "",
+    company: d.company || undefined,
+    email: d.email || undefined,
     message: d.message || undefined,
     service: d.service || undefined,
     plan_slug: d.plan || undefined,
