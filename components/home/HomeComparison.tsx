@@ -125,7 +125,8 @@ export function HomeComparison() {
   const { ref, visible } = useReveal();
 
   return (
-    <section ref={ref as React.RefObject<HTMLElement>} id="compare" style={{ position: "relative", zIndex: 2, padding: "0 clamp(20px,4vw,64px) 120px", maxWidth: 1280, margin: "0 auto" }}>
+    <section ref={ref as React.RefObject<HTMLElement>} id="compare" style={{ position: "relative", zIndex: 2 }}>
+      <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 clamp(20px,4vw,64px) 120px" }}>
 
       {/* Header */}
       <div style={{ opacity: visible ? 1 : 0, transform: visible ? "none" : "translateY(20px)", transition: `opacity .4s ${EASE}, transform .4s ${EASE}` }}>
@@ -245,6 +246,7 @@ export function HomeComparison() {
           .compare-verdict { flex-direction: column; }
         }
       `}</style>
+      </div>{/* /maxWidth wrapper */}
     </section>
   );
 }

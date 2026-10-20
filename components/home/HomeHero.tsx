@@ -228,8 +228,8 @@ export function HomeHero() {
 
   return (
     <section className="hero-section" style={{
-      position: "relative", padding: "64px clamp(20px,4vw,64px) 60px",
-      overflow: "hidden", zIndex: 2, maxWidth: 1440, margin: "0 auto",
+      position: "relative", padding: "64px 0 60px",
+      overflow: "hidden", zIndex: 2,
       backgroundImage: `radial-gradient(circle at 18% 22%, rgba(79,209,138,${HERO_VISUALS.bg.glowOpacity}), transparent 40%), linear-gradient(rgba(238,242,238,0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(238,242,238,0.025) 1px, transparent 1px)`,
       backgroundSize: "100% 100%, 64px 64px, 64px 64px",
     }}>
@@ -243,6 +243,7 @@ export function HomeHero() {
         </video>
       </div>
 
+      <div style={{ maxWidth: 1440, margin: "0 auto", padding: "0 clamp(20px,4vw,64px)" }}>
       <div className="hero-grid" style={{ display: "grid", gridTemplateColumns: "1.05fr 1fr", gap: "clamp(24px,4vw,48px)", alignItems: "center" }}>
 
         {/* Left */}
@@ -358,6 +359,7 @@ export function HomeHero() {
           );
         })}
       </div>
+      </div>{/* /maxWidth wrapper */}
     </section>
   );
 }

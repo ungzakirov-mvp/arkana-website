@@ -125,7 +125,8 @@ export function HomePlatform() {
   const { ref, visible } = useReveal();
 
   return (
-    <section ref={ref as React.RefObject<HTMLElement>} id="platform" style={{ position: "relative", zIndex: 2, padding: "120px clamp(20px,4vw,64px)", maxWidth: 1280, margin: "0 auto" }}>
+    <section ref={ref as React.RefObject<HTMLElement>} id="platform" style={{ position: "relative", zIndex: 2 }}>
+      <div style={{ maxWidth: 1280, margin: "0 auto", padding: "120px clamp(20px,4vw,64px)" }}>
       <div style={{ opacity: visible ? 1 : 0, transform: visible ? "none" : "translateY(20px)", transition: `opacity .4s ${EASE}, transform .4s ${EASE}` }}>
         <div style={{ fontFamily: "var(--font-mono, monospace)", fontSize: 12, letterSpacing: "0.12em", color: "#4fd18a", textTransform: "uppercase", marginBottom: 16, fontWeight: 600 }}>{c.eyebrow}</div>
         <h2 style={{ fontSize: "clamp(28px,3.6vw,44px)", fontWeight: 800, margin: "0 0 60px", maxWidth: 640, lineHeight: 1.15, letterSpacing: "-0.01em", fontFamily: "var(--font-manrope), sans-serif" }}>
@@ -208,6 +209,7 @@ export function HomePlatform() {
           );
         })}
       </div>
+      </div>{/* /maxWidth wrapper */}
     </section>
   );
 }
