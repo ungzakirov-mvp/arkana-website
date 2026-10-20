@@ -1,12 +1,13 @@
 "use client";
 
 import Link from "@/components/ui/LocaleLink";
-import { Check, Minus, ArrowRight } from "lucide-react";
+import { Minus, ArrowRight } from "lucide-react";
+import { IconPlanStart, IconPlanBusiness, IconPlanEnterprise, IconTick } from "@/components/ui/ArkIcons";
 import { useApp } from "@/components/providers/ThemeLanguageProvider";
 import { LeadForm, selectPlan } from "@/components/lead/LeadForm";
 import {
   tr, type L,
-  SUBSCRIPTION, SUBSCRIPTION_COMPARE, SUBSCRIPTION_ADDONS, SUBSCRIPTION_TERMS,
+  SUBSCRIPTION, SUBSCRIPTION_STATS, SUBSCRIPTION_COMPARE, SUBSCRIPTION_ADDONS, SUBSCRIPTION_TERMS,
   ON_DEMAND, PROJECTS, PROJECT_TERMS,
   GOARKAN_PLANS, GOARKAN_FEATURES, BOT_PLANS, BOT_NOTE, GENERAL_TERMS, CHOOSER,
 } from "@/lib/pricing";
@@ -28,6 +29,9 @@ const UI = {
     { id: "lead-form", l: { ru: "Получить расчёт", uz: "Hisob olish", en: "Get a quote" } },
   ],
   onRequest: { ru: "Цена по запросу", uz: "Narx so'rov bo'yicha", en: "Price on request" },
+  quoteIn: { ru: "расчёт за 1 рабочий день", uz: "1 ish kunida hisob", en: "quote in 1 business day" },
+  included: { ru: "Что входит", uz: "Nima kiradi", en: "What's included" },
+  upTo: { ru: "до ", uz: "", en: "up to " },
   quote: { ru: "Узнать стоимость", uz: "Narxni bilish", en: "Get the price" },
   recommended: { ru: "Чаще выбирают", uz: "Ko'proq tanlanadi", en: "Most chosen" },
   subTitle: { ru: "Подписка — ваш IT-отдел за фиксированную сумму", uz: "Obuna — belgilangan narxdagi IT bo'limingiz", en: "Subscription — your IT department for a fixed fee" },
@@ -77,7 +81,7 @@ const UI = {
   formSub: { ru: "Напишите, сколько сотрудников и что нужно, — пришлём расчёт на одну страницу в течение рабочего дня.", uz: "Nechta xodim va nima kerakligini yozing — bir ish kuni ichida bir sahifalik hisob yuboramiz.", en: "Tell us your headcount and what you need — we'll send a one-page quote within one business day." },
 };
 
-const Yes = () => <Check size={16} strokeWidth={2.5} style={{ color: "var(--ark-accent)", flexShrink: 0 }} aria-hidden="true" />;
+const Yes = () => <IconTick size={18} style={{ color: "var(--ark-accent)", flexShrink: 0 }} />;
 const No = () => <Minus size={16} style={{ color: "var(--ark-text-faint)", flexShrink: 0 }} aria-hidden="true" />;
 
 function Section({ id, title, lead, children }: { id: string; title: string; lead?: string; children: React.ReactNode }) {
@@ -91,6 +95,8 @@ function Section({ id, title, lead, children }: { id: string; title: string; lea
     </section>
   );
 }
+
+const PLAN_ICON = { start: IconPlanStart, business: IconPlanBusiness, enterprise: IconPlanEnterprise } as const;
 
 function Ask({ plan, primary, label }: { plan: string; primary?: boolean; label: string }) {
   return (
@@ -120,6 +126,30 @@ export function PricingSection() {
         .pr-card { position: relative; background: var(--ark-card); border: 1px solid var(--ark-border); border-radius: 16px; padding: 24px 22px; display: flex; flex-direction: column; }
         .pr-card.rec { border-color: var(--ark-accent); box-shadow: 0 0 0 1px var(--ark-accent), 0 10px 40px var(--ark-accent-glow); }
         .pr-flag { position: absolute; top: -12px; left: 22px; background: var(--ark-accent); color: #05080a; font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 999px; }
+        .pr-plan { position: relative; display: flex; flex-direction: column; padding: 26px 24px 24px; border-radius: 20px; background: linear-gradient(180deg, rgba(238,242,238,0.035), rgba(238,242,238,0.01)) , var(--ark-card); border: 1px solid var(--ark-border); transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease; }
+        .pr-plan:hover { transform: translateY(-4px); border-color: var(--ark-border-strong); box-shadow: 0 18px 50px rgba(0,0,0,0.35); }
+        .pr-plan.rec { border-color: rgba(79,209,138,0.55); background: radial-gradient(120% 70% at 50% 0%, rgba(79,209,138,0.16), transparent 60%), var(--ark-card); box-shadow: 0 0 0 1px rgba(79,209,138,0.35), 0 20px 60px rgba(79,209,138,0.12); }
+        .pr-plan.rec:hover { box-shadow: 0 0 0 1px rgba(79,209,138,0.5), 0 24px 70px rgba(79,209,138,0.18); }
+        @media (min-width: 901px) { .pr-plan.rec { transform: translateY(-8px); } .pr-plan.rec:hover { transform: translateY(-12px); } }
+        .pr-plan-head { display: flex; gap: 14px; align-items: center; margin-bottom: 20px; }
+        .pr-plan-ico { flex-shrink: 0; width: 52px; height: 52px; border-radius: 12px; display: flex; align-items: center; justify-content: center; color: var(--ark-accent); background: linear-gradient(135deg, rgba(79,209,138,0.16), rgba(79,209,138,0.04)); border: 1px solid rgba(79,209,138,0.25); }
+        .pr-plan-name { font-family: Nacelle, sans-serif; font-size: 22px; font-weight: 700; letter-spacing: 0.02em; color: var(--ark-text-heading); line-height: 1.1; }
+        .pr-plan-aud { font-size: 13.5px; color: var(--ark-text-muted); margin-top: 4px; }
+        .pr-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; border-radius: 14px; overflow: hidden; background: var(--ark-border); border: 1px solid var(--ark-border); margin-bottom: 22px; }
+        .pr-stat { background: var(--ark-bg-2); padding: 14px 10px 12px; text-align: center; }
+        .pr-plan.rec .pr-stat { background: rgba(11,18,16,0.85); }
+        .pr-stat-v { font-family: Nacelle, sans-serif; font-size: 24px; font-weight: 700; color: var(--ark-text-heading); line-height: 1; letter-spacing: -0.02em; white-space: nowrap; }
+        .pr-stat-v small { font-size: 12px; font-weight: 600; color: var(--ark-text-sub); margin-right: 2px; letter-spacing: 0; }
+        .pr-plan.rec .pr-stat-v { color: var(--ark-accent-2); }
+        .pr-stat-l { font-size: 11.5px; color: var(--ark-text-sub); margin-top: 6px; line-height: 1.25; }
+        .pr-incl { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ark-text-sub); margin-bottom: 12px; }
+        .pr-list-plan li { gap: 10px; }
+        .pr-list-plan li svg { margin-top: 0; }
+        .pr-plan-foot { margin-top: auto; padding-top: 18px; border-top: 1px dashed var(--ark-border-strong); display: flex; flex-direction: column; gap: 12px; }
+        .pr-plan-price { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+        .pr-plan-price span { font-size: 15px; font-weight: 700; color: var(--ark-text); }
+        .pr-plan-price small { font-size: 12px; color: var(--ark-text-sub); }
+        .pr-plan .pr-btn { padding: 13px 16px; font-size: 15px; border-radius: 12px; }
         .pr-name { font-size: 12px; font-weight: 800; letter-spacing: .14em; color: var(--ark-accent-2); text-transform: uppercase; }
         .pr-big { font-family: Nacelle, sans-serif; font-size: 22px; font-weight: 700; letter-spacing: -0.02em; color: var(--ark-text-heading); margin: 10px 0 2px; line-height: 1.2; }
         .pr-meta { font-size: 13px; color: var(--ark-text-sub); margin-bottom: 4px; }
@@ -179,17 +209,35 @@ export function PricingSection() {
 
       <Section id="subscription" title={t(UI.subTitle)} lead={t(UI.subLead)}>
         <div className="pr-grid3" style={{ paddingTop: 12 }}>
-          {SUBSCRIPTION.map((p) => (
-            <div key={p.code} id={p.code} className={`pr-card${p.recommended ? " rec" : ""}`}>
-              {p.recommended && <span className="pr-flag">{t(UI.recommended)}</span>}
-              <div className="pr-name">{p.name}</div>
-              <div className="pr-big">{t(p.seats)}</div>
-              <div className="pr-aud">{t(p.audience)}</div>
-              <ul className="pr-list">{p.highlights.map((h) => <li key={h.ru}><Yes />{t(h)}</li>)}</ul>
-              <div className="pr-meta" style={{ marginBottom: 10 }}>{t(UI.onRequest)}</div>
-              <Ask plan={p.code} primary={p.recommended} label={quote} />
-            </div>
-          ))}
+          {SUBSCRIPTION.map((p) => {
+            const Icon = PLAN_ICON[p.code];
+            return (
+              <div key={p.code} id={p.code} className={`pr-plan${p.recommended ? " rec" : ""}`}>
+                {p.recommended && <span className="pr-flag">{t(UI.recommended)}</span>}
+                <div className="pr-plan-head">
+                  <span className="pr-plan-ico"><Icon size={26} /></span>
+                  <div>
+                    <div className="pr-plan-name">{p.name}</div>
+                    <div className="pr-plan-aud">{t(p.audience)}</div>
+                  </div>
+                </div>
+                <div className="pr-stats">
+                  {SUBSCRIPTION_STATS[p.code].map((st, i) => (
+                    <div key={st.l.ru} className="pr-stat">
+                      <div className="pr-stat-v">{i < 2 && <small>{t(UI.upTo)}</small>}{t(st.v)}</div>
+                      <div className="pr-stat-l">{t(st.l)}</div>
+                    </div>
+                  ))}
+                </div>
+                <div className="pr-incl">{t(UI.included)}</div>
+                <ul className="pr-list pr-list-plan">{p.highlights.map((h) => <li key={h.ru}><IconTick size={18} style={{ color: "var(--ark-accent)", flexShrink: 0 }} />{t(h)}</li>)}</ul>
+                <div className="pr-plan-foot">
+                  <div className="pr-plan-price"><span>{t(UI.onRequest)}</span><small>{t(UI.quoteIn)}</small></div>
+                  <Ask plan={p.code} primary={p.recommended} label={quote} />
+                </div>
+              </div>
+            );
+          })}
         </div>
 
         <details className="pr-details">

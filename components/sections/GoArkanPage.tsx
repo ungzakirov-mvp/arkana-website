@@ -4,8 +4,9 @@ import { useState } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "@/components/ui/LocaleLink";
-import { TicketCheck, HardDrive, LayoutDashboard, Users2, ArrowRight, CheckCircle2, ShieldCheck, Zap, FileSignature, Smartphone, Layers } from "lucide-react";
-import type { LucideIcon } from "lucide-react";
+import { ArrowRight } from "lucide-react";
+import type { ComponentType, SVGProps } from "react";
+import { IconHomeScreen, IconDocFlow, IconOrg, IconDesk, IconAssets, IconPocketOffice, IconPaperless, IconUnify, IconGrowth, IconTick } from "@/components/ui/ArkIcons";
 import { useApp } from "@/components/providers/ThemeLanguageProvider";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
@@ -32,7 +33,7 @@ const COPY: Record<string, Copy> = {
     platformCta: "Запросить демо",
     modules: [
       { key: "home", label: "Главный экран", desc: "Экран руководителя: документы на подписи, просроченные поручения, открытые заявки, состояние техники — вся компания за минуту.", features: ["Документы на подписи", "Контроль поручений", "Заявки и просрочки", "Всё с телефона"] },
-      { key: "edo", label: "Документооборот", desc: "Входящие, исходящие и внутренние документы. Согласование по маршруту, лист согласования, электронная подпись, рассылка «для информации» и контроль исполнения поручений.", features: ["Входящие и исходящие", "Лист согласования", "Электронная подпись", "Контроль исполнения"] },
+      { key: "edo", label: "Документооборот", desc: "Входящие, исходящие и служебные письма, канцелярия с регистрацией. Шаблоны и бланки, настраиваемые маршруты согласования, лист согласования, электронная подпись и контроль исполнения поручений.", features: ["Входящие, исходящие, служебные", "Маршруты и лист согласования", "Шаблоны и бланки", "ЭЦП и контроль исполнения"] },
       { key: "hr", label: "Кадры", desc: "Оргструктура компании: департаменты и отделы, личные карточки сотрудников, аттестации. Новый сотрудник сразу получает доступы и технику.", features: ["Департаменты и отделы", "Личные карточки", "Аттестации", "Приём и увольнение"] },
       { key: "sd", label: "Service Desk", desc: "Заявки в IT, АХО и любой отдел — из Telegram-бота или браузера. Каталог услуг, SLA, автоназначение исполнителя, база знаний и оценка качества.", features: ["Заявки из Telegram", "SLA и автоназначение", "База знаний", "Оценка исполнителя"] },
       { key: "assets", label: "Техника и склад", desc: "Какая техника у кого и кто за неё отвечает — с электронной приёмкой сотрудником. Лицензии и их сроки, расходники и склад: приход, выдача, остатки.", features: ["Учёт техники", "Лицензии и сроки", "Электронная приёмка", "Склад и расходники"] },
@@ -59,7 +60,7 @@ const COPY: Record<string, Copy> = {
     platformCta: "Demo so'rash",
     modules: [
       { key: "home", label: "Bosh ekran", desc: "Rahbar ekrani: imzoga hujjatlar, muddati o'tgan topshiriqlar, ochiq arizalar, texnika holati — butun kompaniya bir daqiqada.", features: ["Imzoga hujjatlar", "Topshiriqlar nazorati", "Arizalar va kechikishlar", "Hammasi telefonda"] },
-      { key: "edo", label: "Hujjat aylanishi", desc: "Kiruvchi, chiquvchi va ichki hujjatlar. Marshrut bo'yicha kelishuv, kelishuv varaqasi, elektron imzo, «ma'lumot uchun» va topshiriqlar ijrosi nazorati.", features: ["Kiruvchi va chiquvchi", "Kelishuv varaqasi", "Elektron imzo", "Ijro nazorati"] },
+      { key: "edo", label: "Hujjat aylanishi", desc: "Kiruvchi, chiquvchi va xizmat xatlari, ro'yxatga olish bilan devonxona. Shablon va blankalar, sozlanadigan kelishuv marshrutlari, kelishuv varaqasi, elektron imzo va topshiriqlar ijrosi nazorati.", features: ["Kiruvchi, chiquvchi, xizmat", "Marshrut va kelishuv varaqasi", "Shablon va blankalar", "ERI va ijro nazorati"] },
       { key: "hr", label: "Kadrlar", desc: "Kompaniya tuzilmasi: departament va bo'limlar, xodimlarning shaxsiy kartochkalari, attestatsiyalar.", features: ["Departament va bo'limlar", "Shaxsiy kartochkalar", "Attestatsiyalar", "Ishga qabul va bo'shatish"] },
       { key: "sd", label: "Service Desk", desc: "IT, xo'jalik va istalgan bo'limga arizalar — Telegram-bot yoki brauzer orqali. Xizmatlar katalogi, SLA, avtomatik tayinlash, bilimlar bazasi va baholash.", features: ["Telegram orqali arizalar", "SLA va avtotayinlash", "Bilimlar bazasi", "Ijrochini baholash"] },
       { key: "assets", label: "Texnika va ombor", desc: "Qaysi texnika kimda va kim javobgar — xodimning elektron qabuli bilan. Litsenziyalar va muddatlari, sarf materiallari va ombor.", features: ["Texnika hisobi", "Litsenziyalar", "Elektron qabul", "Ombor"] },
@@ -86,7 +87,7 @@ const COPY: Record<string, Copy> = {
     platformCta: "Request a demo",
     modules: [
       { key: "home", label: "Home screen", desc: "The management screen: documents to sign, overdue assignments, open requests, asset status — the whole company in a minute.", features: ["Documents to sign", "Assignment control", "Requests and overdue", "All from a phone"] },
-      { key: "edo", label: "Document flow", desc: "Incoming, outgoing and internal documents. Routed approvals, approval sheet, electronic signature, FYI distribution and execution control.", features: ["Incoming and outgoing", "Approval sheet", "E-signature", "Execution control"] },
+      { key: "edo", label: "Document flow", desc: "Incoming, outgoing and internal letters, a registry office with registration. Templates and letterheads, configurable approval routes, approval sheet, e-signature and execution control.", features: ["Incoming, outgoing, internal", "Routes and approval sheet", "Templates and letterheads", "E-signature and control"] },
       { key: "hr", label: "HR", desc: "Company structure: departments and units, employee profiles, performance reviews.", features: ["Departments", "Employee profiles", "Reviews", "Onboarding and offboarding"] },
       { key: "sd", label: "Service Desk", desc: "Requests to IT, facilities or any department — via Telegram bot or browser. Service catalogue, SLA, auto-assignment, knowledge base and ratings.", features: ["Telegram requests", "SLA and auto-assign", "Knowledge base", "Ratings"] },
       { key: "assets", label: "Assets and stock", desc: "Who has which equipment and who is responsible — with electronic acceptance by the employee. Licences and expiry, consumables and stock.", features: ["Asset records", "Licences", "E-acceptance", "Stock"] },
@@ -103,7 +104,7 @@ const COPY: Record<string, Copy> = {
   },
 };
 
-const MODULE_ICONS: LucideIcon[] = [LayoutDashboard, FileSignature, Users2, TicketCheck, HardDrive];
+const MODULE_ICONS: ComponentType<SVGProps<SVGSVGElement> & { size?: number }>[] = [IconHomeScreen, IconDocFlow, IconOrg, IconDesk, IconAssets];
 /** Скриншоты модулей: положить файлы в public/portal/ с этими именами (демо-данные, без реальных клиентов). */
 const MODULE_IMGS: Record<string, string | null> = {
   home: null,
@@ -114,7 +115,7 @@ const MODULE_IMGS: Record<string, string | null> = {
 };
 const MODULE_SLUGS: Record<string, string> = { home: "home", edo: "documents", hr: "hr", sd: "service-desk", assets: "assets" };
 
-const BENEFIT_ICONS: LucideIcon[] = [Smartphone, ShieldCheck, Layers, Zap];
+const BENEFIT_ICONS = [IconPocketOffice, IconPaperless, IconUnify, IconGrowth];
 
 export function GoArkanPage() {
   const [active, setActive] = useState(0);
@@ -149,7 +150,7 @@ export function GoArkanPage() {
             <div style={{ display: "flex", gap: 16, justifyContent: "center", flexWrap: "wrap", marginBottom: 36 }}>
               {c.features.map((item) => (
                 <div key={item} style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 13, color: "var(--ark-text-muted)" }}>
-                  <CheckCircle2 size={13} style={{ color: "#4fd18a" }} />
+                  <IconTick size={16} style={{ color: "#4fd18a" }} />
                   {item}
                 </div>
               ))}
@@ -197,7 +198,7 @@ export function GoArkanPage() {
                     transition: "background 180ms cubic-bezier(0.4,0,0.2,1), border-color 180ms cubic-bezier(0.4,0,0.2,1), color 180ms cubic-bezier(0.4,0,0.2,1)",
                   }}
                 >
-                  <Icon size={13} />
+                  <Icon size={16} />
                   {label}
                 </button>
               );
@@ -222,7 +223,7 @@ export function GoArkanPage() {
                   <Image src={img} alt={`GoARKAN — ${mod.label}`} fill style={{ objectFit: "cover", objectPosition: "top" }} quality={90} />
                 ) : (
                   <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 18, padding: 24, background: "radial-gradient(ellipse 60% 60% at 50% 40%, rgba(79,209,138,0.10), transparent)" }}>
-                    {(() => { const Icon = MODULE_ICONS[active]; return <Icon size={44} strokeWidth={1.3} style={{ color: "#4fd18a" }} />; })()}
+                    {(() => { const Icon = MODULE_ICONS[active]; return <Icon size={56} strokeWidth={1.2} style={{ color: "#4fd18a" }} />; })()}
                     <div style={{ fontFamily: "Nacelle, sans-serif", fontSize: "clamp(1.25rem, 3vw, 1.75rem)", fontWeight: 600, color: "var(--ark-text)" }}>{mod.label}</div>
                     <div style={{ display: "flex", flexWrap: "wrap", gap: 8, justifyContent: "center", maxWidth: 560 }}>
                       {mod.features.map((f) => <span key={f} style={{ fontSize: 13, padding: "7px 12px", borderRadius: 999, border: "1px solid var(--ark-border-strong)", color: "var(--ark-text-dim)" }}>{f}</span>)}
@@ -237,7 +238,7 @@ export function GoArkanPage() {
               <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
                 {mod.features.map((f) => (
                   <div key={f} style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                    <CheckCircle2 size={12} style={{ color: "#4fd18a" }} />
+                    <IconTick size={15} style={{ color: "#4fd18a" }} />
                     <span style={{ fontSize: 12.5, color: "var(--ark-text-muted)" }}>{f}</span>
                   </div>
                 ))}
@@ -291,7 +292,7 @@ export function GoArkanPage() {
                   onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.transform = "translateY(-4px)"; el.style.boxShadow = "0 12px 32px rgba(0,0,0,0.25)"; el.style.borderColor = "rgba(79,209,138,0.18)"; }}
                   onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.transform = ""; el.style.boxShadow = ""; el.style.borderColor = "var(--ark-card-border)"; }}
                 >
-                  <div style={{ marginBottom: 14, color: "#4fd18a" }}><Icon size={20} strokeWidth={1.5} /></div>
+                  <div style={{ marginBottom: 16, width: 48, height: 48, borderRadius: 12, display: "flex", alignItems: "center", justifyContent: "center", color: "#4fd18a", background: "linear-gradient(135deg, rgba(79,209,138,0.16), rgba(79,209,138,0.04))", border: "1px solid rgba(79,209,138,0.25)" }}><Icon size={26} /></div>
                   <h3 style={{ fontFamily: "Nacelle, sans-serif", fontSize: 15, fontWeight: 600, color: "var(--ark-text)", marginBottom: 8 }}>{title}</h3>
                   <p style={{ fontSize: 13.5, color: "var(--ark-text-muted)", lineHeight: 1.6 }}>{desc}</p>
                 </motion.div>
