@@ -34,8 +34,6 @@ export const SUBSCRIPTION: SubscriptionPlan[] = [
     audience: { ru: "Офис без своего айтишника", uz: "O'z IT xodimi bo'lmagan ofis", en: "Office without in-house IT" },
     highlights: [
       { ru: "Удалённая помощь без лимита", uz: "Cheklovsiz masofaviy yordam", en: "Unlimited remote help" },
-      { ru: "До 8 выездов в месяц", uz: "Oyiga 8 tagacha tashrif", en: "Up to 8 on-site visits a month" },
-      { ru: "Реакция — 4 рабочих часа", uz: "Javob — 4 ish soati", en: "Response within 4 business hours" },
       { ru: "ЭЦП, E-IMZO, my.soliq, Didox", uz: "ERI, E-IMZO, my.soliq, Didox", en: "E-signature, E-IMZO, my.soliq, Didox" },
       { ru: "5 заправок картриджей в месяц", uz: "Oyiga 5 ta kartrij to'ldirish", en: "5 cartridge refills a month" },
       { ru: "GoARKAN Service Desk", uz: "GoARKAN Service Desk", en: "GoARKAN Service Desk" },
@@ -50,8 +48,6 @@ export const SUBSCRIPTION: SubscriptionPlan[] = [
     audience: { ru: "Компания с сервером и облаком", uz: "Serveri va bulutli xizmatlari bor kompaniya", en: "Company with servers and cloud" },
     highlights: [
       { ru: "Всё из START", uz: "START dagi hammasi", en: "Everything in START" },
-      { ru: "До 16 выездов в месяц", uz: "Oyiga 16 tagacha tashrif", en: "Up to 16 on-site visits a month" },
-      { ru: "Реакция — 2 рабочих часа", uz: "Javob — 2 ish soati", en: "Response within 2 business hours" },
       { ru: "До 2 серверов, мониторинг и бэкапы", uz: "2 tagacha server, monitoring va zaxira nusxa", en: "Up to 2 servers, monitoring and backups" },
       { ru: "Microsoft 365: почта, Teams, OneDrive", uz: "Microsoft 365: pochta, Teams, OneDrive", en: "Microsoft 365: mail, Teams, OneDrive" },
       { ru: "GoARKAN Офис: учёт техники и склад", uz: "GoARKAN Ofis: texnika hisobi va ombor", en: "GoARKAN Office: assets and stock" },
@@ -65,8 +61,7 @@ export const SUBSCRIPTION: SubscriptionPlan[] = [
     audience: { ru: "Компания, где ИТ — часть бизнеса", uz: "IT biznesning bir qismi bo'lgan kompaniya", en: "Company where IT is core to the business" },
     highlights: [
       { ru: "Всё из BUSINESS", uz: "BUSINESS dagi hammasi", en: "Everything in BUSINESS" },
-      { ru: "До 30 выездов, инженер в офисе 1 день в неделю", uz: "30 tagacha tashrif, haftada 1 kun ofisda muhandis", en: "Up to 30 visits, engineer on site 1 day a week" },
-      { ru: "Реакция — 1 рабочий час", uz: "Javob — 1 ish soati", en: "Response within 1 business hour" },
+      { ru: "Инженер в вашем офисе 1 день в неделю", uz: "Haftada 1 kun ofisingizda muhandis", en: "Engineer at your office 1 day a week" },
       { ru: "До 5 серверов, межсетевой экран", uz: "5 tagacha server, tarmoqlararo ekran", en: "Up to 5 servers, firewall" },
       { ru: "Проверка восстановления бэкапов раз в квартал", uz: "Har chorakda zaxiradan tiklashni tekshirish", en: "Quarterly backup restore test" },
       { ru: "GoARKAN Цифровой офис с ЭДО", uz: "GoARKAN Raqamli ofis (EHA bilan)", en: "GoARKAN Digital Office with e-docs" },
@@ -74,6 +69,25 @@ export const SUBSCRIPTION: SubscriptionPlan[] = [
     ],
   },
 ];
+
+/** Ключевые цифры пакета для карточки (без цен). */
+export const SUBSCRIPTION_STATS: Record<SubscriptionPlan["code"], { v: L; l: L }[]> = {
+  start: [
+    { v: { ru: "15", uz: "15", en: "15" }, l: { ru: "рабочих мест", uz: "ish o'rni", en: "workstations" } },
+    { v: { ru: "8", uz: "8", en: "8" }, l: { ru: "выездов в месяц", uz: "oylik tashrif", en: "visits / month" } },
+    { v: { ru: "4 ч", uz: "4 s", en: "4 h" }, l: { ru: "реакция", uz: "javob", en: "response" } },
+  ],
+  business: [
+    { v: { ru: "40", uz: "40", en: "40" }, l: { ru: "рабочих мест", uz: "ish o'rni", en: "workstations" } },
+    { v: { ru: "16", uz: "16", en: "16" }, l: { ru: "выездов в месяц", uz: "oylik tashrif", en: "visits / month" } },
+    { v: { ru: "2 ч", uz: "2 s", en: "2 h" }, l: { ru: "реакция", uz: "javob", en: "response" } },
+  ],
+  enterprise: [
+    { v: { ru: "80", uz: "80", en: "80" }, l: { ru: "рабочих мест", uz: "ish o'rni", en: "workstations" } },
+    { v: { ru: "30", uz: "30", en: "30" }, l: { ru: "выездов в месяц", uz: "oylik tashrif", en: "visits / month" } },
+    { v: { ru: "1 ч", uz: "1 s", en: "1 h" }, l: { ru: "реакция", uz: "javob", en: "response" } },
+  ],
+};
 
 export type CompareRow = { group?: L; label?: L; cells?: [Cell, Cell, Cell] };
 
