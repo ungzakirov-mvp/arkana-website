@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import Link from "next/link";
+import Link from "@/components/ui/LocaleLink";
 import { ArrowRight, Clock } from "lucide-react";
 import { useApp } from "@/components/providers/ThemeLanguageProvider";
 

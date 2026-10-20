@@ -1,46 +1,56 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import Link from "next/link";
+import Link from "@/components/ui/LocaleLink";
 import Image from "next/image";
 import { useApp } from "@/components/providers/ThemeLanguageProvider";
-import { Menu, X, ChevronDown, Globe } from "lucide-react";
+import { Menu, X, ChevronDown, Globe, Phone } from "lucide-react";
+import { COMPANY } from "@/lib/company";
+import { track } from "@/lib/track";
 
 const SERVICE_LINKS: Record<string, { label: string; href: string }[]> = {
   ru: [
-    { label: "IT-аутсорсинг",        href: "/services/it-outsourcing" },
-    { label: "IT Service Management", href: "/services/itsm" },
-    { label: "Инфраструктура",        href: "/services/infrastructure" },
-    { label: "Кибербезопасность",     href: "/services/managed-it" },
-    { label: "Все услуги",            href: "/services" },
+    { label: "IT-обслуживание (подписка)", href: "/services/it-outsourcing" },
+    { label: "Выезд компьютерного мастера", href: "/services/on-demand" },
+    { label: "E-IMZO, ЭЦП, Didox", href: "/services/e-imzo" },
+    { label: "Сети и серверы", href: "/services/infrastructure" },
+    { label: "Telegram-боты", href: "/services/telegram-bots" },
+    { label: "GoARKAN — цифровой офис", href: "/goarkan" },
+    { label: "Все услуги и тарифы", href: "/pricing" },
   ],
   en: [
-    { label: "IT Outsourcing",        href: "/services/it-outsourcing" },
-    { label: "IT Service Management", href: "/services/itsm" },
-    { label: "Infrastructure",        href: "/services/infrastructure" },
-    { label: "Cybersecurity",         href: "/services/managed-it" },
-    { label: "All Services",          href: "/services" },
+    { label: "IT support subscription", href: "/services/it-outsourcing" },
+    { label: "On-site technician", href: "/services/on-demand" },
+    { label: "E-IMZO, e-signature, Didox", href: "/services/e-imzo" },
+    { label: "Networks and servers", href: "/services/infrastructure" },
+    { label: "Telegram bots", href: "/services/telegram-bots" },
+    { label: "GoARKAN digital office", href: "/goarkan" },
+    { label: "All services and plans", href: "/pricing" },
   ],
   uz: [
-    { label: "IT-autsorsing",         href: "/services/it-outsourcing" },
-    { label: "IT Xizmat Boshqaruvi",  href: "/services/itsm" },
-    { label: "Infratuzilma",          href: "/services/infrastructure" },
-    { label: "Kiberxavfsizlik",       href: "/services/managed-it" },
-    { label: "Barcha xizmatlar",      href: "/services" },
+    { label: "IT xizmat (obuna)", href: "/services/it-outsourcing" },
+    { label: "Kompyuter ustasini chaqirish", href: "/services/on-demand" },
+    { label: "E-IMZO, ERI, Didox", href: "/services/e-imzo" },
+    { label: "Tarmoq va serverlar", href: "/services/infrastructure" },
+    { label: "Telegram-botlar", href: "/services/telegram-bots" },
+    { label: "GoARKAN — raqamli ofis", href: "/goarkan" },
+    { label: "Barcha xizmatlar va tariflar", href: "/pricing" },
   ],
   zh: [
-    { label: "IT外包",                href: "/services/it-outsourcing" },
-    { label: "IT服务管理",            href: "/services/itsm" },
-    { label: "基础设施",              href: "/services/infrastructure" },
-    { label: "网络安全",              href: "/services/managed-it" },
-    { label: "全部服务",              href: "/services" },
+    { label: "IT订阅服务", href: "/services/it-outsourcing" },
+    { label: "上门电脑维修", href: "/services/on-demand" },
+    { label: "E-IMZO 电子签名 Didox", href: "/services/e-imzo" },
+    { label: "网络与服务器", href: "/services/infrastructure" },
+    { label: "Telegram机器人", href: "/services/telegram-bots" },
+    { label: "GoARKAN数字办公室", href: "/goarkan" },
+    { label: "全部服务与方案", href: "/pricing" },
   ],
 };
 
 const NAV_LABELS: Record<string, Record<string, string>> = {
-  ru: { services: "Услуги", pricing: "Тарифы", goarkan: "GoARKAN", cases: "Кейсы", blog: "Блог", contact: "Контакты", cta: "Получить предложение", audit: "Получить предложение" },
-  en: { services: "Services", pricing: "Pricing", goarkan: "GoARKAN", cases: "Cases", blog: "Blog", contact: "Contact", cta: "Get a Proposal", audit: "Get a Proposal" },
-  uz: { services: "Xizmatlar", pricing: "Tariflar", goarkan: "GoARKAN", cases: "Loyihalar", blog: "Blog", contact: "Aloqa", cta: "Taklif so'rash", audit: "Taklif so'rash" },
+  ru: { services: "Услуги", pricing: "Тарифы", goarkan: "GoARKAN", cases: "Кейсы", blog: "Блог", contact: "Контакты", cta: "Оставить заявку", audit: "Оставить заявку" },
+  en: { services: "Services", pricing: "Pricing", goarkan: "GoARKAN", cases: "Cases", blog: "Blog", contact: "Contact", cta: "Get a Quote", audit: "Get a Quote" },
+  uz: { services: "Xizmatlar", pricing: "Tariflar", goarkan: "GoARKAN", cases: "Loyihalar", blog: "Blog", contact: "Aloqa", cta: "Ariza qoldirish", audit: "Ariza qoldirish" },
   zh: { services: "服务", pricing: "定价", goarkan: "GoARKAN", cases: "案例", blog: "博客", contact: "联系我们", cta: "获取方案", audit: "获取方案" },
 };
 
@@ -197,6 +207,11 @@ export function Navigation() {
                 </div>
               )}
             </div>
+
+            {/* Phone */}
+            <a href={`tel:${COMPANY.phones[0]}`} onClick={() => track("click_phone", { from: "header" })} className="hidden xl:inline-flex" style={{ alignItems: "center", gap: 6, fontSize: 14, fontWeight: 700, color: "var(--ark-text)", textDecoration: "none", whiteSpace: "nowrap" }}>
+              <Phone size={14} style={{ color: "var(--ark-accent)" }} />{COMPANY.phonesDisplay[0]}
+            </a>
 
             {/* CTA */}
             <Link href="/contact" className="hidden md:inline-flex btn-sm" style={{

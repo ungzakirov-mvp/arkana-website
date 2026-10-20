@@ -1,7 +1,9 @@
 "use client";
 
-import { createContext, useContext, useEffect, useState, useCallback } from "react";
+import { createContext, useContext, useCallback } from "react";
+import { useRouter } from "next/navigation";
 import { Lang, translations, Translations } from "@/lib/i18n";
+import { localizePath } from "@/lib/locale";
 
 interface AppCtx {
   lang: Lang;
@@ -11,22 +13,19 @@ interface AppCtx {
 
 const Ctx = createContext<AppCtx>({} as AppCtx);
 
-export function ThemeLanguageProvider({ children }: { children: React.ReactNode }) {
-  const [lang, setLangState] = useState<Lang>("ru");
-
-  useEffect(() => {
-    const saved = (localStorage.getItem("ark-lang") as Lang) || "ru";
-    const valid: Lang[] = ["ru", "uz", "en", "zh"];
-    const resolved: Lang = valid.includes(saved) ? saved : "ru";
-    setLangState(resolved);
-    document.documentElement.lang = resolved;
-  }, []);
+/**
+ * Язык приходит из URL (app/[lang]) — сервер сразу отдаёт HTML на нужном языке.
+ * Смена языка = переход на ту же страницу в другом языке + cookie для следующих заходов.
+ */
+export function ThemeLanguageProvider({ children, lang }: { children: React.ReactNode; lang: Lang }) {
+  const router = useRouter();
 
   const setLang = useCallback((l: Lang) => {
-    setLangState(l);
-    localStorage.setItem("ark-lang", l);
-    document.documentElement.lang = l;
-  }, []);
+    if (l === lang) return;
+    try { document.cookie = `ark-lang=${l}; path=/; max-age=31536000; samesite=lax`; } catch { /* ignore */ }
+    const { pathname, search, hash } = window.location;
+    router.push(localizePath(pathname, l) + search + hash);
+  }, [lang, router]);
 
   return (
     <Ctx.Provider value={{ lang, setLang, t: translations[lang] }}>

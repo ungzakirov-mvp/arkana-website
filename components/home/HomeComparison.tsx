@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useEffect, useState } from "react";
-import Link from "next/link";
+import Link from "@/components/ui/LocaleLink";
 import { ArrowRight } from "lucide-react";
 import { useApp } from "@/components/providers/ThemeLanguageProvider";
 
@@ -33,15 +33,15 @@ const COPY = {
     col2:       "ARKANA",
     rows: [
       { label: "Стоимость",       own: "Оклады + налоги + найм + обучение + увольнение.",           arkana: "Фиксированный платёж в месяц. Без сюрпризов." },
-      { label: "Команда",         own: "1–2 сотрудника. Болеют, уходят в отпуск, увольняются.",     arkana: "Команда инженеров + персональный менеджер. Всегда на связи." },
-      { label: "Ответственность", own: "Формально есть. По факту — «сам виноват».",                  arkana: "SLA в договоре со штрафными санкциями за нарушение." },
+      { label: "Команда",         own: "1–2 сотрудника. Болеют, уходят в отпуск, увольняются.",     arkana: "Команда инженеров. Заявки из Telegram, телефона или GoARKAN." },
+      { label: "Ответственность", own: "Формально есть. По факту — «сам виноват».",                  arkana: "Сроки реакции и восстановления зафиксированы в договоре." },
       { label: "Прозрачность",    own: "Что делали, сколько времени — почти никогда неизвестно.",    arkana: "Все работы фиксируются в GoARKAN в реальном времени." },
       { label: "Документация",    own: "Хранится у сотрудника. Уходит вместе с ним.",               arkana: "Полный реестр: сеть, техника, пароли, схемы." },
       { label: "Отчётность",      own: "Отсутствует или составляется вручную раз в квартал.",        arkana: "Автоматический отчёт каждый месяц без запросов." },
-      { label: "Масштабирование", own: "Новый сотрудник — 2–4 месяца поиска и адаптации.",           arkana: "Расширение ресурсов в течение одного рабочего дня." },
+      { label: "Масштабирование", own: "Новый сотрудник — 2–4 месяца поиска и адаптации.",           arkana: "Растёте — переходите на следующий пакет без смены подрядчика." },
       { label: "Платформа",       own: "Нет. Отдельные чаты, письма, таблицы.",                     arkana: "GoARKAN: Service Desk, активы, SLA, отчёты — всё в одном." },
     ],
-    verdict: "Собственный отдел — один человек с налогами, отпуском и риском увольнения. ARKANA — команда инженеров, собственная ITSM-платформа и SLA в договоре за фиксированную ежемесячную стоимость.",
+    verdict: "Собственный отдел — один человек с налогами, отпуском и риском увольнения. ARKANA — команда инженеров, цифровой офис GoARKAN и сроки реакции в договоре за фиксированную сумму в месяц.",
     cta:     "Получить коммерческое предложение",
   },
   uz: {
@@ -53,12 +53,12 @@ const COPY = {
     col2:       "ARKANA",
     rows: [
       { label: "Narx",            own: "Maoshlar + soliqlar + yollash + o'qitish + ishdan bo'shatish.", arkana: "Belgilangan oylik to'lov. Hech qanday kutilmagan xarajat yo'q." },
-      { label: "Jamoa",           own: "1–2 xodim. Kasallik, ta'til, ishdan ketish.",                   arkana: "Muhandislar jamoasi + shaxsiy menejer. Har doim aloqada." },
-      { label: "Mas'uliyat",      own: "Qog'ozda bor. Amalda — «o'zing aybdorsan».",                   arkana: "Shartnomada buzilish uchun jarima sanksiyalari bilan SLA." },
+      { label: "Jamoa",           own: "1–2 xodim. Kasallik, ta'til, ishdan ketish.",                   arkana: "Muhandislar jamoasi. Arizalar Telegram, telefon yoki GoARKAN orqali." },
+      { label: "Mas'uliyat",      own: "Qog'ozda bor. Amalda — «o'zing aybdorsan».",                   arkana: "Javob va tiklash muddatlari shartnomada belgilangan." },
       { label: "Shaffoflik",      own: "Nima qilindi, qancha vaqt — deyarli hech qachon noma'lum.",    arkana: "Barcha ishlar real vaqtda GoARKAN'da qayd etiladi." },
       { label: "Hujjatlar",       own: "Xodimda saqlanadi. U ketsa — yo'qoladi.",                      arkana: "To'liq reestr: tarmoq, texnika, parollar, sxemalar." },
       { label: "Hisobot",         own: "Yo'q yoki chorakda bir marta qo'lda tuziladi.",                 arkana: "Har oyda so'rovsiz avtomatik hisobot." },
-      { label: "Kengaytirish",    own: "Yangi xodim — 2–4 oy qidiruv va moslashuv.",                   arkana: "Bir ish kuni ichida resurslarni kengaytirish." },
+      { label: "Kengaytirish",    own: "Yangi xodim — 2–4 oy qidiruv va moslashuv.",                   arkana: "O'sganingizda — pudratchini almashtirmasdan keyingi paketga o'ting." },
       { label: "Platforma",       own: "Yo'q. Alohida chat, xat, jadvallar.",                          arkana: "GoARKAN: Service Desk, aktivlar, SLA, hisobotlar — hammasi bitta joyda." },
     ],
     verdict: "O'z bo'lim — soliqlar, ta'til va ketish xavfi bilan bitta odam. ARKANA — muhandislar jamoasi, o'z ITSM platformasi va shartnomadagi SLA — belgilangan oylik to'lov evaziga.",
@@ -73,12 +73,12 @@ const COPY = {
     col2:       "ARKANA",
     rows: [
       { label: "Cost",            own: "Salaries + taxes + hiring + training + severance.",            arkana: "One fixed monthly fee. No surprises, ever." },
-      { label: "Team",            own: "1–2 people. Sick leave, vacations, resignations.",             arkana: "Full team of engineers + dedicated service manager. Always available." },
-      { label: "Accountability",  own: "On paper — yes. In practice — 'not our problem'.",             arkana: "Contractual SLA with financial penalties for every breach." },
+      { label: "Team",            own: "1–2 people. Sick leave, vacations, resignations.",             arkana: "An engineering team. Tickets via Telegram, phone or GoARKAN." },
+      { label: "Accountability",  own: "On paper — yes. In practice — 'not our problem'.",             arkana: "Response and restore times fixed in the contract." },
       { label: "Visibility",      own: "What was done, how long it took — almost never known.",        arkana: "Every task logged in GoARKAN in real time." },
       { label: "Documentation",   own: "Lives with the employee. Leaves when they do.",                arkana: "Full registry: network, hardware, credentials, diagrams." },
       { label: "Reporting",       own: "Nonexistent, or assembled manually once a quarter.",           arkana: "Automated monthly report — delivered without asking." },
-      { label: "Scaling",         own: "A new hire takes 2–4 months of search and onboarding.",       arkana: "Scale resources up within one business day." },
+      { label: "Scaling",         own: "A new hire takes 2–4 months of search and onboarding.",       arkana: "Growing? Move up a plan without changing provider." },
       { label: "Platform",        own: "None. Separate chats, emails, spreadsheets.",                  arkana: "GoARKAN: Service Desk, assets, SLA, reports — all in one place." },
     ],
     verdict: "An in-house department means one person — with taxes, vacation, and the risk of resignation. ARKANA means a full engineering team, an ITSM platform, and a contractual SLA at a fixed monthly cost.",
@@ -93,12 +93,12 @@ const COPY = {
     col2:       "ARKANA",
     rows: [
       { label: "成本",   own: "薪资＋税费＋招聘＋培训＋离职补偿。",     arkana: "每月固定费用，无任何隐性支出。" },
-      { label: "团队",   own: "1–2名员工，存在病假、年假与离职风险。",    arkana: "完整工程师团队＋专属服务经理，随时在线。" },
-      { label: "责任",   own: "纸面上有，实际上往往「不关我的事」。",      arkana: "合同约定SLA，违约须承担经济赔偿责任。" },
+      { label: "团队",   own: "1–2名员工，存在病假、年假与离职风险。",    arkana: "工程师团队。通过Telegram、电话或GoARKAN提交工单。" },
+      { label: "责任",   own: "纸面上有，实际上往往「不关我的事」。",      arkana: "响应与恢复时间写入合同。" },
       { label: "透明度", own: "做了什么、花了多久——几乎无从知晓。",      arkana: "所有工作实时记录在GoARKAN，全程可查。" },
       { label: "文档",   own: "文档随员工离职一并带走。",                arkana: "完整资料库：网络拓扑、设备清单、凭证、图纸。" },
       { label: "报告",   own: "没有报告，或每季度手工整理一次。",         arkana: "每月自动生成报告，无需主动索取。" },
-      { label: "扩展",   own: "招聘新员工需2–4个月时间。",              arkana: "一个工作日内完成资源扩充。" },
+      { label: "扩展",   own: "招聘新员工需2–4个月时间。",              arkana: "业务增长时直接升级套餐，无需更换服务商。" },
       { label: "平台",   own: "无。各自独立的聊天、邮件、表格。",         arkana: "GoARKAN：服务台、资产、SLA、报告——一站式管理。" },
     ],
     verdict: "自建IT部门意味着依赖一两个人，存在税务负担、休假空缺和离职风险。ARKANA提供完整工程师团队、自研ITSM平台和合同约定的SLA，费用固定，按月结算。",

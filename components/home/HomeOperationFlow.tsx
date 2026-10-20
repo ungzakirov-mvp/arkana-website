@@ -24,7 +24,7 @@ const STAGES = {
     },
     {
       n: "04", title: "Мониторинг",
-      desc: "Проактивный контроль 24/7. Обнаружение аномалий до того, как они становятся инцидентами.",
+      desc: "Контроль серверов, дисков и бэкапов. Видим проблему раньше, чем она остановит работу.",
       icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2" stroke="#4fd18a" strokeWidth="1.5"/><path d="M8 21h8M12 17v4" stroke="#4fd18a" strokeWidth="1.5" strokeLinecap="round"/><path d="M6 10l3 3 4-5 3 3" stroke="#4fd18a" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/></svg>,
     },
     {
@@ -56,7 +56,7 @@ const STAGES = {
     },
     {
       n: "04", title: "Monitoring",
-      desc: "24/7 faol nazorat. Muammolar hodisaga aylanishidan oldin aniqlanadi.",
+      desc: "Serverlar, disklar va zaxira nusxalar nazorati. Muammoni ish to'xtashidan oldin ko'ramiz.",
       icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="2" y="3" width="20" height="14" rx="2" stroke="#4fd18a" strokeWidth="1.5"/><path d="M6 10l3 3 4-5 3 3" stroke="#4fd18a" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/></svg>,
     },
     {
@@ -88,7 +88,7 @@ const STAGES = {
     },
     {
       n: "04", title: "Monitoring",
-      desc: "Proactive 24/7 surveillance. Anomalies detected before they become incidents.",
+      desc: "Servers, disks and backups under watch. We spot problems before they stop your work.",
       icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="2" y="3" width="20" height="14" rx="2" stroke="#4fd18a" strokeWidth="1.5"/><path d="M6 10l3 3 4-5 3 3" stroke="#4fd18a" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/></svg>,
     },
     {

@@ -1,11 +1,10 @@
 "use client";
 
-import { useActionState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
-import { Mail, Phone, MapPin, Clock, CheckCircle2, ArrowRight, Send, AlertCircle } from "lucide-react";
-import { submitContact, type ContactFormState } from "@/app/actions/contact";
+import { Mail, Phone, Clock, CheckCircle2, Send, MapPin } from "lucide-react";
+import { COMPANY } from "@/lib/company";
+import { LeadForm } from "@/components/lead/LeadForm";
 import { useApp } from "@/components/providers/ThemeLanguageProvider";
-import type { SiteSettings } from "@/lib/cms-api";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
@@ -22,8 +21,8 @@ const COPY: Record<string, {
 }> = {
   ru: {
     badge: "Контакты",
-    h1a: "Получите коммерческое",
-    h1b: "предложение за 1 день",
+    h1a: "Расчёт стоимости",
+    h1b: "за 1 рабочий день",
     sub: "Расскажите о вашем бизнесе. Подберём решение и подготовим предложение без обязательств.",
     howTitle: "Как с нами связаться",
     phone: "Телефон", telegram: "Telegram", email: "Email", address: "Адрес", hours: "Режим работы",
@@ -35,7 +34,7 @@ const COPY: Record<string, {
     ],
     youGet: "Что вы получите",
     items: ["Анализ текущей IT-ситуации", "Коммерческое предложение под ваш бизнес", "Рекомендации по развитию IT", "Без обязательств"],
-    formTitle: "Запросить коммерческое предложение",
+    formTitle: "Оставьте заявку — перезвоним",
     success: "Заявка отправлена!", successSub: "Мы свяжемся с вами в течение рабочего дня.",
     sending: "Отправляем...", submit: "Отправить заявку", disclaimer: "Отвечаем в течение рабочего дня · Без спама · Без обязательств",
     name: "Ваше имя *", namePh: "Иван Иванов",
@@ -118,42 +117,34 @@ const COPY: Record<string, {
   },
 };
 
-function buildContacts(s: SiteSettings | null | undefined, c: typeof COPY["ru"], lang: string) {
+function buildContacts(c: typeof COPY["ru"], lang: string) {
   const fallbackPhones = [
     { label: "Телефон", value: "+998 99 998 17 77", href: "tel:+998999981777" },
     { label: "Телефон", value: "+998 50 120 88 88", href: "tel:+998501208888" },
   ];
-  const phonesArr = s?.phones?.length ? s.phones : fallbackPhones;
-  const email     = s?.emails?.[0]?.value    ?? "info@arkana.uz";
-  const emailHref = s?.emails?.[0]?.href     ?? "mailto:info@arkana.uz";
-  const tg        = s?.telegram               ?? "@arkana_uz";
-  const tgHref    = s?.telegram_href          ?? "https://t.me/arkana_uz";
+  // Контакты — только из lib/company.ts (NAP совпадает со schema.org)
+  const phonesArr = fallbackPhones;
+  const email     = "info@arkana.uz";
+  const emailHref = "mailto:info@arkana.uz";
+  const tg        = "@arkana_uz";
+  const tgHref    = "https://t.me/arkana_uz";
   const hoursFallback: Record<string, string> = { ru: "Пн–Пт: 9:00–18:00", en: "Mon–Fri: 9:00–18:00", uz: "Du–Ju: 9:00–18:00", zh: "周一至周五：9:00–18:00" };
-  const hoursStr  = s?.working_hours ? Object.entries(s.working_hours).map(([d, h]) => `${d}: ${h}`).join(", ") : (hoursFallback[lang] ?? "Пн–Пт: 9:00–18:00");
+  const hoursStr  = hoursFallback[lang] ?? "Пн–Пт: 9:00–18:00";
   return [
     ...phonesArr.map(p => ({ icon: Phone, label: c.phone, value: p.value, href: p.href })),
     { icon: Send,   label: c.telegram, value: tg,       href: tgHref    },
     { icon: Mail,   label: c.email,    value: email,    href: emailHref },
-    { icon: Clock,  label: c.hours,    value: hoursStr, href: "#"       },
+    { icon: MapPin, label: c.address,  value: (COMPANY.address as Record<string, string>)[lang] ?? COMPANY.address.ru, href: `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent("Tashkent, Hakimzoda 71")}` },
+    { icon: Clock,  label: c.hours,    value: hoursStr, href: "/contact" },
   ] as { icon: typeof Phone; label: string; value: string; href: string }[];
 }
 
-const INITIAL_STATE: ContactFormState = { status: "idle" };
 
-export function ContactPageSection({ settings }: { settings?: SiteSettings | null }) {
+export function ContactPageSection() {
   const { lang } = useApp();
   const c = COPY[lang] ?? COPY.ru;
-  const [state, action, pending] = useActionState(submitContact, INITIAL_STATE);
-  const formRef = useRef<HTMLFormElement>(null);
-  const CONTACTS = buildContacts(settings, c, lang);
+  const CONTACTS = buildContacts(c, lang);
 
-  useEffect(() => {
-    if (state.status === "success") formRef.current?.reset();
-  }, [state.status]);
-
-  const fieldError = (field: string): string | undefined => {
-    if (state.status === "error") return state.errors?.[field]?.[0];
-  };
 
   return (
     <div style={{ minHeight: "100vh" }}>
@@ -241,81 +232,7 @@ export function ContactPageSection({ settings }: { settings?: SiteSettings | nul
 
             {/* Right — Form */}
             <motion.div initial={{ opacity: 0, x: 24 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.6, ease: EASE, delay: 0.1 }}>
-              <div style={{ borderRadius: 16, background: "var(--ark-card)", border: "1px solid var(--ark-border)", padding: "32px" }}>
-                {state.status === "success" ? (
-                  <div style={{ textAlign: "center", padding: "48px 24px" }}>
-                    <CheckCircle2 size={48} style={{ color: "var(--ark-accent-2)", margin: "0 auto 16px" }} />
-                    <h3 style={{ fontFamily: "Nacelle, sans-serif", fontWeight: 600, fontSize: "1.25rem", color: "var(--ark-text)", marginBottom: 8 }}>{c.success}</h3>
-                    <p style={{ fontSize: 14, color: "var(--ark-text-muted)" }}>{c.successSub}</p>
-                  </div>
-                ) : (
-                  <form ref={formRef} action={action}>
-                    <h3 style={{ fontFamily: "Nacelle, sans-serif", fontWeight: 600, fontSize: "1.25rem", color: "var(--ark-text)", marginBottom: 24 }}>
-                      {c.formTitle}
-                    </h3>
-
-                    {state.status === "error" && state.message && (
-                      <div style={{ display: "flex", alignItems: "center", gap: 8, padding: "10px 14px", borderRadius: 8, background: "rgba(239,68,68,0.1)", border: "1px solid rgba(239,68,68,0.25)", marginBottom: 16 }}>
-                        <AlertCircle size={14} style={{ color: "#f87171", flexShrink: 0 }} />
-                        <span style={{ fontSize: 13, color: "#f87171" }}>{state.message}</span>
-                      </div>
-                    )}
-
-                    {state.status === "rate_limited" && (
-                      <div style={{ display: "flex", alignItems: "center", gap: 8, padding: "10px 14px", borderRadius: 8, background: "rgba(245,158,11,0.1)", border: "1px solid rgba(245,158,11,0.25)", marginBottom: 16 }}>
-                        <AlertCircle size={14} style={{ color: "#fbbf24", flexShrink: 0 }} />
-                        <span style={{ fontSize: 13, color: "#fbbf24" }}>
-                          {lang === "uz" ? "Juda ko'p so'rovlar. Keyinroq urinib ko'ring." : lang === "en" ? "Too many requests. Please try again later." : lang === "zh" ? "请求过于频繁，请稍后重试。" : "Слишком много запросов. Попробуйте позже."}
-                        </span>
-                      </div>
-                    )}
-
-                    <input type="text" name="website" style={{ display: "none" }} tabIndex={-1} autoComplete="off" aria-hidden="true" />
-
-                    <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-                      {[
-                        { label: c.name,        name: "name",    type: "text",  ph: c.namePh    },
-                        { label: c.company,     name: "company", type: "text",  ph: c.companyPh },
-                        { label: c.emailLabel,  name: "email",   type: "email", ph: c.emailPh   },
-                        { label: c.phoneLabel,  name: "phone",   type: "tel",   ph: c.phonePh   },
-                      ].map(({ label, name, type, ph }) => (
-                        <div key={name}>
-                          <label style={{ display: "block", fontSize: 12, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em", color: "var(--ark-text-muted)", marginBottom: 6 }}>
-                            {label}
-                          </label>
-                          <input
-                            type={type} name={name} required placeholder={ph}
-                            style={{ width: "100%", padding: "10px 12px", borderRadius: 8, background: "var(--ark-bg-2)", border: `1px solid ${fieldError(name) ? "#f87171" : "var(--ark-border)"}`, color: "var(--ark-text)", fontSize: 14, outline: "none", boxSizing: "border-box" }}
-                          />
-                          {fieldError(name) && <p style={{ fontSize: 12, color: "#f87171", marginTop: 4 }}>{fieldError(name)}</p>}
-                        </div>
-                      ))}
-
-                      <div>
-                        <label style={{ display: "block", fontSize: 12, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em", color: "var(--ark-text-muted)", marginBottom: 6 }}>
-                          {c.message}
-                        </label>
-                        <textarea
-                          name="message" rows={3} placeholder={c.messagePh}
-                          style={{ width: "100%", padding: "10px 12px", borderRadius: 8, background: "var(--ark-bg-2)", border: "1px solid var(--ark-border)", color: "var(--ark-text)", fontSize: 14, outline: "none", resize: "vertical", boxSizing: "border-box", fontFamily: "inherit" }}
-                        />
-                      </div>
-
-                      <button
-                        type="submit" disabled={pending}
-                        style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 8, width: "100%", padding: "12px", borderRadius: 8, background: "linear-gradient(to bottom, #6366f1, #4f46e5)", color: "white", fontWeight: 700, fontSize: 14, border: "none", cursor: pending ? "wait" : "pointer", opacity: pending ? 0.7 : 1, transition: "opacity 0.2s" }}
-                      >
-                        {pending ? c.sending : c.submit}
-                        {!pending && <ArrowRight size={15} />}
-                      </button>
-
-                      <p style={{ fontSize: 11.5, color: "var(--ark-text-muted)", textAlign: "center" }}>
-                        {c.disclaimer}
-                      </p>
-                    </div>
-                  </form>
-                )}
-              </div>
+              <LeadForm title={c.formTitle} />
             </motion.div>
           </div>
         </div>

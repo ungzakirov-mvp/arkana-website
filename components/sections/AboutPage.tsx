@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import Link from "@/components/ui/LocaleLink";
 import { ArrowRight, Target, Eye, Heart } from "lucide-react";
 import { ContactCTA } from "@/components/sections/ContactCTA";
 import { useApp } from "@/components/providers/ThemeLanguageProvider";
@@ -41,7 +41,7 @@ const COPY: Record<string, {
     ],
     teamBadge: "Наша команда",
     teamH2: "Люди, стоящие за вашим IT.",
-    teamSub: "Команда сертифицированных инженеров, менеджеров проектов и технических руководителей, обеспечивающих стабильный и ответственный IT-сервис.",
+    teamSub: "Команда инженеров, менеджеров проектов и технических руководителей, обеспечивающих стабильный и ответственный IT-сервис.",
     ctaH3: "Готовы начать работу с ARKANA?",
     ctaSub: "Расскажите о вашем бизнесе — подготовим предложение за один рабочий день.",
     ctaBtn: "Получить коммерческое предложение",
@@ -71,7 +71,7 @@ const COPY: Record<string, {
     ],
     teamBadge: "Our team",
     teamH2: "The people behind your IT.",
-    teamSub: "Certified engineers, delivery managers, and technical leads — all focused on one thing: making your IT work the way your business needs it to.",
+    teamSub: "Engineers, delivery managers, and technical leads — all focused on one thing: making your IT work the way your business needs it to.",
     ctaH3: "Ready to work with ARKANA?",
     ctaSub: "Tell us about your business — we'll put together a proposal within one business day.",
     ctaBtn: "Request a proposal",
@@ -101,7 +101,7 @@ const COPY: Record<string, {
     ],
     teamBadge: "Bizning jamoa",
     teamH2: "IT sizning qo'lingizda.",
-    teamSub: "Sertifikatlangan muhandislar, loyiha menejerlari va texnik rahbarlar — hammasi bitta maqsad uchun: IT'ingiz biznesingiz kabi ishlashi uchun.",
+    teamSub: "Muhandislar, loyiha menejerlari va texnik rahbarlar — hammasi bitta maqsad uchun: IT biznesingizga kerakli tarzda ishlashi uchun.",
     ctaH3: "ARKANA bilan ishlay boshlashga tayyormisiz?",
     ctaSub: "Biznesingiz haqida aytib bering — bir ish kuni ichida taklif tayyorlaymiz.",
     ctaBtn: "Taklif so'rash",
@@ -131,7 +131,7 @@ const COPY: Record<string, {
     ],
     teamBadge: "我们的团队",
     teamH2: "支撑您IT运营的人。",
-    teamSub: "认证工程师、交付经理与技术负责人——所有人专注于一件事：让您的IT按业务需求高效运转。",
+    teamSub: "工程师、交付经理与技术负责人——所有人专注于一件事：让您的IT按业务需求高效运转。",
     ctaH3: "准备好与ARKANA合作了吗？",
     ctaSub: "告诉我们您的业务情况——我们将在一个工作日内准备好方案。",
     ctaBtn: "申请商务方案",
