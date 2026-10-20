@@ -107,11 +107,11 @@ const COPY: Record<string, Copy> = {
 const MODULE_ICONS: ComponentType<SVGProps<SVGSVGElement> & { size?: number }>[] = [IconHomeScreen, IconDocFlow, IconOrg, IconDesk, IconAssets];
 /** Скриншоты модулей: положить файлы в public/portal/ с этими именами (демо-данные, без реальных клиентов). */
 const MODULE_IMGS: Record<string, string | null> = {
-  home: null,
-  edo: null,
+  home: "/portal/goarkan-home.webp",
+  edo: "/portal/goarkan-documents.webp",
   hr: null,
-  sd: null,
-  assets: null,
+  sd: "/portal/goarkan-service-desk.webp",
+  assets: "/portal/goarkan-assets.webp",
 };
 const MODULE_SLUGS: Record<string, string> = { home: "home", edo: "documents", hr: "hr", sd: "service-desk", assets: "assets" };
 
