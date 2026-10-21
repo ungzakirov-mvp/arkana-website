@@ -173,7 +173,7 @@ export function PricingSection() {
         .pr-terms { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 9px; }
         .pr-terms li { display: flex; gap: 10px; font-size: 14px; color: var(--ark-text-muted); line-height: 1.6; }
         .pr-terms li::before { content: ""; width: 5px; height: 5px; border-radius: 50%; background: var(--ark-accent); flex-shrink: 0; margin-top: 9px; }
-        .pr-nav { position: sticky; top: 72px; z-index: 5; background: var(--ark-nav); backdrop-filter: blur(12px); border-bottom: 1px solid var(--ark-border); }
+        .pr-nav { position: relative; z-index: 5; background: var(--ark-nav); border-bottom: 1px solid var(--ark-border); }
         .pr-nav .pr-wrap { display: flex; gap: 6px; overflow-x: auto; padding-top: 10px; padding-bottom: 10px; }
         .pr-nav a { white-space: nowrap; font-size: 14px; color: var(--ark-text-muted); text-decoration: none; padding: 6px 12px; border-radius: 999px; border: 1px solid var(--ark-border); }
         .pr-nav a:last-child { color: #05080a; background: var(--ark-accent); border-color: var(--ark-accent); font-weight: 600; }
