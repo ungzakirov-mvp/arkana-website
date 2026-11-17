@@ -1022,7 +1022,7 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
   const articleSchema  = buildArticleSchema({ slug, title: post.title, excerpt: post.excerpt, date: post.date });
   const breadcrumbSchema = buildBreadcrumbSchema([
     { name: "Главная", url: "/" },
-    { name: "Блог", url: "/ru/blog" },
+    { name: "Блог", url: "/blog" },
     { name: post.title, url: `/blog/${slug}` },
   ]);
 
