@@ -2,7 +2,8 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import Link from "@/components/ui/LocaleLink";
+import NextLink from "next/link";
+import { UZ_SLUGS } from "@/lib/blog-uz-slugs";
 import { ArrowRight, Clock } from "lucide-react";
 import { useApp } from "@/components/providers/ThemeLanguageProvider";
 
@@ -262,6 +263,9 @@ const POSTS: { categoryKey: CategoryKey; title: I18nStr; excerpt: I18nStr; date:
 
 export function BlogPage() {
   const { lang } = useApp();
+  // Статьи без перевода живут только на ru — ссылаемся сразу туда, без редиректа
+  const postHref = (slug: string) =>
+    lang === "uz" && (UZ_SLUGS as readonly string[]).includes(slug) ? `/uz/blog/${slug}` : `/blog/${slug}`;
   const ui = UI[lang] ?? UI.ru;
   const allLabel = ui.all;
   const catLabels = CATEGORY_LABELS[lang] ?? CATEGORY_LABELS.ru;
@@ -275,7 +279,7 @@ export function BlogPage() {
     <div style={{ minHeight: "100vh" }}>
       {/* Hero */}
       <section style={{ padding: "96px 0 64px", position: "relative", overflow: "hidden" }}>
-        <div aria-hidden="true" style={{ position: "absolute", inset: 0, background: "radial-gradient(ellipse 80% 50% at 50% -20%, rgba(99,102,241,0.1), transparent)", pointerEvents: "none" }} />
+        <div aria-hidden="true" style={{ position: "absolute", inset: 0, background: "radial-gradient(ellipse 80% 50% at 50% -20%, rgba(79,209,138,0.08), transparent)", pointerEvents: "none" }} />
         <div style={{ maxWidth: "72rem", margin: "0 auto", padding: "0 1.5rem", position: "relative" }}>
           <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.65, ease: EASE }}>
             <div className="ark-badge" style={{ marginBottom: 24 }}>
@@ -320,15 +324,15 @@ export function BlogPage() {
               transition={{ duration: 0.6, ease: EASE }}
               style={{ marginBottom: 32 }}
             >
-              <Link href={`/blog/${featured.slug}`} style={{ textDecoration: "none", display: "block" }}>
+              <NextLink href={postHref(featured.slug)} style={{ textDecoration: "none", display: "block" }}>
                 <div className="p-6 sm:p-10" style={{
                   borderRadius: 16,
-                  background: "linear-gradient(to bottom right, rgba(99,102,241,0.12), rgba(79,70,229,0.05))",
-                  border: "1px solid rgba(99,102,241,0.25)",
+                  background: "var(--ark-card)",
+                  border: "1px solid rgba(79,209,138,0.25)",
                   transition: "border-color 0.2s",
                 }}
-                onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.borderColor = "rgba(99,102,241,0.5)")}
-                onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.borderColor = "rgba(99,102,241,0.25)")}
+                onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.borderColor = "rgba(79,209,138,0.55)")}
+                onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.borderColor = "rgba(79,209,138,0.25)")}
                 >
                   <div style={{ display: "flex", gap: 12, marginBottom: 20 }}>
                     <span style={{ fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em", padding: "3px 10px", borderRadius: 6, background: "var(--ark-accent-glow)", color: "var(--ark-accent-2)" }}>
@@ -355,7 +359,7 @@ export function BlogPage() {
                     </span>
                   </div>
                 </div>
-              </Link>
+              </NextLink>
             </motion.div>
           )}
 
@@ -369,7 +373,7 @@ export function BlogPage() {
                 viewport={{ once: true, margin: "-40px" }}
                 transition={{ duration: 0.5, ease: EASE, delay: i * 0.06 }}
               >
-                <Link href={`/blog/${post.slug}`} style={{ textDecoration: "none", display: "block", height: "100%" }}>
+                <NextLink href={postHref(post.slug)} style={{ textDecoration: "none", display: "block", height: "100%" }}>
                   <div style={{
                     borderRadius: 14, padding: "24px", height: "100%",
                     background: "var(--ark-card)", border: "1px solid var(--ark-card-border)",
@@ -396,7 +400,7 @@ export function BlogPage() {
                       </span>
                     </div>
                   </div>
-                </Link>
+                </NextLink>
               </motion.div>
             ))}
           </div>

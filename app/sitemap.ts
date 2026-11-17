@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { LANGS, localizePath } from "@/lib/locale";
+import { UZ_SLUGS } from "@/lib/blog-uz-slugs";
 
 const BASE = process.env.NEXT_PUBLIC_BASE_URL ?? "https://www.arkana.uz";
 
@@ -44,6 +45,15 @@ export default function sitemap(): MetadataRoute.Sitemap {
       alternates: { languages: { ...languages, "x-default": url(path) } },
     }));
   });
-  const posts = POSTS.map((slug) => ({ url: `${BASE}/blog/${slug}`, lastModified: now, changeFrequency: "monthly" as const, priority: 0.5 }));
+  const posts = POSTS.flatMap((slug) => {
+    const ru = `${BASE}/blog/${slug}`;
+    if (!(UZ_SLUGS as readonly string[]).includes(slug)) return [{ url: ru, lastModified: now, changeFrequency: "monthly" as const, priority: 0.5 }];
+    const uz = `${BASE}/uz/blog/${slug}`;
+    const alternates = { languages: { ru, uz, "x-default": ru } };
+    return [
+      { url: ru, lastModified: now, changeFrequency: "monthly" as const, priority: 0.5, alternates },
+      { url: uz, lastModified: now, changeFrequency: "monthly" as const, priority: 0.5, alternates },
+    ];
+  });
   return [...pages, ...posts];
 }

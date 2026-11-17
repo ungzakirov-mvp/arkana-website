@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import Link from "@/components/ui/LocaleLink";
 import { ArrowLeft, Clock } from "lucide-react";
-import { notFound } from "next/navigation";
-import { buildArticleSchema, buildBreadcrumbSchema } from "@/lib/seo";
+import { notFound, permanentRedirect } from "next/navigation";
+import { buildArticleSchema, buildBreadcrumbSchema, ruDateToIso } from "@/lib/seo";
+import { UZ_POSTS } from "@/lib/blog-uz";
 
 const POSTS: Record<string, {
   title: string; category: string; date: string; readTime: string;
@@ -984,15 +985,42 @@ ARKANA разработала собственную ITSM-платформу GoA
   },
 };
 
-export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
-  const { slug } = await params;
-  const post = POSTS[slug];
+const UZ_MONTHS = ["yanvar", "fevral", "mart", "aprel", "may", "iyun", "iyul", "avgust", "sentabr", "oktabr", "noyabr", "dekabr"];
+const uzDate = (ru: string) => {
+  const [d, m, y] = ruDateToIso(ru).split("-").reverse();
+  return `${Number(d)} ${UZ_MONTHS[Number(m) - 1]} ${y}`;
+};
+
+const UI = {
+  ru: { back: "Все статьи", read: "чтения", ctaH: "Нужна помощь с IT?", ctaP: "Оставьте заявку — уточним задачу и пришлём расчёт в течение рабочего дня", ctaB: "Оставить заявку", home: "Главная", blog: "Блог" },
+  uz: { back: "Barcha maqolalar", read: "o'qish", ctaH: "IT bo'yicha yordam kerakmi?", ctaP: "Ariza qoldiring — vazifani aniqlab, bir ish kunida hisob-kitob yuboramiz", ctaB: "Ariza qoldirish", home: "Bosh sahifa", blog: "Blog" },
+};
+
+/** Статья на нужном языке: uz — если есть перевод, иначе null. */
+function resolve(lang: string, slug: string) {
+  const ru = POSTS[slug];
+  if (!ru) return null;
+  if (lang === "uz") {
+    const uz = UZ_POSTS[slug];
+    return uz ? { lang: "uz" as const, ...uz, date: uzDate(ru.date), isoSource: ru.date } : null;
+  }
+  return { lang: "ru" as const, ...ru, isoSource: ru.date };
+}
+
+export async function generateMetadata({ params }: { params: Promise<{ lang: string; slug: string }> }): Promise<Metadata> {
+  const { lang, slug } = await params;
+  const post = resolve(lang, slug);
   if (!post) return { title: "Статья не найдена" };
+  const path = `${post.lang === "uz" ? "/uz" : ""}/blog/${slug}`;
+  const hasUz = slug in UZ_POSTS;
   return {
     title: post.title,
     description: post.excerpt,
-    alternates: { canonical: `/blog/${slug}` },
-    openGraph: { title: post.title, description: post.excerpt, type: "article" },
+    alternates: {
+      canonical: path,
+      ...(hasUz ? { languages: { ru: `/blog/${slug}`, uz: `/uz/blog/${slug}`, "x-default": `/blog/${slug}` } } : {}),
+    },
+    openGraph: { title: post.title, description: post.excerpt, type: "article", locale: post.lang === "uz" ? "uz_UZ" : "ru_RU" },
   };
 }
 
@@ -1000,17 +1028,20 @@ export function generateStaticParams() {
   return Object.keys(POSTS).map((slug) => ({ slug }));
 }
 
-export default async function BlogPost({ params }: { params: Promise<{ slug: string }> }) {
-  const { slug } = await params;
-  const post = POSTS[slug];
-  if (!post) notFound();
+export default async function BlogPost({ params }: { params: Promise<{ lang: string; slug: string }> }) {
+  const { lang, slug } = await params;
+  if (!POSTS[slug]) notFound();
+  const post = resolve(lang, slug);
+  if (!post) permanentRedirect(`/blog/${slug}`);
+  const t = UI[post.lang];
+  const prefix = post.lang === "uz" ? "/uz" : "";
 
   const paragraphs = post.content.trim().split("\n\n");
-  const articleSchema  = buildArticleSchema({ slug, title: post.title, excerpt: post.excerpt, date: post.date });
+  const articleSchema  = buildArticleSchema({ slug, title: post.title, excerpt: post.excerpt, date: post.isoSource, lang: post.lang });
   const breadcrumbSchema = buildBreadcrumbSchema([
-    { name: "Главная", url: "/" },
-    { name: "Блог", url: "/blog" },
-    { name: post.title, url: `/blog/${slug}` },
+    { name: t.home, url: prefix || "/" },
+    { name: t.blog, url: `${prefix}/blog` },
+    { name: post.title, url: `${prefix}/blog/${slug}` },
   ]);
 
   return (
@@ -1019,11 +1050,11 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
       {/* Header */}
       <section style={{ padding: "96px 0 48px", position: "relative", overflow: "hidden" }}>
-        <div aria-hidden="true" style={{ position: "absolute", inset: 0, background: "radial-gradient(ellipse 60% 40% at 50% -10%, rgba(99,102,241,0.1), transparent)", pointerEvents: "none" }} />
+        <div aria-hidden="true" style={{ position: "absolute", inset: 0, background: "radial-gradient(ellipse 60% 40% at 50% -10%, rgba(79,209,138,0.08), transparent)", pointerEvents: "none" }} />
         <div style={{ maxWidth: "48rem", margin: "0 auto", padding: "0 1.5rem", position: "relative" }}>
           <Link href="/blog" style={{ display: "inline-flex", alignItems: "center", gap: 6, color: "var(--ark-text-muted)", fontSize: 13, textDecoration: "none", marginBottom: 32 }}>
             <ArrowLeft size={14} />
-            Все статьи
+            {t.back}
           </Link>
           <div style={{ marginBottom: 16 }}>
             <span style={{ fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em", padding: "3px 10px", borderRadius: 6, background: "var(--ark-accent-glow)", color: "var(--ark-accent-2)" }}>
@@ -1037,7 +1068,7 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
             <span style={{ fontSize: 13, color: "var(--ark-text-muted)" }}>{post.date}</span>
             <span style={{ display: "flex", alignItems: "center", gap: 4, fontSize: 13, color: "var(--ark-text-muted)" }}>
               <Clock size={13} />
-              {post.readTime} чтения
+              {post.readTime} {t.read}
             </span>
           </div>
         </div>
@@ -1079,15 +1110,15 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
         })}
 
         {/* CTA */}
-        <div style={{ marginTop: 64, padding: "32px", borderRadius: 16, background: "linear-gradient(to bottom right, rgba(99,102,241,0.12), rgba(79,70,229,0.05))", border: "1px solid rgba(99,102,241,0.25)", textAlign: "center" }}>
+        <div style={{ marginTop: 64, padding: "32px", borderRadius: 16, background: "var(--ark-card)", border: "1px solid rgba(79,209,138,0.25)", textAlign: "center" }}>
           <h3 style={{ fontFamily: "Nacelle, sans-serif", fontWeight: 600, fontSize: "1.25rem", color: "var(--ark-text)", marginBottom: 12 }}>
-            Готовы оптимизировать IT вашего бизнеса?
+            {t.ctaH}
           </h3>
           <p style={{ fontSize: 14, color: "var(--ark-text-muted)", marginBottom: 24 }}>
-            Получите бесплатный IT-аудит за 5 рабочих дней
+            {t.ctaP}
           </p>
-          <Link href="/contact" style={{ display: "inline-flex", alignItems: "center", gap: 6, padding: "10px 24px", borderRadius: 8, background: "linear-gradient(to bottom, #6366f1, #4f46e5)", color: "white", fontWeight: 600, fontSize: 14, textDecoration: "none" }}>
-            Запросить аудит
+          <Link href="/contact" style={{ display: "inline-flex", alignItems: "center", gap: 6, padding: "10px 24px", borderRadius: 8, background: "#4fd18a", color: "#05080a", fontWeight: 700, fontSize: 14, textDecoration: "none" }}>
+            {t.ctaB}
           </Link>
         </div>
       </article>
