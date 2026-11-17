@@ -43,7 +43,7 @@ export function ServiceLanding({ slug }: { slug: string }) {
         .sl-actions { display: flex; flex-wrap: wrap; gap: 10px; }
         .sl-btn { display: inline-flex; align-items: center; gap: 8px; padding: 13px 20px; border-radius: 12px; font-weight: 700; font-size: 15px; text-decoration: none; border: 1px solid var(--ark-border-strong); color: var(--ark-text); }
         .sl-btn.primary { background: var(--ark-accent); border-color: var(--ark-accent); color: #05080a; }
-        .sl-btn.tg { background: #229ED9; border-color: #229ED9; color: #fff; }
+        .sl-btn.tg { background: #1a7fb0; border-color: #1a7fb0; color: #fff; }
         .sl-section { padding: 64px 0 0; }
         .sl-h2 { font-family: Nacelle, sans-serif; font-weight: 600; font-size: clamp(1.5rem, 3vw, 2.1rem); letter-spacing: -0.03em; color: var(--ark-text-heading); margin: 0 0 24px; }
         .sl-cards { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 16px; }

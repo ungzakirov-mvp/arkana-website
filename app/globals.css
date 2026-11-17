@@ -581,32 +581,9 @@ button, [role="button"], select {
    Breakpoints: 768px (tablet), 480px (phone), 360px (small)
    ═══════════════════════════════════════════════════════════ */
 
-/* ── Hero: mobile video background ──────────────────────── */
-.hero-video-bg {
-  display: none;
-}
+/* ── Hero: mobile ───────────────────────────────────────── */
 @media (max-width: 768px) {
-  .hero-video-bg {
-    display: none;
-  }
-  .hero-video-bg::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background:
-      linear-gradient(to bottom, rgba(5,8,10,0.55) 0%, rgba(5,8,10,0.92) 100%),
-      radial-gradient(ellipse 80% 60% at 50% 40%, rgba(79,209,138,0.08), transparent 70%);
-    z-index: 1;
-  }
-  .hero-video-bg video {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    opacity: 0.28;
-    filter: saturate(1.3) brightness(0.75);
-  }
-
-  /* Hero section: tighter padding, content above video */
+  /* Hero section: tighter padding */
   .hero-section {
     padding-top: 40px !important;
     padding-bottom: 40px !important;

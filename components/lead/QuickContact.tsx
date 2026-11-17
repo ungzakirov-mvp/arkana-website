@@ -27,7 +27,7 @@ export function QuickContact() {
           .qc-fab { display: none; }
           .qc-bar { display: grid; grid-template-columns: 1fr 1fr 1.2fr; gap: 8px; position: fixed; left: 0; right: 0; bottom: 0; z-index: 60; padding: 10px 12px calc(10px + env(safe-area-inset-bottom)); background: rgba(5,8,10,.92); backdrop-filter: blur(14px); border-top: 1px solid var(--ark-border); }
           .qc-bar a { display: flex; align-items: center; justify-content: center; gap: 6px; height: 46px; border-radius: 12px; font-size: 14px; font-weight: 700; text-decoration: none; color: var(--ark-text); border: 1px solid var(--ark-border-strong); }
-          .qc-bar a.tg { background: #229ED9; border-color: #229ED9; color: #fff; }
+          .qc-bar a.tg { background: #1a7fb0; border-color: #1a7fb0; color: #fff; }
           .qc-bar a.req { background: var(--ark-accent); border-color: var(--ark-accent); color: #05080a; }
           .qc-spacer { height: calc(68px + env(safe-area-inset-bottom)); }
         }

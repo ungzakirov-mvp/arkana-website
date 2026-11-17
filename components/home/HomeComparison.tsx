@@ -158,7 +158,7 @@ export function HomeComparison() {
 
           {/* Column headers */}
           <div style={{ display: "grid", gridTemplateColumns: "160px 1fr 1fr", background: "#0d1714", borderBottom: "1px solid rgba(238,242,238,0.08)", fontSize: 11, letterSpacing: "0.08em", textTransform: "uppercase", fontWeight: 700, fontFamily: "var(--font-mono, monospace)" }}>
-            <div style={{ padding: "14px 20px", color: "#596863" }}>{c.paramLabel}</div>
+            <div style={{ padding: "14px 20px", color: "#8a9a94" }}>{c.paramLabel}</div>
             <div style={{ padding: "14px 20px", color: "#b08888", borderLeft: "1px solid rgba(238,242,238,0.06)" }}>{c.col1}</div>
             <div style={{ padding: "14px 20px", color: "#4fd18a", borderLeft: "1px solid rgba(79,209,138,0.2)", background: "rgba(79,209,138,0.03)" }}>{c.col2}</div>
           </div>
