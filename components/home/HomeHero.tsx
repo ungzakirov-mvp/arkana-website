@@ -214,12 +214,23 @@ export function HomeHero() {
     vid.muted = true;
     (vid as HTMLVideoElement & { defaultMuted: boolean }).defaultMuted = true;
     vid.loop = true;
-    vid.play().catch(() => {});
+    // Video (3–4 MB) starts only after page load so the poster wins LCP bandwidth
+    const start = () => {
+      if (vid.childElementCount || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+      for (const [src, type] of [["/hero-globe.webm", "video/webm"], ["/hero-globe-720.mp4", "video/mp4"]]) {
+        const s = document.createElement("source");
+        s.src = src; s.type = type; vid.appendChild(s);
+      }
+      vid.load();
+      vid.play().catch(() => {});
+    };
+    if (document.readyState === "complete") start();
+    else window.addEventListener("load", start, { once: true });
     const onEnded = () => { vid.currentTime = 0.01; vid.play().catch(() => {}); };
     const onPause = () => { if (document.visibilityState !== "hidden") vid.play().catch(() => {}); };
     vid.addEventListener("ended", onEnded);
     vid.addEventListener("pause", onPause);
-    return () => { vid.removeEventListener("ended", onEnded); vid.removeEventListener("pause", onPause); };
+    return () => { window.removeEventListener("load", start); vid.removeEventListener("ended", onEnded); vid.removeEventListener("pause", onPause); };
   }, []);
 
   const vf = HERO_VISUALS.video;
@@ -294,13 +305,10 @@ export function HomeHero() {
             filter: `blur(${gv.blur})`, animation: `breathe ${gv.breatheDuration} ease-in-out infinite`,
           }} />
           <div style={{ position: "absolute", inset: "6%", borderRadius: "50%", overflow: "hidden", zIndex: 2 }}>
-            <video ref={videoRef} autoPlay loop muted playsInline
+            <video ref={videoRef} loop muted playsInline preload="none"
               poster="/hero-poster.webp"
               style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", filter: videoFilter }}
-            >
-              <source src="/hero-globe.webm" type="video/webm" />
-              <source src="/hero-globe-720.mp4" type="video/mp4" />
-            </video>
+            />
           </div>
           {c.chips.map((chip, i) => (
             <div key={i} className="hero-chip" style={{
