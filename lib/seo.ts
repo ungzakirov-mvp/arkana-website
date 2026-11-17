@@ -107,21 +107,34 @@ export function buildFaqSchema(items: { q: string; a: string }[]) {
 
 // ─── Article schema helper ────────────────────────────────────────────────────
 
+const RU_MONTHS = ["января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря"];
+
+/** «17 ноября 2026» → «2026-11-17» (schema.org требует ISO 8601). */
+export function ruDateToIso(date: string): string {
+  const [d, m, y] = date.trim().split(/\s+/);
+  const month = RU_MONTHS.indexOf(m) + 1;
+  if (!month) return date;
+  return `${y}-${String(month).padStart(2, "0")}-${d.padStart(2, "0")}`;
+}
+
 export function buildArticleSchema(post: {
   slug: string;
   title: string;
   excerpt: string;
   date: string;
+  lang?: "ru" | "uz";
 }) {
+  const path = `${post.lang === "uz" ? "/uz" : ""}/blog/${post.slug}`;
+  const iso = ruDateToIso(post.date);
   return {
     "@context": "https://schema.org",
     "@type": "Article",
-    "@id": `${SITE_URL}/blog/${post.slug}#article`,
+    "@id": `${SITE_URL}${path}#article`,
     headline: post.title,
     description: post.excerpt,
-    url: `${SITE_URL}/blog/${post.slug}`,
-    datePublished: post.date,
-    dateModified: post.date,
+    url: `${SITE_URL}${path}`,
+    datePublished: iso,
+    dateModified: iso,
     author: {
       "@type": "Organization",
       "@id": `${SITE_URL}/#organization`,
@@ -134,8 +147,8 @@ export function buildArticleSchema(post: {
       logo: { "@type": "ImageObject", url: `${SITE_URL}/logo-3d.png` },
     },
     image: `${SITE_URL}/og-image.png`,
-    inLanguage: "ru",
-    isPartOf: { "@type": "Blog", url: `${SITE_URL}/blog` },
+    inLanguage: post.lang ?? "ru",
+    isPartOf: { "@type": "Blog", url: `${SITE_URL}${post.lang === "uz" ? "/uz" : ""}/blog` },
   };
 }
 
