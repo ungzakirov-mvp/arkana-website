@@ -48,12 +48,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const posts = POSTS.flatMap((slug) => {
     const ru = `${BASE}/blog/${slug}`;
     if (!(UZ_SLUGS as readonly string[]).includes(slug)) return [{ url: ru, lastModified: now, changeFrequency: "monthly" as const, priority: 0.5 }];
-    const uz = `${BASE}/uz/blog/${slug}`;
-    const alternates = { languages: { ru, uz, "x-default": ru } };
-    return [
-      { url: ru, lastModified: now, changeFrequency: "monthly" as const, priority: 0.5, alternates },
-      { url: uz, lastModified: now, changeFrequency: "monthly" as const, priority: 0.5, alternates },
-    ];
+    const urls = Object.fromEntries(LANGS.map((l) => [l, `${BASE}${localizePath(`/blog/${slug}`, l)}`]));
+    const alternates = { languages: { ...urls, "x-default": ru } };
+    return LANGS.map((l) => ({ url: urls[l], lastModified: now, changeFrequency: "monthly" as const, priority: l === "ru" ? 0.5 : 0.4, alternates }));
   });
   return [...pages, ...posts];
 }

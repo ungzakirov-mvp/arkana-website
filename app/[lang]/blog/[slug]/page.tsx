@@ -4,6 +4,11 @@ import { ArrowLeft, Clock } from "lucide-react";
 import { notFound, permanentRedirect } from "next/navigation";
 import { buildArticleSchema, buildBreadcrumbSchema, ruDateToIso } from "@/lib/seo";
 import { UZ_POSTS } from "@/lib/blog-uz";
+import { EN_POSTS } from "@/lib/blog-en";
+import { ZH_POSTS } from "@/lib/blog-zh";
+import { LANGS, OG_LOCALE, HREFLANG, localizePath, type Lang } from "@/lib/locale";
+
+const TRANSLATIONS = { uz: UZ_POSTS, en: EN_POSTS, zh: ZH_POSTS } as const;
 
 const POSTS: Record<string, {
   title: string; category: string; date: string; readTime: string;
@@ -986,41 +991,49 @@ ARKANA разработала собственную ITSM-платформу GoA
 };
 
 const UZ_MONTHS = ["yanvar", "fevral", "mart", "aprel", "may", "iyun", "iyul", "avgust", "sentabr", "oktabr", "noyabr", "dekabr"];
-const uzDate = (ru: string) => {
-  const [d, m, y] = ruDateToIso(ru).split("-").reverse();
-  return `${Number(d)} ${UZ_MONTHS[Number(m) - 1]} ${y}`;
+const EN_MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+const fmtDate = (lang: "uz" | "en" | "zh", ru: string) => {
+  const [y, m, d] = ruDateToIso(ru).split("-").map(Number);
+  if (lang === "uz") return `${d} ${UZ_MONTHS[m - 1]} ${y}`;
+  if (lang === "en") return `${EN_MONTHS[m - 1]} ${d}, ${y}`;
+  return `${y}年${m}月${d}日`;
 };
 
-const UI = {
+const UI: Record<Lang, { back: string; read: string; ctaH: string; ctaP: string; ctaB: string; home: string; blog: string }> = {
   ru: { back: "Все статьи", read: "чтения", ctaH: "Нужна помощь с IT?", ctaP: "Оставьте заявку — уточним задачу и пришлём расчёт в течение рабочего дня", ctaB: "Оставить заявку", home: "Главная", blog: "Блог" },
   uz: { back: "Barcha maqolalar", read: "o'qish", ctaH: "IT bo'yicha yordam kerakmi?", ctaP: "Ariza qoldiring — vazifani aniqlab, bir ish kunida hisob-kitob yuboramiz", ctaB: "Ariza qoldirish", home: "Bosh sahifa", blog: "Blog" },
+  en: { back: "All articles", read: "read", ctaH: "Need help with IT?", ctaP: "Leave a request — we will clarify the task and send a quote within one business day", ctaB: "Leave a request", home: "Home", blog: "Blog" },
+  zh: { back: "全部文章", read: "阅读", ctaH: "需要 IT 方面的帮助？", ctaP: "留下申请，我们会确认需求，并在一个工作日内发送报价", ctaB: "留下申请", home: "首页", blog: "博客" },
 };
 
-/** Статья на нужном языке: uz — если есть перевод, иначе null. */
+/** Статья на нужном языке: для uz/en/zh — если есть перевод, иначе null. */
 function resolve(lang: string, slug: string) {
   const ru = POSTS[slug];
   if (!ru) return null;
-  if (lang === "uz") {
-    const uz = UZ_POSTS[slug];
-    return uz ? { lang: "uz" as const, ...uz, date: uzDate(ru.date), isoSource: ru.date } : null;
+  if (lang === "uz" || lang === "en" || lang === "zh") {
+    const tr = TRANSLATIONS[lang][slug];
+    const l: Lang = lang;
+    return tr ? { lang: l, ...tr, date: fmtDate(lang, ru.date), isoSource: ru.date } : null;
   }
-  return { lang: "ru" as const, ...ru, isoSource: ru.date };
+  const l: Lang = "ru";
+  return { lang: l, ...ru, isoSource: ru.date };
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ lang: string; slug: string }> }): Promise<Metadata> {
   const { lang, slug } = await params;
   const post = resolve(lang, slug);
   if (!post) return { title: "Статья не найдена" };
-  const path = `${post.lang === "uz" ? "/uz" : ""}/blog/${slug}`;
-  const hasUz = slug in UZ_POSTS;
+  const translated = slug in UZ_POSTS;
+  const languages: Record<string, string> = {};
+  if (translated) {
+    for (const l of LANGS) languages[HREFLANG[l]] = localizePath(`/blog/${slug}`, l);
+    languages["x-default"] = localizePath(`/blog/${slug}`, "ru");
+  }
   return {
     title: post.title,
     description: post.excerpt,
-    alternates: {
-      canonical: path,
-      ...(hasUz ? { languages: { ru: `/blog/${slug}`, uz: `/uz/blog/${slug}`, "x-default": `/blog/${slug}` } } : {}),
-    },
-    openGraph: { title: post.title, description: post.excerpt, type: "article", locale: post.lang === "uz" ? "uz_UZ" : "ru_RU" },
+    alternates: { canonical: localizePath(`/blog/${slug}`, post.lang), ...(translated ? { languages } : {}) },
+    openGraph: { title: post.title, description: post.excerpt, type: "article", locale: OG_LOCALE[post.lang] },
   };
 }
 
@@ -1034,14 +1047,13 @@ export default async function BlogPost({ params }: { params: Promise<{ lang: str
   const post = resolve(lang, slug);
   if (!post) permanentRedirect(`/blog/${slug}`);
   const t = UI[post.lang];
-  const prefix = post.lang === "uz" ? "/uz" : "";
 
   const paragraphs = post.content.trim().split("\n\n");
   const articleSchema  = buildArticleSchema({ slug, title: post.title, excerpt: post.excerpt, date: post.isoSource, lang: post.lang });
   const breadcrumbSchema = buildBreadcrumbSchema([
-    { name: t.home, url: prefix || "/" },
-    { name: t.blog, url: `${prefix}/blog` },
-    { name: post.title, url: `${prefix}/blog/${slug}` },
+    { name: t.home, url: localizePath("/", post.lang) },
+    { name: t.blog, url: localizePath("/blog", post.lang) },
+    { name: post.title, url: localizePath(`/blog/${slug}`, post.lang) },
   ]);
 
   return (

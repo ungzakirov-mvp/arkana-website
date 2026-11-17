@@ -1,4 +1,5 @@
 import { COMPANY } from "@/lib/company";
+import { localizePath, type Lang } from "@/lib/locale";
 
 export const SITE_URL = process.env.NEXT_PUBLIC_BASE_URL ?? "https://www.arkana.uz";
 
@@ -122,9 +123,9 @@ export function buildArticleSchema(post: {
   title: string;
   excerpt: string;
   date: string;
-  lang?: "ru" | "uz";
+  lang?: Lang;
 }) {
-  const path = `${post.lang === "uz" ? "/uz" : ""}/blog/${post.slug}`;
+  const path = localizePath(`/blog/${post.slug}`, post.lang ?? "ru");
   const iso = ruDateToIso(post.date);
   return {
     "@context": "https://schema.org",
@@ -148,7 +149,7 @@ export function buildArticleSchema(post: {
     },
     image: `${SITE_URL}/og-image.png`,
     inLanguage: post.lang ?? "ru",
-    isPartOf: { "@type": "Blog", url: `${SITE_URL}${post.lang === "uz" ? "/uz" : ""}/blog` },
+    isPartOf: { "@type": "Blog", url: `${SITE_URL}${localizePath("/blog", post.lang ?? "ru")}` },
   };
 }
 
