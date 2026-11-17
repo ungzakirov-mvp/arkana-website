@@ -265,7 +265,7 @@ export function BlogPage() {
   const { lang } = useApp();
   // Статьи без перевода живут только на ru — ссылаемся сразу туда, без редиректа
   const postHref = (slug: string) =>
-    lang === "uz" && (UZ_SLUGS as readonly string[]).includes(slug) ? `/uz/blog/${slug}` : `/blog/${slug}`;
+    lang !== "ru" && (UZ_SLUGS as readonly string[]).includes(slug) ? `/${lang}/blog/${slug}` : `/blog/${slug}`;
   const ui = UI[lang] ?? UI.ru;
   const allLabel = ui.all;
   const catLabels = CATEGORY_LABELS[lang] ?? CATEGORY_LABELS.ru;
