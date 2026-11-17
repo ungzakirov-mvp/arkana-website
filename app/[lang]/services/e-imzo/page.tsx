@@ -4,6 +4,7 @@ export function generateMetadata({ params }: { params: Promise<{ lang: string }>
   return landingMetadata("e-imzo", params);
 }
 
-export default function Page() {
-  return <LandingPage slug="e-imzo" />;
+export default async function Page({ params }: { params: Promise<{ lang: string }> }) {
+  const { lang } = await params;
+  return <LandingPage slug="e-imzo" lang={lang} />;
 }

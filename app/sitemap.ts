@@ -24,6 +24,7 @@ const PAGES: [string, number, MetadataRoute.Sitemap[number]["changeFrequency"]][
 
 /** Статьи блога — только на русском. */
 const POSTS = [
+  "vyzov-kompyuternogo-mastera-tashkent", "e-imzo-ne-rabotaet", "sistemnyj-administrator-na-autsorse",
   "it-outsourcing-tsena-tashkent", "kak-vybrat-it-kompaniyu-tashkent", "it-podderzhka-ofisa-tashkent",
   "google-workspace-vs-microsoft-365-uzbekistan", "kiberataki-na-biznes-uzbekistan-2026", "zachem-biznesu-itsm",
   "tehpodderzhka-tashkent", "service-desk-dlya-biznesa", "zashchita-dannyh-kompanii",

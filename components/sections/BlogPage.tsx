@@ -27,7 +27,66 @@ const UI: Record<string, { badge: string; h1a: string; h1b: string; all: string;
 
 type I18nStr = { ru: string; en: string; uz: string; zh: string };
 
+const NOV17: I18nStr = { ru: "17 ноября 2026", en: "Nov 17, 2026", uz: "17 noyabr 2026", zh: "2026年11月17日" };
+
 const POSTS: { categoryKey: CategoryKey; title: I18nStr; excerpt: I18nStr; date: I18nStr; readTime: I18nStr; slug: string; featured: boolean }[] = [
+  {
+    categoryKey: "IT-support",
+    title: {
+      ru: "Вызов компьютерного мастера в офис в Ташкенте: когда звать и как подготовиться",
+      en: "Calling a computer technician to your office in Tashkent: when and how to prepare",
+      uz: "Toshkentda ofisga kompyuter ustasini chaqirish: qachon va qanday tayyorlanish kerak",
+      zh: "在塔什干请电脑技术员上门：何时需要、如何准备",
+    },
+    excerpt: {
+      ru: "Что решается удалённо, а когда нужен выезд. Как подготовиться к приезду мастера и какие документы получить после.",
+      en: "What can be fixed remotely and when an on-site visit is needed. How to prepare and which documents to get afterwards.",
+      uz: "Nimani masofadan hal qilish mumkin va qachon ustani chaqirish kerak. Qanday tayyorlanish va keyin qanday hujjatlar olish.",
+      zh: "哪些问题可远程解决，何时需要上门？如何准备，事后应拿到哪些文件。",
+    },
+    date: NOV17,
+    readTime: { ru: "6 мин", en: "6 min", uz: "6 daq", zh: "6分钟" },
+    slug: "vyzov-kompyuternogo-mastera-tashkent",
+    featured: false,
+  },
+  {
+    categoryKey: "IT-support",
+    title: {
+      ru: "E-IMZO не работает: частые ошибки ЭЦП и что делать",
+      en: "E-IMZO not working: common e-signature errors and fixes",
+      uz: "E-IMZO ishlamayapti: ERI bilan bog'liq ko'p uchraydigan xatolar va yechimlar",
+      zh: "E-IMZO无法使用：常见电子签名错误及解决方法",
+    },
+    excerpt: {
+      ru: "Ключ не виден, Didox не принимает подпись, браузер не видит E-IMZO. Частые причины и порядок проверки.",
+      en: "Key not visible, Didox rejects the signature, the browser can't find E-IMZO. Common causes and a checklist.",
+      uz: "Kalit ko'rinmaydi, Didox imzoni qabul qilmaydi, brauzer E-IMZO ni topmaydi. Sabablar va tekshirish tartibi.",
+      zh: "看不到密钥、Didox不接受签名、浏览器找不到E-IMZO：常见原因与排查步骤。",
+    },
+    date: NOV17,
+    readTime: { ru: "6 мин", en: "6 min", uz: "6 daq", zh: "6分钟" },
+    slug: "e-imzo-ne-rabotaet",
+    featured: false,
+  },
+  {
+    categoryKey: "IT-outsourcing",
+    title: {
+      ru: "Системный администратор на аутсорсе: что входит и кому подходит",
+      en: "Outsourced system administrator: what's included and who it suits",
+      uz: "Autsorsingdagi tizim administratori: nima kiradi va kimga mos",
+      zh: "外包系统管理员：包含哪些服务、适合谁",
+    },
+    excerpt: {
+      ru: "Чем приходящий сисадмин отличается от штатного, какие задачи берёт на себя и как выбрать подрядчика.",
+      en: "How an outsourced sysadmin differs from an in-house one, what they handle and how to choose a provider.",
+      uz: "Tashqi tizim administratori shtatdagidan nimasi bilan farq qiladi, qanday vazifalarni oladi va pudratchini qanday tanlash.",
+      zh: "外包系统管理员与全职有何不同、负责哪些工作、如何选择服务商。",
+    },
+    date: NOV17,
+    readTime: { ru: "7 мин", en: "7 min", uz: "7 daq", zh: "7分钟" },
+    slug: "sistemnyj-administrator-na-autsorse",
+    featured: false,
+  },
   {
     categoryKey: "IT-outsourcing",
     title: {
