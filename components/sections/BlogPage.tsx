@@ -166,10 +166,10 @@ const POSTS: { categoryKey: CategoryKey; title: I18nStr; excerpt: I18nStr; date:
   {
     categoryKey: "Cost Optimisation",
     title: {
-      ru: "Как сократить IT-расходы на 30–40% без потери качества",
-      en: "How to cut IT costs by 30–40% without losing quality",
-      uz: "Sifatni yo'qotmasdan IT xarajatlarini 30–40% ga qisqartirish",
-      zh: "如何在不降低质量的前提下削减30–40%的IT开支",
+      ru: "Как сократить IT-расходы без потери качества",
+      en: "How to cut IT costs without losing quality",
+      uz: "Sifatni yo'qotmasdan IT xarajatlarini qisqartirish",
+      zh: "如何在不降低质量的前提下削减IT开支",
     },
     excerpt: {
       ru: "Аудит лицензий, оптимизация облака, пересмотр контрактов — практические советы.",
@@ -191,10 +191,10 @@ const POSTS: { categoryKey: CategoryKey; title: I18nStr; excerpt: I18nStr; date:
       zh: "IT外包中的SLA：合同必须包含的内容及如何核验履约情况",
     },
     excerpt: {
-      ru: "Время реакции, время решения, штрафные санкции, прозрачность — чек-лист для бизнеса.",
-      en: "Response time, resolution time, penalty clauses, transparency — a business checklist.",
-      uz: "Javob vaqti, hal qilish vaqti, jarima shartlari, shaffoflik — biznes uchun chek-list.",
-      zh: "响应时间、解决时间、违约条款、透明度——企业实用检查清单。",
+      ru: "Время реакции, время решения, разбор нарушений, прозрачность — чек-лист для бизнеса.",
+      en: "Response time, resolution time, handling missed deadlines, transparency — a business checklist.",
+      uz: "Javob vaqti, hal qilish vaqti, buzilishlarni tahlil qilish, shaffoflik — biznes uchun chek-list.",
+      zh: "响应时间、解决时间、违约处理、透明度——企业实用检查清单。",
     },
     date: { ru: "10 мая 2026", en: "May 10, 2026", uz: "10 may 2026", zh: "2026年5月10日" },
     readTime: { ru: "5 мин", en: "5 min", uz: "5 daq", zh: "5分钟" },
