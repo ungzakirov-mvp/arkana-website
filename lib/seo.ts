@@ -135,7 +135,7 @@ export function buildArticleSchema(post: {
     },
     image: `${SITE_URL}/og-image.png`,
     inLanguage: "ru",
-    isPartOf: { "@type": "Blog", url: `${SITE_URL}/ru/blog` },
+    isPartOf: { "@type": "Blog", url: `${SITE_URL}/blog` },
   };
 }
 
