@@ -356,7 +356,11 @@ button, [role="button"], select {
     grid-template-columns: 1fr !important;
   }
   .hero-globe {
-    display: none !important;
+    display: block !important;
+    width: 80vw !important;
+    max-width: 340px !important;
+    margin: 0 auto !important;
+    aspect-ratio: 1/1 !important;
   }
   .hero-stats {
     grid-template-columns: 1fr 1fr !important;
@@ -575,12 +579,7 @@ button, [role="button"], select {
 }
 @media (max-width: 768px) {
   .hero-video-bg {
-    display: block;
-    position: absolute;
-    inset: 0;
-    z-index: 0;
-    pointer-events: none;
-    overflow: hidden;
+    display: none;
   }
   .hero-video-bg::after {
     content: '';

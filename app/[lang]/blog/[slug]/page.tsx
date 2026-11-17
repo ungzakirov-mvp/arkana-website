@@ -840,7 +840,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   return {
     title: post.title,
     description: post.excerpt,
-    alternates: { canonical: `/blog/${slug}` },
+    alternates: { canonical: `/ru/blog/${slug}` },
     openGraph: { title: post.title, description: post.excerpt, type: "article" },
   };
 }
@@ -858,8 +858,8 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
   const articleSchema  = buildArticleSchema({ slug, title: post.title, excerpt: post.excerpt, date: post.date });
   const breadcrumbSchema = buildBreadcrumbSchema([
     { name: "Главная", url: "/" },
-    { name: "Блог", url: "/blog" },
-    { name: post.title, url: `/blog/${slug}` },
+    { name: "Блог", url: "/ru/blog" },
+    { name: post.title, url: `/ru/blog/${slug}` },
   ]);
 
   return (

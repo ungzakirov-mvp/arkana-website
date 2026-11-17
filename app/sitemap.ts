@@ -26,6 +26,7 @@ const PAGES: [string, number, MetadataRoute.Sitemap[number]["changeFrequency"]][
 const POSTS = [
   "it-outsourcing-tsena-tashkent", "kak-vybrat-it-kompaniyu-tashkent", "it-podderzhka-ofisa-tashkent",
   "google-workspace-vs-microsoft-365-uzbekistan", "kiberataki-na-biznes-uzbekistan-2026", "zachem-biznesu-itsm",
+  "tehpodderzhka-tashkent", "service-desk-dlya-biznesa", "zashchita-dannyh-kompanii",
   "it-outsourcing-vs-staff", "cybersecurity-threats-2026", "m365-migration-guide", "when-to-replace-servers", "cut-it-costs", "sla-guide",
 ];
 
