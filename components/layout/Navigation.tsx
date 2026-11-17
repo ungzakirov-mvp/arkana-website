@@ -98,7 +98,7 @@ export function Navigation() {
           <Link href="/" style={{ textDecoration: "none", display: "flex", alignItems: "center", gap: "0.375rem", flex: 1 }}>
             <Image
               src="/logo-3d.png"
-              alt="ARKANA"
+              alt=""
               width={32}
               height={32}
               style={{ width: 32, height: 32, objectFit: "contain", display: "block" }}
@@ -233,8 +233,10 @@ export function Navigation() {
             <button
               className="md:hidden"
               onClick={() => setMobileOpen(!mobileOpen)}
+              aria-label={mobileOpen ? "Закрыть меню" : "Открыть меню"}
+              aria-expanded={mobileOpen}
               style={{
-                width: 32, height: 32, borderRadius: 8, display: "flex", alignItems: "center", justifyContent: "center",
+                width: 40, height: 40, borderRadius: 8, display: "flex", alignItems: "center", justifyContent: "center",
                 color: "var(--ark-text-muted)", background: "var(--ark-surface)",
                 border: "1px solid rgba(255,255,255,0.08)",
                 cursor: "pointer",

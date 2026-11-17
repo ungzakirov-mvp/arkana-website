@@ -110,7 +110,7 @@ export function Footer() {
           {/* Brand + contacts */}
           <div>
             <Link href="/" style={{ textDecoration: "none", display: "flex", alignItems: "center", gap: 8, marginBottom: 10 }}>
-              <Image src="/logo-3d.png" alt="ARKANA" width={24} height={24} style={{ width: 24, height: 24, objectFit: "contain" }} />
+              <Image src="/logo-3d.png" alt="" width={24} height={24} style={{ width: 24, height: 24, objectFit: "contain" }} />
               <span style={{ fontFamily: "Nacelle, sans-serif", fontWeight: 600, fontSize: 14, color: "var(--ark-text)", letterSpacing: "-0.02em" }}>{name}</span>
             </Link>
             <p style={{ fontSize: 12.5, color: "var(--ark-text-muted)", lineHeight: 1.55, maxWidth: 260, marginBottom: 14 }}>
