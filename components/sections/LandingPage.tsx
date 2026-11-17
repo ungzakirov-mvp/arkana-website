@@ -19,8 +19,9 @@ export async function landingMetadata(slug: string, params: Promise<{ lang: stri
   return buildMeta(lang, `/services/${slug}`, t);
 }
 
-export function LandingPage({ slug }: { slug: string }) {
+export function LandingPage({ slug, lang }: { slug: string; lang: string }) {
   const d = LANDINGS[slug];
+  const l = lang === "uz" ? "uz" : lang === "en" || lang === "zh" ? "en" : "ru";
   const schemas = [
     {
       "@context": "https://schema.org",
@@ -32,7 +33,7 @@ export function LandingPage({ slug }: { slug: string }) {
       areaServed: { "@type": "City", name: "Tashkent" },
       url: `${SITE_URL}/services/${slug}`,
     },
-    buildFaqSchema(d.faq.map((f) => ({ q: f.q.ru, a: f.a.ru }))),
+    buildFaqSchema(d.faq.map((f) => ({ q: f.q[l], a: f.a[l] }))),
     buildBreadcrumbSchema([
       { name: "Главная", url: "/" },
       { name: "Услуги", url: "/services" },
