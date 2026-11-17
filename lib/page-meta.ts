@@ -73,9 +73,9 @@ export const PAGE_META: Record<string, MetaByLang> = {
     en: { title: "ARKANA blog — IT for business", description: "Articles on IT for business: outsourcing vs in-house, Microsoft 365, servers, security and saving on IT." },
   },
   "/contact": {
-    ru: { title: "Контакты ARKANA — оставить заявку", description: "Позвоните +998 99 998 17 77, напишите в Telegram @arkana_uz или оставьте заявку — пришлём расчёт в течение рабочего дня. Ташкент, Бозсув МФЙ, Хаким-заде 71." },
-    uz: { title: "ARKANA kontaktlari — ariza qoldirish", description: "+998 99 998 17 77 ga qo'ng'iroq qiling, Telegram @arkana_uz ga yozing yoki ariza qoldiring — bir ish kunida hisob yuboramiz. Toshkent, Bo'zsuv MFY, Hakimzoda 71." },
-    en: { title: "Contact ARKANA — leave a request", description: "Call +998 99 998 17 77, message @arkana_uz on Telegram or leave a request — we send a quote within one business day. Tashkent, Bozsuv MFY, 71 Hakimzoda St." },
+    ru: { title: "Контакты ARKANA — оставить заявку", description: "Позвоните +998 99 998 17 77, напишите в Telegram @arkana_uz или оставьте заявку — пришлём расчёт в течение рабочего дня. IT-аутсорсинг в Ташкенте." },
+    uz: { title: "ARKANA kontaktlari — ariza qoldirish", description: "+998 99 998 17 77 ga qo'ng'iroq qiling, Telegram @arkana_uz ga yozing yoki ariza qoldiring — bir ish kunida hisob yuboramiz. Toshkentda IT autsorsing." },
+    en: { title: "Contact ARKANA — leave a request", description: "Call +998 99 998 17 77, message @arkana_uz on Telegram or leave a request — we send a quote within one business day. IT outsourcing in Tashkent." },
   },
   "/privacy": {
     ru: { title: "Политика конфиденциальности", description: "Как ARKANA обрабатывает и защищает данные, которые вы оставляете на arkana.uz." },

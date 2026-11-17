@@ -134,7 +134,7 @@ function buildContacts(c: typeof COPY["ru"], lang: string) {
     ...phonesArr.map(p => ({ icon: Phone, label: c.phone, value: p.value, href: p.href })),
     { icon: Send,   label: c.telegram, value: tg,       href: tgHref    },
     { icon: Mail,   label: c.email,    value: email,    href: emailHref },
-    { icon: MapPin, label: c.address,  value: (COMPANY.address as Record<string, string>)[lang] ?? COMPANY.address.ru, href: `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent("Tashkent, Hakimzoda 71")}` },
+    { icon: MapPin, label: c.address,  value: (COMPANY.address as Record<string, string>)[lang] ?? COMPANY.address.ru, href: `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent("Tashkent")}` },
     { icon: Clock,  label: c.hours,    value: hoursStr, href: "/contact" },
   ] as { icon: typeof Phone; label: string; value: string; href: string }[];
 }

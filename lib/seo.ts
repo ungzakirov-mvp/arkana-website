@@ -20,7 +20,6 @@ export const organizationSchema = {
     "IT-аутсорсинг для бизнеса в Ташкенте: абонентское обслуживание, разовые выезды, сети и серверы, цифровой офис GoARKAN и Telegram-боты.",
   address: {
     "@type": "PostalAddress",
-    streetAddress: COMPANY.address.street,
     addressLocality: COMPANY.address.locality,
     addressRegion: COMPANY.address.locality,
     addressCountry: COMPANY.address.country,
@@ -64,12 +63,10 @@ export const localBusinessSchema = {
   paymentAccepted: "Bank Transfer, Invoice",
   address: {
     "@type": "PostalAddress",
-    streetAddress: COMPANY.address.street,
     addressLocality: COMPANY.address.locality,
     addressRegion: COMPANY.address.locality,
     addressCountry: COMPANY.address.country,
   },
-  // TODO: geo — поставить точные координаты офиса из Google Maps
   openingHoursSpecification: {
     "@type": "OpeningHoursSpecification",
     dayOfWeek: [...COMPANY.hours.days],
