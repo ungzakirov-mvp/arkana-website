@@ -311,7 +311,7 @@ export function HomeHero() {
             </video>
           </div>
           {c.chips.map((chip, i) => (
-            <div key={i} style={{
+            <div key={i} className="hero-chip" style={{
               ...(CHIP_POSITIONS[i] as React.CSSProperties),
               position: "absolute", zIndex: 3,
               display: "flex", alignItems: "center", gap: 10, padding: "12px 18px",
@@ -322,7 +322,7 @@ export function HomeHero() {
               {CHIP_ICONS[i]}
               <div style={{ fontSize: 13, lineHeight: 1.3 }}>
                 <div style={{ fontWeight: 700 }}>{chip.title}</div>
-                <div style={{ color: "#9fb0a6" }}>{chip.sub}</div>
+                <div className="hero-chip-sub" style={{ color: "#9fb0a6" }}>{chip.sub}</div>
               </div>
             </div>
           ))}

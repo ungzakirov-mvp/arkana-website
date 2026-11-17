@@ -355,6 +355,14 @@ button, [role="button"], select {
   .hero-grid {
     grid-template-columns: 1fr !important;
   }
+  .hero-chip {
+    padding: 8px 12px !important;
+    gap: 6px !important;
+    border-radius: 12px !important;
+  }
+  .hero-chip-sub {
+    display: none;
+  }
   .hero-globe {
     display: block !important;
     width: 80vw !important;
