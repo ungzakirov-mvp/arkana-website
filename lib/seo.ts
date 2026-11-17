@@ -119,10 +119,10 @@ export function buildArticleSchema(post: {
   return {
     "@context": "https://schema.org",
     "@type": "Article",
-    "@id": `${SITE_URL}/ru/blog/${post.slug}#article`,
+    "@id": `${SITE_URL}/blog/${post.slug}#article`,
     headline: post.title,
     description: post.excerpt,
-    url: `${SITE_URL}/ru/blog/${post.slug}`,
+    url: `${SITE_URL}/blog/${post.slug}`,
     datePublished: post.date,
     dateModified: post.date,
     author: {
