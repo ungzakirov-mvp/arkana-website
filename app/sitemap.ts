@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 import { LANGS, localizePath } from "@/lib/locale";
 
-const BASE = process.env.NEXT_PUBLIC_BASE_URL ?? "https://arkana.uz";
+const BASE = process.env.NEXT_PUBLIC_BASE_URL ?? "https://www.arkana.uz";
 
 /** [путь, приоритет, частота] — каждая страница в 4 языковых версиях с hreflang. */
 const PAGES: [string, number, MetadataRoute.Sitemap[number]["changeFrequency"]][] = [
@@ -42,6 +42,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
       alternates: { languages: { ...languages, "x-default": url(path) } },
     }));
   });
-  const posts = POSTS.map((slug) => ({ url: `${BASE}/blog/${slug}`, lastModified: now, changeFrequency: "monthly" as const, priority: 0.5 }));
+  const posts = POSTS.map((slug) => ({ url: `${BASE}/ru/blog/${slug}`, lastModified: now, changeFrequency: "monthly" as const, priority: 0.5 }));
   return [...pages, ...posts];
 }
