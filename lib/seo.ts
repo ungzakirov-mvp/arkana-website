@@ -1,6 +1,6 @@
 import { COMPANY } from "@/lib/company";
 
-export const SITE_URL = process.env.NEXT_PUBLIC_BASE_URL ?? "https://arkana.uz";
+export const SITE_URL = process.env.NEXT_PUBLIC_BASE_URL ?? "https://www.arkana.uz";
 
 // ─── Organization ─────────────────────────────────────────────────────────────
 
