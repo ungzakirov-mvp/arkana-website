@@ -15,10 +15,8 @@ const nextConfig: NextConfig = {
       { source: "/services/managed-it", destination: "/services/infrastructure", permanent: true },
       { source: "/:lang(uz|en|zh)/services/itsm", destination: "/:lang/goarkan", permanent: true },
       { source: "/:lang(uz|en|zh)/services/managed-it", destination: "/:lang/services/infrastructure", permanent: true },
-      // Статьи блога существуют только на русском — остальные языки → ru
-      { source: "/:lang(uz|en|zh)/blog/:slug", destination: "/ru/blog/:slug", permanent: true },
-      // Путь без языкового префикса → ru
-      { source: "/blog/:slug", destination: "/ru/blog/:slug", permanent: true },
+      // Статьи блога только на русском (RU живёт в корне, /ru/* → /* делает proxy.ts)
+      { source: "/:lang(uz|en|zh)/blog/:slug", destination: "/blog/:slug", permanent: true },
     ];
   },
 };

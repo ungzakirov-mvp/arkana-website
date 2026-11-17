@@ -43,6 +43,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
       alternates: { languages: { ...languages, "x-default": url(path) } },
     }));
   });
-  const posts = POSTS.map((slug) => ({ url: `${BASE}/ru/blog/${slug}`, lastModified: now, changeFrequency: "monthly" as const, priority: 0.5 }));
+  const posts = POSTS.map((slug) => ({ url: `${BASE}/blog/${slug}`, lastModified: now, changeFrequency: "monthly" as const, priority: 0.5 }));
   return [...pages, ...posts];
 }
